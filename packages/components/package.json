@@ -1,0 +1,52 @@
+{
+  "name": "@dds/emerald",
+  "version": "0.1.0",
+  "description": "Emerald component library by Digital Dev Studio",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./styles": "./dist/styles.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --coverage",
+    "test:watch": "vitest watch",
+    "lint": "eslint src",
+    "clean": "rm -rf dist"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@dds/emerald-tokens": "workspace:*",
+    "@dds/typescript-config": "workspace:*",
+    "@dds/eslint-config": "workspace:*",
+    "@dds/vitest-config": "workspace:*",
+    "@radix-ui/react-slot": "^1.x.x",
+    "@radix-ui/react-avatar": "^1.x.x",
+    "@radix-ui/react-visually-hidden": "^1.x.x",
+    "clsx": "^2.x.x",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "sass": "^1.x.x",
+    "tsup": "^8.x.x",
+    "typescript": "^5.x.x"
+  },
+  "dependencies": {
+    "@dds/emerald-tokens": "workspace:*",
+    "clsx": "^2.x.x"
+  }
+}

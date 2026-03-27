@@ -1,0 +1,30 @@
+{
+  "name": "@dds/emerald-tokens",
+  "version": "0.1.0",
+  "description": "Design tokens for the DDS Emerald design system",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./styles": "./dist/tokens.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "@dds/typescript-config": "workspace:*",
+    "@dds/vitest-config": "workspace:*",
+    "@types/node": "^24.6.0",
+    "tsup": "^8.x.x",
+    "typescript": "^5.x.x"
+  }
+}

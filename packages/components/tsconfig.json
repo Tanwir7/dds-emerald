@@ -1,0 +1,9 @@
+{
+  "extends": "@dds/typescript-config/react.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src"
+  },
+  "include": ["src"],
+  "exclude": ["**/*.test.tsx", "**/*.stories.tsx"]
+}
