@@ -1,13 +1,13 @@
 import { defineConfig } from 'tsup';
+import { copyFileSync } from 'fs';
+
 export default defineConfig({
   entry: { index: 'src/tokens.ts' },
   format: ['esm'],
   dts: true,
   clean: true,
-  loader: {
-    '.css': 'copy',
-  },
-  esbuildOptions(options) {
-    options.assetNames = 'tokens';
+  onSuccess: async () => {
+    copyFileSync('src/fonts.css', 'dist/fonts.css');
+    copyFileSync('src/tokens.css', 'dist/tokens.css');
   },
 });

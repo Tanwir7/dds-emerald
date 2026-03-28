@@ -92,6 +92,11 @@
   --dds-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --dds-ease-out: ease-out;
 
+  /* ── Tier 1: Icon Sizes ── */
+  --dds-icon-size-sm: 14px;
+  --dds-icon-size-md: 16px;
+  --dds-icon-size-lg: 32px;
+
   /* Tier 2: Semantic - Light Mode */
   --dds-color-bg-default: oklch(0.99 0 0);
   --dds-color-bg-subtle: oklch(0.96 0 0);

@@ -1,0 +1,94 @@
+@use './mixins' as mixins;
+
+@mixin text-display-xl {
+  font-family: var(--dds-font-display);
+  font-size: var(--dds-font-size-6xl);
+  font-weight: var(--dds-font-weight-bold);
+  line-height: var(--dds-line-height-none);
+  letter-spacing: var(--dds-tracking-tighter);
+}
+
+@mixin text-display-lg {
+  font-family: var(--dds-font-display);
+  font-size: var(--dds-font-size-5xl);
+  font-weight: var(--dds-font-weight-bold);
+  line-height: var(--dds-line-height-tight);
+  letter-spacing: var(--dds-tracking-tight);
+}
+
+@mixin text-display-md {
+  font-family: var(--dds-font-display);
+  font-size: var(--dds-font-size-4xl);
+  font-weight: var(--dds-font-weight-bold);
+  line-height: var(--dds-line-height-tight);
+  letter-spacing: var(--dds-tracking-tight);
+}
+
+@mixin text-body-lg {
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-lg);
+  font-weight: var(--dds-font-weight-normal);
+  line-height: var(--dds-line-height-relaxed);
+  letter-spacing: var(--dds-tracking-normal);
+}
+
+@mixin text-body-md {
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-base);
+  font-weight: var(--dds-font-weight-normal);
+  line-height: var(--dds-line-height-relaxed);
+  letter-spacing: var(--dds-tracking-normal);
+}
+
+@mixin text-body-sm {
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-sm);
+  font-weight: var(--dds-font-weight-normal);
+  line-height: var(--dds-line-height-relaxed);
+  letter-spacing: var(--dds-tracking-normal);
+}
+
+@mixin text-label-lg {
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-sm);
+  font-weight: var(--dds-font-weight-medium);
+  line-height: var(--dds-line-height-tight);
+  letter-spacing: var(--dds-tracking-widest);
+  text-transform: uppercase;
+}
+
+@mixin text-label-md {
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-xs);
+  font-weight: var(--dds-font-weight-medium);
+  line-height: var(--dds-line-height-tight);
+  letter-spacing: var(--dds-tracking-wider);
+  text-transform: uppercase;
+}
+
+@mixin text-label-sm {
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-xs);
+  font-weight: var(--dds-font-weight-medium);
+  line-height: var(--dds-line-height-tight);
+  letter-spacing: var(--dds-tracking-wide);
+  text-transform: uppercase;
+}
+
+@mixin text-mono-lg {
+  font-family: var(--dds-font-mono);
+  font-size: var(--dds-font-size-lg);
+  @include mixins.tabular;
+}
+
+@mixin text-mono-md {
+  font-family: var(--dds-font-mono);
+  font-size: var(--dds-font-size-base);
+  @include mixins.tabular;
+}
+
+@mixin text-mono-sm {
+  font-family: var(--dds-font-mono);
+  font-size: var(--dds-font-size-sm);
+  @include mixins.tabular;
+}

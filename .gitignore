@@ -8,3 +8,5 @@ storybook-static
 *.local
 .env
 .DS_Store
+
+*storybook.log

@@ -1,0 +1,45 @@
+@import '@dds/emerald-tokens/fonts';
+@import '@dds/emerald-tokens/styles';
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--dds-font-sans);
+  color: var(--dds-color-text-default);
+  background-color: var(--dds-color-bg-default);
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px oklch(from var(--dds-color-focus-ring) l c h / 0.5);
+}
+
+button,
+[role='button'],
+input,
+select,
+textarea,
+summary {
+  touch-action: manipulation;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

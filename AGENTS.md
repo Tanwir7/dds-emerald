@@ -68,6 +68,33 @@
 - Directory must contain: `.tsx`, `.module.scss`, `.test.tsx`, `.stories.tsx`, `index.ts`
 - Use `scaffolding.mjs` to generate the initial files for any new component
 
+### Font loading
+
+- Never hardcode font-family strings in component SCSS
+- Always use var(--dds-font-display), var(--dds-font-sans), var(--dds-font-mono)
+- Do not import font files inside component files
+- Font loading is handled at the app root level — components assume the CSS
+  variables are already resolved by the time they render
+- font-feature-settings "cv02" "cv03" "cv04" "cv11" is set globally in base.css
+  Do not repeat it in component SCSS
+- DM Sans optical size axis (opsz) is loaded — use font-size changes to benefit
+  from it automatically; do not set font-variation-settings manually in components
+
+### Icons (lucide-react)
+
+- Icon prop type is always `LucideIcon` from 'lucide-react'
+- Always use component-as-prop: `icon={Inbox}` not `icon={<Inbox />}`
+- Never pass a `size` prop to a Lucide icon inside a DDS component
+- Control icon size via the icon-size SCSS mixin only
+- Never hardcode width/height on icons — use --dds-icon-size-\* tokens
+- Icons are aria-hidden="true" when decorative (almost always)
+- Icons require aria-label or visible paired text when semantic
+- Default icon size is --dds-icon-size-md (16px)
+- EmptyState is the only component using --dds-icon-size-lg (32px)
+- Always import individual named icons, never import _
+  ✅ import { Inbox } from 'lucide-react'
+  ❌ import _ as Icons from 'lucide-react'
+
 ### What to ask when unsure
 
 If a design decision is not documented here or in the token file, ask the human before implementing. Do not guess or use a "sensible default".

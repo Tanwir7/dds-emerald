@@ -1,0 +1,39 @@
+{
+  "name": "docs",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "next-dev": "next dev",
+    "next-build": "next build",
+    "next-start": "next start",
+    "dev": "storybook dev -p 6006",
+    "build": "storybook build",
+    "test": "test-storybook"
+  },
+  "dependencies": {
+    "@dds/emerald": "workspace:*",
+    "@dds/emerald-tokens": "workspace:*",
+    "next": "16.2.1",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "^5.1.1",
+    "@storybook/addon-a11y": "^10.3.3",
+    "@storybook/addon-docs": "^10.3.3",
+    "@storybook/addon-themes": "^10.3.3",
+    "@storybook/nextjs-vite": "^10.3.3",
+    "@storybook/react": "^10.3.3",
+    "@storybook/test": "^8.6.15",
+    "@storybook/test-runner": "^0.24.3",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "babel-plugin-react-compiler": "1.0.0",
+    "eslint-plugin-storybook": "^10.3.3",
+    "sass": "^1.98.0",
+    "storybook": "^10.3.3",
+    "typescript": "^5",
+    "vite": "^8.0.3"
+  }
+}

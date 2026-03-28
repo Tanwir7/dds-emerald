@@ -19,7 +19,7 @@
     "**/*.css"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "vite build && cp src/styles/base.css dist/styles.css",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --coverage",
     "test:watch": "vitest watch",
@@ -27,23 +27,27 @@
     "clean": "rm -rf dist"
   },
   "peerDependencies": {
+    "lucide-react": "^1.7.0",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
   },
   "devDependencies": {
     "@dds/emerald-tokens": "workspace:*",
-    "@dds/typescript-config": "workspace:*",
     "@dds/eslint-config": "workspace:*",
+    "@dds/typescript-config": "workspace:*",
     "@dds/vitest-config": "workspace:*",
-    "@radix-ui/react-slot": "^1.x.x",
     "@radix-ui/react-avatar": "^1.x.x",
+    "@radix-ui/react-slot": "^1.x.x",
     "@radix-ui/react-visually-hidden": "^1.x.x",
+    "@vitejs/plugin-react": "^6.0.1",
     "clsx": "^2.x.x",
+    "lucide-react": "^1.7.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "sass": "^1.x.x",
-    "tsup": "^8.x.x",
-    "typescript": "^5.x.x"
+    "typescript": "^5.x.x",
+    "vite": "^8.0.3",
+    "vite-plugin-dts": "^4.5.4"
   },
   "dependencies": {
     "@dds/emerald-tokens": "workspace:*",

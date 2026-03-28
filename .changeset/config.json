@@ -1,0 +1,9 @@
+{
+  "changelog": "@changesets/changelog-github",
+  "commit": false,
+  "linked": [],
+  "access": "public",
+  "baseBranch": "main",
+  "updateInternalDependencies": "patch",
+  "ignore": ["docs", "landing", "dds-emerald-monorepo"]
+}

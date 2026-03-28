@@ -1,0 +1,31 @@
+$dds-bp-sm: 640px;
+$dds-bp-md: 768px;
+$dds-bp-lg: 1024px;
+$dds-bp-xl: 1280px;
+$dds-bp-2xl: 1536px;
+
+@mixin respond-to($bp) {
+  @if $bp == sm {
+    @media (min-width: $dds-bp-sm) {
+      @content;
+    }
+  } @else if $bp == md {
+    @media (min-width: $dds-bp-md) {
+      @content;
+    }
+  } @else if $bp == lg {
+    @media (min-width: $dds-bp-lg) {
+      @content;
+    }
+  } @else if $bp == xl {
+    @media (min-width: $dds-bp-xl) {
+      @content;
+    }
+  } @else if $bp == 2xl {
+    @media (min-width: $dds-bp-2xl) {
+      @content;
+    }
+  } @else {
+    @error "Unknown breakpoint `#{$bp}`. Expected one of: sm, md, lg, xl, 2xl.";
+  }
+}

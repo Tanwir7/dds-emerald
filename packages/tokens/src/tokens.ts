@@ -105,6 +105,9 @@ export const tokens = {
       standard: 'cubic-bezier(0.4, 0, 0.2, 1)',
       out: 'ease-out',
     },
+    icon: {
+      size: { sm: '14px', md: '16px', lg: '32px' },
+    },
   },
   theme: {
     light: {
