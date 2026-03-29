@@ -5,5 +5,5 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["docs", "landing", "dds-emerald-monorepo"]
+  "ignore": ["docs", "@dds/eslint-config", "@dds/typescript-config", "@dds/vitest-config"]
 }

@@ -1,0 +1,146 @@
+@use '../../styles/mixins' as *;
+
+.root {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--dds-space-2);
+  border: 1px solid transparent;
+  border-radius: var(--dds-radius-none);
+  background-color: transparent;
+  color: var(--dds-color-text-default);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-sm);
+  font-weight: var(--dds-font-weight-medium);
+  line-height: var(--dds-line-height-none);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    color var(--dds-duration-fast) var(--dds-ease-standard),
+    background-color var(--dds-duration-fast) var(--dds-ease-standard),
+    border-color var(--dds-duration-fast) var(--dds-ease-standard);
+
+  &:focus-visible {
+    outline: none;
+    @include focus-ring;
+  }
+
+  &:disabled,
+  &[data-disabled] {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: default;
+  }
+
+  & > svg {
+    @include icon-size(md);
+  }
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  & > svg {
+    @include icon-size(md);
+  }
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.storyFullWidthFrame {
+  width: 320px;
+}
+
+.variantPrimary {
+  background-color: var(--dds-color-action-primary);
+  color: var(--dds-color-action-primary-foreground);
+
+  &:hover {
+    background-color: var(--dds-color-action-primary-hover);
+  }
+}
+
+.variantSecondary {
+  background-color: var(--dds-color-action-secondary);
+  color: var(--dds-color-action-secondary-foreground);
+
+  &:hover {
+    background-color: var(--dds-color-action-secondary-hover);
+  }
+}
+
+.variantOutline {
+  border-color: var(--dds-color-border-default);
+  background-color: transparent;
+  color: var(--dds-color-text-default);
+
+  &:hover {
+    background-color: var(--dds-color-accent);
+  }
+}
+
+.variantGhost {
+  background-color: transparent;
+  color: var(--dds-color-text-default);
+
+  &:hover {
+    background-color: var(--dds-color-action-ghost-hover);
+  }
+}
+
+.variantDestructive {
+  background-color: var(--dds-color-action-destructive);
+  color: var(--dds-color-action-destructive-foreground);
+
+  &:hover {
+    background-color: var(--dds-color-action-destructive-hover);
+  }
+}
+
+.sizeSm {
+  height: 32px;
+  padding: 0 var(--dds-space-3);
+}
+
+.sizeDefault {
+  height: 36px;
+  padding: 0 var(--dds-space-4);
+}
+
+.sizeLg {
+  height: 40px;
+  padding: 0 var(--dds-space-6);
+}
+
+.sizeIcon,
+.sizeIconSm,
+.sizeIconLg {
+  gap: 0;
+  padding: 0;
+}
+
+.sizeIcon {
+  width: 36px;
+  height: 36px;
+}
+
+.sizeIconSm {
+  width: 32px;
+  height: 32px;
+}
+
+.sizeIconLg {
+  width: 40px;
+  height: 40px;
+}

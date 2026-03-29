@@ -1,0 +1,7 @@
+.dds-storybook-docs-preview {
+  box-sizing: border-box;
+  width: 100%;
+  padding: var(--dds-space-6);
+  background-color: var(--dds-color-bg-default);
+  color: var(--dds-color-text-default);
+}

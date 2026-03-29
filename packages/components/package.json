@@ -19,7 +19,7 @@
     "**/*.css"
   ],
   "scripts": {
-    "build": "vite build && cp src/styles/base.css dist/styles.css",
+    "build": "vite build",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --coverage",
     "test:watch": "vitest watch",
@@ -36,6 +36,9 @@
     "@dds/eslint-config": "workspace:*",
     "@dds/typescript-config": "workspace:*",
     "@dds/vitest-config": "workspace:*",
+    "@vitest/coverage-v8": "^4.1.2",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
     "@radix-ui/react-avatar": "^1.x.x",
     "@radix-ui/react-slot": "^1.x.x",
     "@radix-ui/react-visually-hidden": "^1.x.x",

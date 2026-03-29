@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "next-dev": "next dev",
-    "next-build": "next build",
+    "next-build": "next build --webpack",
     "next-start": "next start",
     "dev": "storybook dev -p 6006",
     "build": "storybook build",
@@ -24,7 +24,6 @@
     "@storybook/addon-themes": "^10.3.3",
     "@storybook/nextjs-vite": "^10.3.3",
     "@storybook/react": "^10.3.3",
-    "@storybook/test": "^8.6.15",
     "@storybook/test-runner": "^0.24.3",
     "@types/node": "^20",
     "@types/react": "^19",

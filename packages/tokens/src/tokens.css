@@ -121,6 +121,7 @@
   --dds-color-action-ghost-hover: oklch(0.94 0.03 160);
   --dds-color-action-destructive: oklch(0.55 0.2 25);
   --dds-color-action-destructive-hover: oklch(0.55 0.2 25 / 0.9);
+  --dds-color-action-destructive-foreground: oklch(0.98 0 0);
 
   --dds-color-border-default: oklch(0.9 0 0);
   --dds-color-border-input: oklch(0.9 0 0);
@@ -184,8 +185,12 @@
   --dds-color-action-primary-hover: oklch(0.55 0.14 160 / 0.9);
   --dds-color-action-primary-foreground: oklch(0.12 0 0);
   --dds-color-action-secondary: oklch(0.22 0.01 160);
+  --dds-color-action-secondary-hover: oklch(0.22 0.01 160 / 0.8);
+  --dds-color-action-secondary-foreground: oklch(0.95 0 0);
   --dds-color-action-ghost-hover: oklch(0.25 0.04 160);
   --dds-color-action-destructive: oklch(0.5 0.18 25);
+  --dds-color-action-destructive-hover: oklch(0.5 0.18 25 / 0.9);
+  --dds-color-action-destructive-foreground: oklch(0.12 0 0);
 
   --dds-color-border-default: oklch(0.25 0.02 160);
   --dds-color-border-input: oklch(0.22 0.01 160);
@@ -246,8 +251,12 @@
     --dds-color-action-primary-hover: oklch(0.55 0.14 160 / 0.9);
     --dds-color-action-primary-foreground: oklch(0.12 0 0);
     --dds-color-action-secondary: oklch(0.22 0.01 160);
+    --dds-color-action-secondary-hover: oklch(0.22 0.01 160 / 0.8);
+    --dds-color-action-secondary-foreground: oklch(0.95 0 0);
     --dds-color-action-ghost-hover: oklch(0.25 0.04 160);
     --dds-color-action-destructive: oklch(0.5 0.18 25);
+    --dds-color-action-destructive-hover: oklch(0.5 0.18 25 / 0.9);
+    --dds-color-action-destructive-foreground: oklch(0.12 0 0);
 
     --dds-color-border-default: oklch(0.25 0.02 160);
     --dds-color-border-input: oklch(0.22 0.01 160);

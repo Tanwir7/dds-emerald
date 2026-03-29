@@ -32,6 +32,7 @@ function buildTokenPropertyNames(): Set<string> {
   prefixedEntries('--dds-shadow', primitive.shadow).forEach((name) => names.add(name));
   prefixedEntries('--dds-duration', primitive.duration).forEach((name) => names.add(name));
   prefixedEntries('--dds-ease', primitive.ease).forEach((name) => names.add(name));
+  prefixedEntries('--dds-icon-size', primitive.icon.size).forEach((name) => names.add(name));
 
   Object.values(theme).forEach((currentTheme) => {
     prefixedEntries('--dds-color-bg', currentTheme.color.bg).forEach((name) => names.add(name));
@@ -70,5 +71,33 @@ describe('tokens', () => {
     const tokenProperties = buildTokenPropertyNames();
 
     expect(tokenProperties).toEqual(cssProperties);
+  });
+
+  it('defines a complete action token contract for button variants in both themes', () => {
+    const { light, dark } = tokens.theme;
+
+    expect(light.color.action).toMatchObject({
+      primary: expect.any(String),
+      'primary-hover': expect.any(String),
+      'primary-foreground': expect.any(String),
+      secondary: expect.any(String),
+      'secondary-hover': expect.any(String),
+      'secondary-foreground': expect.any(String),
+      destructive: expect.any(String),
+      'destructive-hover': expect.any(String),
+      'destructive-foreground': expect.any(String),
+    });
+
+    expect(dark.color.action).toMatchObject({
+      primary: expect.any(String),
+      'primary-hover': expect.any(String),
+      'primary-foreground': expect.any(String),
+      secondary: expect.any(String),
+      'secondary-hover': expect.any(String),
+      'secondary-foreground': expect.any(String),
+      destructive: expect.any(String),
+      'destructive-hover': expect.any(String),
+      'destructive-foreground': expect.any(String),
+    });
   });
 });

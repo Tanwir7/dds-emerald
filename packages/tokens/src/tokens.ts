@@ -138,6 +138,7 @@ export const tokens = {
           'ghost-hover': 'oklch(0.94 0.03 160)',
           destructive: 'oklch(0.55 0.2 25)',
           'destructive-hover': 'oklch(0.55 0.2 25 / 0.9)',
+          'destructive-foreground': 'oklch(0.98 0 0)',
         },
         border: {
           default: 'oklch(0.90 0 0)',
@@ -217,8 +218,12 @@ export const tokens = {
           'primary-hover': 'oklch(0.55 0.14 160 / 0.9)',
           'primary-foreground': 'oklch(0.12 0 0)',
           secondary: 'oklch(0.22 0.01 160)',
+          'secondary-hover': 'oklch(0.22 0.01 160 / 0.8)',
+          'secondary-foreground': 'oklch(0.95 0 0)',
           'ghost-hover': 'oklch(0.25 0.04 160)',
           destructive: 'oklch(0.50 0.18 25)',
+          'destructive-hover': 'oklch(0.50 0.18 25 / 0.9)',
+          'destructive-foreground': 'oklch(0.12 0 0)',
         },
         border: {
           default: 'oklch(0.25 0.02 160)',

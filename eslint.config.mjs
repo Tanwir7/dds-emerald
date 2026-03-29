@@ -8,4 +8,4 @@ const withFiles = (configs, files) => configs.map((config) => ({ ...config, file
 
 export default [{
   ignores: ['**/dist/**', '**/coverage/**', '**/node_modules/**'],
-}, ...withFiles(base, ['packages/tokens/**/*.ts', 'tooling/**/*.ts']), ...withFiles(react, ['packages/components/**/*.{ts,tsx}']), ...storybook.configs["flat/recommended"]];
+}, ...withFiles(base, ['packages/tokens/**/*.ts', 'tooling/**/*.ts']), ...withFiles(react, ['packages/components/**/*.{ts,tsx}', 'apps/docs/**/*.{ts,tsx}']), ...storybook.configs["flat/recommended"]];
