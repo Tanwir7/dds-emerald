@@ -28,6 +28,7 @@ export default defineConfig({
   plugins: [
     react(),
     dts({
+      tsconfigPath: resolve(__dirname, 'tsconfig.build.json'),
       insertTypesEntry: true,
       exclude: ['**/*.test.tsx', '**/*.stories.tsx'],
     }),

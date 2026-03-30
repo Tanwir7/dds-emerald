@@ -2,6 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import type { LucideIcon } from 'lucide-react';
 import styles from './Button.module.scss';
+import { getRequiredClassName } from '../../utils/getRequiredClassName';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive';
 
@@ -21,20 +22,20 @@ export interface ButtonProps extends Omit<
 }
 
 const variantClassName: Record<ButtonVariant, string> = {
-  primary: styles.variantPrimary!,
-  secondary: styles.variantSecondary!,
-  outline: styles.variantOutline!,
-  ghost: styles.variantGhost!,
-  destructive: styles.variantDestructive!,
+  primary: getRequiredClassName(styles, 'variantPrimary'),
+  secondary: getRequiredClassName(styles, 'variantSecondary'),
+  outline: getRequiredClassName(styles, 'variantOutline'),
+  ghost: getRequiredClassName(styles, 'variantGhost'),
+  destructive: getRequiredClassName(styles, 'variantDestructive'),
 };
 
 const sizeClassName: Record<ButtonSize, string> = {
-  sm: styles.sizeSm!,
-  default: styles.sizeDefault!,
-  lg: styles.sizeLg!,
-  icon: styles.sizeIcon!,
-  'icon-sm': styles.sizeIconSm!,
-  'icon-lg': styles.sizeIconLg!,
+  sm: getRequiredClassName(styles, 'sizeSm'),
+  default: getRequiredClassName(styles, 'sizeDefault'),
+  lg: getRequiredClassName(styles, 'sizeLg'),
+  icon: getRequiredClassName(styles, 'sizeIcon'),
+  'icon-sm': getRequiredClassName(styles, 'sizeIconSm'),
+  'icon-lg': getRequiredClassName(styles, 'sizeIconLg'),
 };
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
