@@ -111,6 +111,56 @@ describe('Button', () => {
     expect(onClick).not.toHaveBeenCalled();
   });
 
+  it('loading state blocks click interaction while staying focusable', async () => {
+    const user = userEvent.setup();
+    const onClick = vi.fn();
+
+    render(
+      <Button loading onClick={onClick}>
+        Saving...
+      </Button>
+    );
+
+    const button = getButtonByText('Saving...');
+
+    await user.click(button);
+
+    expect(onClick).not.toHaveBeenCalled();
+    expect(button).toHaveFocus();
+    expect(button).toHaveAttribute('aria-disabled', 'true');
+  });
+
+  it('loading state remains reachable by keyboard navigation', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <div>
+        <a href="/">before</a>
+        <Button loading>Saving...</Button>
+      </div>
+    );
+
+    await user.tab();
+    await user.tab();
+
+    expect(getButtonByText('Saving...')).toHaveFocus();
+  });
+
+  it('renders an indeterminate spinner in the start icon position while loading', () => {
+    render(
+      <Button loading icon={Plus}>
+        Saving...
+      </Button>
+    );
+
+    const button = getButtonByText('Saving...');
+    const spinner = button.querySelector('svg[data-progress]');
+
+    expect(spinner).toBeTruthy();
+    expect(spinner).toHaveAttribute('aria-hidden', 'true');
+    expect(button.firstElementChild?.className).toMatch(/icon/);
+  });
+
   it('forwards click handlers when enabled', async () => {
     const user = userEvent.setup();
     const onClick = vi.fn();
@@ -220,6 +270,18 @@ describe('Button', () => {
     expect(results).toHaveNoViolations();
   });
 
+  it('axe a11y passes for loading buttons', async () => {
+    const { container } = render(
+      <div>
+        <Button loading>Saving...</Button>
+        <Button loading size="icon" aria-label="Saving" />
+      </div>
+    );
+
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+
   it('uses semantic action foreground tokens for filled variants', () => {
     const stylesheet = readFileSync('src/components/Button/Button.module.scss', 'utf8');
 
@@ -230,5 +292,7 @@ describe('Button', () => {
     expect(stylesheet).toContain('@include icon-size(md);');
     expect(stylesheet).toContain('gap: var(--dds-space-2);');
     expect(stylesheet).toContain('@include interactive-focus-ring;');
+    expect(stylesheet).toContain('animation: button-spinner-rotate');
+    expect(stylesheet).toContain('stroke-dasharray: 33 44;');
   });
 });

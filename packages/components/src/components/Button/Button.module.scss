@@ -31,6 +31,10 @@
     cursor: default;
   }
 
+  &[data-loading] {
+    cursor: default;
+  }
+
   & > svg {
     @include icon-size(md);
   }
@@ -49,6 +53,23 @@
 .label {
   display: inline-flex;
   align-items: center;
+}
+
+.stateLoading {
+  opacity: 0.5;
+}
+
+.spinner {
+  @include icon-size(md);
+  animation: button-spinner-rotate var(--dds-duration-slow) linear infinite;
+}
+
+.spinnerCircle {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 33 44;
 }
 
 .fullWidth {
@@ -140,4 +161,20 @@
 .sizeIconLg {
   width: 40px;
   height: 40px;
+}
+
+@keyframes button-spinner-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+  }
 }

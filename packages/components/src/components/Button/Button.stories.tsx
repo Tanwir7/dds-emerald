@@ -10,6 +10,7 @@ const buildButtonSource = ({
   size = 'default',
   fullWidth = false,
   disabled = false,
+  loading = false,
   icon,
   iconPosition = 'start',
   ...args
@@ -30,6 +31,10 @@ const buildButtonSource = ({
 
   if (disabled) {
     props.push('disabled');
+  }
+
+  if (loading) {
+    props.push('loading');
   }
 
   if (icon === Plus) {
@@ -84,6 +89,7 @@ const meta: Meta<typeof Button> = {
     size: 'default',
     fullWidth: false,
     disabled: false,
+    loading: false,
   },
   argTypes: {
     children: {
@@ -110,6 +116,11 @@ const meta: Meta<typeof Button> = {
     iconPosition: {
       control: 'inline-radio',
       options: ['start', 'end'],
+    },
+    loading: {
+      control: 'boolean',
+      description:
+        'Shows an indeterminate spinner in the start icon slot and suppresses activation while keeping the button focusable.',
     },
     'aria-label': {
       control: 'text',
@@ -231,6 +242,26 @@ export const FullWidth: Story = {
     disabled: false,
   })}
 </div>`,
+      },
+    },
+  },
+};
+
+export const Loading: Story = {
+  args: {
+    children: 'Saving...',
+    loading: true,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: buildButtonSource({
+          children: 'Saving...',
+          variant: 'primary',
+          size: 'default',
+          disabled: false,
+          loading: true,
+        }),
       },
     },
   },
