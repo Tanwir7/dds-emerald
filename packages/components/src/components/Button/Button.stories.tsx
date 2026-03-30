@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { ComponentProps } from 'react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ArrowRight, Plus } from 'lucide-react';
 import { Button } from './Button';
 import styles from './Button.module.scss';
@@ -12,7 +13,7 @@ const buildButtonSource = ({
   icon,
   iconPosition = 'start',
   ...args
-}: React.ComponentProps<typeof Button>) => {
+}: ComponentProps<typeof Button>) => {
   const props: string[] = [];
 
   if (variant !== 'primary') {
@@ -58,7 +59,7 @@ const meta: Meta<typeof Button> = {
   title: 'Components/Button',
   component: Button,
   tags: ['autodocs'],
-  render: (args) => {
+  render: (args: ComponentProps<typeof Button>) => {
     if (args.fullWidth) {
       return (
         <div className={styles.storyFullWidthFrame}>

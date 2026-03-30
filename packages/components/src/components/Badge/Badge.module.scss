@@ -1,0 +1,94 @@
+@use '../../styles/mixins' as *;
+
+.root {
+  --dds-badge-bg: var(--dds-color-action-primary);
+  --dds-badge-color: var(--dds-color-action-primary-foreground);
+  --dds-badge-ring: oklch(from var(--dds-color-action-primary) l c h / 0.2);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--dds-radius-none);
+  background-color: var(--dds-badge-bg);
+  box-shadow: inset 0 0 0 1px var(--dds-badge-ring);
+  color: var(--dds-badge-color);
+  font-family: var(--dds-font-sans);
+  font-weight: var(--dds-font-weight-medium);
+  line-height: var(--dds-line-height-none);
+  white-space: nowrap;
+  transition:
+    color var(--dds-duration-fast) var(--dds-ease-standard),
+    background-color var(--dds-duration-fast) var(--dds-ease-standard),
+    box-shadow var(--dds-duration-fast) var(--dds-ease-standard);
+
+  &:focus-visible {
+    outline: none;
+    box-shadow:
+      inset 0 0 0 1px var(--dds-badge-ring),
+      0 0 0 2px var(--dds-color-bg-default),
+      0 0 0 4px var(--dds-color-focus-ring);
+  }
+}
+
+.variantDefault {
+  --dds-badge-bg: var(--dds-color-action-primary);
+  --dds-badge-color: var(--dds-color-action-primary-foreground);
+  --dds-badge-ring: oklch(from var(--dds-color-action-primary) l c h / 0.2);
+}
+
+.variantSecondary {
+  --dds-badge-bg: var(--dds-color-action-secondary);
+  --dds-badge-color: var(--dds-color-action-secondary-foreground);
+  --dds-badge-ring: oklch(from var(--dds-color-action-secondary) l c h / 0.2);
+}
+
+.variantOutline {
+  --dds-badge-bg: transparent;
+  --dds-badge-color: var(--dds-color-text-default);
+  --dds-badge-ring: var(--dds-color-border-default);
+}
+
+.variantSuccess {
+  --dds-badge-bg: var(--dds-badge-success-bg);
+  --dds-badge-color: var(--dds-badge-success-color);
+  --dds-badge-ring: var(--dds-badge-success-ring);
+}
+
+.variantWarning {
+  --dds-badge-bg: var(--dds-badge-warning-bg);
+  --dds-badge-color: var(--dds-badge-warning-color);
+  --dds-badge-ring: var(--dds-badge-warning-ring);
+}
+
+.variantDestructive {
+  --dds-badge-bg: var(--dds-badge-danger-bg);
+  --dds-badge-color: var(--dds-badge-danger-color);
+  --dds-badge-ring: var(--dds-badge-danger-ring);
+}
+
+.variantInfo {
+  --dds-badge-bg: var(--dds-badge-info-bg);
+  --dds-badge-color: var(--dds-badge-info-color);
+  --dds-badge-ring: var(--dds-badge-info-ring);
+}
+
+.sizeSm {
+  padding: var(--dds-space-0-5) var(--dds-space-2);
+  font-size: var(--dds-font-size-xs);
+}
+
+.sizeMd {
+  padding: var(--dds-space-0-5) var(--dds-space-2-5);
+  font-size: var(--dds-font-size-xs);
+}
+
+.sizeLg {
+  padding: var(--dds-space-1) var(--dds-space-3);
+  font-size: var(--dds-font-size-sm);
+}
+
+.storyRow {
+  display: flex;
+  align-items: center;
+  gap: var(--dds-space-3);
+}
