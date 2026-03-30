@@ -2,6 +2,14 @@
   box-shadow: 0 0 0 3px oklch(from var(--dds-color-focus-ring) l c h / 0.5);
 }
 
+@mixin interactive-focus-ring {
+  &:focus,
+  &:focus-visible {
+    outline: none;
+    @include focus-ring;
+  }
+}
+
 @mixin visually-hidden {
   position: absolute;
   width: 1px;

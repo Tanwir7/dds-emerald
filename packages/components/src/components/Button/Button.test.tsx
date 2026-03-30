@@ -121,6 +121,16 @@ describe('Button', () => {
     expect(onClick).toHaveBeenCalledTimes(1);
   });
 
+  it('shows focus when clicked', async () => {
+    const user = userEvent.setup();
+
+    render(<Button>content</Button>);
+
+    await user.click(getButtonByText('content'));
+
+    expect(getButtonByText('content')).toHaveFocus();
+  });
+
   it('focus-visible state renders on tab navigation', async () => {
     const user = userEvent.setup();
 
@@ -219,5 +229,6 @@ describe('Button', () => {
     expect(stylesheet).not.toContain('color: var(--dds-color-text-on-primary);');
     expect(stylesheet).toContain('@include icon-size(md);');
     expect(stylesheet).toContain('gap: var(--dds-space-2);');
+    expect(stylesheet).toContain('@include interactive-focus-ring;');
   });
 });

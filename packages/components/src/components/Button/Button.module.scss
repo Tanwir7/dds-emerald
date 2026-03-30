@@ -22,10 +22,7 @@
     background-color var(--dds-duration-fast) var(--dds-ease-standard),
     border-color var(--dds-duration-fast) var(--dds-ease-standard);
 
-  &:focus-visible {
-    outline: none;
-    @include focus-ring;
-  }
+  @include interactive-focus-ring;
 
   &:disabled,
   &[data-disabled] {
