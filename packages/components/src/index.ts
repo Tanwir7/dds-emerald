@@ -6,3 +6,5 @@ export { Button } from './components/Button';
 export type { ButtonProps, ButtonSize, ButtonVariant } from './components/Button/Button';
 export { Badge } from './components/Badge';
 export type { BadgeProps, BadgeSize, BadgeVariant } from './components/Badge/Badge';
+export { VisuallyHidden } from './components/VisuallyHidden';
+export type { VisuallyHiddenProps } from './components/VisuallyHidden/VisuallyHidden';

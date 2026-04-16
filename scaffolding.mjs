@@ -85,7 +85,7 @@ describe('${name}', () => {
 
 // Stories template
 writeFileSync(join(dir, `${name}.stories.tsx`), `
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ${name} } from './${name}';
 
 const meta: Meta<typeof ${name}> = {
