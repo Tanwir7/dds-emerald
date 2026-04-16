@@ -16,8 +16,8 @@ body {
 }
 
 :focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 3px oklch(from var(--dds-color-focus-ring) l c h / 0.5);
+  outline: 3px solid oklch(from var(--dds-color-focus-ring) l c h / 0.5);
+  outline-offset: 2px;
 }
 
 button,

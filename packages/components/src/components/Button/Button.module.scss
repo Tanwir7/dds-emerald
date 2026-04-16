@@ -16,6 +16,7 @@
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
+  -webkit-user-select: none;
   user-select: none;
   transition:
     color var(--dds-duration-fast) var(--dds-ease-standard),
@@ -78,6 +79,10 @@
 
 .storyFullWidthFrame {
   width: 320px;
+}
+
+.storyA11yScope {
+  display: inline-flex;
 }
 
 .variantPrimary {

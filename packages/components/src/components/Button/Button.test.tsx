@@ -295,4 +295,24 @@ describe('Button', () => {
     expect(stylesheet).toContain('animation: button-spinner-rotate');
     expect(stylesheet).toContain('stroke-dasharray: 33 44;');
   });
+
+  it('uses an outline focus ring with offset instead of shadow or border-color focus cues', () => {
+    const stylesheet = readFileSync('src/components/Button/Button.module.scss', 'utf8');
+    const mixins = readFileSync('src/styles/_mixins.scss', 'utf8');
+    const baseStyles = readFileSync('src/styles/base.css', 'utf8');
+
+    expect(stylesheet).toContain('@include interactive-focus-ring;');
+    expect(mixins).toContain(
+      'outline: 3px solid oklch(from var(--dds-color-focus-ring) l c h / 0.5);'
+    );
+    expect(mixins).toContain('outline-offset: 2px;');
+    expect(mixins).not.toContain('outline: none;');
+    expect(mixins).not.toContain('box-shadow: 0 0 0 3px');
+    expect(mixins).not.toContain('border-color: var(--dds-color-focus-ring);');
+    expect(baseStyles).toContain(
+      'outline: 3px solid oklch(from var(--dds-color-focus-ring) l c h / 0.5);'
+    );
+    expect(baseStyles).toContain('outline-offset: 2px;');
+    expect(baseStyles).not.toContain('box-shadow: 0 0 0 3px');
+  });
 });

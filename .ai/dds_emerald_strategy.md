@@ -598,7 +598,8 @@ packages/components/src/components/Button/
     color var(--dds-duration-fast) var(--dds-ease-standard),
     background-color var(--dds-duration-fast) var(--dds-ease-standard),
     border-color var(--dds-duration-fast) var(--dds-ease-standard);
-  outline: none;
+  outline: 3px solid transparent;
+  outline-offset: 2px;
 
   // Default size
   height: 36px; // h-9
@@ -610,8 +611,7 @@ packages/components/src/components/Button/
   }
 
   &:focus-visible {
-    border-color: var(--dds-color-focus-ring);
-    box-shadow: 0 0 0 3px oklch(from var(--dds-color-focus-ring) l c h / 0.5);
+    outline-color: oklch(from var(--dds-color-focus-ring) l c h / 0.5);
   }
 }
 
@@ -1142,7 +1142,7 @@ Place at repo root. Both Antigravity and Codex must be instructed to read this f
 - Sidebar background is ALWAYS `var(--dds-color-bg-sidebar)` — it is dark in both light AND dark mode
 - ProgressBar uses `var(--dds-radius-full)` on track and fill — this is the only non-avatar exception
 - KPICard highlighted variant MUST include the `h-4px w-full bg-[--dds-color-action-primary]` absolute top stripe
-- Focus ring width is always 3px: `box-shadow: 0 0 0 3px oklch(from var(--dds-color-focus-ring) l c h / 0.5)`
+- Focus ring is always outline-based: `outline: 3px solid oklch(from var(--dds-color-focus-ring) l c h / 0.5); outline-offset: 2px;`
 - NavItem minimum height is always 44px (WCAG 2.2 touch target)
 - `font-feature-settings: "cv02", "cv03", "cv04", "cv11"` must be set on body-level text
 - All numeric/tabular data uses `font-variant-numeric: tabular-nums`
@@ -1287,26 +1287,26 @@ Tests: write a Vitest test that loads the CSS file, parses it, and asserts every
 
 This is the canonical list of hard rules. Any deviation requires explicit sign-off and a design decision record (DDR).
 
-| Constraint         | Rule                                                 | Exception                                                            |
-| ------------------ | ---------------------------------------------------- | -------------------------------------------------------------------- |
-| Border radius      | Always `0px` (via `--dds-radius-none`)               | `rounded-full` for Avatar, StatusIndicator, AvatarGroup, ProgressBar |
-| Colors             | oklch only                                           | None                                                                 |
-| Color consumption  | Tier 2 tokens in components only                     | None                                                                 |
-| CSS prefix         | All custom properties prefixed `--dds-`              | None                                                                 |
-| Tailwind           | Never                                                | None                                                                 |
-| Inline styles      | Never                                                | None                                                                 |
-| Font stack         | Display/Sans/Mono via token variables only           | None                                                                 |
-| Tabular data       | Always `font-variant-numeric: tabular-nums`          | None                                                                 |
-| Focus ring         | 3px, `var(--dds-color-focus-ring)` at 50% opacity    | None                                                                 |
-| Touch target       | `min-height: 44px` on all interactive nav items      | None                                                                 |
-| Sidebar bg         | Always dark (`--dds-color-bg-sidebar`) in both modes | None                                                                 |
-| KPI highlighted    | Must include 4px absolute top stripe                 | None                                                                 |
-| ProgressBar radius | `--dds-radius-full` on track and fill only           | None                                                                 |
-| forwardRef         | All components must use it                           | Pure utility/context components                                      |
-| Testing            | TDD — tests before implementation                    | None                                                                 |
-| a11y               | axe test in every component test file                | None                                                                 |
-| Changesets         | Every PR touching packages needs a changeset         | Docs-only changes                                                    |
-| New components     | Must start from scaffolding.mjs                      | None                                                                 |
+| Constraint         | Rule                                                                  | Exception                                                            |
+| ------------------ | --------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| Border radius      | Always `0px` (via `--dds-radius-none`)                                | `rounded-full` for Avatar, StatusIndicator, AvatarGroup, ProgressBar |
+| Colors             | oklch only                                                            | None                                                                 |
+| Color consumption  | Tier 2 tokens in components only                                      | None                                                                 |
+| CSS prefix         | All custom properties prefixed `--dds-`                               | None                                                                 |
+| Tailwind           | Never                                                                 | None                                                                 |
+| Inline styles      | Never                                                                 | None                                                                 |
+| Font stack         | Display/Sans/Mono via token variables only                            | None                                                                 |
+| Tabular data       | Always `font-variant-numeric: tabular-nums`                           | None                                                                 |
+| Focus ring         | 3px outline, `var(--dds-color-focus-ring)` at 50% opacity, 2px offset | None                                                                 |
+| Touch target       | `min-height: 44px` on all interactive nav items                       | None                                                                 |
+| Sidebar bg         | Always dark (`--dds-color-bg-sidebar`) in both modes                  | None                                                                 |
+| KPI highlighted    | Must include 4px absolute top stripe                                  | None                                                                 |
+| ProgressBar radius | `--dds-radius-full` on track and fill only                            | None                                                                 |
+| forwardRef         | All components must use it                                            | Pure utility/context components                                      |
+| Testing            | TDD — tests before implementation                                     | None                                                                 |
+| a11y               | axe test in every component test file                                 | None                                                                 |
+| Changesets         | Every PR touching packages needs a changeset                          | Docs-only changes                                                    |
+| New components     | Must start from scaffolding.mjs                                       | None                                                                 |
 
 ---
 

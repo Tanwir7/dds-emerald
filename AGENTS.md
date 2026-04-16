@@ -37,7 +37,7 @@
 - Sidebar background is ALWAYS `var(--dds-color-bg-sidebar)` — it is dark in both light AND dark mode
 - ProgressBar uses `var(--dds-radius-full)` on track and fill — this is the only non-avatar exception
 - KPICard highlighted variant MUST include the `h-4px w-full bg-[--dds-color-action-primary]` absolute top stripe
-- Focus ring width is always 3px: `box-shadow: 0 0 0 3px oklch(from var(--dds-color-focus-ring) l c h / 0.5)`
+- Focus ring is always outline-based: `outline: 3px solid oklch(from var(--dds-color-focus-ring) l c h / 0.5); outline-offset: 2px;`
 - NavItem minimum height is always 44px (WCAG 2.2 touch target)
 - `font-feature-settings: "cv02", "cv03", "cv04", "cv11"` must be set on body-level text
 - All numeric/tabular data uses `font-variant-numeric: tabular-nums`
@@ -67,6 +67,7 @@
 - One component per directory: `src/components/ComponentName/`
 - Directory must contain: `.tsx`, `.module.scss`, `.test.tsx`, `.stories.tsx`, `index.ts`
 - Use `scaffolding.mjs` to generate the initial files for any new component
+- Storybook stories using addon-a11y MUST scope checks to the component story root with `parameters.a11y.context`; never let addon-a11y scan surrounding docs/chrome markup
 
 ### Font loading
 

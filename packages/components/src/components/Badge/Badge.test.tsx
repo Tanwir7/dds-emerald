@@ -106,7 +106,7 @@ describe('Badge', () => {
     });
   });
 
-  it('focuses on keyboard navigation and includes the focus ring styles', async () => {
+  it('focuses on keyboard navigation and uses the shared outline focus ring', async () => {
     const user = userEvent.setup();
 
     render(
@@ -122,11 +122,18 @@ describe('Badge', () => {
     expect(getBadgeByText('content')).toHaveFocus();
 
     const stylesheet = readFileSync('src/components/Badge/Badge.module.scss', 'utf8');
+    const mixins = readFileSync('src/styles/_mixins.scss', 'utf8');
 
     expect(stylesheet).toContain('&:focus-visible');
-    expect(stylesheet).toContain('outline: none;');
-    expect(stylesheet).toContain('0 0 0 2px var(--dds-color-bg-default)');
-    expect(stylesheet).toContain('0 0 0 4px var(--dds-color-focus-ring)');
+    expect(stylesheet).toContain('@include focus-ring;');
+    expect(stylesheet).not.toContain('outline: none;');
+    expect(stylesheet).not.toContain('0 0 0 2px var(--dds-color-bg-default)');
+    expect(stylesheet).not.toContain('0 0 0 4px var(--dds-color-focus-ring)');
+    expect(mixins).toContain(
+      'outline: 3px solid oklch(from var(--dds-color-focus-ring) l c h / 0.5);'
+    );
+    expect(mixins).toContain('outline-offset: 2px;');
+    expect(mixins).not.toContain('box-shadow: 0 0 0 3px');
   });
 
   it('forwards className and ref', () => {

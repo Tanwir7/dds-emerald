@@ -67,15 +67,24 @@ const meta: Meta<typeof Button> = {
   render: (args: ComponentProps<typeof Button>) => {
     if (args.fullWidth) {
       return (
-        <div className={styles.storyFullWidthFrame}>
-          <Button {...args} />
+        <div className={styles.storyA11yScope}>
+          <div className={styles.storyFullWidthFrame}>
+            <Button {...args} />
+          </div>
         </div>
       );
     }
 
-    return <Button {...args} />;
+    return (
+      <div className={styles.storyA11yScope}>
+        <Button {...args} />
+      </div>
+    );
   },
   parameters: {
+    a11y: {
+      context: `.${styles.storyA11yScope}`,
+    },
     docs: {
       description: {
         component:

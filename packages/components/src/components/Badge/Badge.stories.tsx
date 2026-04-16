@@ -7,6 +7,16 @@ const meta: Meta<typeof Badge> = {
   title: 'Components/Badge',
   component: Badge,
   tags: ['autodocs'],
+  render: (args: ComponentProps<typeof Badge>) => (
+    <div className={styles.storyA11yScope}>
+      <Badge {...args} />
+    </div>
+  ),
+  parameters: {
+    a11y: {
+      context: `.${styles.storyA11yScope}`,
+    },
+  },
 };
 export default meta;
 
@@ -18,12 +28,14 @@ const renderVariantSizes = (
   variant: NonNullable<ComponentProps<typeof Badge>['variant']>,
   label: string
 ) => (
-  <div className={styles.storyRow}>
-    {sizes.map((size) => (
-      <Badge key={size} variant={variant} size={size}>
-        {label} {size.toUpperCase()}
-      </Badge>
-    ))}
+  <div className={styles.storyA11yScope}>
+    <div className={styles.storyRow}>
+      {sizes.map((size) => (
+        <Badge key={size} variant={variant} size={size}>
+          {label} {size.toUpperCase()}
+        </Badge>
+      ))}
+    </div>
   </div>
 );
 
