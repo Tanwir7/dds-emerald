@@ -5,3 +5,7 @@
   background-color: var(--dds-color-bg-default);
   color: var(--dds-color-text-default);
 }
+
+.dds-story-a11y-scope {
+  display: inline-flex;
+}

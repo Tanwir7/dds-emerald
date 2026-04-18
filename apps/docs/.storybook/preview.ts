@@ -23,6 +23,9 @@ const preview: Preview = {
     controls: {
       disableSaveFromUI: true,
     },
+    a11y: {
+      context: '.dds-story-a11y-scope',
+    },
   },
   decorators: [
     withThemeByDataAttribute({
@@ -47,10 +50,14 @@ const preview: Preview = {
       document.documentElement.style.colorScheme = theme;
       document.body.style.backgroundColor = 'var(--dds-color-bg-default)';
       document.body.style.color = 'var(--dds-color-text-default)';
+
+      const story = createElement('div', { className: 'dds-story-a11y-scope' }, Story());
+
       if (context.viewMode === 'docs') {
-        return createElement('div', { className: 'dds-storybook-docs-preview' }, Story());
+        return createElement('div', { className: 'dds-storybook-docs-preview' }, story);
       }
-      return Story();
+
+      return story;
     }) as Decorator,
   ],
 };

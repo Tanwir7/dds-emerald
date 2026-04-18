@@ -39,6 +39,15 @@ const renderVariantSizes = (
   </div>
 );
 
+const buildVariantSizesSource = (
+  variant: NonNullable<ComponentProps<typeof Badge>['variant']>,
+  label: string
+) => `<>
+  <Badge variant="${variant}" size="sm">${label} SM</Badge>
+  <Badge variant="${variant}" size="md">${label} MD</Badge>
+  <Badge variant="${variant}" size="lg">${label} LG</Badge>
+</>`;
+
 export const Default: Story = {
   args: {
     children: 'Badge',
@@ -49,24 +58,66 @@ export const Default: Story = {
 
 export const Secondary: Story = {
   render: () => renderVariantSizes('secondary', 'Secondary'),
+  parameters: {
+    docs: {
+      source: {
+        code: buildVariantSizesSource('secondary', 'Secondary'),
+      },
+    },
+  },
 };
 
 export const Outline: Story = {
   render: () => renderVariantSizes('outline', 'Outline'),
+  parameters: {
+    docs: {
+      source: {
+        code: buildVariantSizesSource('outline', 'Outline'),
+      },
+    },
+  },
 };
 
 export const Success: Story = {
   render: () => renderVariantSizes('success', 'Success'),
+  parameters: {
+    docs: {
+      source: {
+        code: buildVariantSizesSource('success', 'Success'),
+      },
+    },
+  },
 };
 
 export const Warning: Story = {
   render: () => renderVariantSizes('warning', 'Warning'),
+  parameters: {
+    docs: {
+      source: {
+        code: buildVariantSizesSource('warning', 'Warning'),
+      },
+    },
+  },
 };
 
 export const Destructive: Story = {
   render: () => renderVariantSizes('destructive', 'Destructive'),
+  parameters: {
+    docs: {
+      source: {
+        code: buildVariantSizesSource('destructive', 'Destructive'),
+      },
+    },
+  },
 };
 
 export const Info: Story = {
   render: () => renderVariantSizes('info', 'Info'),
+  parameters: {
+    docs: {
+      source: {
+        code: buildVariantSizesSource('info', 'Info'),
+      },
+    },
+  },
 };

@@ -5,11 +5,6 @@ const meta: Meta<typeof VisuallyHidden> = {
   title: 'Components/VisuallyHidden',
   component: VisuallyHidden,
   tags: ['autodocs'],
-  parameters: {
-    a11y: {
-      context: '#storybook-root',
-    },
-  },
 };
 export default meta;
 
