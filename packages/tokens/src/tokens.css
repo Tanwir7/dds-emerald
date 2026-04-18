@@ -1,5 +1,9 @@
 :root {
-  /* Tier 1: Emerald Primitive Palette */
+  /* ============================================================
+     TIER 1 — PRIMITIVE PALETTE
+     ============================================================ */
+
+  /* Emerald Scale */
   --dds-emerald-50: oklch(0.97 0.02 160);
   --dds-emerald-100: oklch(0.94 0.04 160);
   --dds-emerald-200: oklch(0.88 0.06 160);
@@ -12,7 +16,7 @@
   --dds-emerald-900: oklch(0.22 0.08 160);
   --dds-emerald-950: oklch(0.15 0.06 160);
 
-  /* Tier 1: Silver Primitive Palette */
+  /* Silver Scale */
   --dds-silver-50: oklch(0.98 0 0);
   --dds-silver-100: oklch(0.96 0 0);
   --dds-silver-200: oklch(0.92 0 0);
@@ -25,7 +29,9 @@
   --dds-silver-900: oklch(0.18 0 0);
   --dds-silver-950: oklch(0.1 0 0);
 
-  /* Tier 1: Spacing */
+  /* ============================================================
+     TIER 1 — SPACING
+     ============================================================ */
   --dds-space-0-5: 2px;
   --dds-space-1: 4px;
   --dds-space-1-5: 6px;
@@ -42,11 +48,15 @@
   --dds-space-20: 80px;
   --dds-space-24: 96px;
 
-  /* Tier 1: Border Radius */
+  /* ============================================================
+     TIER 1 — BORDER RADIUS
+     ============================================================ */
   --dds-radius-none: 0px;
   --dds-radius-full: 9999px;
 
-  /* Tier 1: Typography */
+  /* ============================================================
+     TIER 1 — TYPOGRAPHY
+     ============================================================ */
   --dds-font-display: 'Barlow Condensed', system-ui, sans-serif;
   --dds-font-sans: 'DM Sans', system-ui, sans-serif;
   --dds-font-mono: 'JetBrains Mono', ui-monospace, monospace;
@@ -81,222 +91,358 @@
   --dds-tracking-wider: 0.05em;
   --dds-tracking-widest: 0.1em;
 
-  /* Tier 1: Shadow */
+  /* ============================================================
+     TIER 1 — SHADOW
+     ============================================================ */
   --dds-shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.025);
   --dds-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 
-  /* Tier 1: Motion */
+  /* ============================================================
+     TIER 1 — MOTION
+     ============================================================ */
   --dds-duration-fast: 150ms;
   --dds-duration-normal: 300ms;
   --dds-duration-slow: 500ms;
   --dds-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --dds-ease-out: ease-out;
 
-  /* ── Tier 1: Icon Sizes ── */
+  /* ============================================================
+     TIER 1 — ICON SIZES
+     ============================================================ */
   --dds-icon-size-sm: 14px;
   --dds-icon-size-md: 16px;
   --dds-icon-size-lg: 32px;
 
-  /* Tier 2: Semantic - Light Mode */
-  --dds-color-bg-default: oklch(0.99 0 0);
-  --dds-color-bg-subtle: oklch(0.96 0 0);
-  --dds-color-bg-card: oklch(1 0 0);
-  --dds-color-bg-popover: oklch(1 0 0);
-  --dds-color-bg-input: oklch(0.9 0 0);
-  --dds-color-bg-muted: oklch(0.96 0 0);
-  --dds-color-bg-sidebar: oklch(0.2 0.05 160);
+  /* ============================================================
+     TIER 2 — SEMANTIC / LIGHT MODE
+     ============================================================ */
 
-  --dds-color-text-default: oklch(0.13 0 0);
-  --dds-color-text-muted: oklch(0.45 0 0);
-  --dds-color-text-on-primary: oklch(0.98 0 0);
-  --dds-color-text-on-sidebar: oklch(0.92 0 0);
-  --dds-color-text-muted-on-sidebar: oklch(0.92 0 0 / 0.5);
+  /* --- Backgrounds & Surfaces ---
+     bg-default: silver-100 (Y≈0.885) separates clearly from white cards.
+     Borders: silver-500 (Y≈0.166) = 4.6:1 vs bg, 5.0:1 vs white — WCAG AA ✅
+  */
+  --dds-color-bg-default: var(--dds-silver-100); /* updated: was silver-50 */
+  --dds-color-bg-subtle: var(--dds-silver-200);
+  --dds-color-bg-card: white;
+  --dds-color-bg-popover: white;
+  --dds-color-bg-input: var(--dds-silver-100);
+  --dds-color-bg-muted: var(--dds-silver-100);
+  --dds-color-bg-card-hover: var(--dds-silver-50);
 
-  --dds-color-action-primary: oklch(0.35 0.12 160);
-  --dds-color-action-primary-hover: oklch(0.35 0.12 160 / 0.9);
-  --dds-color-action-primary-foreground: oklch(0.98 0 0);
-  --dds-color-action-secondary: oklch(0.96 0.005 260);
-  --dds-color-action-secondary-hover: oklch(0.96 0.005 260 / 0.8);
-  --dds-color-action-secondary-foreground: oklch(0.18 0 0);
-  --dds-color-action-ghost-hover: oklch(0.94 0.03 160);
+  /* --- Surface Foregrounds --- */
+  --dds-color-text-card-foreground: var(--dds-silver-950);
+  --dds-color-text-popover-foreground: var(--dds-silver-950);
+
+  /* --- Text --- */
+  --dds-color-text-default: var(--dds-silver-950); /* 18:1+ on silver-100 ✅ */
+  --dds-color-text-muted: var(--dds-silver-600); /* 6.6:1 on silver-100 ✅ */
+  --dds-color-text-on-primary: var(--dds-silver-50); /* 10.7:1 on emerald-700 ✅ */
+
+  /* --- Primary Action --- */
+  --dds-color-action-primary: var(--dds-emerald-700);
+  --dds-color-action-primary-hover: var(--dds-emerald-600);
+  --dds-color-action-primary-foreground: var(--dds-silver-50);
+  --dds-color-action-primary-hover-foreground: var(--dds-silver-50);
+
+  /* --- Secondary Action --- */
+  --dds-color-action-secondary: var(--dds-silver-100);
+  --dds-color-action-secondary-hover: var(--dds-silver-200);
+  --dds-color-action-secondary-foreground: var(--dds-silver-900);
+  --dds-color-action-secondary-hover-foreground: var(--dds-silver-900);
+
+  /* --- Ghost --- */
+  --dds-color-action-ghost-hover: var(--dds-emerald-100);
+
+  /* --- Destructive Action --- */
   --dds-color-action-destructive: oklch(0.55 0.2 25);
-  --dds-color-action-destructive-hover: oklch(0.55 0.2 25 / 0.9);
-  --dds-color-action-destructive-foreground: oklch(0.98 0 0);
+  --dds-color-action-destructive-hover: oklch(0.48 0.22 25); /* updated: screenshot value */
+  --dds-color-action-destructive-foreground: var(--dds-silver-50);
+  --dds-color-action-destructive-hover-foreground: var(--dds-silver-50);
 
-  --dds-color-border-default: oklch(0.9 0 0);
-  --dds-color-border-input: oklch(0.9 0 0);
-  --dds-color-border-sidebar: oklch(0.28 0.04 160);
-  --dds-color-focus-ring: oklch(0.35 0.12 160);
+  /* --- Accent --- */
+  --dds-color-accent: var(--dds-emerald-100);
+  --dds-color-accent-foreground: var(--dds-emerald-900);
+  --dds-color-action-accent-hover: var(--dds-emerald-200);
+  --dds-color-action-accent-hover-foreground: var(--dds-emerald-900);
 
-  --dds-color-accent: oklch(0.94 0.03 160);
-  --dds-color-accent-foreground: oklch(0.25 0.08 160);
+  /* --- Muted Hover --- */
+  --dds-color-action-muted-hover: var(--dds-silver-200);
+  --dds-color-action-muted-hover-foreground: var(--dds-silver-700);
 
-  --dds-color-sidebar-primary: oklch(0.45 0.12 160);
-  --dds-color-sidebar-primary-foreground: oklch(0.98 0 0);
-  --dds-color-sidebar-accent: oklch(0.28 0.06 160);
-  --dds-color-sidebar-accent-foreground: oklch(0.92 0 0);
+  /* --- Borders & Focus ---
+     silver-500 (L=0.55, Y≈0.166):
+       vs white card:    5.0:1 ✅
+       vs silver-100 bg: 4.6:1 ✅
+  */
+  --dds-color-border-default: var(--dds-silver-500); /* updated: was silver-200 */
+  --dds-color-border-input: var(--dds-silver-500); /* updated: was silver-200 */
+  --dds-color-focus-ring: var(--dds-emerald-700);
 
-  --dds-color-status-success: oklch(0.45 0.12 160);
-  --dds-color-status-success-foreground: oklch(0.98 0 0);
+  /* --- Status: Success --- */
+  --dds-color-status-success: var(--dds-emerald-600);
+  --dds-color-status-success-foreground: var(--dds-silver-50);
+  --dds-color-action-success-hover: var(--dds-emerald-600);
+  --dds-color-action-success-hover-foreground: var(--dds-silver-50);
+
+  /* --- Status: Warning --- */
   --dds-color-status-warning: oklch(0.75 0.15 85);
   --dds-color-status-warning-foreground: oklch(0.25 0.05 85);
-  --dds-color-status-danger: oklch(0.55 0.2 25);
-  --dds-color-status-danger-foreground: oklch(0.98 0 0);
-  --dds-color-status-info: oklch(0.55 0.12 240);
-  --dds-color-status-info-foreground: oklch(0.98 0 0);
+  --dds-color-action-warning-hover: oklch(0.7 0.16 85);
+  --dds-color-action-warning-hover-foreground: var(--dds-silver-900);
 
-  /* Tier 3: Badge tokens */
+  /* --- Status: Danger --- */
+  --dds-color-status-danger: oklch(0.55 0.2 25);
+  --dds-color-status-danger-foreground: var(--dds-silver-50);
+
+  /* --- Status: Info --- */
+  --dds-color-status-info: oklch(0.55 0.12 240);
+  --dds-color-status-info-foreground: var(--dds-silver-50);
+  --dds-color-action-info-hover: oklch(0.5 0.13 240);
+  --dds-color-action-info-hover-foreground: var(--dds-silver-50);
+
+  /* ============================================================
+     TIER 3 — BADGE TOKENS
+     ============================================================ */
   --dds-badge-success-bg: var(--dds-emerald-100);
-  --dds-badge-success-color: oklch(0.28 0.1 160);
+  --dds-badge-success-color: var(--dds-emerald-800);
   --dds-badge-success-ring: oklch(0.4 0.12 160 / 0.2);
+
   --dds-badge-warning-bg: oklch(0.95 0.06 85);
   --dds-badge-warning-color: oklch(0.3 0.08 85);
   --dds-badge-warning-ring: oklch(0.65 0.15 85 / 0.2);
+
   --dds-badge-danger-bg: oklch(0.93 0.06 25);
   --dds-badge-danger-color: oklch(0.3 0.12 25);
   --dds-badge-danger-ring: oklch(0.55 0.2 25 / 0.2);
+
   --dds-badge-info-bg: oklch(0.93 0.04 240);
   --dds-badge-info-color: oklch(0.28 0.1 240);
   --dds-badge-info-ring: oklch(0.55 0.12 240 / 0.2);
 
-  --dds-color-chart-1: oklch(0.35 0.12 160);
-  --dds-color-chart-2: oklch(0.5 0.1 160);
-  --dds-color-chart-3: oklch(0.65 0.08 160);
+  /* ============================================================
+     TIER 3 — CHART TOKENS
+     ============================================================ */
+  --dds-color-chart-1: var(--dds-emerald-700);
+  --dds-color-chart-2: var(--dds-emerald-500);
+  --dds-color-chart-3: var(--dds-emerald-400);
   --dds-color-chart-4: oklch(0.55 0.02 260);
   --dds-color-chart-5: oklch(0.4 0.01 260);
 }
 
+/* ============================================================
+   TIER 2 — SEMANTIC / DARK MODE
+   ============================================================ */
+
 [data-theme='dark'] {
-  --dds-color-bg-default: oklch(0.12 0 0);
-  --dds-color-bg-subtle: oklch(0.22 0 0);
-  --dds-color-bg-card: oklch(0.16 0.01 160);
-  --dds-color-bg-popover: oklch(0.16 0.01 160);
-  --dds-color-bg-input: oklch(0.22 0.01 160);
-  --dds-color-bg-muted: oklch(0.22 0 0);
-  --dds-color-bg-sidebar: oklch(0.14 0.03 160);
+  /* --- Backgrounds & Surfaces ---
+     bg-default: black (Y=0) — maximum contrast headroom in dark mode.
+     Cards: emerald-950 (Y≈0.003) — visually distinct from black.
+     Borders: silver-500 (Y≈0.166) = 4.3:1 vs black, 4.0:1 vs card — WCAG AA ✅
+     (silver-700 = 1.9:1 ❌, silver-600 = 2.8:1 ❌ — both failed)
+  */
+  --dds-color-bg-default: black; /* updated: was silver-950 */
+  --dds-color-bg-subtle: var(--dds-silver-900);
+  --dds-color-bg-card: var(--dds-emerald-950);
+  --dds-color-bg-popover: var(--dds-emerald-950);
+  --dds-color-bg-input: var(--dds-silver-800);
+  --dds-color-bg-muted: var(--dds-silver-800);
+  --dds-color-bg-card-hover: var(--dds-silver-900);
 
-  --dds-color-text-default: oklch(0.95 0 0);
-  --dds-color-text-muted: oklch(0.65 0 0);
-  --dds-color-text-on-primary: oklch(0.12 0 0);
-  --dds-color-text-on-sidebar: oklch(0.92 0 0);
-  --dds-color-text-muted-on-sidebar: oklch(0.92 0 0 / 0.5);
+  /* --- Surface Foregrounds --- */
+  --dds-color-text-card-foreground: var(--dds-silver-100);
+  --dds-color-text-popover-foreground: var(--dds-silver-100);
 
-  --dds-color-action-primary: oklch(0.55 0.14 160);
-  --dds-color-action-primary-hover: oklch(0.55 0.14 160 / 0.9);
-  --dds-color-action-primary-foreground: oklch(0.12 0 0);
-  --dds-color-action-secondary: oklch(0.22 0.01 160);
-  --dds-color-action-secondary-hover: oklch(0.22 0.01 160 / 0.8);
-  --dds-color-action-secondary-foreground: oklch(0.95 0 0);
-  --dds-color-action-ghost-hover: oklch(0.25 0.04 160);
+  /* --- Text --- */
+  --dds-color-text-default: var(--dds-silver-100); /* 18.7:1 on black ✅ */
+  --dds-color-text-muted: var(--dds-silver-400); /* 7.9:1 on black ✅ */
+  --dds-color-text-on-primary: var(
+    --dds-silver-50
+  ); /* updated: was silver-950 (3.4:1 ❌) → 5.7:1 ✅ */
+
+  /* --- Primary Action --- */
+  --dds-color-action-primary: var(--dds-emerald-600);
+  --dds-color-action-primary-hover: var(--dds-emerald-500); /* updated: was emerald-400 */
+  --dds-color-action-primary-foreground: var(
+    --dds-silver-50
+  ); /* updated: was silver-950 — contrast fix */
+  --dds-color-action-primary-hover-foreground: var(--dds-silver-50);
+
+  /* --- Secondary Action --- */
+  --dds-color-action-secondary: var(--dds-silver-800); /* updated: was emerald-900 */
+  --dds-color-action-secondary-hover: var(--dds-silver-700);
+  --dds-color-action-secondary-foreground: var(--dds-silver-100);
+  --dds-color-action-secondary-hover-foreground: var(--dds-silver-100);
+
+  /* --- Ghost --- */
+  --dds-color-action-ghost-hover: var(--dds-emerald-900);
+
+  /* --- Destructive Action --- */
   --dds-color-action-destructive: oklch(0.5 0.18 25);
-  --dds-color-action-destructive-hover: oklch(0.5 0.18 25 / 0.9);
-  --dds-color-action-destructive-foreground: oklch(0.12 0 0);
+  --dds-color-action-destructive-hover: oklch(0.45 0.2 25); /* updated: screenshot value */
+  --dds-color-action-destructive-foreground: var(--dds-silver-100); /* updated: was oklch(0.12) */
+  --dds-color-action-destructive-hover-foreground: var(--dds-silver-50);
 
-  --dds-color-border-default: oklch(0.25 0.02 160);
-  --dds-color-border-input: oklch(0.22 0.01 160);
-  --dds-color-border-sidebar: oklch(0.22 0.03 160);
-  --dds-color-focus-ring: oklch(0.55 0.14 160);
+  /* --- Accent --- */
+  --dds-color-accent: var(--dds-emerald-800); /* updated: was emerald-900 */
+  --dds-color-accent-foreground: var(--dds-emerald-200);
+  --dds-color-action-accent-hover: var(--dds-emerald-800);
+  --dds-color-action-accent-hover-foreground: var(--dds-emerald-200);
 
-  --dds-color-accent: oklch(0.25 0.04 160);
-  --dds-color-accent-foreground: oklch(0.85 0.06 160);
+  /* --- Muted Hover --- */
+  --dds-color-action-muted-hover: var(--dds-silver-800);
+  --dds-color-action-muted-hover-foreground: var(--dds-silver-400);
 
-  --dds-color-sidebar-primary: oklch(0.55 0.14 160);
-  --dds-color-sidebar-accent: oklch(0.22 0.04 160);
+  /* --- Borders & Focus --- */
+  --dds-color-border-default: var(
+    --dds-silver-500
+  ); /* updated: was silver-800 (1.4:1 vs black ❌) */
+  --dds-color-border-input: var(--dds-silver-500); /* updated: was emerald-900 */
+  --dds-color-focus-ring: var(--dds-emerald-500);
 
-  --dds-color-status-success: oklch(0.55 0.14 160);
-  --dds-color-status-success-foreground: oklch(0.12 0 0);
+  /* --- Status: Success --- */
+  --dds-color-status-success: var(--dds-emerald-500);
+  --dds-color-status-success-foreground: var(--dds-silver-50); /* updated: was silver-950 */
+  --dds-color-action-success-hover: var(--dds-emerald-500);
+  --dds-color-action-success-hover-foreground: var(--dds-silver-50);
+
+  /* --- Status: Warning --- */
   --dds-color-status-warning: oklch(0.8 0.12 85);
-  --dds-color-status-warning-foreground: oklch(0.2 0.04 85);
-  --dds-color-status-danger: oklch(0.5 0.18 25);
-  --dds-color-status-info: oklch(0.6 0.1 240);
-  --dds-color-status-info-foreground: oklch(0.12 0 0);
+  --dds-color-status-warning-foreground: var(
+    --dds-silver-900
+  ); /* updated: was oklch(0.2 0.04 85) */
+  --dds-color-action-warning-hover: oklch(0.85 0.12 85);
+  --dds-color-action-warning-hover-foreground: var(--dds-silver-950);
 
+  /* --- Status: Danger --- */
+  --dds-color-status-danger: oklch(0.5 0.18 25);
+  --dds-color-status-danger-foreground: var(--dds-silver-100); /* updated: was oklch(0.12) */
+
+  /* --- Status: Info --- */
+  --dds-color-status-info: oklch(0.6 0.1 240);
+  --dds-color-status-info-foreground: var(--dds-silver-50); /* updated: was oklch(0.12) */
+  --dds-color-action-info-hover: oklch(0.5 0.12 240);
+  --dds-color-action-info-hover-foreground: var(--dds-silver-50);
+
+  /* --- Badge Tokens --- */
   --dds-badge-success-bg: oklch(0.22 0.08 160 / 0.3);
-  --dds-badge-success-color: oklch(0.65 0.1 160);
+  --dds-badge-success-color: var(--dds-emerald-300);
   --dds-badge-success-ring: oklch(0.65 0.1 160 / 0.2);
+
   --dds-badge-warning-bg: oklch(0.4 0.08 85 / 0.3);
   --dds-badge-warning-color: oklch(0.8 0.12 85);
   --dds-badge-warning-ring: oklch(0.8 0.12 85 / 0.2);
+
   --dds-badge-danger-bg: oklch(0.3 0.1 25 / 0.3);
   --dds-badge-danger-color: oklch(0.7 0.15 25);
   --dds-badge-danger-ring: oklch(0.7 0.15 25 / 0.2);
+
   --dds-badge-info-bg: oklch(0.25 0.08 240 / 0.3);
   --dds-badge-info-color: oklch(0.7 0.1 240);
   --dds-badge-info-ring: oklch(0.7 0.1 240 / 0.2);
 
-  --dds-color-chart-1: oklch(0.55 0.14 160);
-  --dds-color-chart-2: oklch(0.65 0.12 160);
-  --dds-color-chart-3: oklch(0.75 0.08 160);
+  /* --- Chart Tokens --- */
+  --dds-color-chart-1: var(--dds-emerald-300);
+  --dds-color-chart-2: var(--dds-emerald-400);
+  --dds-color-chart-3: var(--dds-emerald-500);
   --dds-color-chart-4: oklch(0.6 0.02 260);
   --dds-color-chart-5: oklch(0.45 0.01 260);
 }
 
+/* ============================================================
+   OS-LEVEL DARK MODE — mirrors [data-theme='dark'] exactly
+   ============================================================ */
+
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --dds-color-bg-default: oklch(0.12 0 0);
-    --dds-color-bg-subtle: oklch(0.22 0 0);
-    --dds-color-bg-card: oklch(0.16 0.01 160);
-    --dds-color-bg-popover: oklch(0.16 0.01 160);
-    --dds-color-bg-input: oklch(0.22 0.01 160);
-    --dds-color-bg-muted: oklch(0.22 0 0);
-    --dds-color-bg-sidebar: oklch(0.14 0.03 160);
+    --dds-color-bg-default: black;
+    --dds-color-bg-subtle: var(--dds-silver-900);
+    --dds-color-bg-card: var(--dds-emerald-950);
+    --dds-color-bg-popover: var(--dds-emerald-950);
+    --dds-color-bg-input: var(--dds-silver-800);
+    --dds-color-bg-muted: var(--dds-silver-800);
+    --dds-color-bg-card-hover: var(--dds-silver-900);
 
-    --dds-color-text-default: oklch(0.95 0 0);
-    --dds-color-text-muted: oklch(0.65 0 0);
-    --dds-color-text-on-primary: oklch(0.12 0 0);
-    --dds-color-text-on-sidebar: oklch(0.92 0 0);
-    --dds-color-text-muted-on-sidebar: oklch(0.92 0 0 / 0.5);
+    --dds-color-text-card-foreground: var(--dds-silver-100);
+    --dds-color-text-popover-foreground: var(--dds-silver-100);
 
-    --dds-color-action-primary: oklch(0.55 0.14 160);
-    --dds-color-action-primary-hover: oklch(0.55 0.14 160 / 0.9);
-    --dds-color-action-primary-foreground: oklch(0.12 0 0);
-    --dds-color-action-secondary: oklch(0.22 0.01 160);
-    --dds-color-action-secondary-hover: oklch(0.22 0.01 160 / 0.8);
-    --dds-color-action-secondary-foreground: oklch(0.95 0 0);
-    --dds-color-action-ghost-hover: oklch(0.25 0.04 160);
+    --dds-color-text-default: var(--dds-silver-100);
+    --dds-color-text-muted: var(--dds-silver-400);
+    --dds-color-text-on-primary: var(--dds-silver-50);
+
+    --dds-color-action-primary: var(--dds-emerald-600);
+    --dds-color-action-primary-hover: var(--dds-emerald-500);
+    --dds-color-action-primary-foreground: var(--dds-silver-50);
+    --dds-color-action-primary-hover-foreground: var(--dds-silver-50);
+
+    --dds-color-action-secondary: var(--dds-silver-800);
+    --dds-color-action-secondary-hover: var(--dds-silver-700);
+    --dds-color-action-secondary-foreground: var(--dds-silver-100);
+    --dds-color-action-secondary-hover-foreground: var(--dds-silver-100);
+
+    --dds-color-action-ghost-hover: var(--dds-emerald-900);
+
     --dds-color-action-destructive: oklch(0.5 0.18 25);
-    --dds-color-action-destructive-hover: oklch(0.5 0.18 25 / 0.9);
-    --dds-color-action-destructive-foreground: oklch(0.12 0 0);
+    --dds-color-action-destructive-hover: oklch(0.45 0.2 25);
+    --dds-color-action-destructive-foreground: var(--dds-silver-100);
+    --dds-color-action-destructive-hover-foreground: var(--dds-silver-50);
 
-    --dds-color-border-default: oklch(0.25 0.02 160);
-    --dds-color-border-input: oklch(0.22 0.01 160);
-    --dds-color-border-sidebar: oklch(0.22 0.03 160);
-    --dds-color-focus-ring: oklch(0.55 0.14 160);
+    --dds-color-accent: var(--dds-emerald-800);
+    --dds-color-accent-foreground: var(--dds-emerald-200);
+    --dds-color-action-accent-hover: var(--dds-emerald-800);
+    --dds-color-action-accent-hover-foreground: var(--dds-emerald-200);
 
-    --dds-color-accent: oklch(0.25 0.04 160);
-    --dds-color-accent-foreground: oklch(0.85 0.06 160);
+    --dds-color-action-muted-hover: var(--dds-silver-800);
+    --dds-color-action-muted-hover-foreground: var(--dds-silver-400);
 
-    --dds-color-sidebar-primary: oklch(0.55 0.14 160);
-    --dds-color-sidebar-accent: oklch(0.22 0.04 160);
+    --dds-color-border-default: var(--dds-silver-500);
+    --dds-color-border-input: var(--dds-silver-500);
+    --dds-color-focus-ring: var(--dds-emerald-500);
 
-    --dds-color-status-success: oklch(0.55 0.14 160);
-    --dds-color-status-success-foreground: oklch(0.12 0 0);
+    --dds-color-status-success: var(--dds-emerald-500);
+    --dds-color-status-success-foreground: var(--dds-silver-50);
+    --dds-color-action-success-hover: var(--dds-emerald-500);
+    --dds-color-action-success-hover-foreground: var(--dds-silver-50);
+
     --dds-color-status-warning: oklch(0.8 0.12 85);
-    --dds-color-status-warning-foreground: oklch(0.2 0.04 85);
+    --dds-color-status-warning-foreground: var(--dds-silver-900);
+    --dds-color-action-warning-hover: oklch(0.85 0.12 85);
+    --dds-color-action-warning-hover-foreground: var(--dds-silver-950);
+
     --dds-color-status-danger: oklch(0.5 0.18 25);
+    --dds-color-status-danger-foreground: var(--dds-silver-100);
+
     --dds-color-status-info: oklch(0.6 0.1 240);
-    --dds-color-status-info-foreground: oklch(0.12 0 0);
+    --dds-color-status-info-foreground: var(--dds-silver-50);
+    --dds-color-action-info-hover: oklch(0.5 0.12 240);
+    --dds-color-action-info-hover-foreground: var(--dds-silver-50);
 
     --dds-badge-success-bg: oklch(0.22 0.08 160 / 0.3);
-    --dds-badge-success-color: oklch(0.65 0.1 160);
+    --dds-badge-success-color: var(--dds-emerald-300);
     --dds-badge-success-ring: oklch(0.65 0.1 160 / 0.2);
+
     --dds-badge-warning-bg: oklch(0.4 0.08 85 / 0.3);
     --dds-badge-warning-color: oklch(0.8 0.12 85);
     --dds-badge-warning-ring: oklch(0.8 0.12 85 / 0.2);
+
     --dds-badge-danger-bg: oklch(0.3 0.1 25 / 0.3);
     --dds-badge-danger-color: oklch(0.7 0.15 25);
     --dds-badge-danger-ring: oklch(0.7 0.15 25 / 0.2);
+
     --dds-badge-info-bg: oklch(0.25 0.08 240 / 0.3);
     --dds-badge-info-color: oklch(0.7 0.1 240);
     --dds-badge-info-ring: oklch(0.7 0.1 240 / 0.2);
 
-    --dds-color-chart-1: oklch(0.55 0.14 160);
-    --dds-color-chart-2: oklch(0.65 0.12 160);
-    --dds-color-chart-3: oklch(0.75 0.08 160);
+    --dds-color-chart-1: var(--dds-emerald-300);
+    --dds-color-chart-2: var(--dds-emerald-400);
+    --dds-color-chart-3: var(--dds-emerald-500);
     --dds-color-chart-4: oklch(0.6 0.02 260);
     --dds-color-chart-5: oklch(0.45 0.01 260);
   }
 }
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
 
 @media (prefers-reduced-motion: reduce) {
   *,

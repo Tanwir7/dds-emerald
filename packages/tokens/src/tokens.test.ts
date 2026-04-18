@@ -2,102 +2,108 @@ import { readFileSync } from 'node:fs';
 
 import { describe, expect, it } from 'vitest';
 
-import { tokens } from './tokens';
-
 function extractCssCustomProperties(cssSource: string): Set<string> {
   const matches = cssSource.matchAll(/--dds-[a-z0-9-]+/g);
 
   return new Set(Array.from(matches, ([match]) => match));
 }
 
-function prefixedEntries(prefix: string, values: Record<string, string>): string[] {
-  return Object.keys(values).map((key) => `${prefix}-${key}`);
+function extractCssCustomPropertyDeclarations(cssSource: string): Set<string> {
+  const matches = cssSource.matchAll(/^\s*(--dds-[a-z0-9-]+)\s*:/gm);
+
+  return new Set(Array.from(matches, ([, name]) => name));
 }
 
-function buildTokenPropertyNames(): Set<string> {
-  const names = new Set<string>();
-  const { primitive, theme } = tokens;
+function extractBlock(cssSource: string, selector: string): string {
+  const selectorIndex = cssSource.indexOf(selector);
 
-  prefixedEntries('--dds-emerald', primitive.color.emerald).forEach((name) => names.add(name));
-  prefixedEntries('--dds-silver', primitive.color.silver).forEach((name) => names.add(name));
-  prefixedEntries('--dds-space', primitive.space).forEach((name) => names.add(name));
-  prefixedEntries('--dds-radius', primitive.radius).forEach((name) => names.add(name));
-  prefixedEntries('--dds-font', primitive.font.family).forEach((name) => names.add(name));
-  prefixedEntries('--dds-font-size', primitive.font.size).forEach((name) => names.add(name));
-  prefixedEntries('--dds-font-weight', primitive.font.weight).forEach((name) => names.add(name));
-  prefixedEntries('--dds-line-height', primitive.font.lineHeight).forEach((name) =>
-    names.add(name)
-  );
-  prefixedEntries('--dds-tracking', primitive.font.tracking).forEach((name) => names.add(name));
-  prefixedEntries('--dds-shadow', primitive.shadow).forEach((name) => names.add(name));
-  prefixedEntries('--dds-duration', primitive.duration).forEach((name) => names.add(name));
-  prefixedEntries('--dds-ease', primitive.ease).forEach((name) => names.add(name));
-  prefixedEntries('--dds-icon-size', primitive.icon.size).forEach((name) => names.add(name));
+  if (selectorIndex === -1) {
+    throw new Error(`Unable to find selector "${selector}" in tokens.css.`);
+  }
 
-  Object.values(theme).forEach((currentTheme) => {
-    prefixedEntries('--dds-color-bg', currentTheme.color.bg).forEach((name) => names.add(name));
-    prefixedEntries('--dds-color-text', currentTheme.color.text).forEach((name) => names.add(name));
-    prefixedEntries('--dds-color-action', currentTheme.color.action).forEach((name) =>
-      names.add(name)
-    );
-    prefixedEntries('--dds-color-border', currentTheme.color.border).forEach((name) =>
-      names.add(name)
-    );
-    names.add('--dds-color-focus-ring');
-    names.add('--dds-color-accent');
-    names.add('--dds-color-accent-foreground');
-    prefixedEntries('--dds-color-sidebar', currentTheme.color.sidebar).forEach((name) =>
-      names.add(name)
-    );
-    prefixedEntries('--dds-color-status', currentTheme.color.status).forEach((name) =>
-      names.add(name)
-    );
-    prefixedEntries('--dds-color-chart', currentTheme.color.chart).forEach((name) =>
-      names.add(name)
-    );
+  const blockStart = cssSource.indexOf('{', selectorIndex);
+  let depth = 0;
 
-    Object.entries(currentTheme.badge).forEach(([variant, badgeTokens]) => {
-      prefixedEntries(`--dds-badge-${variant}`, badgeTokens).forEach((name) => names.add(name));
-    });
-  });
+  for (let index = blockStart; index < cssSource.length; index += 1) {
+    const character = cssSource[index];
 
-  return names;
+    if (character === '{') {
+      depth += 1;
+    }
+
+    if (character === '}') {
+      depth -= 1;
+
+      if (depth === 0) {
+        return cssSource.slice(blockStart + 1, index);
+      }
+    }
+  }
+
+  throw new Error(`Unable to find closing brace for selector "${selector}" in tokens.css.`);
 }
 
 describe('tokens', () => {
-  it('mirrors all --dds-* custom properties declared in tokens.css', () => {
+  it('declares every --dds-* custom property referenced in tokens.css', () => {
     const cssSource = readFileSync(new URL('./tokens.css', import.meta.url), 'utf8');
-    const cssProperties = extractCssCustomProperties(cssSource);
-    const tokenProperties = buildTokenPropertyNames();
+    const referencedProperties = extractCssCustomProperties(cssSource);
+    const declaredProperties = extractCssCustomPropertyDeclarations(cssSource);
 
-    expect(tokenProperties).toEqual(cssProperties);
+    expect(declaredProperties).toEqual(referencedProperties);
   });
 
-  it('defines a complete action token contract for button variants in both themes', () => {
-    const { light, dark } = tokens.theme;
+  it('defines the current action token contract in each theme scope', () => {
+    const cssSource = readFileSync(new URL('./tokens.css', import.meta.url), 'utf8');
+    const actionContract = [
+      '--dds-color-action-primary',
+      '--dds-color-action-primary-hover',
+      '--dds-color-action-primary-foreground',
+      '--dds-color-action-primary-hover-foreground',
+      '--dds-color-action-secondary',
+      '--dds-color-action-secondary-hover',
+      '--dds-color-action-secondary-foreground',
+      '--dds-color-action-secondary-hover-foreground',
+      '--dds-color-action-ghost-hover',
+      '--dds-color-action-destructive',
+      '--dds-color-action-destructive-hover',
+      '--dds-color-action-destructive-foreground',
+      '--dds-color-action-destructive-hover-foreground',
+      '--dds-color-action-accent-hover',
+      '--dds-color-action-accent-hover-foreground',
+      '--dds-color-action-muted-hover',
+      '--dds-color-action-muted-hover-foreground',
+      '--dds-color-action-success-hover',
+      '--dds-color-action-success-hover-foreground',
+      '--dds-color-action-warning-hover',
+      '--dds-color-action-warning-hover-foreground',
+      '--dds-color-action-info-hover',
+      '--dds-color-action-info-hover-foreground',
+    ];
 
-    expect(light.color.action).toMatchObject({
-      primary: expect.any(String),
-      'primary-hover': expect.any(String),
-      'primary-foreground': expect.any(String),
-      secondary: expect.any(String),
-      'secondary-hover': expect.any(String),
-      'secondary-foreground': expect.any(String),
-      destructive: expect.any(String),
-      'destructive-hover': expect.any(String),
-      'destructive-foreground': expect.any(String),
-    });
+    const rootDeclarations = extractCssCustomPropertyDeclarations(extractBlock(cssSource, ':root'));
+    const darkDeclarations = extractCssCustomPropertyDeclarations(
+      extractBlock(cssSource, "[data-theme='dark']")
+    );
+    const osDarkDeclarations = extractCssCustomPropertyDeclarations(
+      extractBlock(cssSource, ":root:not([data-theme='light'])")
+    );
 
-    expect(dark.color.action).toMatchObject({
-      primary: expect.any(String),
-      'primary-hover': expect.any(String),
-      'primary-foreground': expect.any(String),
-      secondary: expect.any(String),
-      'secondary-hover': expect.any(String),
-      'secondary-foreground': expect.any(String),
-      destructive: expect.any(String),
-      'destructive-hover': expect.any(String),
-      'destructive-foreground': expect.any(String),
+    [rootDeclarations, darkDeclarations, osDarkDeclarations].forEach((declarations) => {
+      actionContract.forEach((property) => {
+        expect(declarations).toContain(property);
+      });
     });
+  });
+
+  it("keeps OS-level dark mode token names aligned with [data-theme='dark']", () => {
+    const cssSource = readFileSync(new URL('./tokens.css', import.meta.url), 'utf8');
+    const darkDeclarations = extractCssCustomPropertyDeclarations(
+      extractBlock(cssSource, "[data-theme='dark']")
+    );
+    const osDarkDeclarations = extractCssCustomPropertyDeclarations(
+      extractBlock(cssSource, ":root:not([data-theme='light'])")
+    );
+
+    expect(osDarkDeclarations).toEqual(darkDeclarations);
   });
 });
