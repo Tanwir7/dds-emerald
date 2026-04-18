@@ -47,9 +47,7 @@ const preview: Preview = {
       }
 
       document.documentElement.setAttribute('data-theme', theme);
-      document.documentElement.style.colorScheme = theme;
-      document.body.style.backgroundColor = 'var(--dds-color-bg-default)';
-      document.body.style.color = 'var(--dds-color-text-default)';
+      document.body.classList.toggle('dds-storybook-docs-mode', context.viewMode === 'docs');
 
       const story = createElement('div', { className: 'dds-story-a11y-scope' }, Story());
 

@@ -121,7 +121,7 @@
      bg-default: silver-100 (Y≈0.885) separates clearly from white cards.
      Borders: silver-500 (Y≈0.166) = 4.6:1 vs bg, 5.0:1 vs white — WCAG AA ✅
   */
-  --dds-color-bg-default: var(--dds-silver-100); /* updated: was silver-50 */
+  --dds-color-bg-default: var(--dds-silver-50);
   --dds-color-bg-subtle: var(--dds-silver-200);
   --dds-color-bg-card: white;
   --dds-color-bg-popover: white;
@@ -145,8 +145,8 @@
   --dds-color-action-primary-hover-foreground: var(--dds-silver-50);
 
   /* --- Secondary Action --- */
-  --dds-color-action-secondary: var(--dds-silver-100);
-  --dds-color-action-secondary-hover: var(--dds-silver-200);
+  --dds-color-action-secondary: var(--dds-silver-200);
+  --dds-color-action-secondary-hover: var(--dds-silver-300);
   --dds-color-action-secondary-foreground: var(--dds-silver-900);
   --dds-color-action-secondary-hover-foreground: var(--dds-silver-900);
 

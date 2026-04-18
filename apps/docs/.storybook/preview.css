@@ -1,9 +1,14 @@
+.dds-storybook-docs-mode .docs-story {
+  color: var(--dds-color-text-default);
+  background-color: var(--dds-color-bg-default);
+}
+
 .dds-storybook-docs-preview {
   box-sizing: border-box;
   width: 100%;
   padding: var(--dds-space-6);
-  background-color: var(--dds-color-bg-default);
   color: var(--dds-color-text-default);
+  background-color: var(--dds-color-bg-default);
 }
 
 .dds-story-a11y-scope {
