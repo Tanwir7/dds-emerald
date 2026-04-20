@@ -362,6 +362,12 @@ describe('Heading', () => {
     expect(stylesheet).not.toContain('var(--dds-tracking-wider)');
   });
 
+  it('uses the shared truncate mixin', () => {
+    const stylesheet = readFileSync('src/components/Heading/Heading.module.scss', 'utf8');
+
+    expect(stylesheet).toContain('@include truncate;');
+  });
+
   it('defines text-transform styles for transform options', () => {
     const stylesheet = readFileSync('src/components/Heading/Heading.module.scss', 'utf8');
 
