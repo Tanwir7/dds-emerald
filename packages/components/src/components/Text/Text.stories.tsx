@@ -22,11 +22,13 @@ const meta: Meta<typeof Text> = {
     size: 'base',
     weight: 'normal',
     color: 'default',
+    font: 'sans',
+    textTransform: 'none',
   },
   argTypes: {
     as: {
       control: 'select',
-      options: ['p', 'span', 'div', 'label', 'legend', 'strong', 'em', 'small'],
+      options: ['p', 'span', 'div', 'li', 'label', 'legend', 'strong', 'em', 'small'],
     },
     size: {
       control: 'select',
@@ -39,6 +41,14 @@ const meta: Meta<typeof Text> = {
     color: {
       control: 'select',
       options: ['default', 'muted', 'on-primary'],
+    },
+    font: {
+      control: 'inline-radio',
+      options: ['sans', 'mono'],
+    },
+    textTransform: {
+      control: 'select',
+      options: ['none', 'capitalize', 'uppercase', 'lowercase'],
     },
     align: {
       control: 'inline-radio',
@@ -57,14 +67,24 @@ export const Default: Story = {
   args: {},
 };
 
-export const Muted: Story = {
+export const ColorMuted: Story = {
   args: {
     color: 'muted',
     children: 'Muted supporting text',
   },
 };
 
-export const AllSizes: Story = {
+export const ColorOnPrimary: Story = {
+  render: () => (
+    <div className={styles.storyA11yScope}>
+      <div className={styles.storyPrimaryFrame}>
+        <Text color="on-primary">Text on a primary background</Text>
+      </div>
+    </div>
+  ),
+};
+
+export const Sizes: Story = {
   render: () => (
     <div className={styles.storyA11yScope}>
       <div className={styles.storyStack}>
@@ -78,7 +98,7 @@ export const AllSizes: Story = {
   ),
 };
 
-export const AllWeights: Story = {
+export const Weights: Story = {
   render: () => (
     <div className={styles.storyA11yScope}>
       <div className={styles.storyStack}>
@@ -86,6 +106,38 @@ export const AllWeights: Story = {
         <Text weight="medium">Medium text</Text>
         <Text weight="semibold">Semibold text</Text>
         <Text weight="bold">Bold text</Text>
+      </div>
+    </div>
+  ),
+};
+
+export const MonoFont: Story = {
+  args: {
+    font: 'mono',
+    children: 'Operational forecast summary',
+  },
+};
+
+export const TextTransforms: Story = {
+  render: () => (
+    <div className={styles.storyA11yScope}>
+      <div className={styles.storyStack}>
+        <Text textTransform="none">quarterly revenue outlook</Text>
+        <Text textTransform="capitalize">quarterly revenue outlook</Text>
+        <Text textTransform="uppercase">quarterly revenue outlook</Text>
+        <Text textTransform="lowercase">QUARTERLY REVENUE OUTLOOK</Text>
+      </div>
+    </div>
+  ),
+};
+
+export const Alignment: Story = {
+  render: () => (
+    <div className={styles.storyA11yScope}>
+      <div className={styles.storyStack}>
+        <Text align="left">Left aligned text</Text>
+        <Text align="center">Center aligned text</Text>
+        <Text align="right">Right aligned text</Text>
       </div>
     </div>
   ),

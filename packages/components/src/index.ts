@@ -11,4 +11,19 @@ export type { VisuallyHiddenProps } from './components/VisuallyHidden/VisuallyHi
 export { Divider } from './components/Divider';
 export type { DividerOrientation, DividerProps } from './components/Divider/Divider';
 export { Text } from './components/Text';
-export type { TextAlign, TextColor, TextProps, TextSize, TextWeight } from './components/Text';
+export type {
+  TextAlign,
+  TextColor,
+  TextElement,
+  TextFont,
+  TextProps,
+  TextSize,
+  TextTransform,
+  TextWeight,
+} from './components/Text';
+export { Heading } from './components/Heading';
+export type { HeadingColor, HeadingFont, HeadingLevel, HeadingProps } from './components/Heading';
+export { Avatar } from './components/Avatar';
+export type { AvatarProps, AvatarSize } from './components/Avatar';
+export { AvatarGroup } from './components/AvatarGroup';
+export type { AvatarGroupItem, AvatarGroupProps } from './components/AvatarGroup';

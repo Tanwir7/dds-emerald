@@ -1,6 +1,7 @@
 import React, { act } from 'react';
 import '@testing-library/jest-dom/vitest';
 import { axe, toHaveNoViolations } from 'jest-axe';
+import { readFileSync } from 'node:fs';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, describe, expect, it } from 'vitest';
 import styles from './Text.module.scss';
@@ -10,27 +11,38 @@ import { getRequiredClassName } from '../../utils/getRequiredClassName';
 expect.extend(toHaveNoViolations);
 
 const sizes = ['xs', 'sm', 'base', 'lg', 'xl'] as const;
-const alignments = ['left', 'center', 'right'] as const;
 
 const sizeClassNames = {
-  xs: getRequiredClassName(styles, 'sizeXs'),
-  sm: getRequiredClassName(styles, 'sizeSm'),
-  base: getRequiredClassName(styles, 'sizeBase'),
-  lg: getRequiredClassName(styles, 'sizeLg'),
-  xl: getRequiredClassName(styles, 'sizeXl'),
+  xs: getRequiredClassName(styles, 'xs'),
+  sm: getRequiredClassName(styles, 'sm'),
+  base: getRequiredClassName(styles, 'base'),
+  lg: getRequiredClassName(styles, 'lg'),
+  xl: getRequiredClassName(styles, 'xl'),
 } as const;
 
 const weightClassNames = {
-  normal: getRequiredClassName(styles, 'weightNormal'),
-  medium: getRequiredClassName(styles, 'weightMedium'),
-  semibold: getRequiredClassName(styles, 'weightSemibold'),
-  bold: getRequiredClassName(styles, 'weightBold'),
+  normal: getRequiredClassName(styles, 'normal'),
+  medium: getRequiredClassName(styles, 'medium'),
+  semibold: getRequiredClassName(styles, 'semibold'),
+  bold: getRequiredClassName(styles, 'bold'),
 } as const;
 
 const colorClassNames = {
   default: getRequiredClassName(styles, 'colorDefault'),
   muted: getRequiredClassName(styles, 'colorMuted'),
   'on-primary': getRequiredClassName(styles, 'colorOnPrimary'),
+} as const;
+
+const fontClassNames = {
+  sans: getRequiredClassName(styles, 'fontSans'),
+  mono: getRequiredClassName(styles, 'fontMono'),
+} as const;
+
+const textTransformClassNames = {
+  none: getRequiredClassName(styles, 'textTransformNone'),
+  capitalize: getRequiredClassName(styles, 'textTransformCapitalize'),
+  uppercase: getRequiredClassName(styles, 'textTransformUppercase'),
+  lowercase: getRequiredClassName(styles, 'textTransformLowercase'),
 } as const;
 
 const alignClassNames = {
@@ -98,6 +110,12 @@ describe('Text', () => {
     render(<Text as="label">content</Text>);
 
     expect(getTextByContent('content').tagName).toBe('LABEL');
+  });
+
+  it('renders as <li> when as="li"', () => {
+    render(<Text as="li">content</Text>);
+
+    expect(getTextByContent('content').tagName).toBe('LI');
   });
 
   it('renders as <strong> when as="strong"', () => {
@@ -184,13 +202,46 @@ describe('Text', () => {
     expect(getTextByContent('content')).toHaveClass(colorClassNames['on-primary']);
   });
 
-  it('does not apply alignment class by default', () => {
+  it('applies font-sans class by default', () => {
     render(<Text>content</Text>);
 
-    const text = getTextByContent('content');
-    alignments.forEach((align) => {
-      expect(text).not.toHaveClass(alignClassNames[align]);
-    });
+    expect(getTextByContent('content')).toHaveClass(fontClassNames.sans);
+  });
+
+  it('applies font-mono class', () => {
+    render(<Text font="mono">content</Text>);
+
+    expect(getTextByContent('content')).toHaveClass(fontClassNames.mono);
+  });
+
+  it('applies text-transform-none class by default', () => {
+    render(<Text>content</Text>);
+
+    expect(getTextByContent('content')).toHaveClass(textTransformClassNames.none);
+  });
+
+  it('applies text-transform-capitalize class', () => {
+    render(<Text textTransform="capitalize">content</Text>);
+
+    expect(getTextByContent('content')).toHaveClass(textTransformClassNames.capitalize);
+  });
+
+  it('applies text-transform-uppercase class', () => {
+    render(<Text textTransform="uppercase">content</Text>);
+
+    expect(getTextByContent('content')).toHaveClass(textTransformClassNames.uppercase);
+  });
+
+  it('applies text-transform-lowercase class', () => {
+    render(<Text textTransform="lowercase">content</Text>);
+
+    expect(getTextByContent('content')).toHaveClass(textTransformClassNames.lowercase);
+  });
+
+  it('applies align-left class by default', () => {
+    render(<Text>content</Text>);
+
+    expect(getTextByContent('content')).toHaveClass(alignClassNames.left);
   });
 
   it('applies align-left class', () => {
@@ -230,7 +281,7 @@ describe('Text', () => {
   });
 
   it('forwards ref to the rendered element', () => {
-    const ref = React.createRef<HTMLElement>();
+    const ref = React.createRef<HTMLParagraphElement>();
 
     render(
       <Text as="span" ref={ref}>
@@ -289,5 +340,34 @@ describe('Text', () => {
 
     const results = await axe(container);
     expect(results).toHaveNoViolations();
+  });
+
+  it('has no a11y violations — muted color', async () => {
+    const { container } = render(<Text color="muted">Muted supporting text</Text>);
+
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+
+  it('uses the text-on-primary token for on-primary text', () => {
+    const stylesheet = readFileSync('src/components/Text/Text.module.scss', 'utf8');
+
+    expect(stylesheet).toContain('color: var(--dds-color-text-on-primary);');
+  });
+
+  it('uses font family tokens for font options', () => {
+    const stylesheet = readFileSync('src/components/Text/Text.module.scss', 'utf8');
+
+    expect(stylesheet).toContain('font-family: var(--dds-font-sans);');
+    expect(stylesheet).toContain('font-family: var(--dds-font-mono);');
+  });
+
+  it('defines text-transform styles for transform options', () => {
+    const stylesheet = readFileSync('src/components/Text/Text.module.scss', 'utf8');
+
+    expect(stylesheet).toContain('text-transform: none;');
+    expect(stylesheet).toContain('text-transform: capitalize;');
+    expect(stylesheet).toContain('text-transform: uppercase;');
+    expect(stylesheet).toContain('text-transform: lowercase;');
   });
 });

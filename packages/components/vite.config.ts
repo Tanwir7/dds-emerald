@@ -42,6 +42,7 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom',
+    setupFiles: resolve(__dirname, '../../tooling/vitest/setup.ts'),
     server: {
       deps: {
         inline: ['@testing-library/react', '@testing-library/user-event'],

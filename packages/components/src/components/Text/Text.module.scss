@@ -3,43 +3,67 @@
 
 .root {
   margin: 0;
-  font-family: var(--dds-font-sans);
   line-height: var(--dds-line-height-normal);
+  color: var(--dds-color-text-default);
 }
 
-.sizeXs {
+.fontSans {
+  font-family: var(--dds-font-sans);
+}
+
+.fontMono {
+  font-family: var(--dds-font-mono);
+}
+
+.textTransformNone {
+  text-transform: none;
+}
+
+.textTransformCapitalize {
+  text-transform: capitalize;
+}
+
+.textTransformUppercase {
+  text-transform: uppercase;
+}
+
+.textTransformLowercase {
+  text-transform: lowercase;
+}
+
+.xs {
   font-size: var(--dds-font-size-xs);
 }
 
-.sizeSm {
+.sm {
   font-size: var(--dds-font-size-sm);
 }
 
-.sizeBase {
+.base {
   font-size: var(--dds-font-size-base);
 }
 
-.sizeLg {
+.lg {
   font-size: var(--dds-font-size-lg);
 }
 
-.sizeXl {
+.xl {
   font-size: var(--dds-font-size-xl);
 }
 
-.weightNormal {
+.normal {
   font-weight: var(--dds-font-weight-normal);
 }
 
-.weightMedium {
+.medium {
   font-weight: var(--dds-font-weight-medium);
 }
 
-.weightSemibold {
+.semibold {
   font-weight: var(--dds-font-weight-semibold);
 }
 
-.weightBold {
+.bold {
   font-weight: var(--dds-font-weight-bold);
 }
 
@@ -83,5 +107,11 @@
 }
 
 .storyTruncateFrame {
-  width: 240px;
+  inline-size: var(--dds-space-24);
+}
+
+.storyPrimaryFrame {
+  display: block;
+  padding: var(--dds-space-4);
+  background-color: var(--dds-color-action-primary);
 }

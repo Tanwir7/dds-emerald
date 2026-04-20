@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 
 import { describe, expect, it } from 'vitest';
+import { tokens } from './tokens';
 
 function extractCssCustomProperties(cssSource: string): Set<string> {
   const matches = cssSource.matchAll(/--dds-[a-z0-9-]+/g);
@@ -41,6 +42,20 @@ function extractBlock(cssSource: string, selector: string): string {
   }
 
   throw new Error(`Unable to find closing brace for selector "${selector}" in tokens.css.`);
+}
+
+function extractCssCustomPropertyValue(blockSource: string, property: string): string {
+  const escapedProperty = property.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const match = blockSource.match(new RegExp(`${escapedProperty}\\s*:\\s*([^;]+);`));
+
+  if (!match) {
+    throw new Error(`Unable to find property "${property}" in CSS block.`);
+  }
+
+  return match[1]
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 describe('tokens', () => {
@@ -105,5 +120,27 @@ describe('tokens', () => {
     );
 
     expect(osDarkDeclarations).toEqual(darkDeclarations);
+  });
+
+  it('keeps text-on-primary and action-primary-foreground values identical', () => {
+    const cssSource = readFileSync(new URL('./tokens.css', import.meta.url), 'utf8');
+    const cssBlocks = [
+      extractBlock(cssSource, ':root'),
+      extractBlock(cssSource, "[data-theme='dark']"),
+      extractBlock(cssSource, ":root:not([data-theme='light'])"),
+    ];
+
+    cssBlocks.forEach((block) => {
+      expect(extractCssCustomPropertyValue(block, '--dds-color-text-on-primary')).toBe(
+        extractCssCustomPropertyValue(block, '--dds-color-action-primary-foreground')
+      );
+    });
+
+    expect(tokens.theme.light.color.text['on-primary']).toBe(
+      tokens.theme.light.color.action['primary-foreground']
+    );
+    expect(tokens.theme.dark.color.text['on-primary']).toBe(
+      tokens.theme.dark.color.action['primary-foreground']
+    );
   });
 });
