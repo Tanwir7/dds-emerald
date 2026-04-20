@@ -4,6 +4,16 @@ import { ArrowRight, Plus } from 'lucide-react';
 import { Button } from './Button';
 import styles from './Button.module.scss';
 
+const componentDescription = `Buttons accept an optional \`icon\` prop typed as \`LucideIcon\` from \`lucide-react\`. Icon names come from the Lucide React icon set, so consumers can choose from the Lucide library and import the icons they need directly, for example \`import { Plus, ArrowRight } from 'lucide-react'\`.
+
+### Accessibility contract
+
+- Keyboard: native button behavior applies; Tab reaches enabled and loading buttons, Enter and Space activate enabled buttons, and disabled buttons are removed from keyboard focus by the browser.
+- Screen readers: every button must have an accessible name from visible text, \`aria-label\`, or \`aria-labelledby\`; decorative icons and loading spinners are hidden from assistive technology.
+- Focus: focus uses the shared Emerald outline ring. Loading buttons remain focusable and expose \`aria-disabled="true"\` while suppressing activation.
+- Designers: provide visible labels for standard buttons, specific accessible names for icon-only buttons, and user-facing loading text such as "Saving..." when an action is in progress.
+- QA: verify keyboard activation, disabled and loading behavior, accessible names for icon-only buttons, focus visibility, and axe results for each variant.`;
+
 const buildButtonSource = ({
   children,
   variant = 'primary',
@@ -67,19 +77,27 @@ const meta: Meta<typeof Button> = {
   render: (args: ComponentProps<typeof Button>) => {
     if (args.fullWidth) {
       return (
-        <div className={styles.storyFullWidthFrame}>
-          <Button {...args} />
+        <div className={styles.storyA11yScope}>
+          <div className={styles.storyFullWidthFrame}>
+            <Button {...args} />
+          </div>
         </div>
       );
     }
 
-    return <Button {...args} />;
+    return (
+      <div className={styles.storyA11yScope}>
+        <Button {...args} />
+      </div>
+    );
   },
   parameters: {
+    a11y: {
+      context: `.${styles.storyA11yScope}`,
+    },
     docs: {
       description: {
-        component:
-          "Buttons accept an optional `icon` prop typed as `LucideIcon` from `lucide-react`. Icon names come from the Lucide React icon set, so consumers can choose from the Lucide library and import the icons they need directly, for example `import { Plus, ArrowRight } from 'lucide-react'`. See the stories below for usage examples.",
+        component: componentDescription,
       },
     },
   },

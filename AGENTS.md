@@ -38,7 +38,7 @@
 - ProgressBar uses `var(--dds-radius-full)` on track and fill — this is the only non-avatar exception
 - KPICard highlighted variant MUST include the `h-4px w-full bg-[--dds-color-action-primary]` absolute top stripe
 - Focus ring is always outline-based: `outline: 3px solid oklch(from var(--dds-color-focus-ring) l c h / 0.5); outline-offset: 2px;`
-- NavItem minimum height is always 44px (WCAG 2.2 touch target)
+- NavItem minimum height is always 44px (Emerald navigation design constraint)
 - `font-feature-settings: "cv02", "cv03", "cv04", "cv11"` must be set on body-level text
 - All numeric/tabular data uses `font-variant-numeric: tabular-nums`
 
@@ -107,7 +107,7 @@ Every UI decision must satisfy all four:
 | Principle          | Question to answer                           | Examples                                                                               |
 | ------------------ | -------------------------------------------- | -------------------------------------------------------------------------------------- |
 | **Perceivable**    | Can people see or hear the content?          | Contrast, captions, alt text, non-color indicators                                     |
-| **Operable**       | Can people use it without a mouse?           | Keyboard nav, focus order, no focus traps, 44px touch targets                          |
+| **Operable**       | Can people use it without a mouse?           | Keyboard nav, focus order, no focus traps, WCAG AA target sizes                        |
 | **Understandable** | Is the interface clear?                      | Labels, instructions, specific error messages                                          |
 | **Robust**         | Does it work with real assistive technology? | Semantic HTML, correct roles/names/states, ARIA only when native HTML can't do the job |
 
@@ -124,6 +124,7 @@ Every UI decision must satisfy all four:
 - Images require meaningful `alt` text; decorative images use `alt=""`
 - Use native HTML elements before reaching for ARIA — avoid bloated ARIA when a `<button>`, `<input>`, or `<dialog>` suffices
 - All text must meet WCAG AA contrast minimums (4.5:1 body, 3:1 large/UI)
+- Pointer targets must meet WCAG 2.2 AA Target Size (Minimum): at least 24 by 24 CSS pixels, or satisfy a documented WCAG exception. Use 44 by 44 CSS pixels only where an Emerald component spec explicitly requires it.
 
 ### Accessibility review passes
 

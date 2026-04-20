@@ -5,6 +5,7 @@ import { axe, toHaveNoViolations } from 'jest-axe';
 import { ArrowRight, Plus } from 'lucide-react';
 import { readFileSync } from 'node:fs';
 import { createRoot, type Root } from 'react-dom/client';
+import { renderToString } from 'react-dom/server';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { Button } from './Button';
 
@@ -237,6 +238,15 @@ describe('Button', () => {
     expect(button?.querySelector('svg')).toBeTruthy();
   });
 
+  it('requires an accessible name when there is no visible label', () => {
+    expect(() =>
+      renderToString(
+        // @ts-expect-error Verifies the runtime guard for plain JS consumers.
+        <Button size="icon" icon={Plus} />
+      )
+    ).toThrow('Button requires visible text, aria-label, or aria-labelledby');
+  });
+
   it('applies full width styling when fullWidth is true', () => {
     render(<Button fullWidth>content</Button>);
 
@@ -294,6 +304,16 @@ describe('Button', () => {
     expect(stylesheet).toContain('@include interactive-focus-ring;');
     expect(stylesheet).toContain('animation: button-spinner-rotate');
     expect(stylesheet).toContain('stroke-dasharray: 33 44;');
+    expect(stylesheet).toContain('.storyA11yScope');
+  });
+
+  it('documents the component accessibility contract in Storybook', () => {
+    const story = readFileSync('src/components/Button/Button.stories.tsx', 'utf8');
+
+    expect(story).toContain('### Accessibility contract');
+    expect(story).toContain('every button must have an accessible name');
+    expect(story).toContain('Loading buttons remain focusable');
+    expect(story).toContain('QA: verify keyboard activation');
   });
 
   it('uses an outline focus ring with offset instead of shadow or border-color focus cues', () => {

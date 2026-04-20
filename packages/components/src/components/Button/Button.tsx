@@ -8,19 +8,37 @@ export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'des
 
 export type ButtonSize = 'sm' | 'default' | 'lg' | 'icon' | 'icon-sm' | 'icon-lg';
 
-export interface ButtonProps extends Omit<
+type ButtonBaseProps = Omit<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
-  'children'
-> {
+  'aria-label' | 'aria-labelledby' | 'children'
+> & {
   variant?: ButtonVariant;
   size?: ButtonSize;
   fullWidth?: boolean;
   className?: string;
-  children?: React.ReactNode;
   icon?: LucideIcon;
   iconPosition?: 'start' | 'end';
   loading?: boolean;
-}
+};
+
+type ButtonAccessibleName =
+  | {
+      children: React.ReactNode;
+      'aria-label'?: string;
+      'aria-labelledby'?: string;
+    }
+  | {
+      children?: undefined;
+      'aria-label': string;
+      'aria-labelledby'?: string;
+    }
+  | {
+      children?: undefined;
+      'aria-label'?: string;
+      'aria-labelledby': string;
+    };
+
+export type ButtonProps = ButtonBaseProps & ButtonAccessibleName;
 
 const variantClassName: Record<ButtonVariant, string> = {
   primary: getRequiredClassName(styles, 'variantPrimary'),
@@ -38,6 +56,19 @@ const sizeClassName: Record<ButtonSize, string> = {
   'icon-sm': getRequiredClassName(styles, 'sizeIconSm'),
   'icon-lg': getRequiredClassName(styles, 'sizeIconLg'),
 };
+
+const hasVisibleLabel = (children: React.ReactNode) =>
+  React.Children.toArray(children).some((child) => {
+    if (child === null || child === undefined || typeof child === 'boolean') {
+      return false;
+    }
+
+    if (typeof child === 'string') {
+      return child.trim().length > 0;
+    }
+
+    return true;
+  });
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
@@ -59,6 +90,16 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref: React.ForwardedRef<HTMLButtonElement>
   ) => {
     const isDisabled = disabled || loading;
+    const hasAccessibleName =
+      hasVisibleLabel(children) ||
+      (typeof props['aria-label'] === 'string' && props['aria-label'].trim().length > 0) ||
+      (typeof props['aria-labelledby'] === 'string' && props['aria-labelledby'].trim().length > 0);
+
+    if (!hasAccessibleName) {
+      throw new Error(
+        'Button requires visible text, aria-label, or aria-labelledby for an accessible name.'
+      );
+    }
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
       if (isDisabled) {
@@ -106,7 +147,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             <Icon aria-hidden="true" />
           </span>
         ) : null}
-        {children ? <span className={styles.label}>{children}</span> : null}
+        {hasVisibleLabel(children) ? <span className={styles.label}>{children}</span> : null}
         {!loading && Icon && iconPosition === 'end' ? (
           <span className={styles.icon} aria-hidden="true">
             <Icon aria-hidden="true" />
