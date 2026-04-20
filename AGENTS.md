@@ -69,6 +69,16 @@
 - Use `scaffolding.mjs` to generate the initial files for any new component
 - Storybook stories using addon-a11y MUST scope checks to the component story root with `parameters.a11y.context`; never let addon-a11y scan surrounding docs/chrome markup
 
+### Storybook naming
+
+- Primitive, foundational components are grouped under `Core Components`; story titles must use `Core Components/ComponentName`
+- Grouped component compositions are grouped under `Grouped Components`; story titles must use `Grouped Components/ComponentName`
+- Marketing page patterns are grouped under `Marketing Patterns`; story titles must use `Marketing Patterns/PatternName`
+- App/product UI patterns are grouped under `App Patterns`; story titles must use `App Patterns/PatternName`
+- AI-specific workflows and patterns are grouped under `AI Patterns`; story titles must use `AI Patterns/PatternName`
+- Do not use `Atoms`, `Molecules`, or the generic `Components` group in Storybook titles
+- Keep Storybook group names in Title Case exactly as listed above
+
 ### Font loading
 
 - Never hardcode font-family strings in component SCSS
