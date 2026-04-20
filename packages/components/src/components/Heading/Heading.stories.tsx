@@ -18,26 +18,46 @@ const meta: Meta<typeof Heading> = {
     },
   },
   args: {
-    level: 1,
-    children: 'Heading',
+    as: 'h2',
+    size: '3xl',
+    font: 'display',
+    weight: 'bold',
     color: 'default',
+    align: 'left',
+    textTransform: 'none',
+    children: 'Heading',
   },
   argTypes: {
-    level: {
+    as: {
       control: 'select',
-      options: [1, 2, 3, 4, 5, 6],
+      options: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
     },
-    visualLevel: {
+    size: {
       control: 'select',
-      options: [1, 2, 3, 4, 5, 6],
+      options: ['2xl', '3xl', '4xl', '5xl', '6xl', '7xl'],
     },
     font: {
       control: 'inline-radio',
       options: ['display', 'sans'],
     },
+    weight: {
+      control: 'select',
+      options: ['normal', 'medium', 'semibold', 'bold'],
+    },
     color: {
       control: 'select',
       options: ['default', 'muted', 'on-primary'],
+    },
+    align: {
+      control: 'inline-radio',
+      options: ['left', 'center', 'right'],
+    },
+    textTransform: {
+      control: 'select',
+      options: ['none', 'capitalize', 'uppercase', 'lowercase'],
+    },
+    truncate: {
+      control: 'boolean',
     },
   },
 };
@@ -45,24 +65,9 @@ export default meta;
 
 type Story = StoryObj<typeof Heading>;
 
-export const H1Display: Story = {
+export const Default: Story = {
   args: {
-    level: 1,
-    children: 'Primary Heading',
-  },
-};
-
-export const H2Display: Story = {
-  args: {
-    level: 2,
     children: 'Section Heading',
-  },
-};
-
-export const H3: Story = {
-  args: {
-    level: 3,
-    children: 'Subsection Heading',
   },
 };
 
@@ -70,37 +75,78 @@ export const AllLevels: Story = {
   render: () => (
     <div className={styles.storyA11yScope}>
       <div className={styles.storyStack}>
-        <Heading level={1}>Primary Heading</Heading>
-        <Heading level={2}>Section Heading</Heading>
-        <Heading level={3}>Subsection Heading</Heading>
-        <Heading level={4}>Group Heading</Heading>
-        <Heading level={5}>Panel Heading</Heading>
-        <Heading level={6}>Label Heading</Heading>
+        <Heading as="h1">Primary Heading</Heading>
+        <Heading as="h2">Section Heading</Heading>
+        <Heading as="h3">Subsection Heading</Heading>
+        <Heading as="h4">Group Heading</Heading>
+        <Heading as="h5">Panel Heading</Heading>
+        <Heading as="h6">Label Heading</Heading>
       </div>
     </div>
   ),
 };
 
-export const VisualOverride: Story = {
+export const DisplayFont: Story = {
   args: {
-    level: 3,
-    visualLevel: 1,
-    children: 'Semantic H3 With H1 Scale',
+    as: 'h1',
+    size: '6xl',
+    font: 'display',
+    children: 'Display Heading',
   },
 };
 
 export const SansFont: Story = {
   args: {
-    level: 1,
     font: 'sans',
     children: 'Sans Heading',
   },
 };
 
-export const MutedColor: Story = {
+export const AllSizes: Story = {
+  render: () => (
+    <div className={styles.storyA11yScope}>
+      <div className={styles.storyStack}>
+        <Heading size="2xl">2xl Heading</Heading>
+        <Heading size="3xl">3xl Heading</Heading>
+        <Heading size="4xl">4xl Heading</Heading>
+        <Heading size="5xl">5xl Heading</Heading>
+        <Heading size="6xl">6xl Heading</Heading>
+        <Heading size="7xl">7xl Heading</Heading>
+      </div>
+    </div>
+  ),
+};
+
+export const ColorMuted: Story = {
   args: {
-    level: 2,
     color: 'muted',
     children: 'Muted Heading',
   },
+};
+
+export const Truncated: Story = {
+  render: () => (
+    <div className={styles.storyA11yScope}>
+      <div className={styles.storyTruncateFrame}>
+        <Heading truncate>This heading is intentionally long enough to truncate</Heading>
+      </div>
+    </div>
+  ),
+};
+
+export const TextTransform: Story = {
+  args: {
+    textTransform: 'uppercase',
+    children: 'Transformed Heading',
+  },
+};
+
+export const OnPrimary: Story = {
+  render: () => (
+    <div className={styles.storyA11yScope}>
+      <div className={styles.storyPrimaryFrame}>
+        <Heading color="on-primary">On Primary Heading</Heading>
+      </div>
+    </div>
+  ),
 };

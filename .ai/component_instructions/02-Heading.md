@@ -15,10 +15,11 @@
 ```ts
 as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'   // default: 'h2'
 size?: '2xl' | '3xl' | '4xl' | '5xl' | '6xl' | '7xl'  // default: '3xl'
-family?: 'display' | 'sans'                        // default: 'display'
+font?: 'display' | 'sans'                          // default: 'display'
 weight?: 'normal' | 'medium' | 'semibold' | 'bold' // default: 'bold'
-color?: 'default' | 'muted'                        // default: 'default'
+color?: 'default' | 'muted' | 'on-primary'         // default: 'default'
 align?: 'left' | 'center' | 'right'               // default: 'left'
+textTransform?: 'none' | 'capitalize' | 'uppercase' | 'lowercase' // default: 'none'
 truncate?: boolean                                 // default: false
 className?: string
 children: React.ReactNode
@@ -42,7 +43,7 @@ Base `.root`:
 - `color: var(--dds-color-text-default)`
 - `margin: 0`
 
-Family modifiers:
+Font modifiers:
 
 - `.display` → `font-family: var(--dds-font-display)` (Barlow Condensed)
 - `.sans` → `font-family: var(--dds-font-sans)` (DM Sans)
@@ -56,7 +57,7 @@ Size modifiers:
 - `.size6xl` → `var(--dds-font-size-6xl)`
 - `.size7xl` → `var(--dds-font-size-7xl)`
 
-Weight, color, align, truncate modifiers: identical pattern to `Text` component (see Text task for exact token mappings).
+Weight, color, align, textTransform, truncate modifiers: identical pattern to `Text` component (see Text task for exact token mappings).
 
 No `border-radius`. No hardcoded values. No Tailwind. No inline styles.
 
@@ -64,8 +65,8 @@ No `border-radius`. No hardcoded values. No Tailwind. No inline styles.
 
 ## Critical design rules
 
-- `family="display"` uses `var(--dds-font-display)` (Barlow Condensed) — required for all display headings.
-- `family="sans"` uses `var(--dds-font-sans)` (DM Sans) — for UI headings.
+- `font="display"` uses `var(--dds-font-display)` (Barlow Condensed) — required for all display headings.
+- `font="sans"` uses `var(--dds-font-sans)` (DM Sans) — for UI headings.
 - Never fall back to system fonts directly — always through token variables.
 - Letter spacing on display headings must use `var(--dds-tracking-tight)`.
 
@@ -90,8 +91,8 @@ No `border-radius`. No hardcoded values. No Tailwind. No inline styles.
 - renders as <h6> when as="h6"
 - forwards className to root element
 - forwards ref to root DOM heading element
-- applies .display class when family="display" (default)
-- applies .sans class when family="sans"
+- applies .display class when font="display" (default)
+- applies .sans class when font="sans"
 - applies .size3xl class by default
 - applies .size7xl class when size="7xl"
 - applies .size2xl class when size="2xl"
@@ -99,13 +100,18 @@ No `border-radius`. No hardcoded values. No Tailwind. No inline styles.
 - applies .bold class by default
 - applies .medium class when weight="medium"
 - applies .colorMuted class when color="muted"
+- applies .colorOnPrimary class when color="on-primary"
 - applies .alignCenter when align="center"
+- applies .textTransformNone by default
+- applies .textTransformCapitalize when textTransform="capitalize"
+- applies .textTransformUppercase when textTransform="uppercase"
+- applies .textTransformLowercase when textTransform="lowercase"
 - applies .truncate when truncate={true}
 - forwards arbitrary HTML props (data-testid, id, etc.)
 - axe: passes for h1
 - axe: passes for h2 (default)
-- axe: passes for display family
-- axe: passes for sans family
+- axe: passes for display font
+- axe: passes for sans font
 ```
 
 ---
@@ -114,13 +120,15 @@ No `border-radius`. No hardcoded values. No Tailwind. No inline styles.
 
 Named exports required:
 
-- `Default` (h2, display, 3xl)
-- `AllLevels` (h1–h6 stacked, display family)
-- `DisplayFamily` (large display heading, 6xl)
-- `SansFamily` (sans heading for UI use)
+- `Default` (h2, display font, 3xl)
+- `AllLevels` (h1–h6 stacked, display font)
+- `DisplayFont` (large display heading, 6xl)
+- `SansFont` (sans heading for UI use)
 - `AllSizes` (2xl → 7xl stacked)
 - `ColorMuted`
 - `Truncated` (fixed-width container)
+- `TextTransform`
+- `OnPrimary`
 
 Use `autodocs`. No `play()` functions needed.
 

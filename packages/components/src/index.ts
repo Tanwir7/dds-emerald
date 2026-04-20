@@ -22,7 +22,16 @@ export type {
   TextWeight,
 } from './components/Text';
 export { Heading } from './components/Heading';
-export type { HeadingColor, HeadingFont, HeadingLevel, HeadingProps } from './components/Heading';
+export type {
+  HeadingAlign,
+  HeadingColor,
+  HeadingElement,
+  HeadingFont,
+  HeadingProps,
+  HeadingSize,
+  HeadingTextTransform,
+  HeadingWeight,
+} from './components/Heading';
 export { Avatar } from './components/Avatar';
 export type { AvatarProps, AvatarSize } from './components/Avatar';
 export { AvatarGroup } from './components/AvatarGroup';

@@ -3,56 +3,57 @@
 
 .root {
   margin: 0;
-  font-weight: var(--dds-font-weight-bold);
-}
-
-.level1 {
-  font-size: var(--dds-font-size-4xl);
   line-height: var(--dds-line-height-tight);
   letter-spacing: var(--dds-tracking-tight);
+  color: var(--dds-color-text-default);
 }
 
-.level2 {
-  font-size: var(--dds-font-size-3xl);
-  line-height: var(--dds-line-height-tight);
-  letter-spacing: var(--dds-tracking-tight);
-}
-
-.level3 {
-  font-size: var(--dds-font-size-2xl);
-  line-height: var(--dds-line-height-snug);
-  letter-spacing: var(--dds-tracking-normal);
-}
-
-.level4 {
-  font-size: var(--dds-font-size-xl);
-  line-height: var(--dds-line-height-snug);
-  letter-spacing: var(--dds-tracking-normal);
-}
-
-.level5 {
-  font-size: var(--dds-font-size-lg);
-  line-height: var(--dds-line-height-normal);
-  letter-spacing: var(--dds-tracking-normal);
-}
-
-.level6 {
-  font-size: var(--dds-font-size-base);
-  line-height: var(--dds-line-height-normal);
-  letter-spacing: var(--dds-tracking-normal);
-}
-
-.fontDisplay {
+.display {
   font-family: var(--dds-font-display);
 }
 
-.fontSans {
+.sans {
   font-family: var(--dds-font-sans);
 }
 
-.semanticDisplay {
-  text-transform: uppercase;
-  letter-spacing: var(--dds-tracking-wider);
+.size2xl {
+  font-size: var(--dds-font-size-2xl);
+}
+
+.size3xl {
+  font-size: var(--dds-font-size-3xl);
+}
+
+.size4xl {
+  font-size: var(--dds-font-size-4xl);
+}
+
+.size5xl {
+  font-size: var(--dds-font-size-5xl);
+}
+
+.size6xl {
+  font-size: var(--dds-font-size-6xl);
+}
+
+.size7xl {
+  font-size: var(--dds-font-size-7xl);
+}
+
+.normal {
+  font-weight: var(--dds-font-weight-normal);
+}
+
+.medium {
+  font-weight: var(--dds-font-weight-medium);
+}
+
+.semibold {
+  font-weight: var(--dds-font-weight-semibold);
+}
+
+.bold {
+  font-weight: var(--dds-font-weight-bold);
 }
 
 .colorDefault {
@@ -67,6 +68,40 @@
   color: var(--dds-color-text-on-primary);
 }
 
+.alignLeft {
+  text-align: left;
+}
+
+.alignCenter {
+  text-align: center;
+}
+
+.alignRight {
+  text-align: right;
+}
+
+.textTransformNone {
+  text-transform: none;
+}
+
+.textTransformCapitalize {
+  text-transform: capitalize;
+}
+
+.textTransformUppercase {
+  text-transform: uppercase;
+}
+
+.textTransformLowercase {
+  text-transform: lowercase;
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .storyA11yScope {
   display: block;
 }
@@ -74,4 +109,14 @@
 .storyStack {
   display: grid;
   gap: var(--dds-space-4);
+}
+
+.storyTruncateFrame {
+  inline-size: var(--dds-space-24);
+}
+
+.storyPrimaryFrame {
+  display: block;
+  padding: var(--dds-space-4);
+  background-color: var(--dds-color-action-primary);
 }
