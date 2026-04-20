@@ -7,7 +7,7 @@ const imageSrc =
   'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=128&q=80';
 
 const meta: Meta<typeof Avatar> = {
-  title: 'Components/Avatar',
+  title: 'Core Components/Avatar',
   component: Avatar,
   tags: ['autodocs'],
   parameters: {

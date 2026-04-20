@@ -4,7 +4,7 @@ import { Text } from './Text';
 import styles from './Text.module.scss';
 
 const meta: Meta<typeof Text> = {
-  title: 'Atoms/Text',
+  title: 'Core Components/Text',
   component: Text,
   tags: ['autodocs'],
   render: (args: ComponentProps<typeof Text>) => (

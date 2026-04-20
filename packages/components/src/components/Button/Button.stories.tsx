@@ -71,7 +71,7 @@ const buildButtonSource = ({
 };
 
 const meta: Meta<typeof Button> = {
-  title: 'Components/Button',
+  title: 'Core Components/Button',
   component: Button,
   tags: ['autodocs'],
   render: (args: ComponentProps<typeof Button>) => {

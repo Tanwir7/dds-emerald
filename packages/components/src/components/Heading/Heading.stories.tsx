@@ -4,7 +4,7 @@ import { Heading } from './Heading';
 import styles from './Heading.module.scss';
 
 const meta: Meta<typeof Heading> = {
-  title: 'Atoms/Heading',
+  title: 'Core Components/Heading',
   component: Heading,
   tags: ['autodocs'],
   render: (args: ComponentProps<typeof Heading>) => (

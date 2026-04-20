@@ -89,7 +89,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ${name} } from './${name}';
 
 const meta: Meta<typeof ${name}> = {
-  title: 'Components/${name}',
+  title: 'Core Components/${name}',
   component: ${name},
   tags: ['autodocs'],
 };

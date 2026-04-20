@@ -4,7 +4,7 @@ import { Badge } from './Badge';
 import styles from './Badge.module.scss';
 
 const meta: Meta<typeof Badge> = {
-  title: 'Components/Badge',
+  title: 'Core Components/Badge',
   component: Badge,
   tags: ['autodocs'],
   render: (args: ComponentProps<typeof Badge>) => (

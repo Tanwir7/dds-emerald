@@ -23,6 +23,21 @@ const preview: Preview = {
     controls: {
       disableSaveFromUI: true,
     },
+    options: {
+      storySort: {
+        order: [
+          'Introduction',
+          'Tokens',
+          'Colors',
+          'Typography',
+          'Core Components',
+          'Grouped Components',
+          'Marketing Patterns',
+          'App Patterns',
+          'AI Patterns',
+        ],
+      },
+    },
     a11y: {
       context: '.dds-story-a11y-scope',
     },
