@@ -2,7 +2,7 @@
 
 .root {
   --dds-badge-bg: var(--dds-color-action-primary);
-  --dds-badge-color: var(--dds-color-action-primary-foreground);
+  --dds-badge-color: var(--dds-color-text-on-primary);
   --dds-badge-ring: oklch(from var(--dds-color-action-primary) l c h / 0.2);
 
   display: inline-flex;
@@ -28,7 +28,7 @@
 
 .variantDefault {
   --dds-badge-bg: var(--dds-color-action-primary);
-  --dds-badge-color: var(--dds-color-action-primary-foreground);
+  --dds-badge-color: var(--dds-color-text-on-primary);
   --dds-badge-ring: oklch(from var(--dds-color-action-primary) l c h / 0.2);
 }
 

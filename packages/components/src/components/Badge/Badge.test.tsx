@@ -166,4 +166,13 @@ describe('Badge', () => {
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
+
+  it('uses the text-on-primary token for the default foreground', () => {
+    const stylesheet = readFileSync('src/components/Badge/Badge.module.scss', 'utf8');
+
+    expect(stylesheet).toContain('--dds-badge-color: var(--dds-color-text-on-primary);');
+    expect(stylesheet).not.toContain(
+      '--dds-badge-color: var(--dds-color-action-primary-foreground);'
+    );
+  });
 });
