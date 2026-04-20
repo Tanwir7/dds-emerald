@@ -1,0 +1,69 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.root {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  overflow: hidden;
+  border-radius: var(--dds-radius-full);
+  background-color: var(--dds-color-bg-muted);
+  color: var(--dds-color-text-muted);
+  font-family: var(--dds-font-sans);
+  font-weight: var(--dds-font-weight-medium);
+  line-height: var(--dds-line-height-none);
+  text-align: center;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: var(--dds-color-bg-muted);
+  color: var(--dds-color-text-muted);
+  font-family: var(--dds-font-sans);
+  font-weight: var(--dds-font-weight-medium);
+  line-height: var(--dds-line-height-none);
+}
+
+.sizeSm {
+  width: var(--dds-space-7);
+  height: var(--dds-space-7);
+  font-size: var(--dds-font-size-xs);
+}
+
+.sizeMd {
+  width: var(--dds-space-9);
+  height: var(--dds-space-9);
+  font-size: var(--dds-font-size-sm);
+}
+
+.sizeLg {
+  width: var(--dds-space-11);
+  height: var(--dds-space-11);
+  font-size: var(--dds-font-size-base);
+}
+
+.storyRow {
+  display: flex;
+  align-items: center;
+  gap: var(--dds-space-4);
+}
+
+.storyA11yScope {
+  display: inline-flex;
+}
