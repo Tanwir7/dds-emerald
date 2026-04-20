@@ -1,0 +1,156 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Typography" />
+
+# Typography
+
+Typography defines Emerald's type roles, token usage, and composition rules. Component API details live in <a href="?path=/docs/core-components-text--docs">Core Components/Text</a> and <a href="?path=/docs/core-components-heading--docs">Core Components/Heading</a>.
+
+## Type Roles
+
+<div className="dds-docs-token-table-wrap">
+  <table className="dds-docs-token-table">
+    <thead>
+      <tr>
+        <th scope="col">Role</th>
+        <th scope="col">Token</th>
+        <th scope="col">Usage</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td data-label="Role">Display</td>
+        <td data-label="Token"><code className="dds-docs-token-code">{"--dds-font-display"}</code></td>
+        <td data-label="Usage">Use for display headings and strong editorial hierarchy. In Emerald this resolves to Barlow Condensed.</td>
+      </tr>
+      <tr>
+        <td data-label="Role">Body</td>
+        <td data-label="Token"><code className="dds-docs-token-code">{"--dds-font-sans"}</code></td>
+        <td data-label="Usage">Use for body copy, labels, interface text, and most component content. In Emerald this resolves to DM Sans.</td>
+      </tr>
+      <tr>
+        <td data-label="Role">Code and Data</td>
+        <td data-label="Token"><code className="dds-docs-token-code">{"--dds-font-mono"}</code></td>
+        <td data-label="Usage">Use for code, token names, tabular values, technical identifiers, and dense data readouts. In Emerald this resolves to JetBrains Mono.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+## Type Scale
+
+Use font-size tokens instead of hardcoded rem or pixel values in component SCSS.
+
+<div className="dds-docs-token-table-wrap">
+  <table className="dds-docs-token-table">
+    <thead>
+      <tr>
+        <th scope="col">Token</th>
+        <th scope="col">Value</th>
+        <th scope="col">Typical use</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td data-label="Token"><code className="dds-docs-token-code">{"--dds-font-size-xs"}</code></td>
+        <td data-label="Value"><code className="dds-docs-token-code">{"0.75rem"}</code></td>
+        <td data-label="Typical use">Fine print, metadata, compact supporting text.</td>
+      </tr>
+      <tr>
+        <td data-label="Token"><code className="dds-docs-token-code">{"--dds-font-size-sm"}</code></td>
+        <td data-label="Value"><code className="dds-docs-token-code">{"0.875rem"}</code></td>
+        <td data-label="Typical use">Labels, secondary UI text, compact controls.</td>
+      </tr>
+      <tr>
+        <td data-label="Token"><code className="dds-docs-token-code">{"--dds-font-size-base"}</code></td>
+        <td data-label="Value"><code className="dds-docs-token-code">{"1rem"}</code></td>
+        <td data-label="Typical use">Default body copy and standard component text.</td>
+      </tr>
+      <tr>
+        <td data-label="Token"><code className="dds-docs-token-code">{"--dds-font-size-lg"}</code></td>
+        <td data-label="Value"><code className="dds-docs-token-code">{"1.125rem"}</code></td>
+        <td data-label="Typical use">Prominent body copy and small section emphasis.</td>
+      </tr>
+      <tr>
+        <td data-label="Token"><code className="dds-docs-token-code">{"--dds-font-size-xl"}</code></td>
+        <td data-label="Value"><code className="dds-docs-token-code">{"1.25rem"}</code></td>
+        <td data-label="Typical use">Subheadings and compact title treatment.</td>
+      </tr>
+      <tr>
+        <td data-label="Token"><code className="dds-docs-token-code">{"--dds-font-size-2xl"}</code></td>
+        <td data-label="Value"><code className="dds-docs-token-code">{"1.5rem"}</code></td>
+        <td data-label="Typical use">Small headings.</td>
+      </tr>
+      <tr>
+        <td data-label="Token"><code className="dds-docs-token-code">{"--dds-font-size-3xl"}</code></td>
+        <td data-label="Value"><code className="dds-docs-token-code">{"1.875rem"}</code></td>
+        <td data-label="Typical use">Section headings.</td>
+      </tr>
+      <tr>
+        <td data-label="Token"><code className="dds-docs-token-code">{"--dds-font-size-4xl"}</code></td>
+        <td data-label="Value"><code className="dds-docs-token-code">{"2.25rem"}</code></td>
+        <td data-label="Typical use">Page headings.</td>
+      </tr>
+      <tr>
+        <td data-label="Token"><code className="dds-docs-token-code">{"--dds-font-size-5xl"}</code></td>
+        <td data-label="Value"><code className="dds-docs-token-code">{"3rem"}</code></td>
+        <td data-label="Typical use">Large display headings.</td>
+      </tr>
+      <tr>
+        <td data-label="Token"><code className="dds-docs-token-code">{"--dds-font-size-6xl"}</code></td>
+        <td data-label="Value"><code className="dds-docs-token-code">{"3.75rem"}</code></td>
+        <td data-label="Typical use">Hero-scale display headings.</td>
+      </tr>
+      <tr>
+        <td data-label="Token"><code className="dds-docs-token-code">{"--dds-font-size-7xl"}</code></td>
+        <td data-label="Value"><code className="dds-docs-token-code">{"4.5rem"}</code></td>
+        <td data-label="Typical use">Largest display headings where space allows.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+## Supporting Tokens
+
+<div className="dds-docs-token-table-wrap">
+  <table className="dds-docs-token-table">
+    <thead>
+      <tr>
+        <th scope="col">Family</th>
+        <th scope="col">Tokens</th>
+        <th scope="col">Guidance</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td data-label="Family">Weight</td>
+        <td data-label="Tokens"><code className="dds-docs-token-code">{"--dds-font-weight-*"}</code></td>
+        <td data-label="Guidance">Use tokenized weights for hierarchy. Avoid one-off numeric weights in component styles.</td>
+      </tr>
+      <tr>
+        <td data-label="Family">Line height</td>
+        <td data-label="Tokens"><code className="dds-docs-token-code">{"--dds-line-height-*"}</code></td>
+        <td data-label="Guidance">Use tighter line heights for headings and normal or relaxed line heights for readable body copy.</td>
+      </tr>
+      <tr>
+        <td data-label="Family">Tracking</td>
+        <td data-label="Tokens"><code className="dds-docs-token-code">{"--dds-tracking-*"}</code></td>
+        <td data-label="Guidance">Use tracking tokens deliberately. Do not use negative viewport-scaled letter spacing.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+## System Rules
+
+- Display headings use <code className="dds-docs-token-code">{"var(--dds-font-display)"}</code>.
+- Body text uses <code className="dds-docs-token-code">{"var(--dds-font-sans)"}</code>.
+- Code and data use <code className="dds-docs-token-code">{"var(--dds-font-mono)"}</code>.
+- Component SCSS must use typography tokens, never hardcoded font-family strings.
+- Body-level text uses <code className="dds-docs-token-code">{"font-feature-settings: \"cv02\", \"cv03\", \"cv04\", \"cv11\""}</code> globally.
+- Numeric and tabular data uses <code className="dds-docs-token-code">{"font-variant-numeric: tabular-nums"}</code>.
+- DM Sans optical sizing is handled by loaded font files and font-size changes. Do not set component-level font variation settings.
+
+## Component Usage
+
+Use <a href="?path=/docs/core-components-text--docs">Core Components/Text</a> for body copy, labels, inline text, and muted supporting copy. Use <a href="?path=/docs/core-components-heading--docs">Core Components/Heading</a> for semantic headings and page hierarchy. Keep semantic heading order separate from visual size: choose the correct heading element first, then choose the visual size.

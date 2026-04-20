@@ -14,3 +14,71 @@
 .dds-story-a11y-scope {
   display: inline-flex;
 }
+
+.dds-docs-color-palettes {
+  display: grid;
+  gap: var(--dds-space-8);
+  margin-block: var(--dds-space-6) var(--dds-space-10);
+}
+
+.dds-docs-color-palettes + .dds-docs-color-palettes {
+  margin-block-start: var(--dds-space-8);
+}
+
+.dds-docs-token-table-wrap {
+  --dds-docs-token-table-bg: var(--dds-silver-50);
+  --dds-docs-token-table-header-bg: var(--dds-silver-200);
+  --dds-docs-token-table-row-alt-bg: var(--dds-silver-100);
+  --dds-docs-token-table-border: var(--dds-silver-500);
+  --dds-docs-token-table-text: var(--dds-silver-950);
+  --dds-docs-token-table-muted-text: var(--dds-silver-600);
+
+  margin-block: var(--dds-space-4) var(--dds-space-8);
+  overflow-x: auto;
+  border: 1px solid var(--dds-docs-token-table-border);
+  background-color: var(--dds-docs-token-table-bg);
+}
+
+.dds-docs-token-table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  color: var(--dds-docs-token-table-text);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-sm);
+  line-height: var(--dds-line-height-normal);
+}
+
+.dds-docs-token-table th,
+.dds-docs-token-table td {
+  padding: var(--dds-space-3) var(--dds-space-4);
+  vertical-align: top;
+  text-align: left;
+  border-block-start: 1px solid var(--dds-docs-token-table-border);
+}
+
+.dds-docs-token-table thead th {
+  border-block-start: 0;
+  background-color: var(--dds-docs-token-table-header-bg);
+  color: var(--dds-docs-token-table-muted-text);
+  font-weight: var(--dds-font-weight-semibold);
+}
+
+.dds-docs-token-table tbody tr:nth-child(even) {
+  background-color: var(--dds-docs-token-table-row-alt-bg);
+}
+
+.dds-docs-token-table td:first-child,
+.dds-docs-token-table th:first-child {
+  width: 32%;
+}
+
+.dds-docs-token-code {
+  display: inline-block;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  color: var(--dds-docs-token-table-text);
+  font-family: var(--dds-font-mono);
+  font-size: var(--dds-font-size-xs);
+  line-height: var(--dds-line-height-snug);
+}

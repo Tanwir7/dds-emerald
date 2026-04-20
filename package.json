@@ -9,6 +9,10 @@
     "test": "turbo run test",
     "typecheck": "turbo run typecheck",
     "clean": "turbo run clean",
+    "docs:generate-colors": "pnpm --dir apps/docs generate:colors",
+    "docs:generate-tokens": "pnpm --dir apps/docs generate:tokens",
+    "docs:generate": "pnpm --dir apps/docs generate:docs",
+    "docs:check": "pnpm docs:generate && git diff --exit-code -- apps/docs/src/docs/Colors.mdx apps/docs/src/docs/Tokens.mdx",
     "prepare": "husky"
   },
   "devDependencies": {

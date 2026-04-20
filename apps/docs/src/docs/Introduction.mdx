@@ -4,6 +4,64 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Emerald Design System
 
-Storybook has been reset to a clean slate.
+Emerald is the DDS design system for building accessible, consistent product interfaces. It provides shared tokens, React components, documentation, and implementation rules for Digital Dev Studio products.
 
-Component stories and additional documentation pages can be added back incrementally from here.
+## What Emerald Includes
+
+- Foundations for tokens, color, and typography
+- Core React components with Storybook docs and examples
+- Accessibility requirements for component behaviour and documentation
+- Generated token documentation sourced from `packages/tokens/src/tokens.css`
+
+## Documentation Structure
+
+<div className="dds-docs-token-table-wrap">
+  <table className="dds-docs-token-table">
+    <thead>
+      <tr>
+        <th scope="col">Section</th>
+        <th scope="col">Purpose</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td data-label="Section">Foundations</td>
+        <td data-label="Purpose">Token references, color palettes, and typography guidance.</td>
+      </tr>
+      <tr>
+        <td data-label="Section">Core Components</td>
+        <td data-label="Purpose">Primitive, reusable UI components such as Button, Text, Heading, Badge, Avatar, Divider, and VisuallyHidden.</td>
+      </tr>
+      <tr>
+        <td data-label="Section">Grouped Components</td>
+        <td data-label="Purpose">Future composed component groups built from core components.</td>
+      </tr>
+      <tr>
+        <td data-label="Section">Marketing Patterns</td>
+        <td data-label="Purpose">Future marketing-oriented page and content patterns.</td>
+      </tr>
+      <tr>
+        <td data-label="Section">App Patterns</td>
+        <td data-label="Purpose">Future application workflows and product UI patterns.</td>
+      </tr>
+      <tr>
+        <td data-label="Section">AI Patterns</td>
+        <td data-label="Purpose">Future AI-specific interaction and workflow patterns.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+## Core Rules
+
+- CSS custom properties, SCSS variables, and class names use the `dds` prefix.
+- Components use SCSS modules, not Tailwind CSS or inline styles.
+- Components consume semantic Tier 2 tokens wherever possible.
+- React components use `React.forwardRef`, accept `className`, and use `clsx`.
+- Interactive accessibility primitives should use Radix UI when an appropriate primitive exists.
+- UI component border radius is `var(--dds-radius-none)` unless a documented Emerald exception allows `var(--dds-radius-full)`.
+- Accessibility is part of done: keyboard support, screen reader expectations, focus management, and axe checks are required for component work.
+
+## Where To Start
+
+Start with `Foundations/Tokens` to understand the token model, then review `Foundations/Colors` and `Foundations/Typography`. For implementation examples, move into `Core Components` and inspect the component docs, controls, and source examples.

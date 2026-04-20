@@ -6,6 +6,9 @@
     "next-dev": "next dev",
     "next-build": "next build --webpack",
     "next-start": "next start",
+    "generate:colors": "node scripts/generate-colors-doc.mjs",
+    "generate:tokens": "node scripts/generate-tokens-doc.mjs",
+    "generate:docs": "pnpm generate:colors && pnpm generate:tokens",
     "dev": "storybook dev -p 6006",
     "build": "storybook build",
     "test": "test-storybook"

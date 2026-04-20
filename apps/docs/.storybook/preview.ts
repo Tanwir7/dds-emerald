@@ -27,9 +27,8 @@ const preview: Preview = {
       storySort: {
         order: [
           'Introduction',
-          'Tokens',
-          'Colors',
-          'Typography',
+          'Foundations',
+          ['Tokens', 'Colors', 'Typography'],
           'Core Components',
           'Grouped Components',
           'Marketing Patterns',
