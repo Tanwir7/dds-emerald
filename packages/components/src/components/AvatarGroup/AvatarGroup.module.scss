@@ -1,70 +1,61 @@
 @use '../../styles/mixins' as *;
 @use '../../styles/breakpoints' as *;
 
-.root {
-  display: inline-flex;
+.group {
+  display: flex;
+  flex-direction: row-reverse;
   align-items: center;
-  flex-wrap: nowrap;
 }
 
-.item,
+.groupItem,
 .overflow {
   flex: 0 0 auto;
   box-sizing: border-box;
   border: 2px solid var(--dds-color-bg-default);
+  border-radius: var(--dds-radius-full);
+}
+
+.groupItem {
+  margin-left: calc(var(--dds-space-2) * -1);
+
+  &:last-child {
+    margin-left: 0;
+  }
 }
 
 .overflow {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--dds-radius-full);
   background-color: var(--dds-color-bg-muted);
   color: var(--dds-color-text-muted);
   font-family: var(--dds-font-sans);
-  font-weight: var(--dds-font-weight-medium);
+  font-size: var(--dds-font-size-xs);
+  font-weight: var(--dds-font-weight-semibold);
   line-height: var(--dds-line-height-none);
   text-align: center;
   -webkit-user-select: none;
   user-select: none;
 }
 
-.sizeSm {
-  .item:not(:first-child),
-  .overflow:not(:first-child) {
-    margin-left: calc(var(--dds-space-2) * -1);
-  }
-
+.sm {
   .overflow {
-    width: var(--dds-space-7);
-    height: var(--dds-space-7);
-    font-size: var(--dds-font-size-xs);
+    width: var(--dds-space-8);
+    height: var(--dds-space-8);
   }
 }
 
-.sizeMd {
-  .item:not(:first-child),
-  .overflow:not(:first-child) {
-    margin-left: calc(var(--dds-space-3) * -1);
-  }
-
+.md {
   .overflow {
-    width: var(--dds-space-9);
-    height: var(--dds-space-9);
-    font-size: var(--dds-font-size-sm);
+    width: var(--dds-space-10);
+    height: var(--dds-space-10);
   }
 }
 
-.sizeLg {
-  .item:not(:first-child),
-  .overflow:not(:first-child) {
-    margin-left: calc(var(--dds-space-4) * -1);
-  }
-
+.lg {
   .overflow {
-    width: var(--dds-space-11);
-    height: var(--dds-space-11);
-    font-size: var(--dds-font-size-base);
+    width: calc(var(--dds-space-12) + var(--dds-space-2));
+    height: calc(var(--dds-space-12) + var(--dds-space-2));
   }
 }
 
@@ -72,6 +63,12 @@
   display: flex;
   align-items: center;
   gap: var(--dds-space-6);
+}
+
+.storyStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-4);
 }
 
 .storyA11yScope {

@@ -56,7 +56,7 @@ Forward `ref` on `Avatar` typed to `HTMLSpanElement` (Radix Avatar root).
 
 ---
 
-## Styles — `Avatar.module.scss`
+## Styles — `Avatar.module.scss` and `AvatarGroup.module.scss`
 
 ```
 @use '../../styles/mixins' as *;
@@ -98,6 +98,11 @@ Size modifiers:
   - `.md` fallback → `var(--dds-font-size-sm)` (default)
   - `.lg` fallback → `var(--dds-font-size-base)`
 
+Styles for `Avatar`, `AvatarImage`, and `AvatarFallback` live in
+`Avatar.module.scss`.
+
+Styles for `AvatarGroup` live in `AvatarGroup.module.scss`.
+
 `.group` (AvatarGroup `<div>`):
 
 - `display: flex`
@@ -113,7 +118,7 @@ Size modifiers:
 
 `.overflow` (the "+N" overflow avatar):
 
-- Reuse Avatar root styles + fallback styles
+- Mirror Avatar sizing and fallback typography where relevant
 - `background-color: var(--dds-color-bg-muted)`
 - `color: var(--dds-color-text-muted)`
 - `font-size: var(--dds-font-size-xs)`
@@ -139,6 +144,9 @@ No hardcoded values. No Tailwind. No inline styles.
 - `AvatarFallback` children (initials) should have `aria-hidden="true"` if the Image's `alt` already describes the user — but since Radix shows Fallback only when Image fails/loads, the Fallback should NOT be `aria-hidden` (it's the only visual representation of the user in that state).
 - `AvatarGroup` as a whole: consider adding `aria-label="User avatars: Alice, Bob, and 3 others"` — this is the consumer's responsibility. Document in stories.
 - The overflow span (`+3`) should have `aria-label="3 more"` for screen readers.
+- Document the compound import pattern in Storybook docs:
+  `Avatar`, `AvatarImage`, and `AvatarFallback` for image avatars; `Avatar` and
+  `AvatarFallback` for fallback-only avatars.
 
 ---
 
@@ -163,6 +171,10 @@ No hardcoded values. No Tailwind. No inline styles.
 - AvatarGroup does NOT render overflow when children <= max
 - AvatarGroup forwards className to wrapper div
 - AvatarGroup forwards ref to HTMLDivElement
+- AvatarGroup defaults max to 5
+- AvatarGroup passes `size` down to Avatar children
+- AvatarImage forwards className and ref
+- AvatarFallback forwards className and ref
 - axe: passes for Avatar with image (alt provided)
 - axe: passes for Avatar with fallback initials
 - axe: passes for AvatarGroup with overflow
@@ -187,15 +199,20 @@ Named exports required:
 
 Use `autodocs`.
 
+Do not create a separate `AvatarGroup.stories.tsx` docs page. `AvatarGroup` is
+documented as part of the Avatar component family via the `Group`,
+`GroupOverflow`, and `GroupSizes` stories in `Avatar.stories.tsx`.
+
 ---
 
 ## Definition of done
 
-- [ ] All Vitest tests pass: `pnpm test --filter @dds/emerald`
-- [ ] No TypeScript errors: `pnpm typecheck`
-- [ ] No ESLint errors: `pnpm lint`
+- [ ] All Vitest tests pass: `pnpm --dir packages/components test -- Avatar AvatarGroup`
+- [ ] No TypeScript errors: `pnpm --dir packages/components typecheck`
+- [ ] No ESLint errors: `pnpm --dir packages/components lint`
 - [ ] axe test passes for all variants
-- [ ] Storybook builds without error: `pnpm build-storybook`
+- [ ] Component package builds without error: `pnpm --dir packages/components build`
+- [ ] Storybook builds without error: `pnpm --dir apps/docs build`
 - [ ] All variants represented in stories
 - [ ] No Tailwind classes anywhere
 - [ ] No hardcoded color or spacing values in SCSS

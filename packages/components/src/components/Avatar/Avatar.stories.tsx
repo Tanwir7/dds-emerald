@@ -1,26 +1,25 @@
-import type { ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Avatar } from './Avatar';
+import { Avatar, AvatarFallback, AvatarImage } from './Avatar';
+import { AvatarGroup } from '../AvatarGroup';
 import styles from './Avatar.module.scss';
+
+const imageSrc =
+  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=128&q=80';
 
 const meta: Meta<typeof Avatar> = {
   title: 'Components/Avatar',
   component: Avatar,
   tags: ['autodocs'],
-  render: (args: ComponentProps<typeof Avatar>) => (
-    <div className={styles.storyA11yScope}>
-      <Avatar {...args} />
-    </div>
-  ),
   parameters: {
     a11y: {
       context: `.${styles.storyA11yScope}`,
     },
-  },
-  args: {
-    fallback: 'AL',
-    alt: 'Ada Lovelace',
-    size: 'md',
+    docs: {
+      description: {
+        component:
+          'Avatar uses a compound API. Import the parts you render: `Avatar`, `AvatarImage`, and `AvatarFallback` for image avatars; `Avatar` and `AvatarFallback` for fallback-only avatars. `AvatarImage` requires both `src` and `alt`.',
+      },
+    },
   },
   argTypes: {
     size: {
@@ -33,33 +32,158 @@ export default meta;
 
 type Story = StoryObj<typeof Avatar>;
 
-export const Default: Story = {
-  args: {},
+export const WithImage: Story = {
+  render: () => (
+    <div className={styles.storyA11yScope}>
+      <Avatar>
+        <AvatarImage src={imageSrc} alt="Portrait of Ada Lovelace" />
+        <AvatarFallback>AL</AvatarFallback>
+      </Avatar>
+    </div>
+  ),
 };
 
-export const WithImage: Story = {
-  args: {
-    src: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=128&q=80',
-    alt: 'Portrait of a person',
-    fallback: 'AP',
-  },
+export const WithFallback: Story = {
+  render: () => (
+    <div className={styles.storyA11yScope}>
+      <Avatar>
+        <AvatarFallback delayMs={0}>AL</AvatarFallback>
+      </Avatar>
+    </div>
+  ),
 };
 
 export const Sizes: Story = {
   render: () => (
     <div className={styles.storyA11yScope}>
       <div className={styles.storyRow}>
-        <Avatar size="sm" fallback="SM" />
-        <Avatar size="md" fallback="MD" />
-        <Avatar size="lg" fallback="LG" />
+        <Avatar size="sm">
+          <AvatarImage src={imageSrc} alt="Small portrait of Ada Lovelace" />
+          <AvatarFallback>AL</AvatarFallback>
+        </Avatar>
+        <Avatar size="md">
+          <AvatarImage src={imageSrc} alt="Medium portrait of Ada Lovelace" />
+          <AvatarFallback>AL</AvatarFallback>
+        </Avatar>
+        <Avatar size="lg">
+          <AvatarImage src={imageSrc} alt="Large portrait of Ada Lovelace" />
+          <AvatarFallback>AL</AvatarFallback>
+        </Avatar>
       </div>
     </div>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: '<><Avatar size="sm" fallback="SM" /><Avatar size="md" fallback="MD" /><Avatar size="lg" fallback="LG" /></>',
-      },
-    },
-  },
+};
+
+export const FallbackSizes: Story = {
+  render: () => (
+    <div className={styles.storyA11yScope}>
+      <div className={styles.storyRow}>
+        <Avatar size="sm">
+          <AvatarFallback delayMs={0}>SM</AvatarFallback>
+        </Avatar>
+        <Avatar size="md">
+          <AvatarFallback delayMs={0}>MD</AvatarFallback>
+        </Avatar>
+        <Avatar size="lg">
+          <AvatarFallback delayMs={0}>LG</AvatarFallback>
+        </Avatar>
+      </div>
+    </div>
+  ),
+};
+
+export const ImageError: Story = {
+  render: () => (
+    <div className={styles.storyA11yScope}>
+      <Avatar>
+        <AvatarImage src="/missing-avatar-image.png" alt="Ada Lovelace" />
+        <AvatarFallback delayMs={0}>AL</AvatarFallback>
+      </Avatar>
+    </div>
+  ),
+};
+
+export const Group: Story = {
+  render: () => (
+    <div className={styles.storyA11yScope}>
+      <AvatarGroup aria-label="User avatars: Ada, Grace, Katherine, Dorothy, and Hedy">
+        <Avatar>
+          <AvatarFallback delayMs={0}>AL</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarFallback delayMs={0}>GH</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarFallback delayMs={0}>KJ</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarFallback delayMs={0}>DV</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarFallback delayMs={0}>HL</AvatarFallback>
+        </Avatar>
+      </AvatarGroup>
+    </div>
+  ),
+};
+
+export const GroupOverflow: Story = {
+  render: () => (
+    <div className={styles.storyA11yScope}>
+      <AvatarGroup max={4} aria-label="User avatars: Ada, Grace, Katherine, Dorothy, and 4 others">
+        <Avatar>
+          <AvatarFallback delayMs={0}>AL</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarFallback delayMs={0}>GH</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarFallback delayMs={0}>KJ</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarFallback delayMs={0}>DV</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarFallback delayMs={0}>HL</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarFallback delayMs={0}>MC</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarFallback delayMs={0}>RJ</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarFallback delayMs={0}>SP</AvatarFallback>
+        </Avatar>
+      </AvatarGroup>
+    </div>
+  ),
+};
+
+export const GroupSizes: Story = {
+  render: () => (
+    <div className={styles.storyA11yScope}>
+      <div className={styles.storyStack}>
+        {(['sm', 'md', 'lg'] as const).map((size) => (
+          <AvatarGroup key={size} size={size} max={3} aria-label={`${size} user avatars`}>
+            <Avatar>
+              <AvatarFallback delayMs={0}>AL</AvatarFallback>
+            </Avatar>
+            <Avatar>
+              <AvatarFallback delayMs={0}>GH</AvatarFallback>
+            </Avatar>
+            <Avatar>
+              <AvatarFallback delayMs={0}>KJ</AvatarFallback>
+            </Avatar>
+            <Avatar>
+              <AvatarFallback delayMs={0}>DV</AvatarFallback>
+            </Avatar>
+            <Avatar>
+              <AvatarFallback delayMs={0}>HL</AvatarFallback>
+            </Avatar>
+          </AvatarGroup>
+        ))}
+      </div>
+    </div>
+  ),
 };

@@ -32,7 +32,12 @@ export type {
   HeadingTextTransform,
   HeadingWeight,
 } from './components/Heading';
-export { Avatar } from './components/Avatar';
-export type { AvatarProps, AvatarSize } from './components/Avatar';
+export { Avatar, AvatarFallback, AvatarImage } from './components/Avatar';
+export type {
+  AvatarFallbackProps,
+  AvatarImageProps,
+  AvatarProps,
+  AvatarSize,
+} from './components/Avatar';
 export { AvatarGroup } from './components/AvatarGroup';
-export type { AvatarGroupItem, AvatarGroupProps } from './components/AvatarGroup';
+export type { AvatarGroupProps } from './components/AvatarGroup';
