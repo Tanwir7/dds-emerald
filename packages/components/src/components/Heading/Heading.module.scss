@@ -1,0 +1,77 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.root {
+  margin: 0;
+  font-weight: var(--dds-font-weight-bold);
+}
+
+.level1 {
+  font-size: var(--dds-font-size-4xl);
+  line-height: var(--dds-line-height-tight);
+  letter-spacing: var(--dds-tracking-tight);
+}
+
+.level2 {
+  font-size: var(--dds-font-size-3xl);
+  line-height: var(--dds-line-height-tight);
+  letter-spacing: var(--dds-tracking-tight);
+}
+
+.level3 {
+  font-size: var(--dds-font-size-2xl);
+  line-height: var(--dds-line-height-snug);
+  letter-spacing: var(--dds-tracking-normal);
+}
+
+.level4 {
+  font-size: var(--dds-font-size-xl);
+  line-height: var(--dds-line-height-snug);
+  letter-spacing: var(--dds-tracking-normal);
+}
+
+.level5 {
+  font-size: var(--dds-font-size-lg);
+  line-height: var(--dds-line-height-normal);
+  letter-spacing: var(--dds-tracking-normal);
+}
+
+.level6 {
+  font-size: var(--dds-font-size-base);
+  line-height: var(--dds-line-height-normal);
+  letter-spacing: var(--dds-tracking-normal);
+}
+
+.fontDisplay {
+  font-family: var(--dds-font-display);
+}
+
+.fontSans {
+  font-family: var(--dds-font-sans);
+}
+
+.semanticDisplay {
+  text-transform: uppercase;
+  letter-spacing: var(--dds-tracking-wider);
+}
+
+.colorDefault {
+  color: var(--dds-color-text-default);
+}
+
+.colorMuted {
+  color: var(--dds-color-text-muted);
+}
+
+.colorOnPrimary {
+  color: var(--dds-color-text-on-primary);
+}
+
+.storyA11yScope {
+  display: block;
+}
+
+.storyStack {
+  display: grid;
+  gap: var(--dds-space-4);
+}
