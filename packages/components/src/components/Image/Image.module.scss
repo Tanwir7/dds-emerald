@@ -1,0 +1,112 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.root {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--dds-radius-none);
+  background-color: var(--dds-color-bg-subtle);
+}
+
+.figure {
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+  border-radius: inherit;
+  background-color: var(--dds-color-bg-subtle);
+
+  .root {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.rounded {
+  border-radius: var(--dds-radius-full);
+}
+
+.stateError {
+  opacity: 0;
+}
+
+.cover {
+  object-fit: cover;
+}
+
+.contain {
+  object-fit: contain;
+}
+
+.fill {
+  object-fit: fill;
+}
+
+.ratio1x1 {
+  aspect-ratio: 1 / 1;
+}
+
+.ratio4x3 {
+  aspect-ratio: 4 / 3;
+}
+
+.ratio16x9 {
+  aspect-ratio: 16 / 9;
+}
+
+.ratio3x2 {
+  aspect-ratio: 3 / 2;
+}
+
+.storyA11yScope {
+  display: block;
+}
+
+.storyFrame {
+  width: calc(var(--dds-space-24) * 4);
+  max-width: calc(100vw - var(--dds-space-8));
+}
+
+.storyGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--dds-space-4);
+  width: calc(var(--dds-space-24) * 8);
+  max-width: calc(100vw - var(--dds-space-8));
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.storyGridThree {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: var(--dds-space-4);
+  width: calc(var(--dds-space-24) * 6);
+  max-width: calc(100vw - var(--dds-space-8));
+
+  @include respond-to(sm) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.storyStack {
+  display: grid;
+  gap: var(--dds-space-4);
+  max-width: calc(var(--dds-space-24) * 3);
+}
+
+.storyItem {
+  display: grid;
+  gap: var(--dds-space-2);
+}
+
+.storyLabel {
+  color: var(--dds-color-text-muted);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-sm);
+  line-height: var(--dds-line-height-normal);
+}

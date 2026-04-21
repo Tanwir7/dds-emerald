@@ -39,6 +39,14 @@ const render = (ui: React.ReactNode) => {
   };
 };
 
+const flushFallback = async () => {
+  await act(async () => {
+    await new Promise((resolve) => {
+      window.setTimeout(resolve, 0);
+    });
+  });
+};
+
 const originalImage = window.Image;
 
 class TestImage {
@@ -103,7 +111,9 @@ describe('Avatar', () => {
       </Avatar>
     );
 
-    const root = (await screen.findByText('AL')).parentElement;
+    await flushFallback();
+
+    const root = screen.getByText('AL').parentElement;
     expect(root).toBeInstanceOf(HTMLSpanElement);
     expect(root).toHaveClass(sizeClassNames.md);
   });
@@ -131,7 +141,9 @@ describe('Avatar', () => {
       </Avatar>
     );
 
-    expect(await screen.findByText('AL')).toBeInTheDocument();
+    await flushFallback();
+
+    expect(screen.getByText('AL')).toBeInTheDocument();
   });
 
   it('forwards className to the Avatar root', async () => {
@@ -141,7 +153,9 @@ describe('Avatar', () => {
       </Avatar>
     );
 
-    expect((await screen.findByText('AL')).parentElement).toHaveClass('custom');
+    await flushFallback();
+
+    expect(screen.getByText('AL').parentElement).toHaveClass('custom');
   });
 
   it('forwards ref to the Avatar root', async () => {
@@ -152,8 +166,10 @@ describe('Avatar', () => {
       </Avatar>
     );
 
+    await flushFallback();
+
     expect(ref.current).toBeInstanceOf(HTMLSpanElement);
-    expect(ref.current).toContainElement(await screen.findByText('AL'));
+    expect(ref.current).toContainElement(screen.getByText('AL'));
   });
 
   it('applies sm and lg size classes', async () => {
@@ -168,8 +184,10 @@ describe('Avatar', () => {
       </div>
     );
 
-    expect((await screen.findByText('SM')).parentElement).toHaveClass(sizeClassNames.sm);
-    expect((await screen.findByText('LG')).parentElement).toHaveClass(sizeClassNames.lg);
+    await flushFallback();
+
+    expect(screen.getByText('SM').parentElement).toHaveClass(sizeClassNames.sm);
+    expect(screen.getByText('LG').parentElement).toHaveClass(sizeClassNames.lg);
   });
 
   it('hides AvatarFallback when the image loads successfully', async () => {
@@ -228,7 +246,8 @@ describe('Avatar', () => {
       </Avatar>
     );
 
-    await screen.findByText('AL');
+    await flushFallback();
+
     expect(ref.current).toBeInstanceOf(HTMLSpanElement);
     expect(ref.current).toHaveClass('fallback-custom');
   });
@@ -256,6 +275,8 @@ describe('Avatar', () => {
       </Avatar>
     );
 
+    await flushFallback();
+
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
@@ -270,6 +291,8 @@ describe('Avatar', () => {
         ))}
       </div>
     );
+
+    await flushFallback();
 
     const results = await axe(container);
     expect(results).toHaveNoViolations();

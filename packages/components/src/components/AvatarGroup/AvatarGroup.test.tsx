@@ -4,7 +4,7 @@ import { screen } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, describe, expect, it } from 'vitest';
-import { Avatar, AvatarFallback } from '../Avatar';
+import { Avatar } from '../Avatar';
 import { AvatarGroup } from './AvatarGroup';
 import styles from './AvatarGroup.module.scss';
 import avatarStyles from '../Avatar/Avatar.module.scss';
@@ -48,19 +48,19 @@ const groupClassNames = {
 const avatarChildren = (
   <>
     <Avatar>
-      <AvatarFallback delayMs={0}>AA</AvatarFallback>
+      <span>AA</span>
     </Avatar>
     <Avatar>
-      <AvatarFallback delayMs={0}>GB</AvatarFallback>
+      <span>GB</span>
     </Avatar>
     <Avatar>
-      <AvatarFallback delayMs={0}>KT</AvatarFallback>
+      <span>KT</span>
     </Avatar>
     <Avatar>
-      <AvatarFallback delayMs={0}>DH</AvatarFallback>
+      <span>DH</span>
     </Avatar>
     <Avatar>
-      <AvatarFallback delayMs={0}>HM</AvatarFallback>
+      <span>HM</span>
     </Avatar>
   </>
 );
@@ -70,12 +70,12 @@ afterEach(() => {
 });
 
 describe('AvatarGroup', () => {
-  it('renders the correct number of avatars up to max', async () => {
+  it('renders the correct number of avatars up to max', () => {
     render(<AvatarGroup max={3}>{avatarChildren}</AvatarGroup>);
 
-    expect(await screen.findByText('AA')).toBeInTheDocument();
-    expect(await screen.findByText('GB')).toBeInTheDocument();
-    expect(await screen.findByText('KT')).toBeInTheDocument();
+    expect(screen.getByText('AA')).toBeInTheDocument();
+    expect(screen.getByText('GB')).toBeInTheDocument();
+    expect(screen.getByText('KT')).toBeInTheDocument();
     expect(screen.queryByText('DH')).not.toBeInTheDocument();
     expect(screen.queryByText('HM')).not.toBeInTheDocument();
   });
@@ -90,10 +90,10 @@ describe('AvatarGroup', () => {
     render(
       <AvatarGroup max={5}>
         <Avatar>
-          <AvatarFallback delayMs={0}>AA</AvatarFallback>
+          <span>AA</span>
         </Avatar>
         <Avatar>
-          <AvatarFallback delayMs={0}>GB</AvatarFallback>
+          <span>GB</span>
         </Avatar>
       </AvatarGroup>
     );
@@ -101,19 +101,19 @@ describe('AvatarGroup', () => {
     expect(screen.queryByText(/^\+\d+$/)).not.toBeInTheDocument();
   });
 
-  it('defaults max to 5', async () => {
+  it('defaults max to 5', () => {
     render(<AvatarGroup>{avatarChildren}</AvatarGroup>);
 
-    expect(await screen.findByText('AA')).toBeInTheDocument();
-    expect(await screen.findByText('HM')).toBeInTheDocument();
+    expect(screen.getByText('AA')).toBeInTheDocument();
+    expect(screen.getByText('HM')).toBeInTheDocument();
     expect(screen.queryByText(/^\+\d+$/)).not.toBeInTheDocument();
   });
 
-  it('passes size to Avatar children', async () => {
+  it('passes size to Avatar children', () => {
     render(<AvatarGroup size="lg">{avatarChildren}</AvatarGroup>);
 
-    expect((await screen.findByText('AA')).parentElement).toHaveClass(avatarClassNames.lg);
-    expect((await screen.findByText('HM')).parentElement).toHaveClass(avatarClassNames.lg);
+    expect(screen.getByText('AA').parentElement).toHaveClass(avatarClassNames.lg);
+    expect(screen.getByText('HM').parentElement).toHaveClass(avatarClassNames.lg);
   });
 
   it('applies all 3 group sizes', () => {
@@ -136,10 +136,10 @@ describe('AvatarGroup', () => {
     expect(screen.getByTestId('group-lg')).toHaveClass(groupClassNames.lg);
   });
 
-  it('forwards className to the wrapper div', async () => {
+  it('forwards className to the wrapper div', () => {
     render(<AvatarGroup className="custom">{avatarChildren}</AvatarGroup>);
 
-    expect((await screen.findByText('AA')).closest('[data-avatar-group]')).toHaveClass('custom');
+    expect(screen.getByText('AA').closest('[data-avatar-group]')).toHaveClass('custom');
   });
 
   it('forwards ref to the wrapper div', () => {
@@ -152,12 +152,16 @@ describe('AvatarGroup', () => {
   it('axe passes for AvatarGroup with overflow', async () => {
     const { container } = render(<AvatarGroup max={3}>{avatarChildren}</AvatarGroup>);
 
+    expect(screen.getByText('AA')).toBeInTheDocument();
+
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
   it('axe passes for AvatarGroup without overflow', async () => {
     const { container } = render(<AvatarGroup>{avatarChildren}</AvatarGroup>);
+
+    expect(screen.getByText('HM')).toBeInTheDocument();
 
     const results = await axe(container);
     expect(results).toHaveNoViolations();

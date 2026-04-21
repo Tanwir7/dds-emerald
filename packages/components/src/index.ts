@@ -41,3 +41,5 @@ export type {
 } from './components/Avatar';
 export { AvatarGroup } from './components/AvatarGroup';
 export type { AvatarGroupProps } from './components/AvatarGroup';
+export { Image } from './components/Image';
+export type { ImageAspectRatio, ImageFit, ImageProps } from './components/Image';
