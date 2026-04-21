@@ -1,20 +1,20 @@
 import type { ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Divider } from './Divider';
-import styles from './Divider.module.scss';
+import storyStyles from './Divider.stories.module.scss';
 
 const meta: Meta<typeof Divider> = {
   title: 'Core Components/Divider',
   component: Divider,
   tags: ['autodocs'],
   render: (args: ComponentProps<typeof Divider>) => (
-    <div className={styles.storyA11yScope}>
+    <div className={storyStyles.storyA11yScope}>
       <Divider {...args} />
     </div>
   ),
   parameters: {
     a11y: {
-      context: `.${styles.storyA11yScope}`,
+      context: `.${storyStyles.storyA11yScope}`,
     },
   },
 };
@@ -30,8 +30,8 @@ export const Default: Story = {
 
 export const Vertical: Story = {
   render: () => (
-    <div className={styles.storyA11yScope}>
-      <div className={styles.storyVerticalFrame}>
+    <div className={storyStyles.storyA11yScope}>
+      <div className={storyStyles.storyVerticalFrame}>
         <Divider orientation="vertical" />
       </div>
     </div>

@@ -47,6 +47,13 @@ writeFileSync(join(dir, `${name}.module.scss`), `
 }
 `.trimStart());
 
+// Story SCSS template
+writeFileSync(join(dir, `${name}.stories.module.scss`), `
+.storyA11yScope {
+  display: inline-flex;
+}
+`.trimStart());
+
 // Test template
 writeFileSync(join(dir, `${name}.test.tsx`), `
 import React from 'react';
@@ -87,11 +94,22 @@ describe('${name}', () => {
 writeFileSync(join(dir, `${name}.stories.tsx`), `
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ${name} } from './${name}';
+import storyStyles from './${name}.stories.module.scss';
 
 const meta: Meta<typeof ${name}> = {
   title: 'Core Components/${name}',
   component: ${name},
   tags: ['autodocs'],
+  render: (args) => (
+    <div className={storyStyles.storyA11yScope}>
+      <${name} {...args} />
+    </div>
+  ),
+  parameters: {
+    a11y: {
+      context: '.' + storyStyles.storyA11yScope,
+    },
+  },
 };
 export default meta;
 

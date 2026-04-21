@@ -58,19 +58,3 @@
     height: calc(var(--dds-space-12) + var(--dds-space-2));
   }
 }
-
-.storyRow {
-  display: flex;
-  align-items: center;
-  gap: var(--dds-space-6);
-}
-
-.storyStack {
-  display: flex;
-  flex-direction: column;
-  gap: var(--dds-space-4);
-}
-
-.storyA11yScope {
-  display: inline-flex;
-}

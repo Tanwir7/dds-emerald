@@ -1,0 +1,18 @@
+.storyA11yScope {
+  display: block;
+}
+
+.storyStack {
+  display: grid;
+  gap: var(--dds-space-4);
+}
+
+.storyTruncateFrame {
+  inline-size: var(--dds-space-24);
+}
+
+.storyPrimaryFrame {
+  display: block;
+  padding: var(--dds-space-4);
+  background-color: var(--dds-color-action-primary);
+}

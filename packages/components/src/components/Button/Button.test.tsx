@@ -304,7 +304,10 @@ describe('Button', () => {
     expect(stylesheet).toContain('@include interactive-focus-ring;');
     expect(stylesheet).toContain('animation: button-spinner-rotate');
     expect(stylesheet).toContain('stroke-dasharray: 33 44;');
-    expect(stylesheet).toContain('.storyA11yScope');
+    expect(stylesheet).not.toContain('.storyA11yScope');
+    expect(readFileSync('src/components/Button/Button.stories.module.scss', 'utf8')).toContain(
+      '.storyA11yScope'
+    );
   });
 
   it('documents the component accessibility contract in Storybook', () => {

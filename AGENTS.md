@@ -16,7 +16,9 @@
 - NO Tailwind CSS. Not one class, not one import.
 - NO inline styles. All styles via SCSS modules.
 - NO hardcoded color values. Always consume `--dds-*` tokens.
-- SCSS modules only: file must be named `ComponentName.module.scss`
+- SCSS modules only: runtime component styles must be named `ComponentName.module.scss`
+- Storybook-only layout/demo styles must be named `ComponentName.stories.module.scss`
+- Never place `.story*` selectors in `ComponentName.module.scss`; story styles must not ship in the consumer runtime CSS bundle
 - Always `@use` shared mixins and breakpoints, never copy-paste mixins inline
 - Components consume Tier 2 tokens (`--dds-color-*`, `--dds-space-*`). Never Tier 1 directly.
 
@@ -66,6 +68,8 @@
 
 - One component per directory: `src/components/ComponentName/`
 - Directory must contain: `.tsx`, `.module.scss`, `.test.tsx`, `.stories.tsx`, `index.ts`
+- If a story needs layout, demo framing, or a11y scan scope styles, add `ComponentName.stories.module.scss`
+- Runtime components may import only `ComponentName.module.scss`; stories may import `ComponentName.stories.module.scss`
 - Use `scaffolding.mjs` to generate the initial files for any new component
 - Storybook stories using addon-a11y MUST scope checks to the component story root with `parameters.a11y.context`; never let addon-a11y scan surrounding docs/chrome markup
 

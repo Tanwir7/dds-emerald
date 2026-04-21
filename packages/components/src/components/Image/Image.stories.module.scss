@@ -1,0 +1,52 @@
+@use '../../styles/breakpoints' as *;
+
+.storyA11yScope {
+  display: block;
+}
+
+.storyFrame {
+  width: calc(var(--dds-space-24) * 4);
+  max-width: calc(100vw - var(--dds-space-8));
+}
+
+.storyGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--dds-space-4);
+  width: calc(var(--dds-space-24) * 8);
+  max-width: calc(100vw - var(--dds-space-8));
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.storyGridThree {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: var(--dds-space-4);
+  width: calc(var(--dds-space-24) * 6);
+  max-width: calc(100vw - var(--dds-space-8));
+
+  @include respond-to(sm) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.storyStack {
+  display: grid;
+  gap: var(--dds-space-4);
+  max-width: calc(var(--dds-space-24) * 3);
+}
+
+.storyItem {
+  display: grid;
+  gap: var(--dds-space-2);
+}
+
+.storyLabel {
+  color: var(--dds-color-text-muted);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-sm);
+  line-height: var(--dds-line-height-normal);
+}

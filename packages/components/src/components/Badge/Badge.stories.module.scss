@@ -1,0 +1,9 @@
+.storyRow {
+  display: flex;
+  align-items: center;
+  gap: var(--dds-space-3);
+}
+
+.storyA11yScope {
+  display: inline-flex;
+}

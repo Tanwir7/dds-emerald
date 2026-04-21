@@ -19,7 +19,8 @@
     "**/*.css"
   ],
   "scripts": {
-    "build": "vite build",
+    "build": "vite build && node scripts/check-dist.mjs",
+    "check:dist": "node scripts/check-dist.mjs",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --coverage",
     "test:watch": "vitest watch",

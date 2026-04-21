@@ -1,20 +1,20 @@
 import type { ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Badge } from './Badge';
-import styles from './Badge.module.scss';
+import storyStyles from './Badge.stories.module.scss';
 
 const meta: Meta<typeof Badge> = {
   title: 'Core Components/Badge',
   component: Badge,
   tags: ['autodocs'],
   render: (args: ComponentProps<typeof Badge>) => (
-    <div className={styles.storyA11yScope}>
+    <div className={storyStyles.storyA11yScope}>
       <Badge {...args} />
     </div>
   ),
   parameters: {
     a11y: {
-      context: `.${styles.storyA11yScope}`,
+      context: `.${storyStyles.storyA11yScope}`,
     },
   },
 };
@@ -28,8 +28,8 @@ const renderVariantSizes = (
   variant: NonNullable<ComponentProps<typeof Badge>['variant']>,
   label: string
 ) => (
-  <div className={styles.storyA11yScope}>
-    <div className={styles.storyRow}>
+  <div className={storyStyles.storyA11yScope}>
+    <div className={storyStyles.storyRow}>
       {sizes.map((size) => (
         <Badge key={size} variant={variant} size={size}>
           {label} {size.toUpperCase()}

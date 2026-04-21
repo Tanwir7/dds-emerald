@@ -30,7 +30,7 @@ export default defineConfig({
     dts({
       tsconfigPath: resolve(__dirname, 'tsconfig.build.json'),
       insertTypesEntry: true,
-      exclude: ['**/*.test.tsx', '**/*.stories.tsx'],
+      exclude: ['**/*.test.ts', '**/*.test.tsx', '**/*.stories.ts', '**/*.stories.tsx'],
     }),
   ],
   css: {

@@ -62,19 +62,3 @@
     font-size: var(--dds-font-size-base);
   }
 }
-
-.storyRow {
-  display: flex;
-  align-items: center;
-  gap: var(--dds-space-4);
-}
-
-.storyStack {
-  display: flex;
-  flex-direction: column;
-  gap: var(--dds-space-4);
-}
-
-.storyA11yScope {
-  display: inline-flex;
-}

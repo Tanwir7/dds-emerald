@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Avatar, AvatarFallback, AvatarImage } from './Avatar';
 import { AvatarGroup } from '../AvatarGroup';
-import styles from './Avatar.module.scss';
+import storyStyles from './Avatar.stories.module.scss';
 
 const imageSrc =
   'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=128&q=80';
@@ -12,7 +12,7 @@ const meta: Meta<typeof Avatar> = {
   tags: ['autodocs'],
   parameters: {
     a11y: {
-      context: `.${styles.storyA11yScope}`,
+      context: `.${storyStyles.storyA11yScope}`,
     },
     docs: {
       description: {
@@ -34,7 +34,7 @@ type Story = StoryObj<typeof Avatar>;
 
 export const WithImage: Story = {
   render: () => (
-    <div className={styles.storyA11yScope}>
+    <div className={storyStyles.storyA11yScope}>
       <Avatar>
         <AvatarImage src={imageSrc} alt="Portrait of Ada Lovelace" />
         <AvatarFallback>AL</AvatarFallback>
@@ -45,7 +45,7 @@ export const WithImage: Story = {
 
 export const WithFallback: Story = {
   render: () => (
-    <div className={styles.storyA11yScope}>
+    <div className={storyStyles.storyA11yScope}>
       <Avatar>
         <AvatarFallback delayMs={0}>AL</AvatarFallback>
       </Avatar>
@@ -55,8 +55,8 @@ export const WithFallback: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <div className={styles.storyA11yScope}>
-      <div className={styles.storyRow}>
+    <div className={storyStyles.storyA11yScope}>
+      <div className={storyStyles.storyRow}>
         <Avatar size="sm">
           <AvatarImage src={imageSrc} alt="Small portrait of Ada Lovelace" />
           <AvatarFallback>AL</AvatarFallback>
@@ -76,8 +76,8 @@ export const Sizes: Story = {
 
 export const FallbackSizes: Story = {
   render: () => (
-    <div className={styles.storyA11yScope}>
-      <div className={styles.storyRow}>
+    <div className={storyStyles.storyA11yScope}>
+      <div className={storyStyles.storyRow}>
         <Avatar size="sm">
           <AvatarFallback delayMs={0}>SM</AvatarFallback>
         </Avatar>
@@ -94,7 +94,7 @@ export const FallbackSizes: Story = {
 
 export const ImageError: Story = {
   render: () => (
-    <div className={styles.storyA11yScope}>
+    <div className={storyStyles.storyA11yScope}>
       <Avatar>
         <AvatarImage src="/missing-avatar-image.png" alt="Ada Lovelace" />
         <AvatarFallback delayMs={0}>AL</AvatarFallback>
@@ -105,7 +105,7 @@ export const ImageError: Story = {
 
 export const Group: Story = {
   render: () => (
-    <div className={styles.storyA11yScope}>
+    <div className={storyStyles.storyA11yScope}>
       <AvatarGroup aria-label="User avatars: Ada, Grace, Katherine, Dorothy, and Hedy">
         <Avatar>
           <AvatarFallback delayMs={0}>AL</AvatarFallback>
@@ -129,7 +129,7 @@ export const Group: Story = {
 
 export const GroupOverflow: Story = {
   render: () => (
-    <div className={styles.storyA11yScope}>
+    <div className={storyStyles.storyA11yScope}>
       <AvatarGroup max={4} aria-label="User avatars: Ada, Grace, Katherine, Dorothy, and 4 others">
         <Avatar>
           <AvatarFallback delayMs={0}>AL</AvatarFallback>
@@ -162,8 +162,8 @@ export const GroupOverflow: Story = {
 
 export const GroupSizes: Story = {
   render: () => (
-    <div className={styles.storyA11yScope}>
-      <div className={styles.storyStack}>
+    <div className={storyStyles.storyA11yScope}>
+      <div className={storyStyles.storyStack}>
         {(['sm', 'md', 'lg'] as const).map((size) => (
           <AvatarGroup key={size} size={size} max={3} aria-label={`${size} user avatars`}>
             <Avatar>

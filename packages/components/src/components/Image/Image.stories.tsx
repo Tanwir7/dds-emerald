@@ -1,7 +1,7 @@
 import type { ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Image } from './Image';
-import styles from './Image.module.scss';
+import storyStyles from './Image.stories.module.scss';
 
 const imageSrc =
   'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=960&q=80';
@@ -11,15 +11,15 @@ const meta: Meta<typeof Image> = {
   component: Image,
   tags: ['autodocs'],
   render: (args: ComponentProps<typeof Image>) => (
-    <div className={styles.storyA11yScope}>
-      <div className={styles.storyFrame}>
+    <div className={storyStyles.storyA11yScope}>
+      <div className={storyStyles.storyFrame}>
         <Image {...args} />
       </div>
     </div>
   ),
   parameters: {
     a11y: {
-      context: `.${styles.storyA11yScope}`,
+      context: `.${storyStyles.storyA11yScope}`,
     },
   },
   argTypes: {
@@ -55,16 +55,16 @@ export const Default: Story = {
 
 export const AspectRatios: Story = {
   render: () => (
-    <div className={styles.storyA11yScope}>
-      <div className={styles.storyGrid}>
+    <div className={storyStyles.storyA11yScope}>
+      <div className={storyStyles.storyGrid}>
         {aspectRatios.map((aspectRatio) => (
-          <div key={aspectRatio} className={styles.storyItem}>
+          <div key={aspectRatio} className={storyStyles.storyItem}>
             <Image
               src={imageSrc}
               alt={`Workspace cropped to ${aspectRatio}`}
               aspectRatio={aspectRatio}
             />
-            <span className={styles.storyLabel}>{aspectRatio}</span>
+            <span className={storyStyles.storyLabel}>{aspectRatio}</span>
           </div>
         ))}
       </div>
@@ -74,17 +74,17 @@ export const AspectRatios: Story = {
 
 export const FitModes: Story = {
   render: () => (
-    <div className={styles.storyA11yScope}>
-      <div className={styles.storyGridThree}>
+    <div className={storyStyles.storyA11yScope}>
+      <div className={storyStyles.storyGridThree}>
         {fitModes.map((fit) => (
-          <div key={fit} className={styles.storyItem}>
+          <div key={fit} className={storyStyles.storyItem}>
             <Image
               src={imageSrc}
               alt={`Workspace displayed with ${fit} fit`}
               aspectRatio="4/3"
               fit={fit}
             />
-            <span className={styles.storyLabel}>{fit}</span>
+            <span className={storyStyles.storyLabel}>{fit}</span>
           </div>
         ))}
       </div>

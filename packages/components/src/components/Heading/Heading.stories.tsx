@@ -1,20 +1,20 @@
 import type { ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Heading } from './Heading';
-import styles from './Heading.module.scss';
+import storyStyles from './Heading.stories.module.scss';
 
 const meta: Meta<typeof Heading> = {
   title: 'Core Components/Heading',
   component: Heading,
   tags: ['autodocs'],
   render: (args: ComponentProps<typeof Heading>) => (
-    <div className={styles.storyA11yScope}>
+    <div className={storyStyles.storyA11yScope}>
       <Heading {...args} />
     </div>
   ),
   parameters: {
     a11y: {
-      context: `.${styles.storyA11yScope}`,
+      context: `.${storyStyles.storyA11yScope}`,
     },
   },
   args: {
@@ -73,8 +73,8 @@ export const Default: Story = {
 
 export const AllLevels: Story = {
   render: () => (
-    <div className={styles.storyA11yScope}>
-      <div className={styles.storyStack}>
+    <div className={storyStyles.storyA11yScope}>
+      <div className={storyStyles.storyStack}>
         <Heading as="h1">Primary Heading</Heading>
         <Heading as="h2">Section Heading</Heading>
         <Heading as="h3">Subsection Heading</Heading>
@@ -104,8 +104,8 @@ export const SansFont: Story = {
 
 export const AllSizes: Story = {
   render: () => (
-    <div className={styles.storyA11yScope}>
-      <div className={styles.storyStack}>
+    <div className={storyStyles.storyA11yScope}>
+      <div className={storyStyles.storyStack}>
         <Heading size="2xl">2xl Heading</Heading>
         <Heading size="3xl">3xl Heading</Heading>
         <Heading size="4xl">4xl Heading</Heading>
@@ -126,8 +126,8 @@ export const ColorMuted: Story = {
 
 export const Truncated: Story = {
   render: () => (
-    <div className={styles.storyA11yScope}>
-      <div className={styles.storyTruncateFrame}>
+    <div className={storyStyles.storyA11yScope}>
+      <div className={storyStyles.storyTruncateFrame}>
         <Heading truncate>This heading is intentionally long enough to truncate</Heading>
       </div>
     </div>
@@ -143,8 +143,8 @@ export const TextTransform: Story = {
 
 export const OnPrimary: Story = {
   render: () => (
-    <div className={styles.storyA11yScope}>
-      <div className={styles.storyPrimaryFrame}>
+    <div className={storyStyles.storyA11yScope}>
+      <div className={storyStyles.storyPrimaryFrame}>
         <Heading color="on-primary">On Primary Heading</Heading>
       </div>
     </div>

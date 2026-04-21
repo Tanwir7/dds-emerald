@@ -2,7 +2,7 @@ import type { ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ArrowRight, Plus } from 'lucide-react';
 import { Button } from './Button';
-import styles from './Button.module.scss';
+import storyStyles from './Button.stories.module.scss';
 
 const componentDescription = `Buttons accept an optional \`icon\` prop typed as \`LucideIcon\` from \`lucide-react\`. Icon names come from the Lucide React icon set, so consumers can choose from the Lucide library and import the icons they need directly, for example \`import { Plus, ArrowRight } from 'lucide-react'\`.
 
@@ -77,8 +77,8 @@ const meta: Meta<typeof Button> = {
   render: (args: ComponentProps<typeof Button>) => {
     if (args.fullWidth) {
       return (
-        <div className={styles.storyA11yScope}>
-          <div className={styles.storyFullWidthFrame}>
+        <div className={storyStyles.storyA11yScope}>
+          <div className={storyStyles.storyFullWidthFrame}>
             <Button {...args} />
           </div>
         </div>
@@ -86,14 +86,14 @@ const meta: Meta<typeof Button> = {
     }
 
     return (
-      <div className={styles.storyA11yScope}>
+      <div className={storyStyles.storyA11yScope}>
         <Button {...args} />
       </div>
     );
   },
   parameters: {
     a11y: {
-      context: `.${styles.storyA11yScope}`,
+      context: `.${storyStyles.storyA11yScope}`,
     },
     docs: {
       description: {
@@ -251,7 +251,7 @@ export const FullWidth: Story = {
           'This example uses a fixed-width container so the `fullWidth` behavior is visible in Storybook.',
       },
       source: {
-        code: `<div className="${styles.storyFullWidthFrame}">
+        code: `<div className="${storyStyles.storyFullWidthFrame}">
   ${buildButtonSource({
     children: 'Continue',
     variant: 'primary',

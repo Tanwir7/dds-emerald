@@ -1,20 +1,20 @@
 import type { ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Text } from './Text';
-import styles from './Text.module.scss';
+import storyStyles from './Text.stories.module.scss';
 
 const meta: Meta<typeof Text> = {
   title: 'Core Components/Text',
   component: Text,
   tags: ['autodocs'],
   render: (args: ComponentProps<typeof Text>) => (
-    <div className={styles.storyA11yScope}>
+    <div className={storyStyles.storyA11yScope}>
       <Text {...args} />
     </div>
   ),
   parameters: {
     a11y: {
-      context: `.${styles.storyA11yScope}`,
+      context: `.${storyStyles.storyA11yScope}`,
     },
   },
   args: {
@@ -76,8 +76,8 @@ export const ColorMuted: Story = {
 
 export const ColorOnPrimary: Story = {
   render: () => (
-    <div className={styles.storyA11yScope}>
-      <div className={styles.storyPrimaryFrame}>
+    <div className={storyStyles.storyA11yScope}>
+      <div className={storyStyles.storyPrimaryFrame}>
         <Text color="on-primary">Text on a primary background</Text>
       </div>
     </div>
@@ -86,8 +86,8 @@ export const ColorOnPrimary: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <div className={styles.storyA11yScope}>
-      <div className={styles.storyStack}>
+    <div className={storyStyles.storyA11yScope}>
+      <div className={storyStyles.storyStack}>
         <Text size="xs">Extra small text</Text>
         <Text size="sm">Small text</Text>
         <Text size="base">Base text</Text>
@@ -100,8 +100,8 @@ export const Sizes: Story = {
 
 export const Weights: Story = {
   render: () => (
-    <div className={styles.storyA11yScope}>
-      <div className={styles.storyStack}>
+    <div className={storyStyles.storyA11yScope}>
+      <div className={storyStyles.storyStack}>
         <Text weight="normal">Normal text</Text>
         <Text weight="medium">Medium text</Text>
         <Text weight="semibold">Semibold text</Text>
@@ -120,8 +120,8 @@ export const MonoFont: Story = {
 
 export const TextTransforms: Story = {
   render: () => (
-    <div className={styles.storyA11yScope}>
-      <div className={styles.storyStack}>
+    <div className={storyStyles.storyA11yScope}>
+      <div className={storyStyles.storyStack}>
         <Text textTransform="none">quarterly revenue outlook</Text>
         <Text textTransform="capitalize">quarterly revenue outlook</Text>
         <Text textTransform="uppercase">quarterly revenue outlook</Text>
@@ -133,8 +133,8 @@ export const TextTransforms: Story = {
 
 export const Alignment: Story = {
   render: () => (
-    <div className={styles.storyA11yScope}>
-      <div className={styles.storyStack}>
+    <div className={storyStyles.storyA11yScope}>
+      <div className={storyStyles.storyStack}>
         <Text align="left">Left aligned text</Text>
         <Text align="center">Center aligned text</Text>
         <Text align="right">Right aligned text</Text>
@@ -145,8 +145,8 @@ export const Alignment: Story = {
 
 export const Truncated: Story = {
   render: () => (
-    <div className={styles.storyA11yScope}>
-      <div className={styles.storyTruncateFrame}>
+    <div className={storyStyles.storyA11yScope}>
+      <div className={storyStyles.storyTruncateFrame}>
         <Text truncate>
           This is a long sentence that truncates after one line inside a constrained frame.
         </Text>
