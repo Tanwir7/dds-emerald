@@ -54,9 +54,5 @@
     "typescript": "^5.x.x",
     "vite": "^8.0.3",
     "vite-plugin-dts": "^4.5.4"
-  },
-  "dependencies": {
-    "@dds/emerald-tokens": "workspace:*",
-    "clsx": "^2.x.x"
   }
 }

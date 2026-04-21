@@ -30,8 +30,30 @@ if (!existsSync(distRoot)) {
 const files = getFiles(distRoot);
 const relativeFiles = files.map((filePath) => relative(packageRoot, filePath));
 
+const expectedFiles = new Set([
+  'dist/index.cjs',
+  'dist/index.d.ts',
+  'dist/index.js',
+  'dist/styles.css',
+]);
+
+const unexpectedFiles = relativeFiles.filter((filePath) => !expectedFiles.has(filePath));
+
+if (unexpectedFiles.length > 0) {
+  fail('dist hygiene check failed: unexpected files were emitted.', unexpectedFiles);
+}
+
+const storyOrTestFiles = relativeFiles.filter((filePath) =>
+  /\.(?:stories|story|test|spec)\.[cm]?(?:ts|tsx|js|jsx|css|scss)(?:\.map)?$/.test(filePath)
+);
+
+if (storyOrTestFiles.length > 0) {
+  fail('dist hygiene check failed: story or test files were emitted.', storyOrTestFiles);
+}
+
 const testDeclarations = relativeFiles.filter(
-  (filePath) => /\.test\.d\.ts(?:\.map)?$/.test(filePath) || /\.spec\.d\.ts(?:\.map)?$/.test(filePath)
+  (filePath) =>
+    /\.test\.d\.ts(?:\.map)?$/.test(filePath) || /\.spec\.d\.ts(?:\.map)?$/.test(filePath)
 );
 
 if (testDeclarations.length > 0) {
@@ -50,9 +72,44 @@ if (styles.includes('dds-story')) {
   fail('dist hygiene check failed: Storybook CSS selectors were emitted in dist/styles.css.');
 }
 
+const declarationFiles = files.filter((filePath) => filePath.endsWith('.d.ts'));
+
+const declarationsWithLocalPaths = declarationFiles.filter((filePath) =>
+  /(?:^|[/"'])node_modules\/|\.pnpm\//.test(readFileSync(filePath, 'utf8'))
+);
+
+if (declarationsWithLocalPaths.length > 0) {
+  fail(
+    'dist hygiene check failed: local dependency paths were emitted in declarations.',
+    declarationsWithLocalPaths.map((filePath) => relative(packageRoot, filePath))
+  );
+}
+
+const declarationsWithRadixTypes = declarationFiles.filter((filePath) =>
+  /from ['"]@radix-ui\//.test(readFileSync(filePath, 'utf8'))
+);
+
+if (declarationsWithRadixTypes.length > 0) {
+  fail(
+    'dist hygiene check failed: internal Radix types were exposed in declarations.',
+    declarationsWithRadixTypes.map((filePath) => relative(packageRoot, filePath))
+  );
+}
+
 const runtimeBundles = ['index.js', 'index.cjs']
   .map((fileName) => join(distRoot, fileName))
   .filter((filePath) => existsSync(filePath));
+
+const runtimeBundlesWithLocalPaths = runtimeBundles.filter((filePath) =>
+  /node_modules\/|\.pnpm\/|#region src\//.test(readFileSync(filePath, 'utf8'))
+);
+
+if (runtimeBundlesWithLocalPaths.length > 0) {
+  fail(
+    'dist hygiene check failed: local paths were emitted in runtime bundles.',
+    runtimeBundlesWithLocalPaths.map((filePath) => relative(packageRoot, filePath))
+  );
+}
 
 const bundlesWithStoryKeys = runtimeBundles.filter((filePath) =>
   /story[A-Z][A-Za-z0-9]*/.test(readFileSync(filePath, 'utf8'))

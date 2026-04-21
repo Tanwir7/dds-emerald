@@ -6,6 +6,7 @@ export default defineConfig({
   format: ['esm'],
   dts: true,
   clean: true,
+  minify: true,
   onSuccess: async () => {
     copyFileSync('src/fonts.css', 'dist/fonts.css');
     copyFileSync('src/tokens.css', 'dist/tokens.css');

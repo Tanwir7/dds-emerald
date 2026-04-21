@@ -7,6 +7,7 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const reactRoot = resolve(require.resolve('react/package.json'), '..');
 const reactDomRoot = resolve(require.resolve('react-dom/package.json'), '..');
+const rolldownRegionCommentPattern = /^\/\/#(?:end)?region.*(?:\r?\n)?/gm;
 
 export default defineConfig({
   resolve: {
@@ -30,8 +31,20 @@ export default defineConfig({
     dts({
       tsconfigPath: resolve(__dirname, 'tsconfig.build.json'),
       insertTypesEntry: true,
+      rollupTypes: true,
+      aliasesExclude: [/^react(?:\/.*)?$/, /^react-dom(?:\/.*)?$/],
       exclude: ['**/*.test.ts', '**/*.test.tsx', '**/*.stories.ts', '**/*.stories.tsx'],
     }),
+    {
+      name: 'strip-rolldown-region-comments',
+      generateBundle(_, bundle) {
+        for (const output of Object.values(bundle)) {
+          if (output.type === 'chunk') {
+            output.code = output.code.replace(rolldownRegionCommentPattern, '');
+          }
+        }
+      },
+    },
   ],
   css: {
     modules: {
@@ -50,6 +63,7 @@ export default defineConfig({
     },
   },
   build: {
+    minify: true,
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       formats: ['es', 'cjs'],
@@ -64,6 +78,7 @@ export default defineConfig({
         'lucide-react',
       ],
       output: {
+        comments: false,
         globals: {
           react: 'React',
           'react-dom': 'ReactDOM',

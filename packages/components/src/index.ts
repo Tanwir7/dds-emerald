@@ -35,6 +35,7 @@ export type {
 export { Avatar, AvatarFallback, AvatarImage } from './components/Avatar';
 export type {
   AvatarFallbackProps,
+  AvatarImageLoadingStatus,
   AvatarImageProps,
   AvatarProps,
   AvatarSize,

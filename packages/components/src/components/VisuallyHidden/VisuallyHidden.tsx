@@ -2,10 +2,7 @@ import React from 'react';
 import * as RadixVisuallyHidden from '@radix-ui/react-visually-hidden';
 import clsx from 'clsx';
 
-export interface VisuallyHiddenProps extends Pick<
-  RadixVisuallyHidden.VisuallyHiddenProps,
-  'children' | 'className'
-> {
+export interface VisuallyHiddenProps extends React.HTMLAttributes<HTMLSpanElement> {
   className?: string;
   children?: React.ReactNode;
 }

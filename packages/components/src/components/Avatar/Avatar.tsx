@@ -5,28 +5,27 @@ import styles from './Avatar.module.scss';
 import { getRequiredClassName } from '../../utils/getRequiredClassName';
 
 export type AvatarSize = 'sm' | 'md' | 'lg';
+export type AvatarImageLoadingStatus = 'idle' | 'loading' | 'loaded' | 'error';
 
-export interface AvatarProps extends Omit<
-  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>,
-  'asChild' | 'children'
-> {
+export interface AvatarProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'children'> {
   size?: AvatarSize;
   className?: string;
   children: React.ReactNode;
 }
 
 export interface AvatarImageProps extends Omit<
-  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>,
-  'alt' | 'asChild' | 'className' | 'src'
+  React.ImgHTMLAttributes<HTMLImageElement>,
+  'alt' | 'className' | 'src'
 > {
   src: string;
   alt: string;
   className?: string;
+  onLoadingStatusChange?: (status: AvatarImageLoadingStatus) => void;
 }
 
 export interface AvatarFallbackProps extends Omit<
-  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback>,
-  'asChild' | 'className'
+  React.HTMLAttributes<HTMLSpanElement>,
+  'className' | 'children'
 > {
   delayMs?: number;
   className?: string;

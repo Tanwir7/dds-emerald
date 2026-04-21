@@ -1,5 +1,3 @@
-import './tokens.css';
-
 export const tokens = {
   primitive: {
     color: {

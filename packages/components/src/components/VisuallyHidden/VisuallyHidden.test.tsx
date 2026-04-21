@@ -62,7 +62,7 @@ describe('VisuallyHidden', () => {
     expect(button).toHaveAttribute('type', 'button');
   });
 
-  it('forwards className and ref to the Radix primitive', () => {
+  it('forwards className and ref to the underlying span', () => {
     const ref = React.createRef<HTMLSpanElement>();
 
     render(
