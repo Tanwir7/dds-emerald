@@ -1,0 +1,21 @@
+.storyA11yScope {
+  display: block;
+  color: var(--dds-color-text-default);
+}
+
+.storySentence {
+  margin: 0;
+  color: var(--dds-color-text-default);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-base);
+  line-height: var(--dds-line-height-normal);
+}
+
+.storyStack {
+  display: grid;
+  gap: var(--dds-space-3);
+}
+
+.storyLongLine {
+  inline-size: 100%;
+}

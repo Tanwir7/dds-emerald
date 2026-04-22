@@ -6,9 +6,17 @@
 .dds-storybook-docs-preview {
   box-sizing: border-box;
   width: 100%;
+  min-inline-size: 0;
+  max-inline-size: 100%;
   padding: var(--dds-space-6);
   color: var(--dds-color-text-default);
   background-color: var(--dds-color-bg-default);
+}
+
+.dds-storybook-docs-preview > .dds-story-a11y-scope {
+  display: block;
+  inline-size: 100%;
+  min-inline-size: 0;
 }
 
 .dds-story-a11y-scope {
