@@ -5,20 +5,11 @@ import { getRequiredClassName } from '../../utils/getRequiredClassName';
 
 export type TextSize = 'xs' | 'sm' | 'base' | 'lg' | 'xl';
 export type TextWeight = 'normal' | 'medium' | 'semibold' | 'bold';
-export type TextColor = 'default' | 'muted' | 'on-primary';
+export type TextColor = 'default' | 'muted' | 'success' | 'warning' | 'danger' | 'on-primary';
 export type TextFont = 'sans' | 'mono';
 export type TextTransform = 'none' | 'capitalize' | 'uppercase' | 'lowercase';
 export type TextAlign = 'left' | 'center' | 'right';
-export type TextElement =
-  | 'p'
-  | 'span'
-  | 'div'
-  | 'li'
-  | 'label'
-  | 'legend'
-  | 'strong'
-  | 'em'
-  | 'small';
+export type TextElement = 'p' | 'span' | 'div' | 'li' | 'legend' | 'strong' | 'em' | 'small';
 
 export interface TextProps extends React.HTMLAttributes<HTMLElement> {
   as?: TextElement;
@@ -51,6 +42,9 @@ const weightClassName: Record<TextWeight, string> = {
 const colorClassName: Record<TextColor, string> = {
   default: getRequiredClassName(styles, 'colorDefault'),
   muted: getRequiredClassName(styles, 'colorMuted'),
+  success: getRequiredClassName(styles, 'colorSuccess'),
+  warning: getRequiredClassName(styles, 'colorWarning'),
+  danger: getRequiredClassName(styles, 'colorDanger'),
   'on-primary': getRequiredClassName(styles, 'colorOnPrimary'),
 };
 

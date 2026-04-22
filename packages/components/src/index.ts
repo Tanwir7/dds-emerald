@@ -48,3 +48,5 @@ export { Code } from './components/Code';
 export type { CodeProps, CodeSize } from './components/Code';
 export { Label } from './components/Label';
 export type { LabelProps, LabelSize } from './components/Label';
+export { Input } from './components/Input';
+export type { InputProps, InputSize } from './components/Input';

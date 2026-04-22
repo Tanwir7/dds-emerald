@@ -1,0 +1,117 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.root {
+  width: 100%;
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-sm);
+  font-weight: var(--dds-font-weight-normal);
+  line-height: var(--dds-line-height-normal);
+  color: var(--dds-color-text-default);
+  background-color: var(--dds-color-bg-input);
+  border: 1px solid var(--dds-color-border-input);
+  border-radius: var(--dds-radius-none);
+  outline: 3px solid transparent;
+  outline-offset: 2px;
+  transition:
+    border-color var(--dds-duration-fast) var(--dds-ease-standard),
+    outline-color var(--dds-duration-fast) var(--dds-ease-standard);
+
+  &::placeholder {
+    color: var(--dds-color-text-muted);
+  }
+
+  &:focus-visible {
+    border-color: var(--dds-color-focus-ring);
+    outline-color: oklch(from var(--dds-color-focus-ring) l c h / 0.5);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:read-only {
+    background-color: var(--dds-color-bg-muted);
+    cursor: default;
+  }
+}
+
+.sm {
+  height: var(--dds-space-8);
+  padding: 0 var(--dds-space-2);
+  font-size: var(--dds-font-size-xs);
+}
+
+.md {
+  height: var(--dds-space-9);
+  padding: 0 var(--dds-space-3);
+}
+
+.lg {
+  height: var(--dds-space-10);
+  padding: 0 var(--dds-space-4);
+  font-size: var(--dds-font-size-base);
+}
+
+.invalid {
+  border-color: var(--dds-color-status-danger);
+
+  &:focus-visible {
+    outline-color: oklch(from var(--dds-color-status-danger) l c h / 0.5);
+  }
+}
+
+.hasStartIcon.sm {
+  padding-left: var(--dds-space-7);
+}
+
+.hasStartIcon.md {
+  padding-left: var(--dds-space-8);
+}
+
+.hasStartIcon.lg {
+  padding-left: var(--dds-space-9);
+}
+
+.hasEndIcon.sm {
+  padding-right: var(--dds-space-7);
+}
+
+.hasEndIcon.md {
+  padding-right: var(--dds-space-8);
+}
+
+.hasEndIcon.lg {
+  padding-right: var(--dds-space-9);
+}
+
+.startIcon,
+.endIcon {
+  position: absolute;
+  top: 50%;
+  display: flex;
+  align-items: center;
+  color: var(--dds-color-text-muted);
+  pointer-events: none;
+  transform: translateY(-50%);
+
+  & > svg {
+    @include icon-size(md);
+  }
+}
+
+.startIcon {
+  left: var(--dds-space-2-5);
+}
+
+.endIcon {
+  right: var(--dds-space-2-5);
+}

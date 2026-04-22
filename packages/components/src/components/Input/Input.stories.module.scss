@@ -1,5 +1,6 @@
 .storyA11yScope {
-  display: inline-flex;
+  display: block;
+  width: min(100%, 360px);
 }
 
 .storyStack {
@@ -10,6 +11,4 @@
 .storyField {
   display: grid;
   gap: var(--dds-space-2);
-  width: calc(var(--dds-space-24) * 3);
-  max-width: calc(100vw - var(--dds-space-8));
 }

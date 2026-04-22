@@ -30,6 +30,9 @@ const weightClassNames = {
 const colorClassNames = {
   default: getRequiredClassName(styles, 'colorDefault'),
   muted: getRequiredClassName(styles, 'colorMuted'),
+  success: getRequiredClassName(styles, 'colorSuccess'),
+  warning: getRequiredClassName(styles, 'colorWarning'),
+  danger: getRequiredClassName(styles, 'colorDanger'),
   'on-primary': getRequiredClassName(styles, 'colorOnPrimary'),
 } as const;
 
@@ -104,12 +107,6 @@ describe('Text', () => {
     render(<Text as="div">content</Text>);
 
     expect(getTextByContent('content').tagName).toBe('DIV');
-  });
-
-  it('renders as <label> when as="label"', () => {
-    render(<Text as="label">content</Text>);
-
-    expect(getTextByContent('content').tagName).toBe('LABEL');
   });
 
   it('renders as <li> when as="li"', () => {
@@ -194,6 +191,24 @@ describe('Text', () => {
     render(<Text color="muted">content</Text>);
 
     expect(getTextByContent('content')).toHaveClass(colorClassNames.muted);
+  });
+
+  it('applies color-success class', () => {
+    render(<Text color="success">content</Text>);
+
+    expect(getTextByContent('content')).toHaveClass(colorClassNames.success);
+  });
+
+  it('applies color-warning class', () => {
+    render(<Text color="warning">content</Text>);
+
+    expect(getTextByContent('content')).toHaveClass(colorClassNames.warning);
+  });
+
+  it('applies color-danger class', () => {
+    render(<Text color="danger">content</Text>);
+
+    expect(getTextByContent('content')).toHaveClass(colorClassNames.danger);
   });
 
   it('applies color-on-primary class', () => {
@@ -315,18 +330,6 @@ describe('Text', () => {
     expect(results).toHaveNoViolations();
   });
 
-  it('has no a11y violations — as label', async () => {
-    const { container } = render(
-      <Text as="label">
-        Label
-        <input type="text" />
-      </Text>
-    );
-
-    const results = await axe(container);
-    expect(results).toHaveNoViolations();
-  });
-
   it('has no a11y violations — all sizes', async () => {
     const { container } = render(
       <div>
@@ -353,6 +356,19 @@ describe('Text', () => {
     const stylesheet = readFileSync('src/components/Text/Text.module.scss', 'utf8');
 
     expect(stylesheet).toContain('color: var(--dds-color-text-on-primary);');
+  });
+
+  it('uses the status danger token for danger text', () => {
+    const stylesheet = readFileSync('src/components/Text/Text.module.scss', 'utf8');
+
+    expect(stylesheet).toContain('color: var(--dds-color-status-danger);');
+  });
+
+  it('uses status tokens for success and warning text', () => {
+    const stylesheet = readFileSync('src/components/Text/Text.module.scss', 'utf8');
+
+    expect(stylesheet).toContain('color: var(--dds-color-status-success);');
+    expect(stylesheet).toContain('color: var(--dds-color-status-warning);');
   });
 
   it('uses font family tokens for font options', () => {

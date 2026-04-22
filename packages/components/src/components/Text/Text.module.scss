@@ -75,6 +75,18 @@
   color: var(--dds-color-text-muted);
 }
 
+.colorSuccess {
+  color: var(--dds-color-status-success);
+}
+
+.colorWarning {
+  color: var(--dds-color-status-warning);
+}
+
+.colorDanger {
+  color: var(--dds-color-status-danger);
+}
+
 .colorOnPrimary {
   color: var(--dds-color-text-on-primary);
 }

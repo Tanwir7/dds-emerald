@@ -28,7 +28,7 @@ const meta: Meta<typeof Text> = {
   argTypes: {
     as: {
       control: 'select',
-      options: ['p', 'span', 'div', 'li', 'label', 'legend', 'strong', 'em', 'small'],
+      options: ['p', 'span', 'div', 'li', 'legend', 'strong', 'em', 'small'],
     },
     size: {
       control: 'select',
@@ -40,7 +40,7 @@ const meta: Meta<typeof Text> = {
     },
     color: {
       control: 'select',
-      options: ['default', 'muted', 'on-primary'],
+      options: ['default', 'muted', 'success', 'warning', 'danger', 'on-primary'],
     },
     font: {
       control: 'inline-radio',
@@ -71,6 +71,27 @@ export const ColorMuted: Story = {
   args: {
     color: 'muted',
     children: 'Muted supporting text',
+  },
+};
+
+export const ColorSuccess: Story = {
+  args: {
+    color: 'success',
+    children: 'Success confirmation text',
+  },
+};
+
+export const ColorWarning: Story = {
+  args: {
+    color: 'warning',
+    children: 'Warning guidance text',
+  },
+};
+
+export const ColorDanger: Story = {
+  args: {
+    color: 'danger',
+    children: 'Validation error text',
   },
 };
 

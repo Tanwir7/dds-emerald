@@ -2,6 +2,7 @@ import type { ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Label } from './Label';
 import storyStyles from './Label.stories.module.scss';
+import { Input } from '../Input';
 
 const meta: Meta<typeof Label> = {
   title: 'Core Components/Label',
@@ -81,11 +82,11 @@ export const WithInput: Story = {
         <Label htmlFor="storybook-email" required>
           Email address
         </Label>
-        <input
-          className={storyStyles.storyInput}
+        <Input
           id="storybook-email"
           type="email"
           aria-required="true"
+          placeholder="name@example.com"
         />
       </div>
     </div>
