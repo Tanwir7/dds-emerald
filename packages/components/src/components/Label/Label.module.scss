@@ -1,0 +1,32 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.root {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dds-space-1);
+  color: var(--dds-color-text-default);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-sm);
+  font-weight: var(--dds-font-weight-medium);
+  line-height: var(--dds-line-height-none);
+  cursor: default;
+}
+
+.sm {
+  font-size: var(--dds-font-size-sm);
+}
+
+.base {
+  font-size: var(--dds-font-size-base);
+}
+
+.required {
+  color: var(--dds-color-status-danger);
+  font-weight: var(--dds-font-weight-bold);
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

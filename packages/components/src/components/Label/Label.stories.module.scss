@@ -1,0 +1,33 @@
+@use '../../styles/mixins' as *;
+
+.storyA11yScope {
+  display: inline-flex;
+}
+
+.storyStack {
+  display: grid;
+  gap: var(--dds-space-3);
+}
+
+.storyField {
+  display: grid;
+  gap: var(--dds-space-2);
+  width: calc(var(--dds-space-24) * 3);
+  max-width: calc(100vw - var(--dds-space-8));
+}
+
+.storyInput {
+  min-height: var(--dds-space-9);
+  border: 1px solid var(--dds-color-border-input);
+  border-radius: var(--dds-radius-none);
+  background-color: var(--dds-color-bg-input);
+  color: var(--dds-color-text-default);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-base);
+  line-height: var(--dds-line-height-normal);
+  padding: 0 var(--dds-space-3);
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
