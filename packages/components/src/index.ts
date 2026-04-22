@@ -50,3 +50,5 @@ export { Label } from './components/Label';
 export type { LabelProps, LabelSize } from './components/Label';
 export { Input } from './components/Input';
 export type { InputProps, InputSize } from './components/Input';
+export { Textarea } from './components/Textarea';
+export type { TextareaProps, TextareaResize, TextareaSize } from './components/Textarea';
