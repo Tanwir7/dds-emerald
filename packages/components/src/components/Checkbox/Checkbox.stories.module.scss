@@ -1,0 +1,26 @@
+.storyA11yScope {
+  display: inline-flex;
+}
+
+.storyRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--dds-space-4);
+}
+
+.storyStack {
+  display: grid;
+  gap: var(--dds-space-4);
+}
+
+.storyField {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dds-space-2);
+}
+
+.storyFieldStack {
+  display: grid;
+  gap: var(--dds-space-2);
+}

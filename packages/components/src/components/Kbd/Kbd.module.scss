@@ -1,0 +1,28 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.root {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--dds-font-mono);
+  font-size: var(--dds-font-size-xs);
+  font-weight: var(--dds-font-weight-medium);
+  font-variant-numeric: tabular-nums;
+  line-height: var(--dds-line-height-none);
+  color: var(--dds-color-text-default);
+  background-color: var(--dds-color-bg-muted);
+  border: 1px solid var(--dds-color-border-default);
+  border-radius: var(--dds-radius-none);
+  padding: var(--dds-space-0-5) var(--dds-space-1-5);
+  box-shadow: var(--dds-shadow-xs);
+}
+
+.sm {
+  font-size: var(--dds-font-size-xs);
+  padding: var(--dds-space-0-5) var(--dds-space-1-5);
+}
+
+.base {
+  font-size: var(--dds-font-size-sm);
+  padding: var(--dds-space-1) var(--dds-space-2);
+}

@@ -1,0 +1,24 @@
+.storyA11yScope {
+  display: inline-flex;
+  color: var(--dds-color-text-default);
+}
+
+.storyStack {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dds-space-3);
+}
+
+.storySequence {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dds-space-1-5);
+}
+
+.storySentence {
+  margin: 0;
+  color: var(--dds-color-text-default);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-base);
+  line-height: var(--dds-line-height-normal);
+}
