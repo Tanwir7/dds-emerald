@@ -1,6 +1,7 @@
 import React, { act } from 'react';
 import '@testing-library/jest-dom/vitest';
 import { axe, toHaveNoViolations } from 'jest-axe';
+import { readFileSync } from 'node:fs';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, describe, expect, it } from 'vitest';
 import { Label } from './Label';
@@ -185,5 +186,12 @@ describe('Label', () => {
 
     const results = await axe(container);
     expect(results).toHaveNoViolations();
+  });
+
+  it('uses the text-danger token for the required indicator', () => {
+    const stylesheet = readFileSync('src/components/Label/Label.module.scss', 'utf8');
+
+    expect(stylesheet).toContain('color: var(--dds-color-text-danger);');
+    expect(stylesheet).not.toContain('color: var(--dds-color-status-danger);');
   });
 });

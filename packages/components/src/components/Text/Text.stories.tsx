@@ -41,7 +41,7 @@ const meta: Meta<typeof Text> = {
     },
     color: {
       control: 'select',
-      options: ['default', 'muted', 'success', 'warning', 'danger', 'on-primary'],
+      options: ['default', 'muted', 'success', 'warning', 'danger', 'info', 'on-primary'],
     },
     font: {
       control: 'inline-radio',
@@ -99,6 +99,14 @@ export const ColorDanger: Story = {
     children: 'Validation error text',
   },
   parameters: storySourceParameters('<Text color="danger">Validation error text</Text>'),
+};
+
+export const ColorInfo: Story = {
+  args: {
+    color: 'info',
+    children: 'Informational helper text',
+  },
+  parameters: storySourceParameters('<Text color="info">Informational helper text</Text>'),
 };
 
 export const ColorOnPrimary: Story = {

@@ -76,15 +76,19 @@
 }
 
 .colorSuccess {
-  color: var(--dds-color-status-success);
+  color: var(--dds-color-text-success);
 }
 
 .colorWarning {
-  color: var(--dds-color-status-warning);
+  color: var(--dds-color-text-warning);
 }
 
 .colorDanger {
-  color: var(--dds-color-status-danger);
+  color: var(--dds-color-text-danger);
+}
+
+.colorInfo {
+  color: var(--dds-color-text-info);
 }
 
 .colorOnPrimary {

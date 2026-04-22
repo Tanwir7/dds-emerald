@@ -5,7 +5,14 @@ import { getRequiredClassName } from '../../utils/getRequiredClassName';
 
 export type TextSize = 'xs' | 'sm' | 'base' | 'lg' | 'xl';
 export type TextWeight = 'normal' | 'medium' | 'semibold' | 'bold';
-export type TextColor = 'default' | 'muted' | 'success' | 'warning' | 'danger' | 'on-primary';
+export type TextColor =
+  | 'default'
+  | 'muted'
+  | 'success'
+  | 'warning'
+  | 'danger'
+  | 'info'
+  | 'on-primary';
 export type TextFont = 'sans' | 'mono';
 export type TextTransform = 'none' | 'capitalize' | 'uppercase' | 'lowercase';
 export type TextAlign = 'left' | 'center' | 'right';
@@ -45,6 +52,7 @@ const colorClassName: Record<TextColor, string> = {
   success: getRequiredClassName(styles, 'colorSuccess'),
   warning: getRequiredClassName(styles, 'colorWarning'),
   danger: getRequiredClassName(styles, 'colorDanger'),
+  info: getRequiredClassName(styles, 'colorInfo'),
   'on-primary': getRequiredClassName(styles, 'colorOnPrimary'),
 };
 

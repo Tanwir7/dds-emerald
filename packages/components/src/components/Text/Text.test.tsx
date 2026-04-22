@@ -33,6 +33,7 @@ const colorClassNames = {
   success: getRequiredClassName(styles, 'colorSuccess'),
   warning: getRequiredClassName(styles, 'colorWarning'),
   danger: getRequiredClassName(styles, 'colorDanger'),
+  info: getRequiredClassName(styles, 'colorInfo'),
   'on-primary': getRequiredClassName(styles, 'colorOnPrimary'),
 } as const;
 
@@ -211,6 +212,12 @@ describe('Text', () => {
     expect(getTextByContent('content')).toHaveClass(colorClassNames.danger);
   });
 
+  it('applies color-info class', () => {
+    render(<Text color="info">content</Text>);
+
+    expect(getTextByContent('content')).toHaveClass(colorClassNames.info);
+  });
+
   it('applies color-on-primary class', () => {
     render(<Text color="on-primary">content</Text>);
 
@@ -358,17 +365,17 @@ describe('Text', () => {
     expect(stylesheet).toContain('color: var(--dds-color-text-on-primary);');
   });
 
-  it('uses the status danger token for danger text', () => {
+  it('uses text status tokens for status text colors', () => {
     const stylesheet = readFileSync('src/components/Text/Text.module.scss', 'utf8');
 
-    expect(stylesheet).toContain('color: var(--dds-color-status-danger);');
-  });
-
-  it('uses status tokens for success and warning text', () => {
-    const stylesheet = readFileSync('src/components/Text/Text.module.scss', 'utf8');
-
-    expect(stylesheet).toContain('color: var(--dds-color-status-success);');
-    expect(stylesheet).toContain('color: var(--dds-color-status-warning);');
+    expect(stylesheet).toContain('color: var(--dds-color-text-success);');
+    expect(stylesheet).toContain('color: var(--dds-color-text-warning);');
+    expect(stylesheet).toContain('color: var(--dds-color-text-danger);');
+    expect(stylesheet).toContain('color: var(--dds-color-text-info);');
+    expect(stylesheet).not.toContain('color: var(--dds-color-status-success);');
+    expect(stylesheet).not.toContain('color: var(--dds-color-status-warning);');
+    expect(stylesheet).not.toContain('color: var(--dds-color-status-danger);');
+    expect(stylesheet).not.toContain('color: var(--dds-color-status-info);');
   });
 
   it('uses font family tokens for font options', () => {

@@ -146,9 +146,13 @@ const sections = [
             ['default', 'default'],
             ['muted', 'muted'],
             ['on-primary', 'on-primary'],
+            ['success', 'success'],
+            ['warning', 'warning'],
+            ['danger', 'danger'],
+            ['info', 'info'],
           ],
           'Light Text',
-          'Primary foreground roles in light mode',
+          'Foreground roles in light mode',
           rootTokenMap
         ),
         getResolvedSemanticTokens(
@@ -169,9 +173,13 @@ const sections = [
             ['default', 'default'],
             ['muted', 'muted'],
             ['on-primary', 'on-primary'],
+            ['success', 'success'],
+            ['warning', 'warning'],
+            ['danger', 'danger'],
+            ['info', 'info'],
           ],
           'Dark Text',
-          'Primary foreground roles in dark mode',
+          'Foreground roles in dark mode',
           darkTokenMap
         ),
         getResolvedSemanticTokens(
