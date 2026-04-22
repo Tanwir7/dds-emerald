@@ -1,6 +1,7 @@
 import { existsSync, readdirSync, readFileSync, statSync } from 'fs';
 import { join, relative } from 'path';
 import { axe, toHaveNoViolations } from 'jest-axe';
+import * as ts from 'typescript';
 import { describe, expect, it } from 'vitest';
 
 expect.extend(toHaveNoViolations);
@@ -27,6 +28,70 @@ const runtimeComponentFiles = getFiles(componentsRoot).filter(
     !filePath.endsWith('.stories.tsx') &&
     !filePath.endsWith('.test.tsx')
 );
+
+const forbiddenDocsSourceFragments = ['storyA11yScope', 'storyStyles', 'render:'];
+const sourceHelperNames = new Set([
+  'storySource',
+  'storySourceBlock',
+  'storySourceFragment',
+  'storySourceParameters',
+]);
+
+const getStringLiteralValue = (node: ts.Node) => {
+  if (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)) {
+    return node.text;
+  }
+
+  if (ts.isTemplateExpression(node)) {
+    return [node.head.text, ...node.templateSpans.map((span) => span.literal.text)].join('');
+  }
+
+  return null;
+};
+
+const isSourceCodeProperty = (node: ts.PropertyAssignment) =>
+  ts.isIdentifier(node.name) && node.name.text === 'code';
+
+const getSourceSnippetStrings = (source: string, filePath: string) => {
+  const sourceFile = ts.createSourceFile(
+    filePath,
+    source,
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TSX
+  );
+  const snippets: string[] = [];
+
+  const visit = (node: ts.Node) => {
+    if (ts.isPropertyAssignment(node) && isSourceCodeProperty(node)) {
+      const value = getStringLiteralValue(node.initializer);
+
+      if (value !== null) {
+        snippets.push(value);
+      }
+    }
+
+    if (ts.isCallExpression(node)) {
+      const expression = node.expression;
+
+      if (ts.isIdentifier(expression) && sourceHelperNames.has(expression.text)) {
+        node.arguments.forEach((argument) => {
+          const value = getStringLiteralValue(argument);
+
+          if (value !== null) {
+            snippets.push(value);
+          }
+        });
+      }
+    }
+
+    ts.forEachChild(node, visit);
+  };
+
+  visit(sourceFile);
+
+  return snippets;
+};
 
 describe('Story style separation', () => {
   it('keeps story-only selectors out of runtime component styles', () => {
@@ -57,6 +122,21 @@ describe('Story style separation', () => {
     );
 
     expect(offenders.map((filePath) => relative(process.cwd(), filePath))).toEqual([]);
+  });
+
+  it('keeps Storybook source snippets free of render and story wrapper implementation details', () => {
+    const offenders = storyFiles.flatMap((filePath) => {
+      const source = readFileSync(filePath, 'utf8');
+      const snippets = getSourceSnippetStrings(source, filePath);
+
+      return snippets.flatMap((snippet) =>
+        forbiddenDocsSourceFragments
+          .filter((fragment) => snippet.includes(fragment))
+          .map((fragment) => `${relative(process.cwd(), filePath)} includes "${fragment}"`)
+      );
+    });
+
+    expect(offenders).toEqual([]);
   });
 
   it('has no a11y violations for the Storybook a11y scope wrapper', async () => {

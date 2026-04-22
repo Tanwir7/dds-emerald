@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Label } from './Label';
 import storyStyles from './Label.stories.module.scss';
 import { Input } from '../Input';
+import { storySource, storySourceFragment, storySourceParameters } from '../../utils/storySource';
 
 const meta: Meta<typeof Label> = {
   title: 'Core Components/Label',
@@ -43,18 +44,21 @@ type Story = StoryObj<typeof Label>;
 
 export const Default: Story = {
   args: {},
+  parameters: storySourceParameters('<Label>Email address</Label>'),
 };
 
 export const Required: Story = {
   args: {
     required: true,
   },
+  parameters: storySourceParameters('<Label required>Email address</Label>'),
 };
 
 export const Disabled: Story = {
   args: {
     disabled: true,
   },
+  parameters: storySourceParameters('<Label disabled>Email address</Label>'),
 };
 
 export const RequiredAndDisabled: Story = {
@@ -62,6 +66,7 @@ export const RequiredAndDisabled: Story = {
     required: true,
     disabled: true,
   },
+  parameters: storySourceParameters('<Label required disabled>Email address</Label>'),
 };
 
 export const Sizes: Story = {
@@ -72,6 +77,12 @@ export const Sizes: Story = {
         <Label size="base">Base label</Label>
       </div>
     </div>
+  ),
+  parameters: storySourceParameters(
+    storySourceFragment(
+      '<Label size="sm">Small label</Label>',
+      '<Label size="base">Base label</Label>'
+    )
   ),
 };
 
@@ -90,5 +101,18 @@ export const WithInput: Story = {
         />
       </div>
     </div>
+  ),
+  parameters: storySourceParameters(
+    storySource(
+      '<Label htmlFor="email" required>',
+      '  Email address',
+      '</Label>',
+      '<Input',
+      '  id="email"',
+      '  type="email"',
+      '  aria-required="true"',
+      '  placeholder="name@example.com"',
+      '/>'
+    )
   ),
 };

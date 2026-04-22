@@ -23,6 +23,11 @@ const preview: Preview = {
     controls: {
       disableSaveFromUI: true,
     },
+    docs: {
+      source: {
+        excludeDecorators: true,
+      },
+    },
     options: {
       storySort: {
         order: [

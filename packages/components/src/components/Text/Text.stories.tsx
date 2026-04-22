@@ -2,6 +2,7 @@ import type { ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Text } from './Text';
 import storyStyles from './Text.stories.module.scss';
+import { storySource, storySourceFragment, storySourceParameters } from '../../utils/storySource';
 
 const meta: Meta<typeof Text> = {
   title: 'Core Components/Text',
@@ -65,6 +66,7 @@ type Story = StoryObj<typeof Text>;
 
 export const Default: Story = {
   args: {},
+  parameters: storySourceParameters('<Text>Text</Text>'),
 };
 
 export const ColorMuted: Story = {
@@ -72,6 +74,7 @@ export const ColorMuted: Story = {
     color: 'muted',
     children: 'Muted supporting text',
   },
+  parameters: storySourceParameters('<Text color="muted">Muted supporting text</Text>'),
 };
 
 export const ColorSuccess: Story = {
@@ -79,6 +82,7 @@ export const ColorSuccess: Story = {
     color: 'success',
     children: 'Success confirmation text',
   },
+  parameters: storySourceParameters('<Text color="success">Success confirmation text</Text>'),
 };
 
 export const ColorWarning: Story = {
@@ -86,6 +90,7 @@ export const ColorWarning: Story = {
     color: 'warning',
     children: 'Warning guidance text',
   },
+  parameters: storySourceParameters('<Text color="warning">Warning guidance text</Text>'),
 };
 
 export const ColorDanger: Story = {
@@ -93,6 +98,7 @@ export const ColorDanger: Story = {
     color: 'danger',
     children: 'Validation error text',
   },
+  parameters: storySourceParameters('<Text color="danger">Validation error text</Text>'),
 };
 
 export const ColorOnPrimary: Story = {
@@ -103,6 +109,7 @@ export const ColorOnPrimary: Story = {
       </div>
     </div>
   ),
+  parameters: storySourceParameters('<Text color="on-primary">Text on a primary background</Text>'),
 };
 
 export const Sizes: Story = {
@@ -117,6 +124,15 @@ export const Sizes: Story = {
       </div>
     </div>
   ),
+  parameters: storySourceParameters(
+    storySourceFragment(
+      '<Text size="xs">Extra small text</Text>',
+      '<Text size="sm">Small text</Text>',
+      '<Text size="base">Base text</Text>',
+      '<Text size="lg">Large text</Text>',
+      '<Text size="xl">Extra large text</Text>'
+    )
+  ),
 };
 
 export const Weights: Story = {
@@ -130,6 +146,14 @@ export const Weights: Story = {
       </div>
     </div>
   ),
+  parameters: storySourceParameters(
+    storySourceFragment(
+      '<Text weight="normal">Normal text</Text>',
+      '<Text weight="medium">Medium text</Text>',
+      '<Text weight="semibold">Semibold text</Text>',
+      '<Text weight="bold">Bold text</Text>'
+    )
+  ),
 };
 
 export const MonoFont: Story = {
@@ -137,6 +161,7 @@ export const MonoFont: Story = {
     font: 'mono',
     children: 'Operational forecast summary',
   },
+  parameters: storySourceParameters('<Text font="mono">Operational forecast summary</Text>'),
 };
 
 export const TextTransforms: Story = {
@@ -150,6 +175,14 @@ export const TextTransforms: Story = {
       </div>
     </div>
   ),
+  parameters: storySourceParameters(
+    storySourceFragment(
+      '<Text textTransform="none">quarterly revenue outlook</Text>',
+      '<Text textTransform="capitalize">quarterly revenue outlook</Text>',
+      '<Text textTransform="uppercase">quarterly revenue outlook</Text>',
+      '<Text textTransform="lowercase">QUARTERLY REVENUE OUTLOOK</Text>'
+    )
+  ),
 };
 
 export const Alignment: Story = {
@@ -161,6 +194,13 @@ export const Alignment: Story = {
         <Text align="right">Right aligned text</Text>
       </div>
     </div>
+  ),
+  parameters: storySourceParameters(
+    storySourceFragment(
+      '<Text align="left">Left aligned text</Text>',
+      '<Text align="center">Center aligned text</Text>',
+      '<Text align="right">Right aligned text</Text>'
+    )
   ),
 };
 
@@ -174,6 +214,13 @@ export const Truncated: Story = {
       </div>
     </div>
   ),
+  parameters: storySourceParameters(
+    storySource(
+      '<Text truncate>',
+      '  This is a long sentence that truncates after one line inside a constrained frame.',
+      '</Text>'
+    )
+  ),
 };
 
 export const AsSpan: Story = {
@@ -181,6 +228,7 @@ export const AsSpan: Story = {
     as: 'span',
     children: 'Inline span text',
   },
+  parameters: storySourceParameters('<Text as="span">Inline span text</Text>'),
 };
 
 export const AsStrong: Story = {
@@ -189,4 +237,7 @@ export const AsStrong: Story = {
     weight: 'bold',
     children: 'Strong emphasized text',
   },
+  parameters: storySourceParameters(
+    '<Text as="strong" weight="bold">Strong emphasized text</Text>'
+  ),
 };

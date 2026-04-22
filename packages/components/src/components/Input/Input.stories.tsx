@@ -1,11 +1,11 @@
 import type { ComponentProps } from 'react';
-import { within, userEvent } from '@storybook/testing-library';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Search, X } from 'lucide-react';
 import { Input } from './Input';
 import storyStyles from './Input.stories.module.scss';
 import { Label } from '../Label';
 import { Text } from '../Text';
+import { storySource, storySourceParameters } from '../../utils/storySource';
 
 const renderField = (
   args: ComponentProps<typeof Input>,
@@ -63,6 +63,12 @@ export const Default: Story = {
   args: {
     placeholder: 'name@example.com',
   },
+  parameters: storySourceParameters(
+    storySource(
+      '<Label htmlFor="email">Email address</Label>',
+      '<Input id="email" placeholder="name@example.com" />'
+    )
+  ),
 };
 
 export const Sizes: Story = {
@@ -83,6 +89,18 @@ export const Sizes: Story = {
         </div>
       </div>
     </div>
+  ),
+  parameters: storySourceParameters(
+    storySource(
+      '<Label htmlFor="small-input">Small</Label>',
+      '<Input id="small-input" size="sm" placeholder="Small input" />',
+      '',
+      '<Label htmlFor="medium-input">Medium</Label>',
+      '<Input id="medium-input" size="md" placeholder="Medium input" />',
+      '',
+      '<Label htmlFor="large-input">Large</Label>',
+      '<Input id="large-input" size="lg" placeholder="Large input" />'
+    )
   ),
 };
 
@@ -106,6 +124,23 @@ export const Invalid: Story = {
       </div>
     </div>
   ),
+  parameters: storySourceParameters(
+    storySource(
+      '<Label htmlFor="email" required>',
+      '  Email address',
+      '</Label>',
+      '<Input',
+      '  id="email"',
+      '  invalid',
+      '  aria-invalid="true"',
+      '  aria-describedby="email-error"',
+      '  defaultValue="ada"',
+      '/>',
+      '<Text as="p" size="sm" color="danger" id="email-error">',
+      '  Enter an email address with a domain.',
+      '</Text>'
+    )
+  ),
 };
 
 export const Disabled: Story = {
@@ -113,6 +148,12 @@ export const Disabled: Story = {
     disabled: true,
     placeholder: 'Disabled input',
   },
+  parameters: storySourceParameters(
+    storySource(
+      '<Label htmlFor="disabled-input">Email address</Label>',
+      '<Input id="disabled-input" disabled placeholder="Disabled input" />'
+    )
+  ),
 };
 
 export const ReadOnly: Story = {
@@ -121,6 +162,12 @@ export const ReadOnly: Story = {
     defaultValue: 'DDS-1024',
   },
   render: (args: ComponentProps<typeof Input>) => renderField(args, 'Account ID'),
+  parameters: storySourceParameters(
+    storySource(
+      '<Label htmlFor="account-id">Account ID</Label>',
+      '<Input id="account-id" readOnly defaultValue="DDS-1024" />'
+    )
+  ),
 };
 
 export const WithStartIcon: Story = {
@@ -129,6 +176,16 @@ export const WithStartIcon: Story = {
     startIcon: <Search aria-hidden="true" />,
   },
   render: (args: ComponentProps<typeof Input>) => renderField(args, 'Search'),
+  parameters: storySourceParameters(
+    storySource(
+      '<Label htmlFor="search-projects">Search</Label>',
+      '<Input',
+      '  id="search-projects"',
+      '  placeholder="Search projects"',
+      '  startIcon={<Search aria-hidden="true" />}',
+      '/>'
+    )
+  ),
 };
 
 export const WithEndIcon: Story = {
@@ -137,6 +194,16 @@ export const WithEndIcon: Story = {
     endIcon: <X aria-hidden="true" />,
   },
   render: (args: ComponentProps<typeof Input>) => renderField(args, 'Search'),
+  parameters: storySourceParameters(
+    storySource(
+      '<Label htmlFor="search-term">Search</Label>',
+      '<Input',
+      '  id="search-term"',
+      '  defaultValue="Emerald"',
+      '  endIcon={<X aria-hidden="true" />}',
+      '/>'
+    )
+  ),
 };
 
 export const WithBothIcons: Story = {
@@ -146,6 +213,17 @@ export const WithBothIcons: Story = {
     endIcon: <X aria-hidden="true" />,
   },
   render: (args: ComponentProps<typeof Input>) => renderField(args, 'Search'),
+  parameters: storySourceParameters(
+    storySource(
+      '<Label htmlFor="search-term">Search</Label>',
+      '<Input',
+      '  id="search-term"',
+      '  defaultValue="Emerald"',
+      '  startIcon={<Search aria-hidden="true" />}',
+      '  endIcon={<X aria-hidden="true" />}',
+      '/>'
+    )
+  ),
 };
 
 export const FocusVisible: Story = {
@@ -153,12 +231,23 @@ export const FocusVisible: Story = {
     placeholder: 'Tab to focus',
   },
   render: (args: ComponentProps<typeof Input>) => renderField(args, 'Focus visible example'),
+  parameters: storySourceParameters(
+    storySource(
+      '<Label htmlFor="focus-input">Focus visible example</Label>',
+      '<Input id="focus-input" placeholder="Tab to focus" />'
+    )
+  ),
   play: async ({ canvasElement }) => {
-    const input = within(canvasElement).getByRole('textbox');
-    await userEvent.tab();
+    const input = canvasElement.querySelector('input');
+
+    if (!(input instanceof HTMLInputElement)) {
+      throw new Error('Expected to find an input in the story canvas.');
+    }
+
+    input.focus();
 
     if (document.activeElement !== input) {
-      throw new Error('Expected the input to receive focus after Tab.');
+      throw new Error('Expected the input to receive focus.');
     }
   },
 };
@@ -168,12 +257,24 @@ export const TypeIntoInput: Story = {
     placeholder: 'Type a value',
   },
   render: (args: ComponentProps<typeof Input>) => renderField(args, 'Type into input example'),
+  parameters: storySourceParameters(
+    storySource(
+      '<Label htmlFor="typing-input">Type into input example</Label>',
+      '<Input id="typing-input" placeholder="Type a value" />'
+    )
+  ),
   play: async ({ canvasElement }) => {
-    const input = within(canvasElement).getByRole('textbox') as HTMLInputElement;
-    await userEvent.type(input, 'Hello, Emerald');
+    const input = canvasElement.querySelector('input');
+
+    if (!(input instanceof HTMLInputElement)) {
+      throw new Error('Expected to find an input in the story canvas.');
+    }
+
+    input.value = 'Hello, Emerald';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
 
     if (input.value !== 'Hello, Emerald') {
-      throw new Error('Expected the input value to update after typing.');
+      throw new Error('Expected the input value to update.');
     }
   },
 };

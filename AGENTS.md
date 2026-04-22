@@ -72,6 +72,10 @@
 - Runtime components may import only `ComponentName.module.scss`; stories may import `ComponentName.stories.module.scss`
 - Use `scaffolding.mjs` to generate the initial files for any new component
 - Storybook stories using addon-a11y MUST scope checks to the component story root with `parameters.a11y.context`; never let addon-a11y scan surrounding docs/chrome markup
+- Storybook source previews MUST show consumer-facing JSX only. If a story uses
+  `render`, layout wrappers, or a11y scope wrappers, use `storySourceParameters`
+  from `packages/components/src/utils/storySource.ts` so docs do not show
+  `render`, `storyStyles`, or Storybook wrapper markup.
 
 ### Storybook naming
 

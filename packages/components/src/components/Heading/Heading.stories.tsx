@@ -2,6 +2,7 @@ import type { ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Heading } from './Heading';
 import storyStyles from './Heading.stories.module.scss';
+import { storySourceFragment, storySourceParameters } from '../../utils/storySource';
 
 const meta: Meta<typeof Heading> = {
   title: 'Core Components/Heading',
@@ -69,6 +70,7 @@ export const Default: Story = {
   args: {
     children: 'Section Heading',
   },
+  parameters: storySourceParameters('<Heading>Section Heading</Heading>'),
 };
 
 export const AllLevels: Story = {
@@ -84,6 +86,16 @@ export const AllLevels: Story = {
       </div>
     </div>
   ),
+  parameters: storySourceParameters(
+    storySourceFragment(
+      '<Heading as="h1">Primary Heading</Heading>',
+      '<Heading as="h2">Section Heading</Heading>',
+      '<Heading as="h3">Subsection Heading</Heading>',
+      '<Heading as="h4">Group Heading</Heading>',
+      '<Heading as="h5">Panel Heading</Heading>',
+      '<Heading as="h6">Label Heading</Heading>'
+    )
+  ),
 };
 
 export const DisplayFont: Story = {
@@ -93,6 +105,9 @@ export const DisplayFont: Story = {
     font: 'display',
     children: 'Display Heading',
   },
+  parameters: storySourceParameters(
+    '<Heading as="h1" size="6xl" font="display">Display Heading</Heading>'
+  ),
 };
 
 export const SansFont: Story = {
@@ -100,6 +115,7 @@ export const SansFont: Story = {
     font: 'sans',
     children: 'Sans Heading',
   },
+  parameters: storySourceParameters('<Heading font="sans">Sans Heading</Heading>'),
 };
 
 export const AllSizes: Story = {
@@ -115,6 +131,16 @@ export const AllSizes: Story = {
       </div>
     </div>
   ),
+  parameters: storySourceParameters(
+    storySourceFragment(
+      '<Heading size="2xl">2xl Heading</Heading>',
+      '<Heading size="3xl">3xl Heading</Heading>',
+      '<Heading size="4xl">4xl Heading</Heading>',
+      '<Heading size="5xl">5xl Heading</Heading>',
+      '<Heading size="6xl">6xl Heading</Heading>',
+      '<Heading size="7xl">7xl Heading</Heading>'
+    )
+  ),
 };
 
 export const ColorMuted: Story = {
@@ -122,6 +148,7 @@ export const ColorMuted: Story = {
     color: 'muted',
     children: 'Muted Heading',
   },
+  parameters: storySourceParameters('<Heading color="muted">Muted Heading</Heading>'),
 };
 
 export const Truncated: Story = {
@@ -132,6 +159,9 @@ export const Truncated: Story = {
       </div>
     </div>
   ),
+  parameters: storySourceParameters(
+    '<Heading truncate>This heading is intentionally long enough to truncate</Heading>'
+  ),
 };
 
 export const TextTransform: Story = {
@@ -139,6 +169,9 @@ export const TextTransform: Story = {
     textTransform: 'uppercase',
     children: 'Transformed Heading',
   },
+  parameters: storySourceParameters(
+    '<Heading textTransform="uppercase">Transformed Heading</Heading>'
+  ),
 };
 
 export const OnPrimary: Story = {
@@ -149,4 +182,5 @@ export const OnPrimary: Story = {
       </div>
     </div>
   ),
+  parameters: storySourceParameters('<Heading color="on-primary">On Primary Heading</Heading>'),
 };

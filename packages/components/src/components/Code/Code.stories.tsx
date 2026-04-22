@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Code } from './Code';
 import { Text } from '../Text';
 import { getRequiredClassName } from '../../utils/getRequiredClassName';
+import { storySource, storySourceFragment, storySourceParameters } from '../../utils/storySource';
 import storyStyles from './Code.stories.module.scss';
 
 const storySentenceClassName = getRequiredClassName(storyStyles, 'storySentence');
@@ -49,6 +50,9 @@ export const Inline: Story = {
       </Text>
     </div>
   ),
+  parameters: storySourceParameters(
+    storySource('<Text>', '  Run <Code>pnpm test</Code> before publishing a package.', '</Text>')
+  ),
 };
 
 export const Block: Story = {
@@ -60,6 +64,13 @@ export function Snippet() {
   return <Code>pnpm build</Code>;
 }`,
   },
+  parameters: storySourceParameters(
+    storySource(`<Code block>{\`import { Code } from '@dds/emerald';
+
+export function Snippet() {
+  return <Code>pnpm build</Code>;
+}\`}</Code>`)
+  ),
 };
 
 export const Sizes: Story = {
@@ -71,6 +82,13 @@ export const Sizes: Story = {
         <Code size="base">{"const size = 'base';"}</Code>
       </div>
     </div>
+  ),
+  parameters: storySourceParameters(
+    storySourceFragment(
+      `<Code size="xs">{"const size = 'xs';"}</Code>`,
+      `<Code size="sm">{"const size = 'sm';"}</Code>`,
+      `<Code size="base">{"const size = 'base';"}</Code>`
+    )
   ),
 };
 
@@ -85,5 +103,14 @@ export const LongLine: Story = {
         </Code>
       </div>
     </div>
+  ),
+  parameters: storySourceParameters(
+    storySource(
+      '<Code block>',
+      '  {',
+      `    "const endpoint = 'https://api.digitaldevstudio.example/v1/components/code/very-long-path-that-demonstrates-horizontal-scroll-without-page-overflow';"`,
+      '  }',
+      '</Code>'
+    )
   ),
 };

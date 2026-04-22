@@ -2,6 +2,12 @@ import type { ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Image } from './Image';
 import storyStyles from './Image.stories.module.scss';
+import {
+  storySource,
+  storySourceBlock,
+  storySourceFragment,
+  storySourceParameters,
+} from '../../utils/storySource';
 
 const imageSrc =
   'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=960&q=80';
@@ -51,6 +57,16 @@ export const Default: Story = {
     width: 960,
     height: 640,
   },
+  parameters: storySourceParameters(
+    storySource(
+      '<Image',
+      '  src={imageSrc}',
+      '  alt="Modern workspace with desks, chairs, and daylight"',
+      '  width={960}',
+      '  height={640}',
+      '/>'
+    )
+  ),
 };
 
 export const AspectRatios: Story = {
@@ -69,6 +85,14 @@ export const AspectRatios: Story = {
         ))}
       </div>
     </div>
+  ),
+  parameters: storySourceParameters(
+    storySourceFragment(
+      '<Image src={imageSrc} alt="Workspace cropped to 1/1" aspectRatio="1/1" />',
+      '<Image src={imageSrc} alt="Workspace cropped to 4/3" aspectRatio="4/3" />',
+      '<Image src={imageSrc} alt="Workspace cropped to 16/9" aspectRatio="16/9" />',
+      '<Image src={imageSrc} alt="Workspace cropped to 3/2" aspectRatio="3/2" />'
+    )
   ),
 };
 
@@ -90,6 +114,13 @@ export const FitModes: Story = {
       </div>
     </div>
   ),
+  parameters: storySourceParameters(
+    storySourceFragment(
+      '<Image src={imageSrc} alt="Workspace displayed with cover fit" aspectRatio="4/3" fit="cover" />',
+      '<Image src={imageSrc} alt="Workspace displayed with contain fit" aspectRatio="4/3" fit="contain" />',
+      '<Image src={imageSrc} alt="Workspace displayed with fill fit" aspectRatio="4/3" fit="fill" />'
+    )
+  ),
 };
 
 export const Rounded: Story = {
@@ -99,6 +130,16 @@ export const Rounded: Story = {
     aspectRatio: '1/1',
     rounded: true,
   },
+  parameters: storySourceParameters(
+    storySource(
+      '<Image',
+      '  src={imageSrc}',
+      '  alt="Circular crop of a modern workspace"',
+      '  aspectRatio="1/1"',
+      '  rounded',
+      '/>'
+    )
+  ),
 };
 
 export const LazyLoading: Story = {
@@ -113,6 +154,16 @@ export const LazyLoading: Story = {
       description: {
         story: 'Uses the default native lazy loading behavior.',
       },
+      source: storySourceBlock(
+        storySource(
+          '<Image',
+          '  src={imageSrc}',
+          '  alt="Lazy loaded workspace image"',
+          '  aspectRatio="16/9"',
+          '  loading="lazy"',
+          '/>'
+        )
+      ),
     },
   },
 };
@@ -123,6 +174,7 @@ export const Decorative: Story = {
     alt: '',
     aspectRatio: '16/9',
   },
+  parameters: storySourceParameters('<Image src={imageSrc} alt="" aspectRatio="16/9" />'),
 };
 
 export const LoadingState: Story = {
@@ -131,4 +183,13 @@ export const LoadingState: Story = {
     alt: 'Image placeholder background while the image cannot load',
     aspectRatio: '16/9',
   },
+  parameters: storySourceParameters(
+    storySource(
+      '<Image',
+      '  src="/missing-image-loading-state.jpg"',
+      '  alt="Image placeholder background while the image cannot load"',
+      '  aspectRatio="16/9"',
+      '/>'
+    )
+  ),
 };

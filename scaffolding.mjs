@@ -95,6 +95,7 @@ writeFileSync(join(dir, `${name}.stories.tsx`), `
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ${name} } from './${name}';
 import storyStyles from './${name}.stories.module.scss';
+import { storySourceParameters } from '../../utils/storySource';
 
 const meta: Meta<typeof ${name}> = {
   title: 'Core Components/${name}',
@@ -119,6 +120,7 @@ export const Default: Story = {
   args: {
     children: '${name}',
   },
+  parameters: storySourceParameters('<${name}>${name}</${name}>'),
 };
 `.trimStart());
 

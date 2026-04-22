@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ArrowRight, Plus } from 'lucide-react';
 import { Button } from './Button';
 import storyStyles from './Button.stories.module.scss';
+import { storySourceBlock, storySourceParameters } from '../../utils/storySource';
 
 const componentDescription = `Buttons accept an optional \`icon\` prop typed as \`LucideIcon\` from \`lucide-react\`. Icon names come from the Lucide React icon set, so consumers can choose from the Lucide library and import the icons they need directly, for example \`import { Plus, ArrowRight } from 'lucide-react'\`.
 
@@ -152,18 +153,14 @@ type Story = StoryObj<typeof Button>;
 
 export const Default: Story = {
   args: {},
-  parameters: {
-    docs: {
-      source: {
-        code: buildButtonSource({
-          children: 'Button',
-          variant: 'primary',
-          size: 'default',
-          disabled: false,
-        }),
-      },
-    },
-  },
+  parameters: storySourceParameters(
+    buildButtonSource({
+      children: 'Button',
+      variant: 'primary',
+      size: 'default',
+      disabled: false,
+    })
+  ),
 };
 
 export const IconBefore: Story = {
@@ -172,20 +169,16 @@ export const IconBefore: Story = {
     icon: Plus,
     iconPosition: 'start',
   },
-  parameters: {
-    docs: {
-      source: {
-        code: buildButtonSource({
-          children: 'Button',
-          variant: 'primary',
-          size: 'default',
-          disabled: false,
-          icon: Plus,
-          iconPosition: 'start',
-        }),
-      },
-    },
-  },
+  parameters: storySourceParameters(
+    buildButtonSource({
+      children: 'Button',
+      variant: 'primary',
+      size: 'default',
+      disabled: false,
+      icon: Plus,
+      iconPosition: 'start',
+    })
+  ),
 };
 
 export const IconAfter: Story = {
@@ -194,20 +187,16 @@ export const IconAfter: Story = {
     icon: ArrowRight,
     iconPosition: 'end',
   },
-  parameters: {
-    docs: {
-      source: {
-        code: buildButtonSource({
-          children: 'Continue',
-          variant: 'primary',
-          size: 'default',
-          disabled: false,
-          icon: ArrowRight,
-          iconPosition: 'end',
-        }),
-      },
-    },
-  },
+  parameters: storySourceParameters(
+    buildButtonSource({
+      children: 'Continue',
+      variant: 'primary',
+      size: 'default',
+      disabled: false,
+      icon: ArrowRight,
+      iconPosition: 'end',
+    })
+  ),
 };
 
 export const IconOnly: Story = {
@@ -223,8 +212,8 @@ export const IconOnly: Story = {
         story:
           'Use `size="icon"`, clear `children`, and provide `aria-label` to preview an icon-only button.',
       },
-      source: {
-        code: buildButtonSource({
+      source: storySourceBlock(
+        buildButtonSource({
           children: undefined,
           variant: 'primary',
           size: 'icon',
@@ -232,8 +221,8 @@ export const IconOnly: Story = {
           icon: Plus,
           iconPosition: 'start',
           'aria-label': 'Add item',
-        }),
-      },
+        })
+      ),
     },
   },
 };
@@ -250,17 +239,15 @@ export const FullWidth: Story = {
         story:
           'This example uses a fixed-width container so the `fullWidth` behavior is visible in Storybook.',
       },
-      source: {
-        code: `<div className="${storyStyles.storyFullWidthFrame}">
-  ${buildButtonSource({
-    children: 'Continue',
-    variant: 'primary',
-    size: 'default',
-    fullWidth: true,
-    disabled: false,
-  })}
-</div>`,
-      },
+      source: storySourceBlock(
+        buildButtonSource({
+          children: 'Continue',
+          variant: 'primary',
+          size: 'default',
+          fullWidth: true,
+          disabled: false,
+        })
+      ),
     },
   },
 };
@@ -270,17 +257,13 @@ export const Loading: Story = {
     children: 'Saving...',
     loading: true,
   },
-  parameters: {
-    docs: {
-      source: {
-        code: buildButtonSource({
-          children: 'Saving...',
-          variant: 'primary',
-          size: 'default',
-          disabled: false,
-          loading: true,
-        }),
-      },
-    },
-  },
+  parameters: storySourceParameters(
+    buildButtonSource({
+      children: 'Saving...',
+      variant: 'primary',
+      size: 'default',
+      disabled: false,
+      loading: true,
+    })
+  ),
 };

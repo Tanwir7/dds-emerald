@@ -2,6 +2,7 @@ import type { ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Divider } from './Divider';
 import storyStyles from './Divider.stories.module.scss';
+import { storySourceParameters } from '../../utils/storySource';
 
 const meta: Meta<typeof Divider> = {
   title: 'Core Components/Divider',
@@ -26,6 +27,7 @@ export const Default: Story = {
   args: {
     orientation: 'horizontal',
   },
+  parameters: storySourceParameters('<Divider />'),
 };
 
 export const Vertical: Story = {
@@ -36,17 +38,12 @@ export const Vertical: Story = {
       </div>
     </div>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: '<Divider orientation="vertical" />',
-      },
-    },
-  },
+  parameters: storySourceParameters('<Divider orientation="vertical" />'),
 };
 
 export const Labelled: Story = {
   args: {
     label: 'Section',
   },
+  parameters: storySourceParameters('<Divider label="Section" />'),
 };
