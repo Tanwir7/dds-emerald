@@ -45,7 +45,9 @@
     "@radix-ui/react-avatar": "^1.x.x",
     "@radix-ui/react-checkbox": "^1.x.x",
     "@radix-ui/react-label": "^2.x.x",
+    "@radix-ui/react-radio-group": "^1.x.x",
     "@radix-ui/react-slot": "^1.x.x",
+    "@radix-ui/react-switch": "^1.x.x",
     "@radix-ui/react-visually-hidden": "^1.x.x",
     "@vitejs/plugin-react": "^6.0.1",
     "clsx": "^2.x.x",
@@ -53,6 +55,7 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "sass": "^1.x.x",
+    "storybook": "^10.3.3",
     "typescript": "^5.x.x",
     "vite": "^8.0.3",
     "vite-plugin-dts": "^4.5.4"

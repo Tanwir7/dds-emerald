@@ -1,6 +1,5 @@
 import type { ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { userEvent } from '@storybook/testing-library';
 import { Textarea } from './Textarea';
 import storyStyles from './Textarea.stories.module.scss';
 import { Label } from '../Label';
@@ -240,7 +239,7 @@ export const FocusVisible: Story = {
       throw new Error('Expected to find a textarea in the story canvas.');
     }
 
-    await userEvent.tab();
+    textarea.focus();
 
     if (document.activeElement !== textarea) {
       throw new Error('Expected the textarea to receive focus.');

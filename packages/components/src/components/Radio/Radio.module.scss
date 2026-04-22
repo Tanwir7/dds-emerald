@@ -1,0 +1,94 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.root {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0;
+  background-color: var(--dds-color-bg-input);
+  border: 2px solid var(--dds-color-border-input);
+  border-radius: var(--dds-radius-full);
+  outline: 3px solid transparent;
+  outline-offset: 2px;
+  cursor: pointer;
+  transition:
+    background-color var(--dds-duration-fast) var(--dds-ease-standard),
+    border-color var(--dds-duration-fast) var(--dds-ease-standard),
+    outline-color var(--dds-duration-fast) var(--dds-ease-standard);
+
+  &[data-state='checked'] {
+    border-color: var(--dds-color-action-primary);
+  }
+
+  &:focus-visible {
+    outline-color: oklch(from var(--dds-color-focus-ring) l c h / 0.5);
+  }
+
+  &:hover:not([data-disabled]) {
+    border-color: var(--dds-color-action-primary);
+  }
+
+  &[data-disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.invalid {
+  border-color: var(--dds-color-status-danger);
+
+  &[data-state='checked'] {
+    border-color: var(--dds-color-status-danger);
+  }
+
+  .dot {
+    background-color: var(--dds-color-status-danger);
+  }
+}
+
+.sm {
+  width: var(--dds-space-4);
+  height: var(--dds-space-4);
+
+  .dot {
+    width: var(--dds-space-1-5);
+    height: var(--dds-space-1-5);
+  }
+}
+
+.md {
+  width: var(--dds-space-5);
+  height: var(--dds-space-5);
+
+  .dot {
+    width: var(--dds-space-2);
+    height: var(--dds-space-2);
+  }
+}
+
+.indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dot {
+  display: block;
+  border-radius: var(--dds-radius-full);
+  background-color: var(--dds-color-action-primary);
+}
+
+.group {
+  display: flex;
+  gap: var(--dds-space-2);
+}
+
+.vertical {
+  flex-direction: column;
+}
+
+.horizontal {
+  flex-flow: row wrap;
+}

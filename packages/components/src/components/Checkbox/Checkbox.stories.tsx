@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import type { ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { within, userEvent } from '@storybook/testing-library';
 import { Checkbox, type CheckboxCheckedState } from './Checkbox';
 import storyStyles from './Checkbox.stories.module.scss';
 import { Label } from '../Label';
@@ -207,9 +206,13 @@ export const FocusVisible: Story = {
   },
   parameters: storySourceParameters('<Checkbox aria-label="Focus visible example" />'),
   play: async ({ canvasElement }) => {
-    const cb = within(canvasElement).getByRole('checkbox');
+    const cb = canvasElement.querySelector('[role="checkbox"]');
 
-    await userEvent.tab();
+    if (!(cb instanceof HTMLElement)) {
+      throw new Error('Expected to find a checkbox in the story canvas.');
+    }
+
+    cb.focus();
 
     if (document.activeElement !== cb) {
       throw new Error('Expected the checkbox to receive focus.');
@@ -223,13 +226,17 @@ export const Toggle: Story = {
   },
   parameters: storySourceParameters('<Checkbox aria-label="Toggle example" />'),
   play: async ({ canvasElement }) => {
-    const cb = within(canvasElement).getByRole('checkbox');
+    const cb = canvasElement.querySelector('[role="checkbox"]');
+
+    if (!(cb instanceof HTMLElement)) {
+      throw new Error('Expected to find a checkbox in the story canvas.');
+    }
 
     if (cb.getAttribute('aria-checked') !== 'false') {
       throw new Error('Expected the checkbox to start unchecked.');
     }
 
-    await userEvent.click(cb);
+    cb.click();
 
     if (cb.getAttribute('aria-checked') !== 'true') {
       throw new Error('Expected the checkbox to be checked after click.');

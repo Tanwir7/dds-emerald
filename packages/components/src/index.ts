@@ -56,3 +56,12 @@ export { Textarea } from './components/Textarea';
 export type { TextareaProps, TextareaResize, TextareaSize } from './components/Textarea';
 export { Checkbox } from './components/Checkbox';
 export type { CheckboxCheckedState, CheckboxProps, CheckboxSize } from './components/Checkbox';
+export { Radio, RadioGroup } from './components/Radio';
+export type {
+  RadioGroupOrientation,
+  RadioGroupProps,
+  RadioProps,
+  RadioSize,
+} from './components/Radio';
+export { Switch } from './components/Switch';
+export type { SwitchProps, SwitchSize } from './components/Switch';
