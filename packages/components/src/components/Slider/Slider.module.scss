@@ -1,0 +1,117 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.root {
+  position: relative;
+  display: flex;
+  align-items: center;
+  user-select: none;
+  touch-action: none;
+
+  &[data-disabled] {
+    opacity: 0.5;
+  }
+}
+
+.horizontal {
+  width: 100%;
+  min-height: var(--dds-space-6);
+
+  .track {
+    width: 100%;
+  }
+
+  .range {
+    height: 100%;
+  }
+}
+
+.vertical {
+  flex-direction: column;
+  width: auto;
+  min-width: var(--dds-space-6);
+  height: 100%;
+
+  .track {
+    height: 100%;
+  }
+
+  .range {
+    width: 100%;
+  }
+}
+
+.track {
+  position: relative;
+  box-sizing: border-box;
+  flex-grow: 1;
+  border-radius: var(--dds-radius-none);
+  background-color: var(--dds-color-bg-subtle);
+}
+
+.range {
+  position: absolute;
+  border-radius: var(--dds-radius-none);
+  background-color: var(--dds-color-action-primary);
+}
+
+.thumb {
+  display: block;
+  box-sizing: border-box;
+  border: 2px solid var(--dds-color-action-primary);
+  border-radius: var(--dds-radius-none);
+  background-color: var(--dds-color-action-primary);
+  box-shadow: var(--dds-shadow-sm);
+  outline: 3px solid transparent;
+  outline-offset: 2px;
+  cursor: grab;
+  transition:
+    border-color var(--dds-duration-fast) var(--dds-ease-standard),
+    outline-color var(--dds-duration-fast) var(--dds-ease-standard);
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  &:hover:not([data-disabled]) {
+    border-color: var(--dds-color-action-primary-hover);
+  }
+
+  &:focus-visible {
+    outline-color: oklch(from var(--dds-color-focus-ring) l c h / 0.5);
+  }
+
+  &[data-disabled] {
+    cursor: not-allowed;
+  }
+}
+
+.sm {
+  &.horizontal .track {
+    height: var(--dds-space-1);
+  }
+
+  &.vertical .track {
+    width: var(--dds-space-1);
+  }
+
+  .thumb {
+    width: var(--dds-space-4);
+    height: var(--dds-space-4);
+  }
+}
+
+.md {
+  &.horizontal .track {
+    height: var(--dds-space-1-5);
+  }
+
+  &.vertical .track {
+    width: var(--dds-space-1-5);
+  }
+
+  .thumb {
+    width: var(--dds-space-5);
+    height: var(--dds-space-5);
+  }
+}

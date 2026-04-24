@@ -65,3 +65,5 @@ export type {
 } from './components/Radio';
 export { Switch } from './components/Switch';
 export type { SwitchProps, SwitchSize } from './components/Switch';
+export { Slider } from './components/Slider';
+export type { SliderOrientation, SliderProps, SliderSize } from './components/Slider';
