@@ -94,18 +94,24 @@
 }
 
 .startIcon,
-.endIcon {
+.endIcon,
+.endIconButton {
   position: absolute;
   top: 50%;
   display: flex;
   align-items: center;
+  justify-content: center;
   color: var(--dds-color-text-muted);
-  pointer-events: none;
   transform: translateY(-50%);
 
   & > svg {
     @include icon-size(md);
   }
+}
+
+.startIcon,
+.endIcon {
+  pointer-events: none;
 }
 
 .startIcon {
@@ -114,4 +120,24 @@
 
 .endIcon {
   right: var(--dds-space-2-5);
+}
+
+.endIconButton {
+  right: var(--dds-space-1);
+  width: var(--dds-space-6);
+  height: var(--dds-space-6);
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+  border-radius: var(--dds-radius-none);
+  outline: 3px solid transparent;
+  outline-offset: 2px;
+  cursor: pointer;
+
+  @include interactive-focus-ring;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 }

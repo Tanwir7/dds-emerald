@@ -126,43 +126,138 @@ describe('Input', () => {
   });
 
   it('renders startIcon when startIcon prop is provided', () => {
-    const { container } = render(
-      <Input startIcon={<Search aria-hidden="true" />} aria-label="Search" />
-    );
+    const { container } = render(<Input startIcon={Search} aria-label="Search" />);
 
     expect(container.querySelector(`.${classNames.startIcon}`)).toBeInTheDocument();
-    expect(container.querySelector(`.${classNames.startIcon} svg`)).toBeInTheDocument();
+    expect(container.querySelector(`.${classNames.startIcon} svg`)).toHaveAttribute(
+      'aria-hidden',
+      'true'
+    );
   });
 
   it('applies .hasStartIcon class when startIcon is provided', () => {
-    const { container } = render(
-      <Input startIcon={<Search aria-hidden="true" />} aria-label="Search" />
-    );
+    const { container } = render(<Input startIcon={Search} aria-label="Search" />);
 
     expect(getInput(container)).toHaveClass(classNames.hasStartIcon);
   });
 
   it('renders endIcon when endIcon prop is provided', () => {
-    const { container } = render(<Input endIcon={<X aria-hidden="true" />} aria-label="Search" />);
+    const { container } = render(<Input endIcon={X} aria-label="Search" />);
 
     expect(container.querySelector(`.${classNames.endIcon}`)).toBeInTheDocument();
-    expect(container.querySelector(`.${classNames.endIcon} svg`)).toBeInTheDocument();
+    expect(container.querySelector(`.${classNames.endIcon} svg`)).toHaveAttribute(
+      'aria-hidden',
+      'true'
+    );
   });
 
   it('applies .hasEndIcon class when endIcon is provided', () => {
-    const { container } = render(<Input endIcon={<X aria-hidden="true" />} aria-label="Search" />);
+    const { container } = render(<Input endIcon={X} aria-label="Search" />);
 
     expect(getInput(container)).toHaveClass(classNames.hasEndIcon);
   });
 
-  it('renders both icons simultaneously', () => {
+  it('renders an accessible end icon button when onEndIconClick is provided', () => {
+    const onEndIconClick = vi.fn();
     const { container } = render(
       <Input
-        startIcon={<Search aria-hidden="true" />}
-        endIcon={<X aria-hidden="true" />}
+        endIcon={X}
+        endIconLabel="Clear search"
+        onEndIconClick={onEndIconClick}
         aria-label="Search"
       />
     );
+    const button = container.querySelector('button');
+
+    expect(button).toBeInstanceOf(HTMLButtonElement);
+    expect(button).toHaveAttribute('type', 'button');
+    expect(button).toHaveAccessibleName('Clear search');
+    expect(button?.querySelector('svg')).toHaveAttribute('aria-hidden', 'true');
+  });
+
+  it('calls onEndIconClick when the end icon button is clicked', async () => {
+    const user = userEvent.setup();
+    const onEndIconClick = vi.fn();
+    const { container } = render(
+      <Input
+        endIcon={X}
+        endIconLabel="Clear search"
+        onEndIconClick={onEndIconClick}
+        aria-label="Search"
+      />
+    );
+    const button = container.querySelector('button');
+
+    expect(button).toBeInstanceOf(HTMLButtonElement);
+    await user.click(button as HTMLButtonElement);
+
+    expect(onEndIconClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('supports clearing a controlled input from the end icon button', async () => {
+    const user = userEvent.setup();
+    const ClearableInput = () => {
+      const [value, setValue] = React.useState('Emerald');
+
+      return (
+        <Input
+          aria-label="Search"
+          value={value}
+          onChange={(event) => setValue(event.currentTarget.value)}
+          endIcon={X}
+          endIconLabel="Clear search"
+          onEndIconClick={() => setValue('')}
+        />
+      );
+    };
+    const { container } = render(<ClearableInput />);
+
+    expect(getInput(container)).toHaveValue('Emerald');
+    await user.click(container.querySelector('button') as HTMLButtonElement);
+
+    expect(getInput(container)).toHaveValue('');
+  });
+
+  it('keyboard: reaches and activates the end icon button after the input', async () => {
+    const user = userEvent.setup();
+    const onEndIconClick = vi.fn();
+    const { container } = render(
+      <Input
+        endIcon={X}
+        endIconLabel="Clear search"
+        onEndIconClick={onEndIconClick}
+        aria-label="Search"
+      />
+    );
+    const input = getInput(container);
+    const button = container.querySelector('button');
+
+    expect(button).toBeInstanceOf(HTMLButtonElement);
+    await user.tab();
+    expect(input).toHaveFocus();
+    await user.tab();
+    expect(button).toHaveFocus();
+    await user.keyboard('{Enter}');
+
+    expect(onEndIconClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('disables the end icon button when the input is disabled', () => {
+    const { container } = render(
+      <Input
+        disabled
+        endIcon={X}
+        endIconLabel="Clear search"
+        onEndIconClick={() => {}}
+        aria-label="Search"
+      />
+    );
+
+    expect(container.querySelector('button')).toBeDisabled();
+  });
+
+  it('renders both icons simultaneously', () => {
+    const { container } = render(<Input startIcon={Search} endIcon={X} aria-label="Search" />);
 
     expect(container.querySelector(`.${classNames.startIcon}`)).toBeInTheDocument();
     expect(container.querySelector(`.${classNames.endIcon}`)).toBeInTheDocument();
@@ -333,12 +428,20 @@ describe('Input', () => {
     expect(results).toHaveNoViolations();
   });
 
-  it('axe passes with startIcon and endIcon', async () => {
+  it('axe passes with decorative startIcon and endIcon', async () => {
+    const { container } = render(<Input aria-label="Search" startIcon={Search} endIcon={X} />);
+
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+
+  it('axe passes with an actionable endIcon', async () => {
     const { container } = render(
       <Input
         aria-label="Search"
-        startIcon={<Search aria-hidden="true" />}
-        endIcon={<X aria-hidden="true" />}
+        endIcon={X}
+        endIconLabel="Clear search"
+        onEndIconClick={() => {}}
       />
     );
 

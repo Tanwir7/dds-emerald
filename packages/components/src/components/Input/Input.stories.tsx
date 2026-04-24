@@ -1,4 +1,4 @@
-import type { ComponentProps } from 'react';
+import { useState, type ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Search, X } from 'lucide-react';
 import { Input } from './Input';
@@ -19,6 +19,47 @@ const renderField = (
     </div>
   </div>
 );
+
+const ClearableEndIconExample = () => {
+  const [value, setValue] = useState('Emerald');
+
+  return (
+    <div className={storyStyles.storyA11yScope}>
+      <div className={storyStyles.storyField}>
+        <Label htmlFor="storybook-clearable-search">Search</Label>
+        <Input
+          id="storybook-clearable-search"
+          value={value}
+          onChange={(event) => setValue(event.currentTarget.value)}
+          endIcon={X}
+          endIconLabel="Clear search"
+          onEndIconClick={() => setValue('')}
+        />
+      </div>
+    </div>
+  );
+};
+
+const ClearableSearchExample = () => {
+  const [value, setValue] = useState('Emerald');
+
+  return (
+    <div className={storyStyles.storyA11yScope}>
+      <div className={storyStyles.storyField}>
+        <Label htmlFor="storybook-search-with-clear">Search</Label>
+        <Input
+          id="storybook-search-with-clear"
+          value={value}
+          onChange={(event) => setValue(event.currentTarget.value)}
+          startIcon={Search}
+          endIcon={X}
+          endIconLabel="Clear search"
+          onEndIconClick={() => setValue('')}
+        />
+      </div>
+    </div>
+  );
+};
 
 const meta: Meta<typeof Input> = {
   title: 'Core Components/Input',
@@ -49,6 +90,16 @@ const meta: Meta<typeof Input> = {
       },
     },
     endIcon: {
+      table: {
+        disable: true,
+      },
+    },
+    endIconLabel: {
+      table: {
+        disable: true,
+      },
+    },
+    onEndIconClick: {
       table: {
         disable: true,
       },
@@ -173,7 +224,7 @@ export const ReadOnly: Story = {
 export const WithStartIcon: Story = {
   args: {
     placeholder: 'Search projects',
-    startIcon: <Search aria-hidden="true" />,
+    startIcon: Search,
   },
   render: (args: ComponentProps<typeof Input>) => renderField(args, 'Search'),
   parameters: storySourceParameters(
@@ -182,45 +233,46 @@ export const WithStartIcon: Story = {
       '<Input',
       '  id="search-projects"',
       '  placeholder="Search projects"',
-      '  startIcon={<Search aria-hidden="true" />}',
+      '  startIcon={Search}',
       '/>'
     )
   ),
 };
 
 export const WithEndIcon: Story = {
-  args: {
-    defaultValue: 'Emerald',
-    endIcon: <X aria-hidden="true" />,
-  },
-  render: (args: ComponentProps<typeof Input>) => renderField(args, 'Search'),
+  render: () => <ClearableEndIconExample />,
   parameters: storySourceParameters(
     storySource(
+      'const [value, setValue] = useState("Emerald");',
+      '',
       '<Label htmlFor="search-term">Search</Label>',
       '<Input',
       '  id="search-term"',
-      '  defaultValue="Emerald"',
-      '  endIcon={<X aria-hidden="true" />}',
+      '  value={value}',
+      '  onChange={(event) => setValue(event.currentTarget.value)}',
+      '  endIcon={X}',
+      '  endIconLabel="Clear search"',
+      '  onEndIconClick={() => setValue("")}',
       '/>'
     )
   ),
 };
 
 export const WithBothIcons: Story = {
-  args: {
-    defaultValue: 'Emerald',
-    startIcon: <Search aria-hidden="true" />,
-    endIcon: <X aria-hidden="true" />,
-  },
-  render: (args: ComponentProps<typeof Input>) => renderField(args, 'Search'),
+  render: () => <ClearableSearchExample />,
   parameters: storySourceParameters(
     storySource(
+      'const [value, setValue] = useState("Emerald");',
+      '',
       '<Label htmlFor="search-term">Search</Label>',
       '<Input',
       '  id="search-term"',
-      '  defaultValue="Emerald"',
-      '  startIcon={<Search aria-hidden="true" />}',
-      '  endIcon={<X aria-hidden="true" />}',
+      '  value={value}',
+      '  onChange={(event) => setValue(event.currentTarget.value)}',
+      '  startIcon={Search}',
+      '  endIcon={X}',
+      '  endIconLabel="Clear search"',
+      '  onEndIconClick={() => setValue("")}',
       '/>'
     )
   ),

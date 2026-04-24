@@ -1,17 +1,31 @@
 import React from 'react';
 import clsx from 'clsx';
+import type { LucideIcon } from 'lucide-react';
 import styles from './Input.module.scss';
 import { getRequiredClassName } from '../../utils/getRequiredClassName';
 
 export type InputSize = 'sm' | 'md' | 'lg';
 
-export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
+type InputBaseProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> & {
   size?: InputSize;
   invalid?: boolean;
-  startIcon?: React.ReactNode;
-  endIcon?: React.ReactNode;
+  startIcon?: LucideIcon;
   className?: string;
-}
+};
+
+type InputEndIconProps =
+  | {
+      endIcon?: LucideIcon;
+      endIconLabel?: never;
+      onEndIconClick?: never;
+    }
+  | {
+      endIcon: LucideIcon;
+      endIconLabel: string;
+      onEndIconClick: React.MouseEventHandler<HTMLButtonElement>;
+    };
+
+export type InputProps = InputBaseProps & InputEndIconProps;
 
 const sizeClassName: Record<InputSize, string> = {
   sm: getRequiredClassName(styles, 'sm'),
@@ -20,12 +34,28 @@ const sizeClassName: Record<InputSize, string> = {
 };
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ size = 'md', invalid = false, startIcon, endIcon, className, ...props }: InputProps, ref) => {
+  (
+    {
+      size = 'md',
+      invalid = false,
+      startIcon,
+      endIcon,
+      endIconLabel,
+      onEndIconClick,
+      className,
+      ...props
+    }: InputProps,
+    ref
+  ) => {
+    const StartIcon = startIcon;
+    const EndIcon = endIcon;
+    const hasEndIconAction = Boolean(EndIcon && onEndIconClick);
+
     return (
       <div className={styles.wrapper}>
-        {startIcon ? (
+        {StartIcon ? (
           <span className={styles.startIcon} aria-hidden="true">
-            {startIcon}
+            <StartIcon aria-hidden="true" />
           </span>
         ) : null}
         <input
@@ -34,15 +64,26 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             styles.root,
             sizeClassName[size],
             invalid && styles.invalid,
-            startIcon && styles.hasStartIcon,
-            endIcon && styles.hasEndIcon,
+            StartIcon && styles.hasStartIcon,
+            EndIcon && styles.hasEndIcon,
             className
           )}
           {...props}
         />
-        {endIcon ? (
+        {EndIcon && hasEndIconAction ? (
+          <button
+            className={styles.endIconButton}
+            type="button"
+            aria-label={endIconLabel}
+            onClick={onEndIconClick}
+            disabled={props.disabled || props.readOnly}
+          >
+            <EndIcon aria-hidden="true" />
+          </button>
+        ) : null}
+        {EndIcon && !hasEndIconAction ? (
           <span className={styles.endIcon} aria-hidden="true">
-            {endIcon}
+            <EndIcon aria-hidden="true" />
           </span>
         ) : null}
       </div>

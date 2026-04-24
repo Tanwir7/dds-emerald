@@ -15,6 +15,9 @@
   "files": [
     "dist"
   ],
+  "sideEffects": [
+    "**/*.css"
+  ],
   "scripts": {
     "build": "tsup && node scripts/check-dist.mjs",
     "check:dist": "node scripts/check-dist.mjs",
