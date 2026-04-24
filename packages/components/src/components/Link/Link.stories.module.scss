@@ -1,0 +1,33 @@
+.storyA11yScope {
+  display: inline-flex;
+}
+
+.storyStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-3);
+}
+
+.storyRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--dds-space-4);
+  align-items: center;
+}
+
+.storyParagraph {
+  margin: 0;
+  color: var(--dds-color-text-default);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-base);
+  line-height: var(--dds-line-height-normal);
+}
+
+.storyHeading {
+  margin: 0;
+  color: var(--dds-color-text-default);
+  font-family: var(--dds-font-display);
+  font-size: var(--dds-font-size-2xl);
+  font-weight: var(--dds-font-weight-semibold);
+  line-height: var(--dds-line-height-tight);
+}

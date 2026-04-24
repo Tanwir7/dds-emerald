@@ -1,0 +1,92 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.root {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dds-space-1);
+  border-radius: var(--dds-radius-none);
+  color: var(--dds-color-action-primary);
+  font-family: var(--dds-font-sans);
+  font-size: inherit;
+  font-weight: var(--dds-font-weight-medium);
+  line-height: inherit;
+  cursor: pointer;
+  outline: 3px solid transparent;
+  outline-offset: 2px;
+  transition:
+    color var(--dds-duration-fast) var(--dds-ease-standard),
+    outline-color var(--dds-duration-fast) var(--dds-ease-standard);
+
+  &:focus-visible {
+    outline-color: oklch(from var(--dds-color-focus-ring) l c h / 0.5);
+  }
+}
+
+.default {
+  color: var(--dds-color-action-primary);
+
+  &:hover {
+    color: var(--dds-color-action-primary-hover);
+  }
+
+  &:visited {
+    color: var(--dds-color-action-primary);
+  }
+}
+
+.muted {
+  color: var(--dds-color-text-muted);
+
+  &:hover {
+    color: var(--dds-color-text-default);
+  }
+}
+
+.destructive {
+  color: var(--dds-color-status-danger);
+
+  &:hover {
+    color: var(--dds-color-action-destructive-hover);
+  }
+}
+
+.underlineAlways {
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-underline-offset: 3px;
+}
+
+.underlineHover {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+    text-decoration-color: currentColor;
+    text-underline-offset: 3px;
+  }
+}
+
+.underlineNone {
+  text-decoration: none;
+}
+
+.sm {
+  font-size: var(--dds-font-size-sm);
+}
+
+.base {
+  font-size: var(--dds-font-size-base);
+}
+
+.lg {
+  font-size: var(--dds-font-size-lg);
+}
+
+.externalIcon {
+  display: inline-flex;
+  align-items: center;
+  width: var(--dds-icon-size-sm);
+  height: var(--dds-icon-size-sm);
+  flex-shrink: 0;
+}

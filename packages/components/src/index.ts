@@ -23,6 +23,8 @@ export type {
   TextTransform,
   TextWeight,
 } from './components/Text';
+export { Link } from './components/Link';
+export type { LinkProps, LinkSize, LinkUnderline, LinkVariant } from './components/Link';
 export { Heading } from './components/Heading';
 export type {
   HeadingAlign,
