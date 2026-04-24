@@ -1,0 +1,49 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.instruction {
+  margin-bottom: var(--dds-space-1-5);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--dds-space-3);
+}
+
+.labelLeft {
+  flex-direction: row-reverse;
+}
+
+.labelGroup {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--dds-space-2);
+}
+
+.description {
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-xs);
+  color: var(--dds-color-text-muted);
+  white-space: nowrap;
+}
+
+.helper {
+  margin-top: var(--dds-space-1);
+}
+
+.helperMd {
+  padding-left: calc(var(--dds-space-11) + var(--dds-space-3));
+}
+
+.helperSm {
+  padding-left: calc(var(--dds-space-8) + var(--dds-space-3));
+}

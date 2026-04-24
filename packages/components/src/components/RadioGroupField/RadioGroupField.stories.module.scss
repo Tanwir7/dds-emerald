@@ -1,0 +1,21 @@
+.storyA11yScope {
+  display: flex;
+  width: 100%;
+}
+
+.storyStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-4);
+  width: 100%;
+}
+
+.storyOption {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dds-space-2);
+}
+
+.storyValue {
+  margin-top: var(--dds-space-2);
+}

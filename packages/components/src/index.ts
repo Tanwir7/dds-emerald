@@ -73,3 +73,14 @@ export { Field } from './components/Field';
 export type { FieldHelperIntent, FieldLayout, FieldProps } from './components/Field';
 export { CheckboxField } from './components/CheckboxField';
 export type { CheckboxFieldHelperIntent, CheckboxFieldProps } from './components/CheckboxField';
+export { SwitchField } from './components/SwitchField';
+export type {
+  SwitchFieldHelperIntent,
+  SwitchFieldLabelPosition,
+  SwitchFieldProps,
+} from './components/SwitchField';
+export { RadioGroupField } from './components/RadioGroupField';
+export type {
+  RadioGroupFieldHelperIntent,
+  RadioGroupFieldProps,
+} from './components/RadioGroupField';

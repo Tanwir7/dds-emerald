@@ -1,0 +1,41 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.groupLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dds-space-1);
+  margin-bottom: var(--dds-space-0-5);
+  color: var(--dds-color-text-default);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-sm);
+  font-weight: var(--dds-font-weight-medium);
+  line-height: var(--dds-line-height-none);
+}
+
+.groupLabelDisabled {
+  opacity: 0.5;
+}
+
+.groupLabelNoInstruction {
+  margin-bottom: var(--dds-space-1-5);
+}
+
+.requiredMark {
+  color: var(--dds-color-status-danger);
+  font-weight: var(--dds-font-weight-bold);
+}
+
+.instruction {
+  margin-bottom: var(--dds-space-1-5);
+}
+
+.helper {
+  margin-top: var(--dds-space-2);
+}
