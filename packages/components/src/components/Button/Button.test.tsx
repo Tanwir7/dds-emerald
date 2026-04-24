@@ -215,6 +215,21 @@ describe('Button', () => {
     expect(button.firstElementChild?.tagName).toBe('SPAN');
   });
 
+  it('renders button icons through the shared Icon wrapper', () => {
+    render(<Button icon={Plus}>Create</Button>);
+
+    const button = getButtonByText('Create');
+    const iconWrapper = button.firstElementChild;
+    const icon = iconWrapper?.querySelector('svg');
+
+    expect(iconWrapper?.className).toMatch(/root/);
+    expect(iconWrapper?.className).toMatch(/md/);
+    expect(iconWrapper?.className).toMatch(/icon/);
+    expect(iconWrapper).toHaveAttribute('aria-hidden', 'true');
+    expect(icon).toBeTruthy();
+    expect(icon).toHaveAttribute('aria-hidden', 'true');
+  });
+
   it('renders the icon after the button text when iconPosition is end', () => {
     render(
       <Button icon={ArrowRight} iconPosition="end">

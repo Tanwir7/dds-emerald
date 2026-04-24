@@ -2,6 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import type { LucideIcon } from 'lucide-react';
 import styles from './Button.module.scss';
+import { Icon as DDSIcon } from '../Icon';
 import { getRequiredClassName } from '../../utils/getRequiredClassName';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive';
@@ -57,6 +58,8 @@ const sizeClassName: Record<ButtonSize, string> = {
   'icon-lg': getRequiredClassName(styles, 'sizeIconLg'),
 };
 
+const iconClassName = getRequiredClassName(styles, 'icon');
+
 const hasVisibleLabel = (children: React.ReactNode) =>
   React.Children.toArray(children).some((child) => {
     if (child === null || child === undefined || typeof child === 'boolean') {
@@ -78,7 +81,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       fullWidth = false,
       className,
       children,
-      icon: Icon,
+      icon: IconComponent,
       iconPosition = 'start',
       loading = false,
       disabled = false,
@@ -121,7 +124,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     );
 
     const spinner = (
-      <span className={styles.icon} aria-hidden="true">
+      <span className={iconClassName} aria-hidden="true">
         <svg aria-hidden="true" className={styles.spinner} data-progress="" viewBox="0 0 16 16">
           <circle className={styles.spinnerCircle} cx="8" cy="8" r="7" />
         </svg>
@@ -142,16 +145,12 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {loading ? spinner : null}
-        {!loading && Icon && iconPosition === 'start' ? (
-          <span className={styles.icon} aria-hidden="true">
-            <Icon aria-hidden="true" />
-          </span>
+        {!loading && IconComponent && iconPosition === 'start' ? (
+          <DDSIcon icon={IconComponent} className={iconClassName} aria-hidden="true" />
         ) : null}
         {hasVisibleLabel(children) ? <span className={styles.label}>{children}</span> : null}
-        {!loading && Icon && iconPosition === 'end' ? (
-          <span className={styles.icon} aria-hidden="true">
-            <Icon aria-hidden="true" />
-          </span>
+        {!loading && IconComponent && iconPosition === 'end' ? (
+          <DDSIcon icon={IconComponent} className={iconClassName} aria-hidden="true" />
         ) : null}
       </button>
     );

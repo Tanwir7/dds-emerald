@@ -35,20 +35,12 @@
   &[data-loading] {
     cursor: default;
   }
-
-  & > svg {
-    @include icon-size(md);
-  }
 }
 
 .icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
-  & > svg {
-    @include icon-size(md);
-  }
 }
 
 .label {

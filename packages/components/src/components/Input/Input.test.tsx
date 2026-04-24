@@ -23,6 +23,7 @@ const classNames = {
   hasEndIcon: getRequiredClassName(styles, 'hasEndIcon'),
   startIcon: getRequiredClassName(styles, 'startIcon'),
   endIcon: getRequiredClassName(styles, 'endIcon'),
+  endIconButton: getRequiredClassName(styles, 'endIconButton'),
 } as const;
 
 const render = (ui: React.ReactNode) => {
@@ -135,6 +136,18 @@ describe('Input', () => {
     );
   });
 
+  it('renders startIcon through the shared Icon wrapper', () => {
+    const { container } = render(<Input startIcon={Search} aria-label="Search" />);
+    const iconWrapper = container.querySelector(`.${classNames.startIcon}`);
+    const icon = iconWrapper?.querySelector('svg');
+
+    expect(iconWrapper?.className).toMatch(/root/);
+    expect(iconWrapper?.className).toMatch(/md/);
+    expect(iconWrapper).toHaveAttribute('aria-hidden', 'true');
+    expect(icon).toBeTruthy();
+    expect(icon).toHaveAttribute('aria-hidden', 'true');
+  });
+
   it('applies .hasStartIcon class when startIcon is provided', () => {
     const { container } = render(<Input startIcon={Search} aria-label="Search" />);
 
@@ -149,6 +162,18 @@ describe('Input', () => {
       'aria-hidden',
       'true'
     );
+  });
+
+  it('renders passive endIcon through the shared Icon wrapper', () => {
+    const { container } = render(<Input endIcon={X} aria-label="Search" />);
+    const iconWrapper = container.querySelector(`.${classNames.endIcon}`);
+    const icon = iconWrapper?.querySelector('svg');
+
+    expect(iconWrapper?.className).toMatch(/root/);
+    expect(iconWrapper?.className).toMatch(/md/);
+    expect(iconWrapper).toHaveAttribute('aria-hidden', 'true');
+    expect(icon).toBeTruthy();
+    expect(icon).toHaveAttribute('aria-hidden', 'true');
   });
 
   it('applies .hasEndIcon class when endIcon is provided', () => {
@@ -173,6 +198,9 @@ describe('Input', () => {
     expect(button).toHaveAttribute('type', 'button');
     expect(button).toHaveAccessibleName('Clear search');
     expect(button?.querySelector('svg')).toHaveAttribute('aria-hidden', 'true');
+    expect(button?.firstElementChild?.className).toMatch(/root/);
+    expect(button?.firstElementChild?.className).toMatch(/md/);
+    expect(button?.firstElementChild).toHaveAttribute('aria-hidden', 'true');
   });
 
   it('calls onEndIconClick when the end icon button is clicked', async () => {
@@ -468,7 +496,6 @@ describe('Input', () => {
     expect(stylesheet).toContain('oklch(from var(--dds-color-focus-ring) l c h / 0.5)');
     expect(stylesheet).toContain('border-color: var(--dds-color-status-danger);');
     expect(stylesheet).toContain('oklch(from var(--dds-color-status-danger) l c h / 0.5)');
-    expect(stylesheet).toContain('@include icon-size(md);');
     expect(stylesheet).not.toContain('outline: none;');
     expect(stylesheet).not.toContain('.storyA11yScope');
   });

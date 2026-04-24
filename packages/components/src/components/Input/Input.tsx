@@ -2,6 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import type { LucideIcon } from 'lucide-react';
 import styles from './Input.module.scss';
+import { Icon as DDSIcon } from '../Icon';
 import { getRequiredClassName } from '../../utils/getRequiredClassName';
 
 export type InputSize = 'sm' | 'md' | 'lg';
@@ -33,6 +34,10 @@ const sizeClassName: Record<InputSize, string> = {
   lg: getRequiredClassName(styles, 'lg'),
 };
 
+const startIconClassName = getRequiredClassName(styles, 'startIcon');
+const endIconClassName = getRequiredClassName(styles, 'endIcon');
+const endIconButtonClassName = getRequiredClassName(styles, 'endIconButton');
+
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
     {
@@ -54,9 +59,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className={styles.wrapper}>
         {StartIcon ? (
-          <span className={styles.startIcon} aria-hidden="true">
-            <StartIcon aria-hidden="true" />
-          </span>
+          <DDSIcon icon={StartIcon} className={startIconClassName} aria-hidden="true" />
         ) : null}
         <input
           ref={ref}
@@ -72,19 +75,17 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         />
         {EndIcon && hasEndIconAction ? (
           <button
-            className={styles.endIconButton}
+            className={endIconButtonClassName}
             type="button"
             aria-label={endIconLabel}
             onClick={onEndIconClick}
             disabled={props.disabled || props.readOnly}
           >
-            <EndIcon aria-hidden="true" />
+            <DDSIcon icon={EndIcon} aria-hidden="true" />
           </button>
         ) : null}
         {EndIcon && !hasEndIconAction ? (
-          <span className={styles.endIcon} aria-hidden="true">
-            <EndIcon aria-hidden="true" />
-          </span>
+          <DDSIcon icon={EndIcon} className={endIconClassName} aria-hidden="true" />
         ) : null}
       </div>
     );
