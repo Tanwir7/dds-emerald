@@ -9,7 +9,6 @@
   padding: 0;
   background-color: var(--dds-color-bg-input);
   border: 2px solid var(--dds-color-border-input);
-  border-radius: var(--dds-radius-full);
   outline: 3px solid transparent;
   outline-offset: 2px;
   cursor: pointer;
@@ -76,7 +75,6 @@
 
 .dot {
   display: block;
-  border-radius: var(--dds-radius-full);
   background-color: var(--dds-color-action-primary);
 }
 

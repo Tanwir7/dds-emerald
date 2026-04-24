@@ -424,7 +424,7 @@ describe('Radio', () => {
     expect(stylesheet).toContain("@use '../../styles/mixins' as *;");
     expect(stylesheet).toContain("@use '../../styles/breakpoints' as *;");
     expect(stylesheet).toContain('border: 2px solid var(--dds-color-border-input);');
-    expect(stylesheet).toContain('border-radius: var(--dds-radius-full);');
+    expect(stylesheet).not.toContain('border-radius: var(--dds-radius-full);');
     expect(stylesheet).toContain('background-color: var(--dds-color-bg-input);');
     expect(stylesheet).toContain('outline: 3px solid transparent;');
     expect(stylesheet).toContain('outline-offset: 2px;');
