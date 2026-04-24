@@ -1,0 +1,26 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--dds-space-2);
+}
+
+.helper {
+  margin-top: var(--dds-space-1);
+}
+
+.helperMd {
+  padding-left: calc(var(--dds-space-5) + var(--dds-space-2));
+}
+
+.helperSm {
+  padding-left: calc(var(--dds-space-4) + var(--dds-space-2));
+}

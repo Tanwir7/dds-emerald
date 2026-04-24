@@ -71,3 +71,5 @@ export { Slider } from './components/Slider';
 export type { SliderOrientation, SliderProps, SliderSize } from './components/Slider';
 export { Field } from './components/Field';
 export type { FieldHelperIntent, FieldLayout, FieldProps } from './components/Field';
+export { CheckboxField } from './components/CheckboxField';
+export type { CheckboxFieldHelperIntent, CheckboxFieldProps } from './components/CheckboxField';
