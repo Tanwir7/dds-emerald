@@ -15,6 +15,7 @@
 
 - NO Tailwind CSS. Not one class, not one import.
 - NO inline styles. All styles via SCSS modules.
+- Exception: low-level layout primitives may use inline styles or CSS custom properties only for dynamic numeric layout values that cannot be represented by existing token or class APIs (for example, numeric `flex-grow`, `flex-shrink`, or `order`).
 - NO hardcoded color values. Always consume `--dds-*` tokens.
 - SCSS modules only: runtime component styles must be named `ComponentName.module.scss`
 - Storybook-only layout/demo styles must be named `ComponentName.stories.module.scss`

@@ -1,0 +1,38 @@
+.storyA11yScope {
+  width: 100%;
+  font-family: var(--dds-font-sans);
+  color: var(--dds-color-text-default);
+}
+
+.storyItem {
+  min-width: var(--dds-space-24);
+}
+
+.storyJustifyFrame {
+  width: 100%;
+}
+
+.storyWrapItem {
+  min-width: var(--dds-space-20);
+}
+
+.storyInlineItem {
+  color: var(--dds-color-text-default);
+}
+
+.storyParagraph {
+  margin: 0;
+  color: var(--dds-color-text-default);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-base);
+  line-height: var(--dds-line-height-normal);
+}
+
+.storyList {
+  margin: 0;
+  padding-left: var(--dds-space-6);
+}
+
+.storyListItem {
+  min-width: 0;
+}

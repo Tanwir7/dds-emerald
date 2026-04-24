@@ -1,0 +1,29 @@
+.storyA11yScope {
+  width: 100%;
+  font-family: var(--dds-font-sans);
+  color: var(--dds-color-text-default);
+}
+
+.storyExamples {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-6);
+}
+
+.storySection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-3);
+}
+
+.storyCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-2);
+  min-width: 0;
+}
+
+.storyNote {
+  display: block;
+  margin: 0 0 var(--dds-space-4);
+}

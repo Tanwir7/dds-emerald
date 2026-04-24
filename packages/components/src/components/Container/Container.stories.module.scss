@@ -1,0 +1,35 @@
+.storyA11yScope {
+  width: 100%;
+  font-family: var(--dds-font-sans);
+  color: var(--dds-color-text-default);
+}
+
+.storyStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-3);
+}
+
+.storyRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--dds-space-3);
+}
+
+.storySwatch {
+  min-width: var(--dds-space-24);
+}
+
+.storyNested {
+  max-width: 36rem;
+}
+
+.storyContent {
+  margin: 0;
+}
+
+.storyLink {
+  color: var(--dds-color-text-default);
+  text-decoration: underline;
+  text-underline-offset: var(--dds-space-1);
+}

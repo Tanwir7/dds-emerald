@@ -1,0 +1,43 @@
+.storyA11yScope {
+  width: 100%;
+  font-family: var(--dds-font-sans);
+  color: var(--dds-color-text-default);
+}
+
+.storyFrame {
+  width: 100%;
+  max-width: 40rem;
+}
+
+.storyWrapFrame {
+  width: 100%;
+  max-width: 28rem;
+}
+
+.storyNav {
+  width: 100%;
+}
+
+.storyNavLinks {
+  min-width: 0;
+}
+
+.storyAlignTall {
+  min-height: 5rem;
+}
+
+.storyAlignShort {
+  min-height: 2.75rem;
+}
+
+.storyChip {
+  white-space: nowrap;
+}
+
+.storyField {
+  min-width: 12rem;
+}
+
+.storyBasisItem {
+  min-height: 5rem;
+}

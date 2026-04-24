@@ -1,0 +1,236 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.root {
+  display: grid;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.cols1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.cols2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.cols3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.cols4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@include respond-to(sm) {
+  .smCols1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  .smCols2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .smCols3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .smCols4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@include respond-to(md) {
+  .mdCols1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  .mdCols2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mdCols3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .mdCols4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@include respond-to(lg) {
+  .lgCols1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  .lgCols2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .lgCols3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .lgCols4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@include respond-to(xl) {
+  .xlCols1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  .xlCols2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .xlCols3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .xlCols4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.gapNone {
+  gap: 0;
+}
+
+.gapXs {
+  gap: var(--dds-space-1);
+}
+
+.gapSm {
+  gap: var(--dds-space-2);
+}
+
+.gapMd {
+  gap: var(--dds-space-4);
+}
+
+.gapLg {
+  gap: var(--dds-space-6);
+}
+
+.gapXl {
+  gap: var(--dds-space-8);
+}
+
+.colGapNone {
+  column-gap: 0;
+}
+
+.colGapXs {
+  column-gap: var(--dds-space-1);
+}
+
+.colGapSm {
+  column-gap: var(--dds-space-2);
+}
+
+.colGapMd {
+  column-gap: var(--dds-space-4);
+}
+
+.colGapLg {
+  column-gap: var(--dds-space-6);
+}
+
+.colGapXl {
+  column-gap: var(--dds-space-8);
+}
+
+.rowGapNone {
+  row-gap: 0;
+}
+
+.rowGapXs {
+  row-gap: var(--dds-space-1);
+}
+
+.rowGapSm {
+  row-gap: var(--dds-space-2);
+}
+
+.rowGapMd {
+  row-gap: var(--dds-space-4);
+}
+
+.rowGapLg {
+  row-gap: var(--dds-space-6);
+}
+
+.rowGapXl {
+  row-gap: var(--dds-space-8);
+}
+
+.alignStart {
+  align-items: start;
+}
+
+.alignCenter {
+  align-items: center;
+}
+
+.alignEnd {
+  align-items: end;
+}
+
+.alignStretch {
+  align-items: stretch;
+}
+
+.justifyStart {
+  justify-items: start;
+}
+
+.justifyCenter {
+  justify-items: center;
+}
+
+.justifyEnd {
+  justify-items: end;
+}
+
+.justifyStretch {
+  justify-items: stretch;
+}
+
+.span1 {
+  grid-column: span 1;
+}
+
+.span2 {
+  grid-column: span 2;
+}
+
+.span3 {
+  grid-column: span 3;
+}
+
+.span4 {
+  grid-column: span 4;
+}
+
+.spanFull {
+  grid-column: 1 / -1;
+}
+
+.rowSpan1 {
+  grid-row: span 1;
+}
+
+.rowSpan2 {
+  grid-row: span 2;
+}
+
+.rowSpan3 {
+  grid-row: span 3;
+}
+
+.rowSpan4 {
+  grid-row: span 4;
+}

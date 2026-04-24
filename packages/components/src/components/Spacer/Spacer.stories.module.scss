@@ -1,0 +1,40 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.storyA11yScope {
+  display: block;
+}
+
+.storyBox {
+  display: block;
+  min-width: 0;
+  padding: var(--dds-space-4);
+  border: 1px solid var(--dds-color-border-default);
+  background: var(--dds-color-bg-card);
+  color: var(--dds-color-text-default);
+  font-family: var(--dds-font-sans);
+}
+
+.storyTallBox {
+  min-height: calc(var(--dds-space-12) + var(--dds-space-4));
+}
+
+.storyFlexFrame {
+  min-width: 100%;
+}
+
+.storyComparison {
+  align-items: start;
+}
+
+.storySection {
+  min-width: 0;
+}
+
+.storyLabel {
+  margin: 0 0 var(--dds-space-2);
+  color: var(--dds-color-text-muted);
+  font-family: var(--dds-font-mono);
+  font-size: var(--dds-font-size-sm);
+  font-variant-numeric: tabular-nums;
+}

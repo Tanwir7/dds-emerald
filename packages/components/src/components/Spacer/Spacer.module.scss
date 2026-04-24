@@ -1,0 +1,87 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.root {
+  display: block;
+  flex-shrink: 0;
+}
+
+.sizeXs {
+  width: var(--dds-space-1);
+  height: var(--dds-space-1);
+}
+
+.sizeSm {
+  width: var(--dds-space-2);
+  height: var(--dds-space-2);
+}
+
+.sizeMd {
+  width: var(--dds-space-4);
+  height: var(--dds-space-4);
+}
+
+.sizeLg {
+  width: var(--dds-space-6);
+  height: var(--dds-space-6);
+}
+
+.sizeXl {
+  width: var(--dds-space-8);
+  height: var(--dds-space-8);
+}
+
+.sizeFlex {
+  flex: 1 1 0%;
+  width: auto;
+  height: auto;
+  flex-shrink: unset;
+}
+
+.axisHorizontal {
+  height: auto;
+
+  &.sizeXs {
+    width: var(--dds-space-1);
+  }
+
+  &.sizeSm {
+    width: var(--dds-space-2);
+  }
+
+  &.sizeMd {
+    width: var(--dds-space-4);
+  }
+
+  &.sizeLg {
+    width: var(--dds-space-6);
+  }
+
+  &.sizeXl {
+    width: var(--dds-space-8);
+  }
+}
+
+.axisVertical {
+  width: auto;
+
+  &.sizeXs {
+    height: var(--dds-space-1);
+  }
+
+  &.sizeSm {
+    height: var(--dds-space-2);
+  }
+
+  &.sizeMd {
+    height: var(--dds-space-4);
+  }
+
+  &.sizeLg {
+    height: var(--dds-space-6);
+  }
+
+  &.sizeXl {
+    height: var(--dds-space-8);
+  }
+}
