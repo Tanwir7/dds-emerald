@@ -1,0 +1,16 @@
+.storyA11yScope {
+  display: block;
+  width: 100%;
+  max-width: 640px;
+}
+
+.storyStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-6);
+}
+
+.storyInline {
+  width: 100%;
+  max-width: 720px;
+}

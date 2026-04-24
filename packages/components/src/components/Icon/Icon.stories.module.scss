@@ -1,0 +1,26 @@
+.storyA11yScope {
+  display: block;
+}
+
+.storyStack {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dds-space-4);
+}
+
+.storySizeItem {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dds-space-2);
+}
+
+.storyColourStack {
+  display: grid;
+  gap: var(--dds-space-3);
+}
+
+.storyColourItem {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dds-space-2);
+}

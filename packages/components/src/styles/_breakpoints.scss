@@ -29,3 +29,29 @@ $dds-bp-2xl: 1536px;
     @error "Unknown breakpoint `#{$bp}`. Expected one of: sm, md, lg, xl, 2xl.";
   }
 }
+
+@mixin breakpoint-below($bp) {
+  @if $bp == sm {
+    @media (max-width: calc(#{$dds-bp-sm} - 1px)) {
+      @content;
+    }
+  } @else if $bp == md {
+    @media (max-width: calc(#{$dds-bp-md} - 1px)) {
+      @content;
+    }
+  } @else if $bp == lg {
+    @media (max-width: calc(#{$dds-bp-lg} - 1px)) {
+      @content;
+    }
+  } @else if $bp == xl {
+    @media (max-width: calc(#{$dds-bp-xl} - 1px)) {
+      @content;
+    }
+  } @else if $bp == 2xl {
+    @media (max-width: calc(#{$dds-bp-2xl} - 1px)) {
+      @content;
+    }
+  } @else {
+    @error "Unknown breakpoint `#{$bp}`. Expected one of: sm, md, lg, xl, 2xl.";
+  }
+}

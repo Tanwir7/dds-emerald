@@ -1,0 +1,74 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.root {
+  width: 100%;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+
+  .label {
+    margin-bottom: var(--dds-space-0-5);
+  }
+
+  &.noInstruction .label {
+    margin-bottom: var(--dds-space-1-5);
+  }
+
+  .instruction {
+    margin-bottom: var(--dds-space-1-5);
+  }
+
+  .control {
+    width: 100%;
+  }
+
+  .helper {
+    margin-top: var(--dds-space-1);
+  }
+}
+
+.inline {
+  display: grid;
+  grid-template-columns: var(--field-label-width, max-content) minmax(0, 1fr);
+  column-gap: var(--dds-space-3);
+  align-items: start;
+}
+
+.labelCol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-0-5);
+  padding-top: var(--dds-space-1);
+}
+
+.controlCol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-1);
+}
+
+.inputRow {
+  display: flex;
+  align-items: center;
+  gap: var(--dds-space-2);
+}
+
+.inline .instruction {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+@include breakpoint-below(sm) {
+  .inline {
+    grid-template-columns: 1fr;
+    row-gap: var(--dds-space-1-5);
+  }
+
+  .labelCol {
+    padding-top: 0;
+  }
+}

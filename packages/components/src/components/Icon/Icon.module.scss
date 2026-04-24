@@ -1,0 +1,30 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.root {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: inherit;
+  line-height: var(--dds-line-height-none);
+}
+
+.sm {
+  @include icon-size(sm);
+}
+
+.md {
+  @include icon-size(md);
+}
+
+.lg {
+  @include icon-size(lg);
+}
+
+.svg {
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+  stroke: currentColor;
+}

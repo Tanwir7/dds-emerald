@@ -4,6 +4,8 @@ import './styles/base.css';
 // Components are added here as they are implemented
 export { Button } from './components/Button';
 export type { ButtonProps, ButtonSize, ButtonVariant } from './components/Button/Button';
+export { Icon } from './components/Icon';
+export type { IconProps, IconSize } from './components/Icon';
 export { Badge } from './components/Badge';
 export type { BadgeProps, BadgeSize, BadgeVariant } from './components/Badge/Badge';
 export { VisuallyHidden } from './components/VisuallyHidden';
@@ -67,3 +69,5 @@ export { Switch } from './components/Switch';
 export type { SwitchProps, SwitchSize } from './components/Switch';
 export { Slider } from './components/Slider';
 export type { SliderOrientation, SliderProps, SliderSize } from './components/Slider';
+export { Field } from './components/Field';
+export type { FieldHelperIntent, FieldLayout, FieldProps } from './components/Field';
