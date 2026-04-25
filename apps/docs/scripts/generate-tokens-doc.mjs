@@ -107,9 +107,9 @@ const colorFamilyRows = [
     usage: 'Component-facing color roles for backgrounds, text, action states, borders, status, and charts.',
   },
   {
-    family: 'Badge color',
-    tokens: ['--dds-badge-*'],
-    usage: 'Badge-specific Tier 3 colors for status badge variants.',
+    family: 'Tag color',
+    tokens: ['--dds-tag-*'],
+    usage: 'Tag-specific Tier 3 colors for status tag variants.',
   },
 ];
 
@@ -126,7 +126,7 @@ const tokenModelRows = [
   },
   {
     tier: 'Tier 3',
-    purpose: 'Component or domain-specific tokens such as --dds-badge-success-bg',
+    purpose: 'Component or domain-specific tokens such as --dds-tag-success-bg',
     usage: 'Used only by the owning component or domain',
   },
 ];
@@ -174,7 +174,7 @@ const iconSizeTokens = byPattern(/^--dds-icon-size-/);
 const semanticColorTokens = byPattern(/^--dds-color-/).filter(
   (declaration) => !declaration.name.startsWith('--dds-color-chart-')
 );
-const badgeTokens = byPattern(/^--dds-badge-/);
+const tagTokens = byPattern(/^--dds-tag-/);
 const chartTokens = byPattern(/^--dds-color-chart-/);
 
 const mdx = `import { Meta } from '@storybook/addon-docs/blocks';
@@ -253,9 +253,9 @@ These values are resolved from \`:root\` and \`[data-theme='dark']\` so both mod
 
 ${resolvedModeTable(semanticColorTokens)}
 
-## Badge Tokens
+## Tag Tokens
 
-${resolvedModeTable(badgeTokens)}
+${resolvedModeTable(tagTokens)}
 
 ## Chart Tokens
 

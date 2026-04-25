@@ -208,23 +208,23 @@
   --dds-color-action-info-hover-foreground: var(--dds-silver-50);
 
   /* ============================================================
-     TIER 3 — BADGE TOKENS
+     TIER 3 — TAG TOKENS
      ============================================================ */
-  --dds-badge-success-bg: var(--dds-emerald-100);
-  --dds-badge-success-color: var(--dds-emerald-800);
-  --dds-badge-success-ring: oklch(0.4 0.12 160 / 0.2);
+  --dds-tag-success-bg: var(--dds-emerald-100);
+  --dds-tag-success-color: var(--dds-emerald-800);
+  --dds-tag-success-ring: oklch(0.4 0.12 160 / 0.2);
 
-  --dds-badge-warning-bg: oklch(0.95 0.06 85);
-  --dds-badge-warning-color: oklch(0.3 0.08 85);
-  --dds-badge-warning-ring: oklch(0.65 0.15 85 / 0.2);
+  --dds-tag-warning-bg: oklch(0.95 0.06 85);
+  --dds-tag-warning-color: oklch(0.3 0.08 85);
+  --dds-tag-warning-ring: oklch(0.65 0.15 85 / 0.2);
 
-  --dds-badge-danger-bg: oklch(0.93 0.06 25);
-  --dds-badge-danger-color: oklch(0.3 0.12 25);
-  --dds-badge-danger-ring: oklch(0.55 0.2 25 / 0.2);
+  --dds-tag-danger-bg: oklch(0.93 0.06 25);
+  --dds-tag-danger-color: oklch(0.3 0.12 25);
+  --dds-tag-danger-ring: oklch(0.55 0.2 25 / 0.2);
 
-  --dds-badge-info-bg: oklch(0.93 0.04 240);
-  --dds-badge-info-color: oklch(0.28 0.1 240);
-  --dds-badge-info-ring: oklch(0.55 0.12 240 / 0.2);
+  --dds-tag-info-bg: oklch(0.93 0.04 240);
+  --dds-tag-info-color: oklch(0.28 0.1 240);
+  --dds-tag-info-ring: oklch(0.55 0.12 240 / 0.2);
 
   /* ============================================================
      TIER 3 — CHART TOKENS
@@ -334,22 +334,22 @@
   --dds-color-action-info-hover: oklch(0.5 0.12 240);
   --dds-color-action-info-hover-foreground: var(--dds-silver-50);
 
-  /* --- Badge Tokens --- */
-  --dds-badge-success-bg: oklch(0.22 0.08 160 / 0.3);
-  --dds-badge-success-color: var(--dds-emerald-300);
-  --dds-badge-success-ring: oklch(0.65 0.1 160 / 0.2);
+  /* --- Tag Tokens --- */
+  --dds-tag-success-bg: oklch(0.22 0.08 160 / 0.3);
+  --dds-tag-success-color: var(--dds-emerald-300);
+  --dds-tag-success-ring: oklch(0.65 0.1 160 / 0.2);
 
-  --dds-badge-warning-bg: oklch(0.4 0.08 85 / 0.3);
-  --dds-badge-warning-color: oklch(0.8 0.12 85);
-  --dds-badge-warning-ring: oklch(0.8 0.12 85 / 0.2);
+  --dds-tag-warning-bg: oklch(0.4 0.08 85 / 0.3);
+  --dds-tag-warning-color: oklch(0.8 0.12 85);
+  --dds-tag-warning-ring: oklch(0.8 0.12 85 / 0.2);
 
-  --dds-badge-danger-bg: oklch(0.3 0.1 25 / 0.3);
-  --dds-badge-danger-color: oklch(0.7 0.15 25);
-  --dds-badge-danger-ring: oklch(0.7 0.15 25 / 0.2);
+  --dds-tag-danger-bg: oklch(0.3 0.1 25 / 0.3);
+  --dds-tag-danger-color: oklch(0.7 0.15 25);
+  --dds-tag-danger-ring: oklch(0.7 0.15 25 / 0.2);
 
-  --dds-badge-info-bg: oklch(0.25 0.08 240 / 0.3);
-  --dds-badge-info-color: oklch(0.7 0.1 240);
-  --dds-badge-info-ring: oklch(0.7 0.1 240 / 0.2);
+  --dds-tag-info-bg: oklch(0.25 0.08 240 / 0.3);
+  --dds-tag-info-color: oklch(0.7 0.1 240);
+  --dds-tag-info-ring: oklch(0.7 0.1 240 / 0.2);
 
   /* --- Chart Tokens --- */
   --dds-color-chart-1: var(--dds-emerald-300);
@@ -431,21 +431,21 @@
     --dds-color-action-info-hover: oklch(0.5 0.12 240);
     --dds-color-action-info-hover-foreground: var(--dds-silver-50);
 
-    --dds-badge-success-bg: oklch(0.22 0.08 160 / 0.3);
-    --dds-badge-success-color: var(--dds-emerald-300);
-    --dds-badge-success-ring: oklch(0.65 0.1 160 / 0.2);
+    --dds-tag-success-bg: oklch(0.22 0.08 160 / 0.3);
+    --dds-tag-success-color: var(--dds-emerald-300);
+    --dds-tag-success-ring: oklch(0.65 0.1 160 / 0.2);
 
-    --dds-badge-warning-bg: oklch(0.4 0.08 85 / 0.3);
-    --dds-badge-warning-color: oklch(0.8 0.12 85);
-    --dds-badge-warning-ring: oklch(0.8 0.12 85 / 0.2);
+    --dds-tag-warning-bg: oklch(0.4 0.08 85 / 0.3);
+    --dds-tag-warning-color: oklch(0.8 0.12 85);
+    --dds-tag-warning-ring: oklch(0.8 0.12 85 / 0.2);
 
-    --dds-badge-danger-bg: oklch(0.3 0.1 25 / 0.3);
-    --dds-badge-danger-color: oklch(0.7 0.15 25);
-    --dds-badge-danger-ring: oklch(0.7 0.15 25 / 0.2);
+    --dds-tag-danger-bg: oklch(0.3 0.1 25 / 0.3);
+    --dds-tag-danger-color: oklch(0.7 0.15 25);
+    --dds-tag-danger-ring: oklch(0.7 0.15 25 / 0.2);
 
-    --dds-badge-info-bg: oklch(0.25 0.08 240 / 0.3);
-    --dds-badge-info-color: oklch(0.7 0.1 240);
-    --dds-badge-info-ring: oklch(0.7 0.1 240 / 0.2);
+    --dds-tag-info-bg: oklch(0.25 0.08 240 / 0.3);
+    --dds-tag-info-color: oklch(0.7 0.1 240);
+    --dds-tag-info-ring: oklch(0.7 0.1 240 / 0.2);
 
     --dds-color-chart-1: var(--dds-emerald-300);
     --dds-color-chart-2: var(--dds-emerald-400);

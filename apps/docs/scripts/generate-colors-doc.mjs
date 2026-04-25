@@ -47,9 +47,9 @@ const getResolvedSemanticTokens = (prefix, entries, title, subtitle, tokenMap) =
     .filter(Boolean),
 });
 
-const getResolvedBadgeTokens = (variant, title, subtitle, tokenMap) =>
+const getResolvedTagTokens = (variant, title, subtitle, tokenMap) =>
   getResolvedSemanticTokens(
-    `--dds-badge-${variant}-`,
+    `--dds-tag-${variant}-`,
     [
       ['bg', 'bg'],
       ['color', 'color'],
@@ -434,62 +434,62 @@ const sections = [
     ],
   },
   {
-    heading: 'Badge Palettes',
-    body: 'Badge palettes show resolved light and dark values from tokens.css.',
+    heading: 'Tag Palettes',
+    body: 'Tag palettes show resolved light and dark values from tokens.css.',
     palettes: [
       [
-        getResolvedBadgeTokens(
+        getResolvedTagTokens(
           'success',
-          'Light Badge Success',
-          'Badge-specific success tokens in light mode',
+          'Light Tag Success',
+          'Tag-specific success tokens in light mode',
           rootTokenMap
         ),
-        getResolvedBadgeTokens(
+        getResolvedTagTokens(
           'warning',
-          'Light Badge Warning',
-          'Badge-specific warning tokens in light mode',
+          'Light Tag Warning',
+          'Tag-specific warning tokens in light mode',
           rootTokenMap
         ),
       ],
       [
-        getResolvedBadgeTokens(
+        getResolvedTagTokens(
           'danger',
-          'Light Badge Danger',
-          'Badge-specific danger tokens in light mode',
+          'Light Tag Danger',
+          'Tag-specific danger tokens in light mode',
           rootTokenMap
         ),
-        getResolvedBadgeTokens(
+        getResolvedTagTokens(
           'info',
-          'Light Badge Info',
-          'Badge-specific info tokens in light mode',
+          'Light Tag Info',
+          'Tag-specific info tokens in light mode',
           rootTokenMap
         ),
       ],
       [
-        getResolvedBadgeTokens(
+        getResolvedTagTokens(
           'success',
-          'Dark Badge Success',
-          'Badge-specific success tokens in dark mode',
+          'Dark Tag Success',
+          'Tag-specific success tokens in dark mode',
           darkTokenMap
         ),
-        getResolvedBadgeTokens(
+        getResolvedTagTokens(
           'warning',
-          'Dark Badge Warning',
-          'Badge-specific warning tokens in dark mode',
+          'Dark Tag Warning',
+          'Tag-specific warning tokens in dark mode',
           darkTokenMap
         ),
       ],
       [
-        getResolvedBadgeTokens(
+        getResolvedTagTokens(
           'danger',
-          'Dark Badge Danger',
-          'Badge-specific danger tokens in dark mode',
+          'Dark Tag Danger',
+          'Tag-specific danger tokens in dark mode',
           darkTokenMap
         ),
-        getResolvedBadgeTokens(
+        getResolvedTagTokens(
           'info',
-          'Dark Badge Info',
-          'Badge-specific info tokens in dark mode',
+          'Dark Tag Info',
+          'Tag-specific info tokens in dark mode',
           darkTokenMap
         ),
       ],
@@ -515,7 +515,7 @@ const colorTokenNames = declarations
     (name) =>
       /^--dds-(emerald|silver)-\d+$/.test(name) ||
       name.startsWith('--dds-color-') ||
-      name.startsWith('--dds-badge-')
+      name.startsWith('--dds-tag-')
   );
 
 const ungroupedTokens = colorTokenNames.filter((name) => !documentedTokens.has(name));

@@ -19,8 +19,8 @@ describe('storySource', () => {
   });
 
   it('wraps multiple snippets in a fragment', () => {
-    expect(storySourceFragment('<Badge>One</Badge>', '<Badge>Two</Badge>')).toBe(
-      '<>\n  <Badge>One</Badge>\n  <Badge>Two</Badge>\n</>'
+    expect(storySourceFragment('<Tag>One</Tag>', '<Tag>Two</Tag>')).toBe(
+      '<>\n  <Tag>One</Tag>\n  <Tag>Two</Tag>\n</>'
     );
   });
 

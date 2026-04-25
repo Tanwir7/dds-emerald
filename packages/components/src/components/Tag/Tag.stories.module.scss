@@ -1,0 +1,12 @@
+.storyA11yScope {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--dds-space-3);
+}
+
+.storyRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--dds-space-3);
+  align-items: center;
+}

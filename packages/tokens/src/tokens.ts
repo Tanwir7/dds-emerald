@@ -174,7 +174,7 @@ export const tokens = {
           '5': 'oklch(0.40 0.01 260)',
         },
       },
-      badge: {
+      tag: {
         success: {
           bg: 'var(--dds-emerald-100)',
           color: 'oklch(0.28 0.10 160)',
@@ -260,7 +260,7 @@ export const tokens = {
           '5': 'oklch(0.45 0.01 260)',
         },
       },
-      badge: {
+      tag: {
         success: {
           bg: 'oklch(0.22 0.08 160 / 0.3)',
           color: 'oklch(0.65 0.10 160)',
