@@ -7,6 +7,8 @@ import { storySource, storySourceFragment, storySourceParameters } from '../../u
 
 const componentDescription = `Container is Emerald's foundational layout primitive. It renders a native element by default, supports semantic selection through \`as\`, supports Radix Slot through \`asChild\`, and exposes only token-mapped padding, background, border, and radius shortcuts.
 
+Use \`asChild\` when the child element must remain the actual DOM node, such as an anchor, button, or Radix trigger. In that mode, Container merges its classes and props into the child instead of adding a wrapper element.
+
 ### Accessibility contract
 
 - Keyboard: Container adds no keyboard behavior. Interactive children keep their native keyboard behavior.
