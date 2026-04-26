@@ -34,7 +34,7 @@ import { Text } from '../../components/Text';
 import { Textarea } from '../../components/Textarea';
 import storyStyles from './DashboardShell.stories.module.scss';
 import { getRequiredClassName } from '../../utils/getRequiredClassName';
-import { storySource, storySourceParameters } from '../../utils/storySource';
+import { storySource, storySourceBlock, storySourceParameters } from '../../utils/storySource';
 
 const componentDescription = `DashboardShell is an app-pattern doc that composes a broad slice of the Emerald library into one review-ready workspace.
 
@@ -284,8 +284,8 @@ const PatternDocsPage = () => (
   <>
     <Title />
     <Description />
-    <Canvas of={Overview} source={{ code: dashboardShellSource }} sourceState="shown" />
-    <Canvas of={Loading} source={{ code: loadingSource }} sourceState="hidden" />
+    <Canvas of={Overview} source={storySourceBlock(dashboardShellSource)} sourceState="shown" />
+    <Canvas of={Loading} source={storySourceBlock(loadingSource)} sourceState="hidden" />
   </>
 );
 

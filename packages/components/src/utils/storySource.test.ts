@@ -29,6 +29,7 @@ describe('storySource', () => {
       docs: {
         source: {
           code: '<Input />',
+          type: 'code',
         },
       },
     });
@@ -37,6 +38,7 @@ describe('storySource', () => {
   it('creates a Storybook docs source block', () => {
     expect(storySourceBlock('<Image />')).toEqual({
       code: '<Image />',
+      type: 'code',
     });
   });
 });
