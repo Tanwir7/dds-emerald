@@ -113,24 +113,18 @@ export type { SwitchProps, SwitchSize } from './components/Switch';
 export { Slider } from './components/Slider';
 export type { SliderOrientation, SliderProps, SliderSize } from './components/Slider';
 export { Field } from './components/Field';
-export type { FieldHelperIntent, FieldLayout, FieldProps } from './components/Field';
+export type { FieldLayout, FieldProps } from './components/Field';
 export { CheckboxField } from './components/CheckboxField';
-export type { CheckboxFieldHelperIntent, CheckboxFieldProps } from './components/CheckboxField';
+export type { CheckboxFieldProps } from './components/CheckboxField';
 export { SwitchField } from './components/SwitchField';
-export type {
-  SwitchFieldHelperIntent,
-  SwitchFieldLabelPosition,
-  SwitchFieldProps,
-} from './components/SwitchField';
+export type { SwitchFieldLabelPosition, SwitchFieldProps } from './components/SwitchField';
 export { RadioGroupField } from './components/RadioGroupField';
-export type {
-  RadioGroupFieldHelperIntent,
-  RadioGroupFieldProps,
-} from './components/RadioGroupField';
+export type { RadioGroupFieldProps } from './components/RadioGroupField';
 export { Alert } from './components/Alert';
 export type { AlertProps } from './components/Alert';
 export { InlineAlert } from './components/InlineAlert';
-export type { InlineAlertProps } from './components/InlineAlert';
+export type { InlineAlertIntent, InlineAlertProps } from './components/InlineAlert';
+export type { FieldInlineAlert } from './types/fieldInlineAlert';
 export { Skeleton } from './components/Skeleton';
 export type { SkeletonProps, SkeletonVariant } from './components/Skeleton';
 export { ProgressBar } from './components/ProgressBar';

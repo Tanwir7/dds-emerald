@@ -1,2 +1,2 @@
 export { RadioGroupField } from './RadioGroupField';
-export type { RadioGroupFieldHelperIntent, RadioGroupFieldProps } from './RadioGroupField';
+export type { RadioGroupFieldProps } from './RadioGroupField';

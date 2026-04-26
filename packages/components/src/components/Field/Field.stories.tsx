@@ -28,13 +28,14 @@ const meta: Meta<typeof Field> = {
     children: <Input placeholder="name@example.com" />,
   },
   argTypes: {
-    helperIntent: {
-      control: 'inline-radio',
-      options: ['default', 'error', 'success'],
-    },
     layout: {
       control: 'inline-radio',
       options: ['stack', 'inline'],
+    },
+    inlineAlert: {
+      table: {
+        disable: true,
+      },
     },
     children: {
       table: {
@@ -94,16 +95,17 @@ export const StackWithHelper: Story = {
 export const StackError: Story = {
   args: {
     label: 'Email address',
-    helper: 'Enter an email address with a domain.',
-    helperIntent: 'error',
+    inlineAlert: {
+      intent: 'danger',
+      children: 'Enter an email address with a domain.',
+    },
     children: <Input invalid defaultValue="ada" />,
   },
   parameters: storySourceParameters(
     storySource(
       '<Field',
       '  label="Email address"',
-      '  helper="Enter an email address with a domain."',
-      '  helperIntent="error"',
+      '  inlineAlert={{ intent: "danger", children: "Enter an email address with a domain." }}',
       '>',
       '  <Input invalid defaultValue="ada" />',
       '</Field>'
@@ -114,13 +116,15 @@ export const StackError: Story = {
 export const StackSuccess: Story = {
   args: {
     label: 'Email address',
-    helper: 'Email is available.',
-    helperIntent: 'success',
+    inlineAlert: {
+      intent: 'success',
+      children: 'Email is available.',
+    },
     children: <Input defaultValue="ada@example.com" />,
   },
   parameters: storySourceParameters(
     storySource(
-      '<Field label="Email address" helper="Email is available." helperIntent="success">',
+      '<Field label="Email address" inlineAlert={{ intent: "success", children: "Email is available." }}>',
       '  <Input defaultValue="ada@example.com" />',
       '</Field>'
     )
@@ -249,8 +253,10 @@ export const InlineError: Story = {
   args: {
     label: 'Email address',
     layout: 'inline',
-    helper: 'Enter an email address with a domain.',
-    helperIntent: 'error',
+    inlineAlert: {
+      intent: 'danger',
+      children: 'Enter an email address with a domain.',
+    },
     children: <Input invalid defaultValue="ada" />,
   },
   parameters: storySourceParameters(
@@ -258,8 +264,7 @@ export const InlineError: Story = {
       '<Field',
       '  label="Email address"',
       '  layout="inline"',
-      '  helper="Enter an email address with a domain."',
-      '  helperIntent="error"',
+      '  inlineAlert={{ intent: "danger", children: "Enter an email address with a domain." }}',
       '>',
       '  <Input invalid defaultValue="ada" />',
       '</Field>'
@@ -305,16 +310,17 @@ export const FocusInteraction: Story = {
 export const ErrorAnnouncement: Story = {
   args: {
     label: 'Email address',
-    helper: 'Enter an email address with a domain.',
-    helperIntent: 'error',
+    inlineAlert: {
+      intent: 'danger',
+      children: 'Enter an email address with a domain.',
+    },
     children: <Input invalid defaultValue="ada" />,
   },
   parameters: storySourceParameters(
     storySource(
       '<Field',
       '  label="Email address"',
-      '  helper="Enter an email address with a domain."',
-      '  helperIntent="error"',
+      '  inlineAlert={{ intent: "danger", children: "Enter an email address with a domain." }}',
       '>',
       '  <Input invalid defaultValue="ada" />',
       '</Field>'

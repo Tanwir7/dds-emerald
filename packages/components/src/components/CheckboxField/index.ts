@@ -1,2 +1,2 @@
 export { CheckboxField } from './CheckboxField';
-export type { CheckboxFieldHelperIntent, CheckboxFieldProps } from './CheckboxField';
+export type { CheckboxFieldProps } from './CheckboxField';

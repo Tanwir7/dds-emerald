@@ -1,12 +1,13 @@
 import React from 'react';
 import styles from './Field.module.scss';
 import clsx from 'clsx';
+import { InlineAlert } from '../InlineAlert';
 import { Label } from '../Label';
-import { Text, type TextColor } from '../Text';
+import { Text } from '../Text';
 import { getRequiredClassName } from '../../utils/getRequiredClassName';
+import type { FieldInlineAlert } from '../../types/fieldInlineAlert';
 
 export type FieldLayout = 'stack' | 'inline';
-export type FieldHelperIntent = 'default' | 'error' | 'success';
 
 export interface FieldProps {
   label: string;
@@ -14,7 +15,7 @@ export interface FieldProps {
   disabled?: boolean;
   instruction?: string;
   helper?: string;
-  helperIntent?: FieldHelperIntent;
+  inlineAlert?: FieldInlineAlert;
   layout?: FieldLayout;
   inlineLabelWidth?: string;
   id?: string;
@@ -49,15 +50,10 @@ const getNodeEnv = () => {
 
 const mergeIds = (...ids: Array<string | undefined>) => ids.filter(Boolean).join(' ') || undefined;
 
-const helperColor: Record<FieldHelperIntent, TextColor> = {
-  default: 'muted',
-  error: 'danger',
-  success: 'success',
-};
-
 /**
  * Field wires a single form control to a required visible label, optional instruction text,
- * optional helper text, and inline-layout instruction text beside the control. The inline
+ * optional helper text, optional inline alert, and inline-layout instruction text beside the
+ * control. The inline
  * `--field-label-width` custom property is a documented layout-variable exception so consumers
  * can size the label column while runtime styling remains in `Field.module.scss`.
  */
@@ -69,7 +65,7 @@ export const Field = React.forwardRef<HTMLDivElement, FieldProps>(
       disabled = false,
       instruction,
       helper,
-      helperIntent = 'default',
+      inlineAlert,
       layout = 'stack',
       inlineLabelWidth,
       id,
@@ -105,12 +101,14 @@ export const Field = React.forwardRef<HTMLDivElement, FieldProps>(
     const fieldId = childId ?? id ?? generatedId;
     const instructionId = instruction ? `${fieldId}-instruction` : undefined;
     const helperId = helper ? `${fieldId}-helper` : undefined;
+    const inlineAlertId = inlineAlert ? `${fieldId}-inline-alert` : undefined;
     const describedBy = mergeIds(
       typeof child.props['aria-describedby'] === 'string'
         ? child.props['aria-describedby']
         : undefined,
       instructionId,
-      helperId
+      helperId,
+      inlineAlertId
     );
     const controlProps: Record<string, unknown> = {
       id: fieldId,
@@ -124,7 +122,7 @@ export const Field = React.forwardRef<HTMLDivElement, FieldProps>(
       controlProps['aria-required'] = true;
     }
 
-    if (helperIntent === 'error') {
+    if (inlineAlert?.intent === 'danger') {
       controlProps['aria-invalid'] = true;
     }
 
@@ -180,15 +178,19 @@ export const Field = React.forwardRef<HTMLDivElement, FieldProps>(
               ) : null}
             </div>
             {helper ? (
-              <Text
-                as="p"
-                id={helperId}
-                size="xs"
-                color={helperColor[helperIntent]}
-                className={classNames.helper}
-              >
+              <Text as="p" id={helperId} size="xs" color="muted" className={classNames.helper}>
                 {helper}
               </Text>
+            ) : null}
+            {inlineAlert ? (
+              <InlineAlert
+                id={inlineAlertId}
+                intent={inlineAlert.intent}
+                className={classNames.helper}
+                {...(inlineAlert.showIcon !== undefined ? { showIcon: inlineAlert.showIcon } : {})}
+              >
+                {inlineAlert.children}
+              </InlineAlert>
             ) : null}
           </div>
         </div>
@@ -229,15 +231,20 @@ export const Field = React.forwardRef<HTMLDivElement, FieldProps>(
         <div className={classNames.control}>{control}</div>
 
         {helper ? (
-          <Text
-            as="p"
-            id={helperId}
-            size="xs"
-            color={helperColor[helperIntent]}
-            className={classNames.helper}
-          >
+          <Text as="p" id={helperId} size="xs" color="muted" className={classNames.helper}>
             {helper}
           </Text>
+        ) : null}
+
+        {inlineAlert ? (
+          <InlineAlert
+            id={inlineAlertId}
+            intent={inlineAlert.intent}
+            className={classNames.helper}
+            {...(inlineAlert.showIcon !== undefined ? { showIcon: inlineAlert.showIcon } : {})}
+          >
+            {inlineAlert.children}
+          </InlineAlert>
         ) : null}
       </div>
     );

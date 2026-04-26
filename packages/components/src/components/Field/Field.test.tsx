@@ -34,8 +34,6 @@ const labelClassNames = {
 
 const textClassNames = {
   colorMuted: getRequiredClassName(textStyles, 'colorMuted'),
-  colorDanger: getRequiredClassName(textStyles, 'colorDanger'),
-  colorSuccess: getRequiredClassName(textStyles, 'colorSuccess'),
 } as const;
 
 const render = (ui: React.ReactNode) => {
@@ -229,6 +227,20 @@ describe('Field', () => {
     expect(getInput(container)).toHaveAttribute('aria-describedby', 'email-helper');
   });
 
+  it('control has aria-describedby pointing to inline alert id when inlineAlert present', () => {
+    const { container } = render(
+      <Field
+        label="Email address"
+        id="email"
+        inlineAlert={{ intent: 'danger', children: 'Enter an email address with a domain.' }}
+      >
+        <Input />
+      </Field>
+    );
+
+    expect(getInput(container)).toHaveAttribute('aria-describedby', 'email-inline-alert');
+  });
+
   it('control has aria-describedby listing both ids when both present', () => {
     const { container } = render(
       <Field
@@ -247,6 +259,24 @@ describe('Field', () => {
     );
   });
 
+  it('control has aria-describedby listing helper and inline alert ids when both present', () => {
+    const { container } = render(
+      <Field
+        label="Email address"
+        id="email"
+        helper="We will only use this for updates."
+        inlineAlert={{ intent: 'danger', children: 'Enter an email address with a domain.' }}
+      >
+        <Input />
+      </Field>
+    );
+
+    expect(getInput(container)).toHaveAttribute(
+      'aria-describedby',
+      'email-helper email-inline-alert'
+    );
+  });
+
   it('appends generated descriptions to consumer aria-describedby', () => {
     const { container } = render(
       <Field label="Email address" id="email" helper="Enter a valid email.">
@@ -257,7 +287,7 @@ describe('Field', () => {
     expect(getInput(container)).toHaveAttribute('aria-describedby', 'external-help email-helper');
   });
 
-  it('control does not have aria-describedby when neither instruction nor helper present', () => {
+  it('control does not have aria-describedby when no descriptive slots are present', () => {
     const { container } = render(
       <Field label="Email address">
         <Input />
@@ -287,9 +317,12 @@ describe('Field', () => {
     expect(getInput(container)).not.toHaveAttribute('aria-required');
   });
 
-  it('control has aria-invalid="true" when helperIntent="error"', () => {
+  it('control has aria-invalid="true" when inlineAlert intent is danger', () => {
     const { container } = render(
-      <Field label="Email address" helper="Enter a valid email." helperIntent="error">
+      <Field
+        label="Email address"
+        inlineAlert={{ intent: 'danger', children: 'Enter a valid email.' }}
+      >
         <Input />
       </Field>
     );
@@ -297,9 +330,12 @@ describe('Field', () => {
     expect(getInput(container)).toHaveAttribute('aria-invalid', 'true');
   });
 
-  it('control does not have aria-invalid when helperIntent is not "error"', () => {
+  it('control does not have aria-invalid when inlineAlert intent is success', () => {
     const { container } = render(
-      <Field label="Email address" helper="Email is available." helperIntent="success">
+      <Field
+        label="Email address"
+        inlineAlert={{ intent: 'success', children: 'Email is available.' }}
+      >
         <Input />
       </Field>
     );
@@ -337,31 +373,41 @@ describe('Field', () => {
     expect(document.querySelector('label')).toHaveClass(labelClassNames.disabled);
   });
 
-  it('helper text has danger color when helperIntent="error"', () => {
+  it('renders inline alert after helper when both are provided', () => {
     const { container } = render(
-      <Field label="Email address" helper="Enter a valid email." helperIntent="error">
+      <Field
+        label="Email address"
+        id="email"
+        helper="We will only use this for updates."
+        inlineAlert={{ intent: 'danger', children: 'Enter a valid email.' }}
+      >
         <Input />
       </Field>
     );
 
-    expect(container.querySelector(`.${classNames.helper}`)).toHaveClass(
-      textClassNames.colorDanger
+    expect(container.querySelector('#email-inline-alert')).toHaveTextContent(
+      'Enter a valid email.'
+    );
+    expect(container.querySelector('#email-helper')?.nextElementSibling).toBe(
+      container.querySelector('#email-inline-alert')
     );
   });
 
-  it('helper text has success color when helperIntent="success"', () => {
+  it('inline alert uses role="status" for success intent', () => {
     const { container } = render(
-      <Field label="Email address" helper="Email is available." helperIntent="success">
+      <Field
+        label="Email address"
+        id="email"
+        inlineAlert={{ intent: 'success', children: 'Email is available.' }}
+      >
         <Input />
       </Field>
     );
 
-    expect(container.querySelector(`.${classNames.helper}`)).toHaveClass(
-      textClassNames.colorSuccess
-    );
+    expect(container.querySelector('#email-inline-alert')).toHaveAttribute('role', 'status');
   });
 
-  it('helper text has muted color when helperIntent omitted', () => {
+  it('helper text has muted color when inlineAlert is omitted', () => {
     const { container } = render(
       <Field label="Email address" helper="We will only use this for updates.">
         <Input />
@@ -563,9 +609,12 @@ describe('Field', () => {
     expect(results).toHaveNoViolations();
   });
 
-  it('axe: passes for stack layout with helperIntent="error"', async () => {
+  it('axe: passes for stack layout with danger inline alert', async () => {
     const { container } = render(
-      <Field label="Email address" helper="Enter a valid email." helperIntent="error">
+      <Field
+        label="Email address"
+        inlineAlert={{ intent: 'danger', children: 'Enter a valid email.' }}
+      >
         <Input defaultValue="ada" />
       </Field>
     );

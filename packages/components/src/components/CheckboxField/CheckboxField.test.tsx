@@ -150,6 +150,34 @@ describe('CheckboxField', () => {
     expect(getCheckbox(container)).toHaveAttribute('aria-describedby', 'terms-helper');
   });
 
+  it('checkbox has aria-describedby pointing to inline alert id when present', () => {
+    const { container } = render(
+      <CheckboxField
+        id="terms"
+        label="Accept terms"
+        inlineAlert={{ intent: 'danger', children: 'Accept the terms.' }}
+      />
+    );
+
+    expect(getCheckbox(container)).toHaveAttribute('aria-describedby', 'terms-inline-alert');
+  });
+
+  it('checkbox has aria-describedby listing helper and inline alert ids when both are present', () => {
+    const { container } = render(
+      <CheckboxField
+        id="terms"
+        label="Accept terms"
+        helper="Review the terms before continuing."
+        inlineAlert={{ intent: 'danger', children: 'Accept the terms.' }}
+      />
+    );
+
+    expect(getCheckbox(container)).toHaveAttribute(
+      'aria-describedby',
+      'terms-helper terms-inline-alert'
+    );
+  });
+
   it('checkbox does not have aria-describedby when neither present', () => {
     const { container } = render(<CheckboxField id="terms" label="Accept terms" />);
 
@@ -162,9 +190,12 @@ describe('CheckboxField', () => {
     expect(getCheckbox(container)).toHaveAttribute('aria-required', 'true');
   });
 
-  it('checkbox has aria-invalid="true" when helperIntent="error"', () => {
+  it('checkbox has aria-invalid="true" when inlineAlert intent is danger', () => {
     const { container } = render(
-      <CheckboxField label="Accept terms" helper="Accept the terms." helperIntent="error" />
+      <CheckboxField
+        label="Accept terms"
+        inlineAlert={{ intent: 'danger', children: 'Accept the terms.' }}
+      />
     );
 
     expect(getCheckbox(container)).toHaveAttribute('aria-invalid', 'true');
@@ -176,9 +207,13 @@ describe('CheckboxField', () => {
     expect(getCheckbox(container)).toHaveAttribute('aria-invalid', 'true');
   });
 
-  it('checkbox has aria-invalid="true" when both invalid and helperIntent="error"', () => {
+  it('checkbox has aria-invalid="true" when both invalid and inlineAlert intent are set', () => {
     const { container } = render(
-      <CheckboxField label="Accept terms" invalid helper="Accept the terms." helperIntent="error" />
+      <CheckboxField
+        label="Accept terms"
+        invalid
+        inlineAlert={{ intent: 'danger', children: 'Accept the terms.' }}
+      />
     );
 
     expect(getCheckbox(container)).toHaveAttribute('aria-invalid', 'true');
@@ -249,6 +284,19 @@ describe('CheckboxField', () => {
     );
 
     expect(container.querySelector('#terms-helper')).toHaveClass(classNames.helperSm);
+  });
+
+  it('inline alert uses the same padding class for size="sm"', () => {
+    const { container } = render(
+      <CheckboxField
+        id="terms"
+        label="Accept terms"
+        size="sm"
+        inlineAlert={{ intent: 'danger', children: 'Accept the terms.' }}
+      />
+    );
+
+    expect(container.querySelector('#terms-inline-alert')).toHaveClass(classNames.helperSm);
   });
 
   it('keyboard: Tab focuses the checkbox', async () => {
@@ -333,9 +381,12 @@ describe('CheckboxField', () => {
     expect(results).toHaveNoViolations();
   });
 
-  it('axe passes when helperIntent="error"', async () => {
+  it('axe passes when inlineAlert intent is danger', async () => {
     const { container } = render(
-      <CheckboxField label="Accept terms" helper="Accept the terms." helperIntent="error" />
+      <CheckboxField
+        label="Accept terms"
+        inlineAlert={{ intent: 'danger', children: 'Accept the terms.' }}
+      />
     );
 
     const results = await axe(container);

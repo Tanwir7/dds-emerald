@@ -236,7 +236,19 @@ describe('SwitchField', () => {
     expect(getSwitch(container)).toHaveAttribute('aria-describedby', 'notifications-helper');
   });
 
-  it('switch has aria-describedby listing all three ids when all present', () => {
+  it('switch has aria-describedby including inline alert id when present', () => {
+    const { container } = render(
+      <SwitchField
+        id="notifications"
+        label="Enable notifications"
+        inlineAlert={{ intent: 'danger', children: 'Choose a notification preference.' }}
+      />
+    );
+
+    expect(getSwitch(container)).toHaveAttribute('aria-describedby', 'notifications-inline-alert');
+  });
+
+  it('switch has aria-describedby listing all slot ids when all are present', () => {
     const { container } = render(
       <SwitchField
         id="notifications"
@@ -244,12 +256,13 @@ describe('SwitchField', () => {
         instruction="Choose alerts."
         description="Recommended"
         helper="You can update this."
+        inlineAlert={{ intent: 'danger', children: 'Choose a notification preference.' }}
       />
     );
 
     expect(getSwitch(container)).toHaveAttribute(
       'aria-describedby',
-      'notifications-instruction notifications-desc notifications-helper'
+      'notifications-instruction notifications-desc notifications-helper notifications-inline-alert'
     );
   });
 
@@ -265,12 +278,11 @@ describe('SwitchField', () => {
     expect(getSwitch(container)).toHaveAttribute('aria-required', 'true');
   });
 
-  it('switch has aria-invalid="true" when helperIntent="error"', () => {
+  it('switch has aria-invalid="true" when inlineAlert intent is danger', () => {
     const { container } = render(
       <SwitchField
         label="Enable notifications"
-        helper="Choose a notification preference."
-        helperIntent="error"
+        inlineAlert={{ intent: 'danger', children: 'Choose a notification preference.' }}
       />
     );
 
@@ -350,6 +362,19 @@ describe('SwitchField', () => {
     );
 
     expect(container.querySelector('#notifications-helper')).toHaveClass(classNames.helperSm);
+  });
+
+  it('inline alert has correct padding class for size="sm"', () => {
+    const { container } = render(
+      <SwitchField
+        id="notifications"
+        label="Enable notifications"
+        size="sm"
+        inlineAlert={{ intent: 'danger', children: 'Choose a notification preference.' }}
+      />
+    );
+
+    expect(container.querySelector('#notifications-inline-alert')).toHaveClass(classNames.helperSm);
   });
 
   it('keyboard: Tab focuses the switch', async () => {
@@ -437,6 +462,18 @@ describe('SwitchField', () => {
         label="Enable notifications"
         instruction="Choose alerts."
         helper="You can update this later."
+      />
+    );
+
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+
+  it('axe: passes with inline alert', async () => {
+    const { container } = render(
+      <SwitchField
+        label="Enable notifications"
+        inlineAlert={{ intent: 'danger', children: 'Choose a notification preference.' }}
       />
     );
 

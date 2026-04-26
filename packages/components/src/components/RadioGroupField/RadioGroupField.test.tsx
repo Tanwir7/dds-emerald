@@ -10,7 +10,6 @@ import styles from './RadioGroupField.module.scss';
 import { Label } from '../Label';
 import { Radio } from '../Radio';
 import radioStyles from '../Radio/Radio.module.scss';
-import textStyles from '../Text/Text.module.scss';
 import { getRequiredClassName } from '../../utils/getRequiredClassName';
 
 expect.extend(toHaveNoViolations);
@@ -38,11 +37,6 @@ const classNames = {
 const radioClassNames = {
   horizontal: getRequiredClassName(radioStyles, 'horizontal'),
   vertical: getRequiredClassName(radioStyles, 'vertical'),
-};
-
-const textClassNames = {
-  colorDanger: getRequiredClassName(textStyles, 'colorDanger'),
-  colorSuccess: getRequiredClassName(textStyles, 'colorSuccess'),
 };
 
 const render = (ui: React.ReactNode) => {
@@ -329,12 +323,11 @@ describe('RadioGroupField', () => {
     expect(getRadioGroup(container)).toHaveAttribute('aria-required', 'true');
   });
 
-  it('RadioGroup has aria-invalid="true" when helperIntent="error"', () => {
+  it('RadioGroup has aria-invalid="true" when inlineAlert intent is danger', () => {
     const { container } = render(
       <RadioGroupField
         label="Notification frequency"
-        helper="Select a notification frequency."
-        helperIntent="error"
+        inlineAlert={{ intent: 'danger', children: 'Select a notification frequency.' }}
       >
         <RadioOption id="frequency-daily" label="Daily" value="daily" />
       </RadioGroupField>
@@ -343,12 +336,11 @@ describe('RadioGroupField', () => {
     expect(getRadioGroup(container)).toHaveAttribute('aria-invalid', 'true');
   });
 
-  it('RadioGroup does not have aria-invalid when helperIntent is not "error"', () => {
+  it('RadioGroup does not have aria-invalid when inlineAlert intent is success', () => {
     const { container } = render(
       <RadioGroupField
         label="Notification frequency"
-        helper="Notification frequency is saved."
-        helperIntent="success"
+        inlineAlert={{ intent: 'success', children: 'Notification frequency is saved.' }}
       >
         <RadioOption id="frequency-daily" label="Daily" value="daily" />
       </RadioGroupField>
@@ -448,34 +440,38 @@ describe('RadioGroupField', () => {
     expect(getRadioByLabel(container, 'frequency-weekly')).toBeDisabled();
   });
 
-  it('helper has danger color class when helperIntent="error"', () => {
+  it('RadioGroup has aria-describedby including inline alert id when present', () => {
     const { container } = render(
       <RadioGroupField
         id="frequency"
         label="Notification frequency"
-        helper="Select a notification frequency."
-        helperIntent="error"
+        inlineAlert={{ intent: 'danger', children: 'Select a notification frequency.' }}
       >
         <RadioOption id="frequency-daily" label="Daily" value="daily" />
       </RadioGroupField>
     );
 
-    expect(container.querySelector('#frequency-helper')).toHaveClass(textClassNames.colorDanger);
+    expect(getRadioGroup(container)).toHaveAttribute('aria-describedby', 'frequency-inline-alert');
   });
 
-  it('helper has success color class when helperIntent="success"', () => {
+  it('renders inline alert after helper when both are provided', () => {
     const { container } = render(
       <RadioGroupField
         id="frequency"
         label="Notification frequency"
-        helper="Notification frequency is saved."
-        helperIntent="success"
+        helper="You can change this later."
+        inlineAlert={{ intent: 'success', children: 'Notification frequency is saved.' }}
       >
         <RadioOption id="frequency-daily" label="Daily" value="daily" />
       </RadioGroupField>
     );
 
-    expect(container.querySelector('#frequency-helper')).toHaveClass(textClassNames.colorSuccess);
+    expect(container.querySelector('#frequency-inline-alert')).toHaveTextContent(
+      'Notification frequency is saved.'
+    );
+    expect(container.querySelector('#frequency-helper')?.nextElementSibling).toBe(
+      container.querySelector('#frequency-inline-alert')
+    );
   });
 
   it('keyboard: Tab focuses first Radio in group', async () => {
@@ -603,12 +599,11 @@ describe('RadioGroupField', () => {
     expect(results).toHaveNoViolations();
   });
 
-  it('axe passes when helperIntent="error"', async () => {
+  it('axe passes with danger inline alert', async () => {
     const { container } = render(
       <RadioGroupField
         label="Notification frequency"
-        helper="Select a notification frequency."
-        helperIntent="error"
+        inlineAlert={{ intent: 'danger', children: 'Select a notification frequency.' }}
       >
         <RadioOption id="frequency-daily" label="Daily" value="daily" />
         <RadioOption id="frequency-weekly" label="Weekly" value="weekly" />

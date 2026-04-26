@@ -1,6 +1,2 @@
 export { SwitchField } from './SwitchField';
-export type {
-  SwitchFieldHelperIntent,
-  SwitchFieldLabelPosition,
-  SwitchFieldProps,
-} from './SwitchField';
+export type { SwitchFieldLabelPosition, SwitchFieldProps } from './SwitchField';

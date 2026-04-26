@@ -6,37 +6,37 @@ import { Icon } from '../Icon';
 import { Text, type TextColor } from '../Text';
 import styles from './InlineAlert.module.scss';
 
-type AlertIntent = 'info' | 'success' | 'warning' | 'danger';
+export type InlineAlertIntent = 'info' | 'success' | 'warning' | 'danger';
 
 export interface InlineAlertProps extends React.HTMLAttributes<HTMLSpanElement> {
-  intent?: AlertIntent;
+  intent?: InlineAlertIntent;
   showIcon?: boolean;
   className?: string;
   children: React.ReactNode;
 }
 
-const intentClassName: Record<AlertIntent, string> = {
+const intentClassName: Record<InlineAlertIntent, string> = {
   info: getRequiredClassName(styles, 'intentInfo'),
   success: getRequiredClassName(styles, 'intentSuccess'),
   warning: getRequiredClassName(styles, 'intentWarning'),
   danger: getRequiredClassName(styles, 'intentDanger'),
 };
 
-const intentTextColor: Record<AlertIntent, TextColor> = {
+const intentTextColor: Record<InlineAlertIntent, TextColor> = {
   info: 'info',
   success: 'success',
   warning: 'warning',
   danger: 'danger',
 };
 
-const defaultAlertIcon: Record<AlertIntent, LucideIcon> = {
+const defaultAlertIcon: Record<InlineAlertIntent, LucideIcon> = {
   info: Info,
   success: CheckCircle,
   warning: TriangleAlert,
   danger: OctagonAlert,
 };
 
-const getAlertAccessibilityProps = (intent: AlertIntent) => {
+const getAlertAccessibilityProps = (intent: InlineAlertIntent) => {
   const isAssertive = intent === 'warning' || intent === 'danger';
   const role: 'alert' | 'status' = isAssertive ? 'alert' : 'status';
   const ariaLive: 'assertive' | 'polite' = isAssertive ? 'assertive' : 'polite';

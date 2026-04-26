@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from './RadioGroupField.module.scss';
 import clsx from 'clsx';
+import { InlineAlert } from '../InlineAlert';
 import { RadioGroup, type RadioGroupOrientation, type RadioGroupProps } from '../Radio';
-import { Text, type TextColor } from '../Text';
+import { Text } from '../Text';
 import { getRequiredClassName } from '../../utils/getRequiredClassName';
-
-export type RadioGroupFieldHelperIntent = 'default' | 'error' | 'success';
+import type { FieldInlineAlert } from '../../types/fieldInlineAlert';
 
 export interface RadioGroupFieldProps extends Omit<
   RadioGroupProps,
@@ -24,7 +24,7 @@ export interface RadioGroupFieldProps extends Omit<
   disabled?: boolean;
   instruction?: string;
   helper?: string;
-  helperIntent?: RadioGroupFieldHelperIntent;
+  inlineAlert?: FieldInlineAlert;
   id?: string;
   className?: string;
   children: React.ReactNode;
@@ -40,12 +40,6 @@ const classNames = {
   helper: getRequiredClassName(styles, 'helper'),
 } as const;
 
-const helperColor: Record<RadioGroupFieldHelperIntent, TextColor> = {
-  default: 'muted',
-  error: 'danger',
-  success: 'success',
-};
-
 const mergeIds = (...ids: Array<string | undefined>) => ids.filter(Boolean).join(' ') || undefined;
 
 export const RadioGroupField = React.forwardRef<HTMLDivElement, RadioGroupFieldProps>(
@@ -56,7 +50,7 @@ export const RadioGroupField = React.forwardRef<HTMLDivElement, RadioGroupFieldP
       disabled = false,
       instruction,
       helper,
-      helperIntent = 'default',
+      inlineAlert,
       id,
       orientation = 'vertical',
       className,
@@ -70,8 +64,9 @@ export const RadioGroupField = React.forwardRef<HTMLDivElement, RadioGroupFieldP
     const labelId = `${baseId}-label`;
     const instructionId = instruction ? `${baseId}-instruction` : undefined;
     const helperId = helper ? `${baseId}-helper` : undefined;
-    const describedBy = mergeIds(instructionId, helperId);
-    const isInvalid = helperIntent === 'error';
+    const inlineAlertId = inlineAlert ? `${baseId}-inline-alert` : undefined;
+    const describedBy = mergeIds(instructionId, helperId, inlineAlertId);
+    const isInvalid = inlineAlert?.intent === 'danger';
 
     return (
       <div ref={ref} className={clsx(classNames.root, className)}>
@@ -117,15 +112,20 @@ export const RadioGroupField = React.forwardRef<HTMLDivElement, RadioGroupFieldP
         </RadioGroup>
 
         {helper ? (
-          <Text
-            as="p"
-            id={helperId}
-            size="xs"
-            color={helperColor[helperIntent]}
-            className={classNames.helper}
-          >
+          <Text as="p" id={helperId} size="xs" color="muted" className={classNames.helper}>
             {helper}
           </Text>
+        ) : null}
+
+        {inlineAlert ? (
+          <InlineAlert
+            id={inlineAlertId}
+            intent={inlineAlert.intent}
+            className={classNames.helper}
+            {...(inlineAlert.showIcon !== undefined ? { showIcon: inlineAlert.showIcon } : {})}
+          >
+            {inlineAlert.children}
+          </InlineAlert>
         ) : null}
       </div>
     );

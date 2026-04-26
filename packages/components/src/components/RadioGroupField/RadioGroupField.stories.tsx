@@ -153,8 +153,10 @@ export const Error: Story = {
     renderStory(
       <RadioGroupField
         label="Notification frequency"
-        helper="Select a notification frequency before continuing."
-        helperIntent="error"
+        inlineAlert={{
+          intent: 'danger',
+          children: 'Select a notification frequency before continuing.',
+        }}
         required
       >
         {deliveryOptions}
@@ -163,8 +165,7 @@ export const Error: Story = {
   parameters: storySourceParameters(
     basicSource(
       '  label="Notification frequency"',
-      '  helper="Select a notification frequency before continuing."',
-      '  helperIntent="error"',
+      '  inlineAlert={{ intent: "danger", children: "Select a notification frequency before continuing." }}',
       '  required'
     )
   ),
@@ -175,8 +176,7 @@ export const Success: Story = {
     renderStory(
       <RadioGroupField
         label="Notification frequency"
-        helper="Notification frequency is saved."
-        helperIntent="success"
+        inlineAlert={{ intent: 'success', children: 'Notification frequency is saved.' }}
         defaultValue="weekly"
       >
         {deliveryOptions}
@@ -185,8 +185,7 @@ export const Success: Story = {
   parameters: storySourceParameters(
     basicSource(
       '  label="Notification frequency"',
-      '  helper="Notification frequency is saved."',
-      '  helperIntent="success"',
+      '  inlineAlert={{ intent: "success", children: "Notification frequency is saved." }}',
       '  defaultValue="weekly"'
     )
   ),

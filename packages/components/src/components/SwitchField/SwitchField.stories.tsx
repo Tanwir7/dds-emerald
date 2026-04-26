@@ -24,7 +24,6 @@ const meta: Meta<typeof SwitchField> = {
     label: 'Enable notifications',
     labelPosition: 'right',
     size: 'md',
-    helperIntent: 'default',
   },
   argTypes: {
     labelPosition: {
@@ -35,9 +34,10 @@ const meta: Meta<typeof SwitchField> = {
       control: 'inline-radio',
       options: ['sm', 'md'],
     },
-    helperIntent: {
-      control: 'inline-radio',
-      options: ['default', 'error', 'success'],
+    inlineAlert: {
+      table: {
+        disable: true,
+      },
     },
     checked: {
       control: 'boolean',
@@ -105,8 +105,10 @@ export const Error: Story = {
     label: 'Enable notifications',
     required: true,
     invalid: true,
-    helper: 'Choose a notification preference before continuing.',
-    helperIntent: 'error',
+    inlineAlert: {
+      intent: 'danger',
+      children: 'Choose a notification preference before continuing.',
+    },
   },
   parameters: storySourceParameters(
     storySource(
@@ -114,8 +116,7 @@ export const Error: Story = {
       '  label="Enable notifications"',
       '  required',
       '  invalid',
-      '  helper="Choose a notification preference before continuing."',
-      '  helperIntent="error"',
+      '  inlineAlert={{ intent: "danger", children: "Choose a notification preference before continuing." }}',
       '/>'
     )
   ),
@@ -125,16 +126,17 @@ export const Success: Story = {
   args: {
     label: 'Security alerts',
     checked: true,
-    helper: 'Security alerts are enabled.',
-    helperIntent: 'success',
+    inlineAlert: {
+      intent: 'success',
+      children: 'Security alerts are enabled.',
+    },
   },
   parameters: storySourceParameters(
     storySource(
       '<SwitchField',
       '  label="Security alerts"',
       '  checked',
-      '  helper="Security alerts are enabled."',
-      '  helperIntent="success"',
+      '  inlineAlert={{ intent: "success", children: "Security alerts are enabled." }}',
       '/>'
     )
   ),

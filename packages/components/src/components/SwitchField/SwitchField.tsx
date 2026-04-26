@@ -1,13 +1,14 @@
 import React from 'react';
 import styles from './SwitchField.module.scss';
 import clsx from 'clsx';
+import { InlineAlert } from '../InlineAlert';
 import { Label } from '../Label';
 import { Switch, type SwitchProps, type SwitchSize } from '../Switch';
-import { Text, type TextColor } from '../Text';
+import { Text } from '../Text';
 import { getRequiredClassName } from '../../utils/getRequiredClassName';
+import type { FieldInlineAlert } from '../../types/fieldInlineAlert';
 
 export type SwitchFieldLabelPosition = 'right' | 'left';
-export type SwitchFieldHelperIntent = 'default' | 'error' | 'success';
 
 export interface SwitchFieldProps extends Omit<
   SwitchProps,
@@ -20,7 +21,7 @@ export interface SwitchFieldProps extends Omit<
   disabled?: boolean;
   instruction?: string;
   helper?: string;
-  helperIntent?: SwitchFieldHelperIntent;
+  inlineAlert?: FieldInlineAlert;
   id?: string;
   className?: string;
 }
@@ -36,12 +37,6 @@ const classNames = {
   helperSm: getRequiredClassName(styles, 'helperSm'),
   helperMd: getRequiredClassName(styles, 'helperMd'),
 } as const;
-
-const helperColor: Record<SwitchFieldHelperIntent, TextColor> = {
-  default: 'muted',
-  error: 'danger',
-  success: 'success',
-};
 
 const helperSizeClassName: Record<SwitchSize, string> = {
   sm: classNames.helperSm,
@@ -60,7 +55,7 @@ export const SwitchField = React.forwardRef<HTMLDivElement, SwitchFieldProps>(
       disabled = false,
       instruction,
       helper,
-      helperIntent = 'default',
+      inlineAlert,
       id,
       size = 'md',
       invalid = false,
@@ -73,9 +68,10 @@ export const SwitchField = React.forwardRef<HTMLDivElement, SwitchFieldProps>(
     const switchId = id ?? generatedId;
     const instructionId = instruction ? `${switchId}-instruction` : undefined;
     const helperId = helper ? `${switchId}-helper` : undefined;
+    const inlineAlertId = inlineAlert ? `${switchId}-inline-alert` : undefined;
     const descriptionId = description ? `${switchId}-desc` : undefined;
-    const describedBy = mergeIds(instructionId, descriptionId, helperId);
-    const isInvalid = invalid || helperIntent === 'error';
+    const describedBy = mergeIds(instructionId, descriptionId, helperId, inlineAlertId);
+    const isInvalid = invalid || inlineAlert?.intent === 'danger';
 
     return (
       <div ref={ref} className={clsx(classNames.root, className)}>
@@ -126,11 +122,22 @@ export const SwitchField = React.forwardRef<HTMLDivElement, SwitchFieldProps>(
             as="p"
             id={helperId}
             size="xs"
-            color={helperColor[helperIntent]}
+            color="muted"
             className={clsx(classNames.helper, helperSizeClassName[size])}
           >
             {helper}
           </Text>
+        ) : null}
+
+        {inlineAlert ? (
+          <InlineAlert
+            id={inlineAlertId}
+            intent={inlineAlert.intent}
+            className={clsx(classNames.helper, helperSizeClassName[size])}
+            {...(inlineAlert.showIcon !== undefined ? { showIcon: inlineAlert.showIcon } : {})}
+          >
+            {inlineAlert.children}
+          </InlineAlert>
         ) : null}
       </div>
     );

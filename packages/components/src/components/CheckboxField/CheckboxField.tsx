@@ -2,11 +2,11 @@ import React from 'react';
 import styles from './CheckboxField.module.scss';
 import clsx from 'clsx';
 import { Checkbox, type CheckboxProps, type CheckboxSize } from '../Checkbox';
+import { InlineAlert } from '../InlineAlert';
 import { Label } from '../Label';
-import { Text, type TextColor } from '../Text';
+import { Text } from '../Text';
 import { getRequiredClassName } from '../../utils/getRequiredClassName';
-
-export type CheckboxFieldHelperIntent = 'default' | 'error' | 'success';
+import type { FieldInlineAlert } from '../../types/fieldInlineAlert';
 
 export interface CheckboxFieldProps extends Omit<
   CheckboxProps,
@@ -16,7 +16,7 @@ export interface CheckboxFieldProps extends Omit<
   required?: boolean;
   disabled?: boolean;
   helper?: string;
-  helperIntent?: CheckboxFieldHelperIntent;
+  inlineAlert?: FieldInlineAlert;
   id?: string;
   className?: string;
 }
@@ -28,12 +28,6 @@ const classNames = {
   helperSm: getRequiredClassName(styles, 'helperSm'),
   helperMd: getRequiredClassName(styles, 'helperMd'),
 } as const;
-
-const helperColor: Record<CheckboxFieldHelperIntent, TextColor> = {
-  default: 'muted',
-  error: 'danger',
-  success: 'success',
-};
 
 const helperSizeClassName: Record<CheckboxSize, string> = {
   sm: classNames.helperSm,
@@ -47,7 +41,7 @@ export const CheckboxField = React.forwardRef<HTMLDivElement, CheckboxFieldProps
       required = false,
       disabled = false,
       helper,
-      helperIntent = 'default',
+      inlineAlert,
       id,
       size = 'md',
       invalid = false,
@@ -59,7 +53,9 @@ export const CheckboxField = React.forwardRef<HTMLDivElement, CheckboxFieldProps
     const generatedId = React.useId();
     const checkboxId = id ?? generatedId;
     const helperId = helper ? `${checkboxId}-helper` : undefined;
-    const isInvalid = invalid || helperIntent === 'error';
+    const inlineAlertId = inlineAlert ? `${checkboxId}-inline-alert` : undefined;
+    const describedBy = [helperId, inlineAlertId].filter(Boolean).join(' ') || undefined;
+    const isInvalid = invalid || inlineAlert?.intent === 'danger';
 
     return (
       <div ref={ref} className={clsx(classNames.root, className)}>
@@ -69,7 +65,7 @@ export const CheckboxField = React.forwardRef<HTMLDivElement, CheckboxFieldProps
             size={size}
             disabled={disabled}
             invalid={isInvalid}
-            aria-describedby={helperId}
+            aria-describedby={describedBy}
             aria-required={required ? true : undefined}
             aria-invalid={isInvalid ? true : undefined}
             {...checkboxProps}
@@ -84,11 +80,22 @@ export const CheckboxField = React.forwardRef<HTMLDivElement, CheckboxFieldProps
             as="p"
             id={helperId}
             size="xs"
-            color={helperColor[helperIntent]}
+            color="muted"
             className={clsx(classNames.helper, helperSizeClassName[size])}
           >
             {helper}
           </Text>
+        ) : null}
+
+        {inlineAlert ? (
+          <InlineAlert
+            id={inlineAlertId}
+            intent={inlineAlert.intent}
+            className={clsx(classNames.helper, helperSizeClassName[size])}
+            {...(inlineAlert.showIcon !== undefined ? { showIcon: inlineAlert.showIcon } : {})}
+          >
+            {inlineAlert.children}
+          </InlineAlert>
         ) : null}
       </div>
     );

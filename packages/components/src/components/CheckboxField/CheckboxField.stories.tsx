@@ -23,16 +23,16 @@ const meta: Meta<typeof CheckboxField> = {
   args: {
     label: 'Receive project updates',
     size: 'md',
-    helperIntent: 'default',
   },
   argTypes: {
     size: {
       control: 'inline-radio',
       options: ['sm', 'md'],
     },
-    helperIntent: {
-      control: 'inline-radio',
-      options: ['default', 'error', 'success'],
+    inlineAlert: {
+      table: {
+        disable: true,
+      },
     },
     checked: {
       control: 'inline-radio',
@@ -71,8 +71,10 @@ export const Error: Story = {
     label: 'Accept terms',
     required: true,
     invalid: true,
-    helper: 'Accept the terms before continuing.',
-    helperIntent: 'error',
+    inlineAlert: {
+      intent: 'danger',
+      children: 'Accept the terms before continuing.',
+    },
   },
   parameters: storySourceParameters(
     storySource(
@@ -80,8 +82,7 @@ export const Error: Story = {
       '  label="Accept terms"',
       '  required',
       '  invalid',
-      '  helper="Accept the terms before continuing."',
-      '  helperIntent="error"',
+      '  inlineAlert={{ intent: "danger", children: "Accept the terms before continuing." }}',
       '/>'
     )
   ),
@@ -91,16 +92,17 @@ export const Success: Story = {
   args: {
     label: 'Receive security alerts',
     checked: true,
-    helper: 'Security alerts are enabled.',
-    helperIntent: 'success',
+    inlineAlert: {
+      intent: 'success',
+      children: 'Security alerts are enabled.',
+    },
   },
   parameters: storySourceParameters(
     storySource(
       '<CheckboxField',
       '  label="Receive security alerts"',
       '  checked',
-      '  helper="Security alerts are enabled."',
-      '  helperIntent="success"',
+      '  inlineAlert={{ intent: "success", children: "Security alerts are enabled." }}',
       '/>'
     )
   ),
