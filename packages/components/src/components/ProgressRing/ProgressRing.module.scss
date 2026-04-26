@@ -1,0 +1,95 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.root {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.svg {
+  transform: rotate(-90deg);
+}
+
+.track {
+  stroke: var(--dds-color-bg-subtle);
+}
+
+.arc {
+  transition: stroke-dashoffset var(--dds-duration-normal) var(--dds-ease-standard);
+}
+
+.variantDefault {
+  stroke: var(--dds-color-action-primary);
+}
+
+.variantSuccess {
+  stroke: var(--dds-color-status-success);
+}
+
+.variantWarning {
+  stroke: var(--dds-color-status-warning);
+}
+
+.variantDanger {
+  stroke: var(--dds-color-status-danger);
+}
+
+.variantInfo {
+  stroke: var(--dds-color-status-info);
+}
+
+.indeterminate {
+  animation: ringRotate var(--dds-duration-slow) linear infinite;
+}
+
+.noAnimation {
+  animation: none;
+}
+
+.noAnimation .arc {
+  transition: none;
+}
+
+.valueLabel {
+  position: absolute;
+  font-family: var(--dds-font-sans);
+  font-weight: var(--dds-font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+  color: var(--dds-color-text-default);
+}
+
+.sm .valueLabel {
+  font-size: var(--dds-font-size-xs);
+}
+
+.md .valueLabel {
+  font-size: var(--dds-font-size-xs);
+}
+
+.lg .valueLabel {
+  font-size: var(--dds-font-size-sm);
+}
+
+@keyframes ringRotate {
+  from {
+    transform: rotate(-90deg);
+  }
+
+  to {
+    transform: rotate(270deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .indeterminate {
+    animation: none;
+  }
+
+  .indeterminate .arc {
+    stroke-dashoffset: 0;
+    opacity: 0.3;
+  }
+}

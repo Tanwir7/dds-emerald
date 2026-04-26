@@ -1,0 +1,23 @@
+.storyA11yScope {
+  display: block;
+  width: 100%;
+  max-width: 720px;
+}
+
+.storyStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-4);
+}
+
+.storyParagraphs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-3);
+}
+
+.storyField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-3);
+}

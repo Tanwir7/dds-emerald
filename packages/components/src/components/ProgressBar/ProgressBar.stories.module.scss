@@ -1,0 +1,31 @@
+.storyA11yScope {
+  width: 100%;
+}
+
+.storyStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-4);
+  width: 400px;
+}
+
+.storyInlineGrid {
+  display: grid;
+  gap: var(--dds-space-4);
+  width: 100%;
+}
+
+.storyInlineRow {
+  display: flex;
+  align-items: center;
+  gap: var(--dds-space-4);
+  width: 100%;
+}
+
+.storyLabel {
+  min-width: var(--dds-space-12);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-sm);
+  font-weight: var(--dds-font-weight-medium);
+  color: var(--dds-color-text-muted);
+}

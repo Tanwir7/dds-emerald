@@ -1,0 +1,102 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--dds-space-2);
+  width: 100%;
+}
+
+.root {
+  flex: 1 1 auto;
+  min-width: 0;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--dds-color-bg-subtle);
+  border-radius: var(--dds-radius-full);
+}
+
+.sm {
+  height: var(--dds-space-1);
+}
+
+.md {
+  height: var(--dds-space-2);
+}
+
+.lg {
+  height: var(--dds-space-3);
+}
+
+.indicator {
+  height: 100%;
+  width: 100%;
+  border-radius: var(--dds-radius-full);
+  transition: transform var(--dds-duration-normal) var(--dds-ease-standard);
+}
+
+.variantDefault {
+  background-color: var(--dds-color-action-primary);
+}
+
+.variantSuccess {
+  background-color: var(--dds-color-status-success);
+}
+
+.variantWarning {
+  background-color: var(--dds-color-status-warning);
+}
+
+.variantDanger {
+  background-color: var(--dds-color-status-danger);
+}
+
+.variantInfo {
+  background-color: var(--dds-color-status-info);
+}
+
+.indeterminate .indicator {
+  width: 40% !important;
+  animation: indeterminate var(--dds-duration-slow) ease-in-out infinite;
+}
+
+.noAnimation .indicator {
+  transition: none;
+  animation: none;
+}
+
+.noAnimation.indeterminate .indicator {
+  opacity: 0.4;
+  transform: translateX(0);
+}
+
+.valueLabel {
+  min-width: var(--dds-space-8);
+  white-space: nowrap;
+  text-align: right;
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-xs);
+  font-weight: var(--dds-font-weight-medium);
+  font-variant-numeric: tabular-nums;
+  color: var(--dds-color-text-muted);
+}
+
+@keyframes indeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(350%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .indeterminate .indicator {
+    animation: none;
+    width: 100% !important;
+    opacity: 0.4;
+  }
+}

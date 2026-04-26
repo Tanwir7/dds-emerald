@@ -1,0 +1,76 @@
+.storyA11yScope {
+  display: block;
+  width: 100%;
+  max-width: 720px;
+}
+
+.storyFrame {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  padding: var(--dds-space-4);
+  border: 1px solid var(--dds-color-border-default);
+  background-color: var(--dds-color-bg-card-hover);
+}
+
+.storyTextFrame {
+  width: min(100%, 480px);
+}
+
+.storyRectangularFrame {
+  width: min(100%, 640px);
+}
+
+.storyStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-4);
+  width: 100%;
+}
+
+.cardShell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-4);
+  width: 100%;
+  max-width: 360px;
+  padding: var(--dds-space-4);
+  border: 1px solid var(--dds-color-border-default);
+  background-color: var(--dds-color-bg-card);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--dds-space-3);
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-3);
+}
+
+.tableShell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-2);
+  width: 100%;
+  max-width: 720px;
+}
+
+.tableHeader,
+.tableRow {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--dds-space-3);
+  align-items: center;
+}
+
+.storyNote {
+  max-width: 720px;
+  color: var(--dds-color-text-muted);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-sm);
+  line-height: var(--dds-line-height-normal);
+}

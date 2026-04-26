@@ -1,0 +1,101 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.root {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--dds-space-3);
+  width: 100%;
+  padding: var(--dds-space-3) var(--dds-space-4);
+  border: 1px solid transparent;
+  border-left-width: var(--dds-space-1);
+  border-radius: var(--dds-radius-none);
+  color: var(--dds-color-text-default);
+}
+
+.intentInfo {
+  background-color: oklch(from var(--dds-color-status-info) l c h / 0.1);
+  border-left-color: var(--dds-color-status-info);
+}
+
+.intentSuccess {
+  background-color: var(--dds-tag-success-bg);
+  border-left-color: var(--dds-color-status-success);
+}
+
+.intentWarning {
+  background-color: var(--dds-tag-warning-bg);
+  border-left-color: var(--dds-color-status-warning);
+}
+
+.intentDanger {
+  background-color: var(--dds-tag-danger-bg);
+  border-left-color: var(--dds-color-status-danger);
+}
+
+.icon {
+  @include icon-size(lg);
+
+  margin-top: var(--dds-space-0-5);
+}
+
+.intentInfo .icon {
+  color: var(--dds-color-status-info);
+}
+
+.intentSuccess .icon {
+  color: var(--dds-color-status-success);
+}
+
+.intentWarning .icon {
+  color: var(--dds-color-status-warning);
+}
+
+.intentDanger .icon {
+  color: var(--dds-color-status-danger);
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  margin: 0 0 var(--dds-space-1) 0;
+  color: var(--dds-color-text-default);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-sm);
+  font-weight: var(--dds-font-weight-semibold);
+  line-height: var(--dds-line-height-snug);
+}
+
+.body {
+  color: var(--dds-color-text-default);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-sm);
+  line-height: var(--dds-line-height-normal);
+}
+
+.dismiss {
+  @include icon-size(lg);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: var(--dds-radius-none);
+  background: transparent;
+  color: var(--dds-color-text-muted);
+  cursor: pointer;
+  outline: 3px solid transparent;
+  outline-offset: 2px;
+
+  &:hover {
+    color: var(--dds-color-text-default);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}

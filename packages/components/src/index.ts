@@ -127,3 +127,21 @@ export type {
   RadioGroupFieldHelperIntent,
   RadioGroupFieldProps,
 } from './components/RadioGroupField';
+export { Alert } from './components/Alert';
+export type { AlertProps } from './components/Alert';
+export { InlineAlert } from './components/InlineAlert';
+export type { InlineAlertProps } from './components/InlineAlert';
+export { Skeleton } from './components/Skeleton';
+export type { SkeletonProps, SkeletonVariant } from './components/Skeleton';
+export { ProgressBar } from './components/ProgressBar';
+export type {
+  ProgressBarProps,
+  ProgressBarSize,
+  ProgressBarVariant,
+} from './components/ProgressBar';
+export { ProgressRing } from './components/ProgressRing';
+export type {
+  ProgressRingProps,
+  ProgressRingSize,
+  ProgressRingVariant,
+} from './components/ProgressRing';

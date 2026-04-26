@@ -1,0 +1,39 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.root {
+  --dds-inline-alert-accent: var(--dds-color-status-info);
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dds-space-1);
+  border-radius: var(--dds-radius-none);
+  line-height: var(--dds-line-height-none);
+}
+
+.intentInfo {
+  --dds-inline-alert-accent: var(--dds-color-status-info);
+}
+
+.intentSuccess {
+  --dds-inline-alert-accent: var(--dds-color-status-success);
+}
+
+.intentWarning {
+  --dds-inline-alert-accent: var(--dds-color-status-warning);
+}
+
+.intentDanger {
+  --dds-inline-alert-accent: var(--dds-color-status-danger);
+}
+
+.icon {
+  @include icon-size(md);
+
+  display: inline-flex;
+  color: var(--dds-inline-alert-accent);
+}
+
+.message {
+  display: inline;
+}

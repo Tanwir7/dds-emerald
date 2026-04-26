@@ -1,0 +1,60 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.root {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  width: var(--skeleton-width, 100%);
+  height: var(--skeleton-height, 20px);
+  border-radius: var(--dds-radius-none);
+  background-color: var(--dds-color-bg-subtle);
+}
+
+.root::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    oklch(from var(--dds-color-bg-card) l c h / 0.6) 50%,
+    transparent 100%
+  );
+  animation: shimmer var(--dds-duration-slow) ease-in-out infinite;
+}
+
+.text {
+  height: var(--skeleton-height, 1em);
+  border-radius: var(--dds-radius-none);
+}
+
+.circular {
+  width: var(--skeleton-width, 40px);
+  height: var(--skeleton-height, 40px);
+  border-radius: var(--dds-radius-full);
+}
+
+.rectangular {
+  border-radius: var(--dds-radius-none);
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-2);
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root::after {
+    opacity: 0;
+    animation: none;
+  }
+}
