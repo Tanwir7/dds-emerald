@@ -145,3 +145,5 @@ export type {
   ProgressRingSize,
   ProgressRingVariant,
 } from './components/ProgressRing';
+export { Rating } from './components/Rating';
+export type { RatingFill, RatingProps, RatingSize } from './components/Rating/Rating';

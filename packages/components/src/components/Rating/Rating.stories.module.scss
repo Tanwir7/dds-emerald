@@ -1,0 +1,25 @@
+.storyA11yScope {
+  display: inline-flex;
+}
+
+.storyStack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--dds-space-4);
+}
+
+.storyRow {
+  display: flex;
+  align-items: center;
+  gap: var(--dds-space-4);
+  flex-wrap: wrap;
+}
+
+.storyLabel {
+  min-width: var(--dds-space-12);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-sm);
+  font-weight: var(--dds-font-weight-medium);
+  color: var(--dds-color-text-muted);
+}
