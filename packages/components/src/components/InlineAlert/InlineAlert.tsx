@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { BadgeAlert, CheckCircle, Info, TriangleAlert, type LucideIcon } from 'lucide-react';
+import { CheckCircle, Info, OctagonAlert, TriangleAlert, type LucideIcon } from 'lucide-react';
 import React from 'react';
 import { getRequiredClassName } from '../../utils/getRequiredClassName';
 import { Icon } from '../Icon';
@@ -33,7 +33,7 @@ const defaultAlertIcon: Record<AlertIntent, LucideIcon> = {
   info: Info,
   success: CheckCircle,
   warning: TriangleAlert,
-  danger: BadgeAlert,
+  danger: OctagonAlert,
 };
 
 const getAlertAccessibilityProps = (intent: AlertIntent) => {

@@ -163,31 +163,6 @@ export const AllIntents: Story = {
   },
 };
 
-export const InsideParagraph: Story = {
-  render: () => (
-    <div className={storyStyles.storyA11yScope}>
-      <p className={storyStyles.storyParagraph}>
-        Deployment notes:{' '}
-        <InlineAlert intent="info">API changes apply only to new tokens created today.</InlineAlert>
-      </p>
-    </div>
-  ),
-  parameters: {
-    docs: {
-      source: storySourceBlock(
-        storySource(
-          '<p>',
-          '  Deployment notes:{" "}',
-          '  <InlineAlert intent="info">',
-          '    API changes apply only to new tokens created today.',
-          '  </InlineAlert>',
-          '</p>'
-        )
-      ),
-    },
-  },
-};
-
 export const InFormContext: Story = {
   render: () => (
     <div className={storyStyles.storyA11yScope}>

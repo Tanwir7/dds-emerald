@@ -90,10 +90,10 @@ describe('InlineAlert', () => {
     expect(getIconRoot()).toBeTruthy();
   });
 
-  it('uses the danger badge Lucide icon for danger intent', () => {
+  it('uses the danger octagon-alert Lucide icon for danger intent', () => {
     const { container } = render(<InlineAlert intent="danger">content</InlineAlert>);
     expect(getIconRoot()).toBeTruthy();
-    expect(container.querySelector('svg')).toHaveClass('lucide-badge-alert');
+    expect(container.querySelector('svg')).toHaveClass('lucide-octagon-alert');
   });
 
   it('forwards className to the root span', () => {

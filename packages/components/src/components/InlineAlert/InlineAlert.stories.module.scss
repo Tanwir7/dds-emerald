@@ -8,14 +8,6 @@
   gap: var(--dds-space-3);
 }
 
-.storyParagraph {
-  max-width: 640px;
-  color: var(--dds-color-text-default);
-  font-family: var(--dds-font-sans);
-  font-size: var(--dds-font-size-base);
-  line-height: var(--dds-line-height-normal);
-}
-
 .storyForm {
   display: flex;
   flex-direction: column;
