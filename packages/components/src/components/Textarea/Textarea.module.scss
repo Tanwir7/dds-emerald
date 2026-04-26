@@ -4,6 +4,7 @@
 .root {
   display: block;
   width: 100%;
+  box-sizing: border-box;
   font-family: var(--dds-font-sans);
   font-size: var(--dds-font-size-sm);
   font-weight: var(--dds-font-weight-normal);

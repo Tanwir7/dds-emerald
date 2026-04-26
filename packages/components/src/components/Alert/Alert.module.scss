@@ -5,6 +5,7 @@
   display: flex;
   gap: var(--dds-space-3);
   width: 100%;
+  box-sizing: border-box;
   padding: var(--dds-space-3) var(--dds-space-4);
   border: 1px solid transparent;
   border-left-width: var(--dds-space-1);
