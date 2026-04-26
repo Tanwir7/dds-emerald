@@ -1,0 +1,175 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.content {
+  min-width: 180px;
+  max-width: 280px;
+  background-color: var(--dds-color-bg-popover);
+  color: var(--dds-color-text-popover-foreground);
+  border: 1px solid var(--dds-color-border-default);
+  border-radius: var(--dds-radius-none);
+  box-shadow: var(--dds-shadow-sm);
+  padding: var(--dds-space-1) 0;
+  z-index: 50;
+  overflow: hidden;
+
+  &[data-state='open'] {
+    animation: dropIn var(--dds-duration-fast) var(--dds-ease-out);
+  }
+
+  &[data-state='closed'] {
+    animation: dropOut var(--dds-duration-fast) var(--dds-ease-standard);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &[data-state='open'],
+    &[data-state='closed'] {
+      animation: none;
+    }
+  }
+}
+
+@keyframes dropIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes dropOut {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(0.97) translateY(-4px);
+  }
+}
+
+.item,
+.checkboxItem,
+.radioItem,
+.subTrigger {
+  display: flex;
+  align-items: center;
+  gap: var(--dds-space-2);
+  width: 100%;
+  padding: var(--dds-space-1-5) var(--dds-space-3);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-sm);
+  font-weight: var(--dds-font-weight-normal);
+  line-height: var(--dds-line-height-normal);
+  color: var(--dds-color-text-default);
+  cursor: default;
+  outline: none;
+  user-select: none;
+  border-radius: var(--dds-radius-none);
+
+  &[data-highlighted] {
+    background-color: var(--dds-color-action-ghost-hover);
+  }
+
+  &[data-disabled] {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+.itemText {
+  min-width: 0;
+}
+
+.intentDestructive {
+  color: var(--dds-color-status-danger);
+
+  &[data-highlighted] {
+    background-color: var(--dds-tag-danger-bg);
+    color: var(--dds-color-status-danger);
+  }
+}
+
+.inset {
+  padding-left: calc(var(--dds-space-3) + var(--dds-icon-size-md) + var(--dds-space-2));
+}
+
+.startIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--dds-color-text-muted);
+
+  :global(svg) {
+    @include icon-size(md);
+  }
+}
+
+.intentDestructive .startIcon {
+  color: var(--dds-color-status-danger);
+}
+
+.endText {
+  margin-left: auto;
+  font-size: var(--dds-font-size-xs);
+  color: var(--dds-color-text-muted);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.checkboxItem,
+.radioItem {
+  padding-left: calc(var(--dds-space-3) + var(--dds-icon-size-md) + var(--dds-space-2));
+  position: relative;
+}
+
+.itemIndicatorSlot {
+  position: absolute;
+  left: var(--dds-space-3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dds-color-action-primary);
+}
+
+.itemIndicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.indicatorIcon {
+  @include icon-size(md);
+}
+
+.subArrow {
+  margin-left: auto;
+  color: var(--dds-color-text-muted);
+
+  @include icon-size(md);
+}
+
+.subContent {
+  min-width: 180px;
+}
+
+.label {
+  padding: var(--dds-space-1-5) var(--dds-space-3);
+  font-size: var(--dds-font-size-xs);
+  font-weight: var(--dds-font-weight-semibold);
+  color: var(--dds-color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: var(--dds-tracking-wider);
+}
+
+.separator {
+  height: 1px;
+  background-color: var(--dds-color-border-default);
+  margin: var(--dds-space-1) 0;
+}
