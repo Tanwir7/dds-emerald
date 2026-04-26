@@ -141,3 +141,14 @@ export type {
 } from './components/ProgressRing';
 export { Rating } from './components/Rating';
 export type { RatingFill, RatingProps, RatingSize } from './components/Rating/Rating';
+export {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+  SelectGroup,
+  SelectLabel,
+  SelectSeparator,
+} from './components/Select';
+export type { SelectProps } from './components/Select';
