@@ -1,3 +1,4 @@
+import { Canvas, Description, Title } from '@storybook/addon-docs/blocks';
 import { useId } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ArrowUpRight, MessageSquarePlus, Search, Sparkles, Upload } from 'lucide-react';
@@ -279,6 +280,15 @@ const classNames = {
   tabular: getRequiredClassName(storyStyles, 'tabular'),
 } as const;
 
+const PatternDocsPage = () => (
+  <>
+    <Title />
+    <Description />
+    <Canvas of={Overview} source={{ code: dashboardShellSource }} sourceState="shown" />
+    <Canvas of={Loading} source={{ code: loadingSource }} sourceState="hidden" />
+  </>
+);
+
 const RadioOption = ({ id, label, value }: { id: string; label: string; value: string }) => (
   <div className={classNames.radioOption}>
     <Radio id={id} value={value} />
@@ -286,7 +296,7 @@ const RadioOption = ({ id, label, value }: { id: string; label: string; value: s
   </div>
 );
 
-const DashboardShellPattern = () => {
+const DashboardShell = () => {
   const baseId = useId();
   const heroHeadingId = `${baseId}-hero-heading`;
   const checklistHeadingId = `${baseId}-checklist-heading`;
@@ -657,7 +667,7 @@ const DashboardShellPattern = () => {
   );
 };
 
-const DashboardShellLoadingPattern = () => (
+const DashboardShellLoading = () => (
   <div className={classNames.storyA11yScope}>
     <Container as="main" className={classNames.storyShell} padding="lg">
       <Container background="card" border padding="lg" className={classNames.heroPanel}>
@@ -699,6 +709,7 @@ const DashboardShellLoadingPattern = () => (
 
 const meta = {
   title: 'App Patterns/DashboardShell',
+  component: DashboardShell,
   tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
@@ -706,6 +717,7 @@ const meta = {
       context: '.' + classNames.storyA11yScope,
     },
     docs: {
+      page: PatternDocsPage,
       description: {
         component: componentDescription,
       },
@@ -718,11 +730,11 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Overview: Story = {
-  render: () => <DashboardShellPattern />,
+  render: () => <DashboardShell />,
   parameters: storySourceParameters(dashboardShellSource),
 };
 
 export const Loading: Story = {
-  render: () => <DashboardShellLoadingPattern />,
+  render: () => <DashboardShellLoading />,
   parameters: storySourceParameters(loadingSource),
 };
