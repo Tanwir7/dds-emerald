@@ -1,14 +1,17 @@
 import clsx from 'clsx';
-import { BadgeAlert, CheckCircle, Info, TriangleAlert, X, type LucideIcon } from 'lucide-react';
+import { CheckCircle, Info, OctagonAlert, TriangleAlert, X, type LucideIcon } from 'lucide-react';
 import React from 'react';
 import { getRequiredClassName } from '../../utils/getRequiredClassName';
 import { Icon } from '../Icon';
+import { Text } from '../Text';
 import styles from './Alert.module.scss';
 
 export type AlertIntent = 'info' | 'success' | 'warning' | 'danger';
+export type AlertAlign = 'center' | 'start';
 
-export interface AlertProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
+export interface AlertProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title' | 'align'> {
   intent?: AlertIntent;
+  align?: AlertAlign;
   title?: string;
   dismissible?: boolean;
   onDismiss?: () => void;
@@ -25,11 +28,16 @@ const intentClassName: Record<AlertIntent, string> = {
   danger: getRequiredClassName(styles, 'intentDanger'),
 };
 
+const alignClassName: Record<AlertAlign, string> = {
+  center: getRequiredClassName(styles, 'alignCenter'),
+  start: getRequiredClassName(styles, 'alignStart'),
+};
+
 const defaultAlertIcon: Record<AlertIntent, LucideIcon> = {
   info: Info,
   success: CheckCircle,
   warning: TriangleAlert,
-  danger: BadgeAlert,
+  danger: OctagonAlert,
 };
 
 const getAlertAccessibilityProps = (intent: AlertIntent) => {
@@ -48,6 +56,7 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
   (
     {
       intent = 'info',
+      align = 'center',
       title,
       dismissible = false,
       onDismiss,
@@ -65,25 +74,38 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
     return (
       <div
         ref={ref}
-        className={clsx(styles.root, intentClassName[intent], className)}
+        className={clsx(
+          getRequiredClassName(styles, 'root'),
+          intentClassName[intent],
+          alignClassName[align],
+          className
+        )}
         {...props}
         {...getAlertAccessibilityProps(intent)}
       >
         {showIcon ? (
-          <span className={styles.icon} aria-hidden="true">
+          <span className={getRequiredClassName(styles, 'icon')} aria-hidden="true">
             {icon ?? <Icon icon={defaultAlertIcon[intent]} size="lg" />}
           </span>
         ) : null}
 
-        <div className={styles.content}>
-          {title ? <p className={styles.title}>{title}</p> : null}
-          {hasBodyContent ? <div className={styles.body}>{children}</div> : null}
+        <div className={getRequiredClassName(styles, 'content')}>
+          {title ? (
+            <Text size="sm" weight="semibold" className={getRequiredClassName(styles, 'title')}>
+              {title}
+            </Text>
+          ) : null}
+          {hasBodyContent ? (
+            <Text size="sm" className={getRequiredClassName(styles, 'body')}>
+              {children}
+            </Text>
+          ) : null}
         </div>
 
         {dismissible ? (
           <button
             type="button"
-            className={styles.dismiss}
+            className={getRequiredClassName(styles, 'dismiss')}
             aria-label={dismissLabel}
             onClick={onDismiss}
           >

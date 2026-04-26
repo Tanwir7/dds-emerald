@@ -1,10 +1,15 @@
-import type { ComponentProps } from 'react';
+import { useState, type ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, userEvent, within } from 'storybook/test';
+import { Search } from 'lucide-react';
 import { Alert } from './Alert';
 import storyStyles from './Alert.stories.module.scss';
+import { Button } from '../Button';
 import { Field } from '../Field';
+import { Icon } from '../Icon';
 import { Input } from '../Input';
+import { Stack } from '../Stack';
+import { Text } from '../Text';
 import { storySource, storySourceBlock, storySourceParameters } from '../../utils/storySource';
 
 const componentDescription = `Alert is the full-width in-flow feedback block for persistent status, warning, success, and error messages.
@@ -14,7 +19,7 @@ const componentDescription = `Alert is the full-width in-flow feedback block for
 - Keyboard: the block itself is read-only; when dismissible, the close button is reachable with Tab and activates with Enter or Space.
 - Screen readers: \`warning\` and \`danger\` use \`role="alert"\` with assertive live-region behavior; \`info\` and \`success\` use \`role="status"\` with polite announcements.
 - Focus: the dismiss button uses the shared Emerald outline focus ring.
-- Designers: use Alert when the message needs structure, width, or a persistent in-page container. Use InlineAlert for compact inline feedback.
+- Designers: use Alert when the message needs structure, width, or a persistent in-page container. Use \`align="start"\` when longer body content should top-align with the icon and dismiss affordance. Use InlineAlert for compact inline feedback.
 - QA: verify role and \`aria-live\` mapping by intent, dismiss labeling, icon decoration, and axe results across all states.`;
 
 const renderAlert = (args: ComponentProps<typeof Alert>) => (
@@ -25,6 +30,7 @@ const renderAlert = (args: ComponentProps<typeof Alert>) => (
 
 const buildAlertSource = ({
   intent = 'info',
+  align = 'center',
   title,
   dismissible = false,
   showIcon = true,
@@ -35,6 +41,10 @@ const buildAlertSource = ({
 
   if (intent !== 'info') {
     props.push(`intent="${intent}"`);
+  }
+
+  if (align !== 'center') {
+    props.push(`align="${align}"`);
   }
 
   if (title) {
@@ -85,6 +95,10 @@ const meta: Meta<typeof Alert> = {
     intent: {
       control: 'inline-radio',
       options: ['info', 'success', 'warning', 'danger'],
+    },
+    align: {
+      control: 'inline-radio',
+      options: ['center', 'start'],
     },
     icon: {
       control: false,
@@ -182,13 +196,6 @@ export const BodyOnly: Story = {
   ),
 };
 
-const AlertCustomIcon = () => (
-  <svg aria-hidden="true" viewBox="0 0 16 16" fill="none">
-    <rect x="3" y="3" width="10" height="10" stroke="currentColor" strokeWidth="1.5" />
-    <path d="M5.5 8H10.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-  </svg>
-);
-
 export const NoIcon: Story = {
   args: {
     showIcon: false,
@@ -204,21 +211,16 @@ export const NoIcon: Story = {
 
 export const CustomIcon: Story = {
   args: {
-    icon: <AlertCustomIcon />,
+    icon: <Icon icon={Search} size="lg" />,
     children: 'This alert uses a custom decorative icon.',
   },
   parameters: {
     docs: {
       source: storySourceBlock(
         storySource(
-          'const CustomIcon = () => (',
-          '  <svg aria-hidden="true" viewBox="0 0 16 16" fill="none">',
-          '    <rect x="3" y="3" width="10" height="10" stroke="currentColor" strokeWidth="1.5" />',
-          '    <path d="M5.5 8H10.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />',
-          '  </svg>',
-          ');',
-          '',
-          '<Alert icon={<CustomIcon />}>This alert uses a custom decorative icon.</Alert>'
+          '<Alert icon={<Icon icon={Search} size="lg" />}>',
+          '  This alert uses a custom decorative icon.',
+          '</Alert>'
         )
       ),
     },
@@ -226,18 +228,51 @@ export const CustomIcon: Story = {
 };
 
 export const Dismissible: Story = {
-  args: {
-    dismissible: true,
-    title: 'Connection issue',
-    children: 'Reconnect to continue syncing workspace changes.',
+  render: () => {
+    const [visible, setVisible] = useState(true);
+
+    return (
+      <div className={storyStyles.storyA11yScope}>
+        {visible ? (
+          <Alert dismissible title="Connection issue" onDismiss={() => setVisible(false)}>
+            Reconnect to continue syncing workspace changes.
+          </Alert>
+        ) : (
+          <Stack gap="sm" align="start">
+            <Text size="sm">Alert dismissed.</Text>
+            <Button variant="secondary" onClick={() => setVisible(true)}>
+              Show alert again
+            </Button>
+          </Stack>
+        )}
+      </div>
+    );
   },
-  parameters: storySourceParameters(
-    buildAlertSource({
-      dismissible: true,
-      title: 'Connection issue',
-      children: 'Reconnect to continue syncing workspace changes.',
-    })
-  ),
+  parameters: {
+    docs: {
+      source: storySourceBlock(
+        storySource(
+          'function Example() {',
+          '  const [visible, setVisible] = useState(true);',
+          '',
+          '  return visible ? (',
+          '    <Alert',
+          '      dismissible',
+          '      title="Connection issue"',
+          '      onDismiss={() => setVisible(false)}',
+          '    >',
+          '      Reconnect to continue syncing workspace changes.',
+          '    </Alert>',
+          '  ) : (',
+          '    <Button variant="secondary" onClick={() => setVisible(true)}>',
+          '      Show alert again',
+          '    </Button>',
+          '  );',
+          '}'
+        )
+      ),
+    },
+  },
 };
 
 export const AllIntents: Story = {
@@ -270,14 +305,14 @@ export const AllIntents: Story = {
 export const LongContent: Story = {
   render: () => (
     <div className={storyStyles.storyA11yScope}>
-      <Alert title="Migration still in progress" intent="warning">
-        <div className={storyStyles.storyParagraphs}>
-          <p>The system is moving project data into the new workspace structure.</p>
-          <p>
+      <Alert title="Migration still in progress" intent="warning" align="start">
+        <Stack gap="xs">
+          <Text size="sm">The system is moving project data into the new workspace structure.</Text>
+          <Text size="sm">
             You can continue reviewing records, but avoid editing the same project until the
             migration completes.
-          </p>
-        </div>
+          </Text>
+        </Stack>
       </Alert>
     </div>
   ),
@@ -285,12 +320,14 @@ export const LongContent: Story = {
     docs: {
       source: storySourceBlock(
         storySource(
-          '<Alert title="Migration still in progress" intent="warning">',
-          '  <p>The system is moving project data into the new workspace structure.</p>',
-          '  <p>',
-          '    You can continue reviewing records, but avoid editing the same project until the',
-          '    migration completes.',
-          '  </p>',
+          '<Alert title="Migration still in progress" intent="warning" align="start">',
+          '  <Stack gap="xs">',
+          '    <Text size="sm">The system is moving project data into the new workspace structure.</Text>',
+          '    <Text size="sm">',
+          '      You can continue reviewing records, but avoid editing the same project until the',
+          '      migration completes.',
+          '    </Text>',
+          '  </Stack>',
           '</Alert>'
         )
       ),

@@ -18,6 +18,11 @@ const intentClassNames = {
   danger: getRequiredClassName(styles, 'intentDanger'),
 } as const;
 
+const alignClassNames = {
+  center: getRequiredClassName(styles, 'alignCenter'),
+  start: getRequiredClassName(styles, 'alignStart'),
+} as const;
+
 const render = (ui: React.ReactNode) => {
   const container = document.createElement('div');
   document.body.appendChild(container);
@@ -150,6 +155,16 @@ describe('Alert', () => {
     expect(getAlert()).toHaveClass(intentClassNames.danger);
   });
 
+  it('applies centered alignment by default', () => {
+    render(<Alert>content</Alert>);
+    expect(getStatus()).toHaveClass(alignClassNames.center);
+  });
+
+  it('applies start alignment when align="start"', () => {
+    render(<Alert align="start">content</Alert>);
+    expect(getStatus()).toHaveClass(alignClassNames.start);
+  });
+
   it('renders the default icon when showIcon is true by default', () => {
     const { container } = render(<Alert>content</Alert>);
     expect(container.querySelector('svg')).toBeTruthy();
@@ -176,10 +191,10 @@ describe('Alert', () => {
     expect(getIconRoot()).toBeTruthy();
   });
 
-  it('uses the danger badge Lucide icon for danger intent', () => {
+  it('uses the octagon alert Lucide icon for danger intent', () => {
     const { container } = render(<Alert intent="danger">content</Alert>);
     expect(getIconRoot()).toBeTruthy();
-    expect(container.querySelector('svg')).toHaveClass('lucide-badge-alert');
+    expect(container.querySelector('svg')).toHaveClass('lucide-octagon-alert');
   });
 
   it('does not render a dismiss button by default', () => {

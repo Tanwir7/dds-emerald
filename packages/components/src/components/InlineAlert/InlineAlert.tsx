@@ -53,16 +53,21 @@ export const InlineAlert = React.forwardRef<HTMLSpanElement, InlineAlertProps>(
     return (
       <span
         ref={ref}
-        className={clsx(styles.root, intentClassName[intent], className)}
+        className={clsx(getRequiredClassName(styles, 'root'), intentClassName[intent], className)}
         {...props}
         {...getAlertAccessibilityProps(intent)}
       >
         {showIcon ? (
-          <span className={styles.icon} aria-hidden="true">
+          <span className={getRequiredClassName(styles, 'icon')} aria-hidden="true">
             <Icon icon={defaultAlertIcon[intent]} />
           </span>
         ) : null}
-        <Text as="span" size="sm" color={intentTextColor[intent]} className={styles.message}>
+        <Text
+          as="span"
+          size="sm"
+          color={intentTextColor[intent]}
+          className={getRequiredClassName(styles, 'message')}
+        >
           {children}
         </Text>
       </span>

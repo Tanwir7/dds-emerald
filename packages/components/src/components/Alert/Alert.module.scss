@@ -3,7 +3,6 @@
 
 .root {
   display: flex;
-  align-items: flex-start;
   gap: var(--dds-space-3);
   width: 100%;
   padding: var(--dds-space-3) var(--dds-space-4);
@@ -11,6 +10,14 @@
   border-left-width: var(--dds-space-1);
   border-radius: var(--dds-radius-none);
   color: var(--dds-color-text-default);
+}
+
+.alignCenter {
+  align-items: center;
+}
+
+.alignStart {
+  align-items: flex-start;
 }
 
 .intentInfo {
@@ -35,7 +42,9 @@
 
 .icon {
   @include icon-size(lg);
+}
 
+.alignStart .icon {
   margin-top: var(--dds-space-0-5);
 }
 
@@ -58,22 +67,17 @@
 .content {
   flex: 1;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-1);
 }
 
 .title {
-  margin: 0 0 var(--dds-space-1) 0;
-  color: var(--dds-color-text-default);
-  font-family: var(--dds-font-sans);
-  font-size: var(--dds-font-size-sm);
-  font-weight: var(--dds-font-weight-semibold);
-  line-height: var(--dds-line-height-snug);
+  margin: 0;
 }
 
 .body {
-  color: var(--dds-color-text-default);
-  font-family: var(--dds-font-sans);
-  font-size: var(--dds-font-size-sm);
-  line-height: var(--dds-line-height-normal);
+  margin: 0;
 }
 
 .dismiss {
