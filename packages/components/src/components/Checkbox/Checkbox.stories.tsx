@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import type { ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, userEvent, within } from 'storybook/test';
 import { Checkbox, type CheckboxCheckedState } from './Checkbox';
 import storyStyles from './Checkbox.stories.module.scss';
+import { InlineAlert } from '../InlineAlert';
 import { Label } from '../Label';
-import { Text } from '../Text';
 import { storySource, storySourceParameters } from '../../utils/storySource';
 
 const renderCheckbox = (args: ComponentProps<typeof Checkbox>) => (
@@ -120,9 +121,9 @@ export const Invalid: Story = {
             Accept terms
           </Label>
         </div>
-        <Text as="p" size="sm" color="danger" id="storybook-invalid-checkbox-error">
+        <InlineAlert intent="danger" id="storybook-invalid-checkbox-error">
           Accept the terms before continuing.
-        </Text>
+        </InlineAlert>
       </div>
     </div>
   ),
@@ -137,9 +138,9 @@ export const Invalid: Story = {
       '<Label htmlFor="terms" required>',
       '  Accept terms',
       '</Label>',
-      '<Text as="p" size="sm" color="danger" id="terms-error">',
+      '<InlineAlert intent="danger" id="terms-error">',
       '  Accept the terms before continuing.',
-      '</Text>'
+      '</InlineAlert>'
     )
   ),
 };
@@ -206,17 +207,9 @@ export const FocusVisible: Story = {
   },
   parameters: storySourceParameters('<Checkbox aria-label="Focus visible example" />'),
   play: async ({ canvasElement }) => {
-    const cb = canvasElement.querySelector('[role="checkbox"]');
-
-    if (!(cb instanceof HTMLElement)) {
-      throw new Error('Expected to find a checkbox in the story canvas.');
-    }
-
-    cb.focus();
-
-    if (document.activeElement !== cb) {
-      throw new Error('Expected the checkbox to receive focus.');
-    }
+    const cb = within(canvasElement).getByRole('checkbox');
+    await userEvent.tab();
+    await expect(cb).toHaveFocus();
   },
 };
 
@@ -226,20 +219,9 @@ export const Toggle: Story = {
   },
   parameters: storySourceParameters('<Checkbox aria-label="Toggle example" />'),
   play: async ({ canvasElement }) => {
-    const cb = canvasElement.querySelector('[role="checkbox"]');
-
-    if (!(cb instanceof HTMLElement)) {
-      throw new Error('Expected to find a checkbox in the story canvas.');
-    }
-
-    if (cb.getAttribute('aria-checked') !== 'false') {
-      throw new Error('Expected the checkbox to start unchecked.');
-    }
-
-    cb.click();
-
-    if (cb.getAttribute('aria-checked') !== 'true') {
-      throw new Error('Expected the checkbox to be checked after click.');
-    }
+    const cb = within(canvasElement).getByRole('checkbox');
+    await expect(cb).toHaveAttribute('aria-checked', 'false');
+    await userEvent.click(cb);
+    await expect(cb).toHaveAttribute('aria-checked', 'true');
   },
 };
