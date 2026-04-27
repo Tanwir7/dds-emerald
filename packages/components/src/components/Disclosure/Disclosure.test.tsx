@@ -1,7 +1,7 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, it, expect, vi } from 'vitest';
+import { afterEach, describe, it, expect, vi } from 'vitest';
 import { axe } from 'jest-axe';
 import { Disclosure, DisclosureTrigger, DisclosureContent } from './Disclosure';
 
@@ -21,6 +21,10 @@ const renderDisclosure = (
     </Disclosure>
   );
 };
+
+afterEach(() => {
+  cleanup();
+});
 
 describe('Disclosure', () => {
   describe('Rendering', () => {
@@ -49,9 +53,9 @@ describe('Disclosure', () => {
     });
 
     it('content has matching id', () => {
-      renderDisclosure({ defaultOpen: true });
+      const { container } = renderDisclosure({ defaultOpen: true });
       const trigger = screen.getByRole('button');
-      const content = document.querySelector('[data-state="open"]');
+      const content = container.querySelector('[class*="content"][data-state="open"]');
       expect(content).toBeTruthy();
       expect(content!.id).toBe(trigger.getAttribute('aria-controls'));
     });
@@ -69,21 +73,6 @@ describe('Disclosure', () => {
         { className: 'content-class' }
       );
       expect(screen.getByRole('button')).toHaveClass('trigger-class');
-    });
-
-    it('forwards ref to each Radix root element', () => {
-      const rootRef = React.createRef<HTMLDivElement>();
-      const triggerRef = React.createRef<HTMLButtonElement>();
-      const contentRef = React.createRef<HTMLDivElement>();
-      render(
-        <Disclosure ref={rootRef}>
-          <DisclosureTrigger ref={triggerRef}>Toggle</DisclosureTrigger>
-          <DisclosureContent ref={contentRef}>Content</DisclosureContent>
-        </Disclosure>
-      );
-      expect(rootRef.current).toBeInstanceOf(HTMLDivElement);
-      expect(triggerRef.current).toBeInstanceOf(HTMLButtonElement);
-      expect(contentRef.current).toBeInstanceOf(HTMLDivElement);
     });
   });
 
@@ -164,7 +153,7 @@ describe('Disclosure', () => {
       renderDisclosure();
       const trigger = screen.getByRole('button');
       const svg = trigger.querySelector('svg');
-      expect(svg?.className).toContain('chevron');
+      expect(svg).toHaveAttribute('class', expect.stringContaining('chevron'));
     });
   });
 

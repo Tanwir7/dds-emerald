@@ -28,6 +28,27 @@ const renderAlert = (args: ComponentProps<typeof Alert>) => (
   </div>
 );
 
+function DismissibleAlertStory() {
+  const [visible, setVisible] = useState(true);
+
+  return (
+    <div className={storyStyles.storyA11yScope}>
+      {visible ? (
+        <Alert dismissible title="Connection issue" onDismiss={() => setVisible(false)}>
+          Reconnect to continue syncing workspace changes.
+        </Alert>
+      ) : (
+        <Stack gap="sm" align="start">
+          <Text size="sm">Alert dismissed.</Text>
+          <Button variant="secondary" onClick={() => setVisible(true)}>
+            Show alert again
+          </Button>
+        </Stack>
+      )}
+    </div>
+  );
+}
+
 const buildAlertSource = ({
   intent = 'info',
   align = 'center',
@@ -228,26 +249,7 @@ export const CustomIcon: Story = {
 };
 
 export const Dismissible: Story = {
-  render: () => {
-    const [visible, setVisible] = useState(true);
-
-    return (
-      <div className={storyStyles.storyA11yScope}>
-        {visible ? (
-          <Alert dismissible title="Connection issue" onDismiss={() => setVisible(false)}>
-            Reconnect to continue syncing workspace changes.
-          </Alert>
-        ) : (
-          <Stack gap="sm" align="start">
-            <Text size="sm">Alert dismissed.</Text>
-            <Button variant="secondary" onClick={() => setVisible(true)}>
-              Show alert again
-            </Button>
-          </Stack>
-        )}
-      </div>
-    );
-  },
+  render: () => <DismissibleAlertStory />,
   parameters: {
     docs: {
       source: storySourceBlock(

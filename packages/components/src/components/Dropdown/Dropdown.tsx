@@ -48,13 +48,17 @@ export interface DropdownContentProps extends Omit<
   side?: 'top' | 'right' | 'bottom' | 'left';
   align?: 'start' | 'center' | 'end';
   sideOffset?: number;
+  container?: HTMLElement | null;
   className?: string;
   children: React.ReactNode;
 }
 
 export const DropdownContent = React.forwardRef<HTMLDivElement, DropdownContentProps>(
-  ({ side = 'bottom', align = 'start', sideOffset = 4, className, children, ...props }, ref) => (
-    <DropdownMenuPrimitive.Portal>
+  (
+    { side = 'bottom', align = 'start', sideOffset = 4, container, className, children, ...props },
+    ref
+  ) => (
+    <DropdownMenuPrimitive.Portal container={container}>
       <DropdownMenuPrimitive.Content
         ref={ref}
         side={side}
@@ -262,13 +266,14 @@ export interface DropdownSubContentProps extends Omit<
   'sideOffset'
 > {
   sideOffset?: number;
+  container?: HTMLElement | null;
   className?: string;
   children: React.ReactNode;
 }
 
 export const DropdownSubContent = React.forwardRef<HTMLDivElement, DropdownSubContentProps>(
-  ({ sideOffset = 4, className, children, ...props }, ref) => (
-    <DropdownMenuPrimitive.Portal>
+  ({ sideOffset = 4, container, className, children, ...props }, ref) => (
+    <DropdownMenuPrimitive.Portal container={container}>
       <DropdownMenuPrimitive.SubContent
         ref={ref}
         sideOffset={sideOffset}

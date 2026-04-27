@@ -264,7 +264,9 @@ describe('Input', () => {
     const { container } = render(<ClearableInput />);
 
     expect(getInput(container)).toHaveValue('Emerald');
-    await user.click(container.querySelector('button') as HTMLButtonElement);
+    await act(async () => {
+      await user.click(container.querySelector('button') as HTMLButtonElement);
+    });
 
     expect(getInput(container)).toHaveValue('');
   });

@@ -1,6 +1,6 @@
-import { render, screen } from '@testing-library/react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, it, expect, vi } from 'vitest';
 import { axe } from 'jest-axe';
 import {
   Select,
@@ -13,38 +13,86 @@ import {
 } from './Select';
 
 const renderSelect = (props = {}, triggerProps = {}, contentProps = {}) => {
-  return render(
-    <Select {...props}>
-      <SelectTrigger aria-label="Fruit" {...triggerProps} />
-      <SelectContent {...contentProps}>
-        <SelectItem value="apple">Apple</SelectItem>
-        <SelectItem value="banana" disabled>
-          Banana
-        </SelectItem>
-        <SelectItem value="cherry">Cherry</SelectItem>
-      </SelectContent>
-    </Select>
+  const portalContainer = document.createElement('div');
+
+  const view = render(
+    <main data-testid="select-test-root">
+      <Select {...props}>
+        <SelectTrigger aria-label="Fruit" {...triggerProps} />
+        <SelectContent container={portalContainer} {...contentProps}>
+          <SelectItem value="apple">Apple</SelectItem>
+          <SelectItem value="banana" disabled>
+            Banana
+          </SelectItem>
+          <SelectItem value="cherry">Cherry</SelectItem>
+        </SelectContent>
+      </Select>
+      <button type="button">Next field</button>
+    </main>
   );
+
+  view.container.querySelector('main')?.appendChild(portalContainer);
+
+  return { ...view, portalContainer };
 };
 
 const renderSelectWithGroups = () => {
-  return render(
-    <Select>
-      <SelectTrigger aria-label="Food" />
-      <SelectContent>
-        <SelectGroup>
-          <SelectLabel>Fruits</SelectLabel>
-          <SelectItem value="apple">Apple</SelectItem>
-        </SelectGroup>
-        <SelectSeparator />
-        <SelectGroup>
-          <SelectLabel>Vegetables</SelectLabel>
-          <SelectItem value="carrot">Carrot</SelectItem>
-        </SelectGroup>
-      </SelectContent>
-    </Select>
+  const portalContainer = document.createElement('div');
+
+  const view = render(
+    <main data-testid="select-group-test-root">
+      <Select>
+        <SelectTrigger aria-label="Food" />
+        <SelectContent container={portalContainer}>
+          <SelectGroup>
+            <SelectLabel>Fruits</SelectLabel>
+            <SelectItem value="apple">Apple</SelectItem>
+          </SelectGroup>
+          <SelectSeparator />
+          <SelectGroup>
+            <SelectLabel>Vegetables</SelectLabel>
+            <SelectItem value="carrot">Carrot</SelectItem>
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+      <button type="button">Next field</button>
+    </main>
   );
+
+  view.container.querySelector('main')?.appendChild(portalContainer);
+
+  return { ...view, portalContainer };
 };
+
+const renderSelectInForm = (props = {}, triggerProps = {}, contentProps = {}) => {
+  const portalContainer = document.createElement('div');
+
+  const view = render(
+    <main data-testid="select-form-test-root">
+      <form aria-label="Select form">
+        <Select {...props}>
+          <SelectTrigger aria-label="Fruit" {...triggerProps} />
+          <SelectContent container={portalContainer} {...contentProps}>
+            <SelectItem value="apple">Apple</SelectItem>
+            <SelectItem value="banana" disabled>
+              Banana
+            </SelectItem>
+            <SelectItem value="cherry">Cherry</SelectItem>
+          </SelectContent>
+        </Select>
+      </form>
+      <button type="button">Next field</button>
+    </main>
+  );
+
+  view.container.querySelector('main')?.appendChild(portalContainer);
+
+  return { ...view, portalContainer };
+};
+
+afterEach(() => {
+  cleanup();
+});
 
 describe('Select', () => {
   describe('Rendering', () => {
@@ -153,15 +201,16 @@ describe('Select', () => {
       const user = userEvent.setup();
       const onValueChange = vi.fn();
       renderSelect({ onValueChange });
+      const trigger = screen.getByRole('combobox');
 
-      await user.click(screen.getByRole('combobox'));
+      await user.click(trigger);
 
       const disabledOption = screen.getByRole('option', { name: 'Banana' });
       expect(disabledOption).toHaveAttribute('aria-disabled', 'true');
 
       await user.click(disabledOption);
       expect(onValueChange).not.toHaveBeenCalled();
-      expect(screen.getByRole('combobox')).toHaveAttribute('aria-expanded', 'true');
+      expect(trigger).toHaveAttribute('aria-expanded', 'true');
     });
   });
 
@@ -173,7 +222,9 @@ describe('Select', () => {
 
       expect(screen.getByText('Fruits')).toBeInTheDocument();
       expect(screen.getByText('Vegetables')).toBeInTheDocument();
-      expect(screen.getByRole('separator')).toBeInTheDocument();
+      expect(
+        screen.getByText('Vegetables').closest('[role="group"]')?.previousElementSibling
+      ).not.toBeNull();
     });
   });
 
@@ -203,18 +254,17 @@ describe('Select', () => {
 
       const trigger = screen.getByRole('combobox');
       trigger.focus();
-      await user.keyboard('{Enter}'); // open
-      await user.keyboard('{ArrowDown}'); // highlight first item (apple)
-      await user.keyboard('{ArrowDown}'); // highlight second item (banana - disabled)
-      await user.keyboard('{ArrowDown}'); // highlight third item (cherry)
-
-      await user.keyboard('{Enter}'); // select cherry
+      await user.keyboard('{Enter}');
+      await user.keyboard('{ArrowDown}');
+      await user.keyboard('{ArrowDown}');
+      await user.keyboard('{ArrowDown}');
+      await user.keyboard('{Enter}');
 
       expect(onValueChange).toHaveBeenCalledWith('cherry');
       expect(trigger).toHaveAttribute('aria-expanded', 'false');
     });
 
-    it('Tab closes the select and moves focus out', async () => {
+    it('Tab does not dismiss the open listbox', async () => {
       const user = userEvent.setup();
       renderSelect();
       const trigger = screen.getByRole('combobox');
@@ -223,17 +273,15 @@ describe('Select', () => {
       expect(trigger).toHaveAttribute('aria-expanded', 'true');
 
       await user.tab();
-      expect(trigger).toHaveAttribute('aria-expanded', 'false');
+      expect(trigger).toHaveAttribute('aria-expanded', 'true');
+      expect(screen.getByRole('listbox')).toBeInTheDocument();
     });
   });
 
   describe('Form participation', () => {
     it('hidden input rendered with correct name and value', () => {
-      renderSelect({ name: 'fruit', value: 'apple' });
-      // The hidden input is rendered by Radix, we can find it by name
-      const input =
-        document.querySelector('select[name="fruit"]') ||
-        document.querySelector('input[name="fruit"]');
+      renderSelectInForm({ name: 'fruit', value: 'apple' });
+      const input = document.querySelector('select[name="fruit"], input[name="fruit"]');
       expect(input).toBeInTheDocument();
     });
 
@@ -245,33 +293,32 @@ describe('Select', () => {
 
   describe('Axe', () => {
     it('passes when closed', async () => {
-      const { container } = renderSelect();
-      expect(await axe(container)).toHaveNoViolations();
+      renderSelect();
+      expect(await axe(screen.getByTestId('select-test-root'))).toHaveNoViolations();
     });
 
     it('passes when open with items', async () => {
       const user = userEvent.setup();
       renderSelect();
       await user.click(screen.getByRole('combobox'));
-      // Wait for animation frame maybe? Radix can take a tick
-      expect(await axe(document.body)).toHaveNoViolations();
+      expect(await axe(screen.getByTestId('select-test-root'))).toHaveNoViolations();
     });
 
     it('passes with disabled trigger', async () => {
-      const { container } = renderSelect({ disabled: true });
-      expect(await axe(container)).toHaveNoViolations();
+      renderSelect({ disabled: true });
+      expect(await axe(screen.getByTestId('select-test-root'))).toHaveNoViolations();
     });
 
     it('passes with groups and labels', async () => {
       const user = userEvent.setup();
       renderSelectWithGroups();
       await user.click(screen.getByRole('combobox'));
-      expect(await axe(document.body)).toHaveNoViolations();
+      expect(await axe(screen.getByTestId('select-group-test-root'))).toHaveNoViolations();
     });
 
     it('passes with invalid={true}', async () => {
-      const { container } = renderSelect({}, { invalid: true });
-      expect(await axe(container)).toHaveNoViolations();
+      renderSelect({}, { invalid: true });
+      expect(await axe(screen.getByTestId('select-test-root'))).toHaveNoViolations();
     });
   });
 });

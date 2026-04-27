@@ -144,6 +144,7 @@ export const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerPr
     return (
       <SelectPrimitive.Trigger
         ref={ref}
+        aria-haspopup="listbox"
         className={clsx(styles.trigger, styles[size], invalid && styles.invalid, className)}
         {...props}
       >
@@ -161,15 +162,24 @@ interface SelectContentProps extends React.HTMLAttributes<HTMLDivElement> {
   position?: 'item-aligned' | 'popper';
   side?: 'top' | 'bottom';
   sideOffset?: number;
+  container?: HTMLElement | null;
   children: React.ReactNode;
 }
 
 export const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
   (
-    { className, children, position = 'popper', side = 'bottom', sideOffset = 4, ...props },
+    {
+      className,
+      children,
+      position = 'popper',
+      side = 'bottom',
+      sideOffset = 4,
+      container,
+      ...props
+    },
     ref
   ) => (
-    <SelectPrimitive.Portal>
+    <SelectPrimitive.Portal container={container}>
       <SelectPrimitive.Content
         ref={ref}
         position={position}

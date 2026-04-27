@@ -90,7 +90,7 @@ export const NoChevron: Story = {
     <div className={storyStyles.storyA11yScope}>
       <Disclosure>
         <DisclosureTrigger showChevron={false}>
-          <Settings style={{ marginRight: 4 }} aria-hidden="true" />
+          <Settings className={storyStyles.storyIcon} aria-hidden="true" />
           Toggle settings
         </DisclosureTrigger>
         <DisclosureContent>
