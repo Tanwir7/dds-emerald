@@ -1,0 +1,18 @@
+.storyA11yScope {
+  width: min(100%, calc(var(--dds-space-10) * 10));
+}
+
+.storyField {
+  display: grid;
+  gap: var(--dds-space-2);
+}
+
+.storyRow {
+  display: grid;
+  gap: var(--dds-space-4);
+}
+
+.storyStack {
+  display: grid;
+  gap: var(--dds-space-3);
+}
