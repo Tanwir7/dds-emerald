@@ -168,3 +168,5 @@ export {
   DropdownGroup,
 } from './components/Dropdown';
 export type { DropdownProps } from './components/Dropdown';
+export { Disclosure, DisclosureTrigger, DisclosureContent } from './components/Disclosure';
+export type { DisclosureProps } from './components/Disclosure';

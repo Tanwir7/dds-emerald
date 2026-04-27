@@ -39,6 +39,7 @@
     "@dds/vitest-config": "workspace:*",
     "@radix-ui/react-avatar": "^1.x.x",
     "@radix-ui/react-checkbox": "^1.x.x",
+    "@radix-ui/react-collapsible": "^1.0.0",
     "@radix-ui/react-dropdown-menu": "^2.x.x",
     "@radix-ui/react-label": "^2.x.x",
     "@radix-ui/react-progress": "^1.x.x",

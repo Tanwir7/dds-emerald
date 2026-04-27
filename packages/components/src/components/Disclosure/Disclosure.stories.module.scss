@@ -1,0 +1,28 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.storyA11yScope {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-6);
+  padding: var(--dds-space-4);
+}
+
+.storyField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-2);
+  max-width: 400px;
+}
+
+.storyRow {
+  display: flex;
+  gap: var(--dds-space-4);
+  align-items: flex-start;
+}
+
+.storyCard {
+  padding: var(--dds-space-4);
+  border: 1px solid var(--dds-color-border-default);
+  border-radius: var(--dds-radius-none);
+}
