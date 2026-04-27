@@ -11,6 +11,7 @@ type InputBaseProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> 
   size?: InputSize;
   invalid?: boolean;
   startIcon?: LucideIcon;
+  endAdornment?: React.ReactNode;
   className?: string;
 };
 
@@ -44,6 +45,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       size = 'md',
       invalid = false,
       startIcon,
+      endAdornment,
       endIcon,
       endIconLabel,
       onEndIconClick,
@@ -54,7 +56,9 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ) => {
     const StartIcon = startIcon;
     const EndIcon = endIcon;
+    const hasEndAdornment = Boolean(endAdornment);
     const hasEndIconAction = Boolean(EndIcon && onEndIconClick);
+    const hasEndAffordance = Boolean(EndIcon || hasEndAdornment);
 
     return (
       <div className={styles.wrapper}>
@@ -68,11 +72,12 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             sizeClassName[size],
             invalid && styles.invalid,
             StartIcon && styles.hasStartIcon,
-            EndIcon && styles.hasEndIcon,
+            hasEndAffordance && styles.hasEndIcon,
             className
           )}
           {...props}
         />
+        {hasEndAdornment ? <span className={endIconClassName}>{endAdornment}</span> : null}
         {EndIcon && hasEndIconAction ? (
           <button
             className={endIconButtonClassName}
@@ -84,7 +89,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             <DDSIcon icon={EndIcon} aria-hidden="true" />
           </button>
         ) : null}
-        {EndIcon && !hasEndIconAction ? (
+        {EndIcon && !hasEndAdornment && !hasEndIconAction ? (
           <DDSIcon icon={EndIcon} className={endIconClassName} aria-hidden="true" />
         ) : null}
       </div>

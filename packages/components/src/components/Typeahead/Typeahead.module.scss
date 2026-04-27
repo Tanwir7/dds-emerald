@@ -1,0 +1,101 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.root {
+  position: relative;
+  width: 100%;
+}
+
+.listbox {
+  position: absolute;
+  top: calc(100% + var(--dds-space-1));
+  left: 0;
+  right: 0;
+  background-color: var(--dds-color-bg-popover);
+  border: 1px solid var(--dds-color-border-default);
+  border-radius: var(--dds-radius-none);
+  box-shadow: var(--dds-shadow-sm);
+  max-height: 240px;
+  overflow-y: auto;
+  z-index: 50;
+  padding: var(--dds-space-1) 0;
+  animation: typeaheadIn var(--dds-duration-fast) var(--dds-ease-out);
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes typeaheadIn {
+  from {
+    opacity: 0;
+    transform: translateY(calc(var(--dds-space-1) * -1));
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.option {
+  display: flex;
+  flex-direction: column;
+  padding: var(--dds-space-1-5) var(--dds-space-3);
+  cursor: default;
+  outline: none;
+  user-select: none;
+  border-radius: var(--dds-radius-none);
+}
+
+.optionActive {
+  background-color: var(--dds-color-action-ghost-hover);
+}
+
+.optionSelected {
+  font-weight: var(--dds-font-weight-medium);
+}
+
+.optionDisabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.optionLabel {
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-sm);
+  color: var(--dds-color-text-default);
+  line-height: var(--dds-line-height-snug);
+}
+
+.optionDescription {
+  margin-top: var(--dds-space-0-5);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-xs);
+  color: var(--dds-color-text-muted);
+}
+
+.highlight {
+  font-weight: var(--dds-font-weight-semibold);
+  color: var(--dds-color-action-primary);
+  background: transparent;
+}
+
+.groupLabel {
+  padding: var(--dds-space-1-5) var(--dds-space-3);
+  font-size: var(--dds-font-size-xs);
+  font-weight: var(--dds-font-weight-semibold);
+  color: var(--dds-color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: var(--dds-tracking-wider);
+}
+
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--dds-space-2);
+  padding: var(--dds-space-3);
+  font-size: var(--dds-font-size-sm);
+  color: var(--dds-color-text-muted);
+}

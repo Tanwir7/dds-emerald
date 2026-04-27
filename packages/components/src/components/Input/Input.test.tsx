@@ -182,6 +182,29 @@ describe('Input', () => {
     expect(getInput(container)).toHaveClass(classNames.hasEndIcon);
   });
 
+  it('renders endAdornment when provided', () => {
+    const { container } = render(
+      <Input
+        endAdornment={<span data-testid="loading-adornment">Loading</span>}
+        aria-label="Search"
+      />
+    );
+
+    expect(container.querySelector(`.${classNames.endIcon}`)).toBeInTheDocument();
+    expect(container.querySelector('[data-testid="loading-adornment"]')).toBeInTheDocument();
+  });
+
+  it('applies .hasEndIcon class when endAdornment is provided', () => {
+    const { container } = render(
+      <Input
+        endAdornment={<span data-testid="loading-adornment">Loading</span>}
+        aria-label="Search"
+      />
+    );
+
+    expect(getInput(container)).toHaveClass(classNames.hasEndIcon);
+  });
+
   it('renders an accessible end icon button when onEndIconClick is provided', () => {
     const onEndIconClick = vi.fn();
     const { container } = render(

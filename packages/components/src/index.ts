@@ -97,6 +97,8 @@ export { Label } from './components/Label';
 export type { LabelProps, LabelSize } from './components/Label';
 export { Input } from './components/Input';
 export type { InputProps, InputSize } from './components/Input';
+export { Spinner } from './components/Spinner';
+export type { SpinnerProps, SpinnerSize } from './components/Spinner';
 export { Textarea } from './components/Textarea';
 export type { TextareaProps, TextareaResize, TextareaSize } from './components/Textarea';
 export { Checkbox } from './components/Checkbox';
@@ -184,3 +186,5 @@ export type {
 } from './components/Accordion';
 export { Combobox } from './components/Combobox';
 export type { ComboboxOption, ComboboxProps } from './components/Combobox';
+export { Typeahead } from './components/Typeahead';
+export type { TypeaheadProps, TypeaheadSuggestion } from './components/Typeahead';

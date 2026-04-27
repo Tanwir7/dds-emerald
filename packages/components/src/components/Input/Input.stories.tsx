@@ -104,6 +104,11 @@ const meta: Meta<typeof Input> = {
         disable: true,
       },
     },
+    endAdornment: {
+      table: {
+        disable: true,
+      },
+    },
   },
 };
 export default meta;

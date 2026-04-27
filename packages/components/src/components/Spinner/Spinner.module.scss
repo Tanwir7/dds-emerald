@@ -1,0 +1,65 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.root {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dds-color-action-primary);
+}
+
+.sm {
+  width: var(--dds-icon-size-sm);
+  height: var(--dds-icon-size-sm);
+}
+
+.md {
+  width: var(--dds-icon-size-md);
+  height: var(--dds-icon-size-md);
+}
+
+.lg {
+  width: var(--dds-icon-size-lg);
+  height: var(--dds-icon-size-lg);
+}
+
+.svg {
+  width: 100%;
+  height: 100%;
+  animation: spin var(--dds-duration-normal) linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation-duration: var(--dds-duration-slow);
+  }
+}
+
+.track {
+  opacity: 0.2;
+}
+
+.indicator {
+  stroke-dasharray: 32;
+  stroke-dashoffset: 12;
+}
+
+.label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

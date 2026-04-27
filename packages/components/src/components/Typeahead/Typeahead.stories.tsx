@@ -1,0 +1,329 @@
+import { useRef, useState, type ComponentProps } from 'react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, userEvent, within } from 'storybook/test';
+import { Field } from '../Field';
+import { Typeahead, type TypeaheadSuggestion } from './Typeahead';
+import storyStyles from './Typeahead.stories.module.scss';
+import { storySource, storySourceParameters } from '../../utils/storySource';
+
+const countrySuggestions: TypeaheadSuggestion[] = [
+  { value: 'France', group: 'Europe' },
+  { value: 'Finland', group: 'Europe' },
+  { value: 'Germany', group: 'Europe' },
+  { value: 'Ghana', group: 'Africa' },
+  { value: 'Japan', group: 'Asia' },
+  { value: 'Jordan', group: 'Asia' },
+  { value: 'Canada', group: 'North America' },
+  { value: 'Chile', group: 'South America' },
+  { value: 'Australia', group: 'Oceania' },
+  { value: 'Argentina', group: 'South America' },
+];
+
+const citySuggestions: TypeaheadSuggestion[] = [
+  { value: 'Toronto', description: 'Ontario, Canada' },
+  { value: 'Montreal', description: 'Quebec, Canada' },
+  { value: 'Vancouver', description: 'British Columbia, Canada' },
+];
+
+const groupedSuggestions: TypeaheadSuggestion[] = [
+  { value: 'Claude', group: 'Models' },
+  { value: 'GPT-5', group: 'Models' },
+  { value: 'RAG', group: 'Patterns' },
+  { value: 'Tool calling', group: 'Patterns' },
+];
+
+const renderStory = (args: ComponentProps<typeof Typeahead>) => (
+  <div className={storyStyles.storyA11yScope}>
+    <Typeahead {...args} />
+  </div>
+);
+
+const AsyncSearchExample = () => {
+  const [loading, setLoading] = useState(false);
+  const [results, setResults] = useState<TypeaheadSuggestion[]>([]);
+  const timeoutRef = useRef<number | null>(null);
+
+  const handleInputChange = (nextQuery: string) => {
+    if (timeoutRef.current !== null) {
+      window.clearTimeout(timeoutRef.current);
+    }
+
+    if (!nextQuery.trim()) {
+      setResults([]);
+      setLoading(false);
+      timeoutRef.current = null;
+      return;
+    }
+
+    setLoading(true);
+    timeoutRef.current = window.setTimeout(() => {
+      setResults(
+        countrySuggestions.filter((suggestion) =>
+          suggestion.value.toLowerCase().includes(nextQuery.toLowerCase())
+        )
+      );
+      setLoading(false);
+      timeoutRef.current = null;
+    }, 400);
+  };
+
+  return (
+    <div className={storyStyles.storyA11yScope}>
+      <Typeahead
+        id="async-search"
+        suggestions={results}
+        loading={loading}
+        onInputChange={handleInputChange}
+        placeholder="Search countries"
+      />
+    </div>
+  );
+};
+
+const EmptyStateExample = () => {
+  const [, setQuery] = useState('');
+
+  return (
+    <div className={storyStyles.storyA11yScope}>
+      <Typeahead
+        id="empty-state-search"
+        suggestions={[]}
+        onInputChange={setQuery}
+        emptyMessage="No countries found"
+        placeholder="Search countries"
+      />
+    </div>
+  );
+};
+
+const meta: Meta<typeof Typeahead> = {
+  title: 'Core Components/Typeahead',
+  component: Typeahead,
+  tags: ['autodocs'],
+  render: (args) => renderStory(args),
+  parameters: {
+    a11y: {
+      context: '.' + storyStyles.storyA11yScope,
+    },
+  },
+  args: {
+    id: 'storybook-typeahead',
+    suggestions: countrySuggestions,
+    placeholder: 'Search countries',
+  },
+  argTypes: {
+    size: {
+      control: 'inline-radio',
+      options: ['sm', 'md', 'lg'],
+    },
+  },
+};
+
+export default meta;
+
+type Story = StoryObj<typeof Typeahead>;
+
+export const Default: Story = {
+  parameters: storySourceParameters(
+    storySource(
+      '<Typeahead',
+      '  suggestions={countrySuggestions}',
+      '  placeholder="Search countries"',
+      '/>'
+    )
+  ),
+};
+
+export const WithDescriptions: Story = {
+  args: {
+    suggestions: citySuggestions,
+    placeholder: 'Search cities',
+  },
+  parameters: storySourceParameters(
+    storySource(
+      '<Typeahead',
+      '  suggestions={citySuggestions}',
+      '  placeholder="Search cities"',
+      '/>'
+    )
+  ),
+};
+
+export const WithGroups: Story = {
+  args: {
+    suggestions: groupedSuggestions,
+    placeholder: 'Search AI topics',
+  },
+  parameters: storySourceParameters(
+    storySource(
+      '<Typeahead',
+      '  suggestions={groupedSuggestions}',
+      '  placeholder="Search AI topics"',
+      '/>'
+    )
+  ),
+};
+
+export const HighlightOff: Story = {
+  args: {
+    highlightMatch: false,
+  },
+  parameters: storySourceParameters(
+    storySource(
+      '<Typeahead',
+      '  suggestions={countrySuggestions}',
+      '  placeholder="Search countries"',
+      '  highlightMatch={false}',
+      '/>'
+    )
+  ),
+};
+
+export const Sizes: Story = {
+  render: () => (
+    <div className={storyStyles.storyA11yScope}>
+      <div className={storyStyles.storyStack}>
+        <Typeahead
+          id="typeahead-sm"
+          suggestions={countrySuggestions}
+          size="sm"
+          placeholder="Small"
+        />
+        <Typeahead
+          id="typeahead-md"
+          suggestions={countrySuggestions}
+          size="md"
+          placeholder="Medium"
+        />
+        <Typeahead
+          id="typeahead-lg"
+          suggestions={countrySuggestions}
+          size="lg"
+          placeholder="Large"
+        />
+      </div>
+    </div>
+  ),
+  parameters: storySourceParameters(
+    storySource(
+      '<Typeahead suggestions={countrySuggestions} size="sm" placeholder="Small" />',
+      '<Typeahead suggestions={countrySuggestions} size="md" placeholder="Medium" />',
+      '<Typeahead suggestions={countrySuggestions} size="lg" placeholder="Large" />'
+    )
+  ),
+};
+
+export const Loading: Story = {
+  args: {
+    loading: true,
+    suggestions: [],
+    value: 'fra',
+  },
+  parameters: storySourceParameters(
+    storySource('<Typeahead', '  suggestions={[]}', '  value="fra"', '  loading', '/>')
+  ),
+};
+
+export const Invalid: Story = {
+  args: {
+    invalid: true,
+    value: 'fra',
+  },
+  parameters: storySourceParameters(
+    storySource(
+      '<Typeahead',
+      '  suggestions={countrySuggestions}',
+      '  value="fra"',
+      '  invalid',
+      '/>'
+    )
+  ),
+};
+
+export const MinChars: Story = {
+  render: () => (
+    <div className={storyStyles.storyA11yScope}>
+      <Typeahead id="typeahead-min-chars" suggestions={countrySuggestions} minChars={3} />
+      <p className={storyStyles.hint}>Type at least 3 characters to see suggestions.</p>
+    </div>
+  ),
+  parameters: storySourceParameters(
+    storySource(
+      '<Typeahead suggestions={countrySuggestions} minChars={3} />',
+      '<p>Type at least 3 characters to see suggestions.</p>'
+    )
+  ),
+};
+
+export const AsyncSearch: Story = {
+  render: () => <AsyncSearchExample />,
+  parameters: storySourceParameters(
+    storySource(
+      '<Typeahead',
+      '  suggestions={results}',
+      '  loading={loading}',
+      '  onInputChange={setQuery}',
+      '  placeholder="Search countries"',
+      '/>'
+    )
+  ),
+};
+
+export const EmptyState: Story = {
+  render: () => <EmptyStateExample />,
+  parameters: storySourceParameters(
+    storySource(
+      '<Typeahead',
+      '  suggestions={[]}',
+      '  onInputChange={setQuery}',
+      '  emptyMessage="No countries found"',
+      '/>'
+    )
+  ),
+};
+
+export const InField: Story = {
+  render: () => (
+    <div className={storyStyles.storyA11yScope}>
+      <Field label="Country" helper="Choose a country or type a custom value.">
+        <Typeahead
+          id="field-typeahead"
+          suggestions={countrySuggestions}
+          placeholder="Search countries"
+        />
+      </Field>
+    </div>
+  ),
+  parameters: storySourceParameters(
+    storySource(
+      '<Field label="Country" helper="Choose a country or type a custom value.">',
+      '  <Typeahead suggestions={countrySuggestions} placeholder="Search countries" />',
+      '</Field>'
+    )
+  ),
+};
+
+export const TypeAndSelect: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('combobox');
+    await userEvent.type(input, 'fra');
+    await expect(input).toHaveAttribute('aria-expanded', 'true');
+    const option = canvas.getByRole('option', { name: /france/i });
+    await userEvent.click(option);
+    await expect(input).toHaveValue('France');
+    await expect(input).toHaveAttribute('aria-expanded', 'false');
+  },
+};
+
+export const KeyboardNavigation: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('combobox');
+    await userEvent.type(input, 'fr');
+    await userEvent.keyboard('{ArrowDown}');
+    await expect(input).toHaveAttribute('aria-activedescendant');
+    await userEvent.keyboard('{Enter}');
+    await expect(input).toHaveAttribute('aria-expanded', 'false');
+  },
+};

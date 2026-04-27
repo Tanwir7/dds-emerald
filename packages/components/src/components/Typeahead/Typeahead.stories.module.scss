@@ -1,0 +1,16 @@
+.storyA11yScope {
+  display: grid;
+  gap: var(--dds-space-4);
+  width: min(100%, 32rem);
+}
+
+.storyStack {
+  display: grid;
+  gap: var(--dds-space-4);
+}
+
+.hint {
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-sm);
+  color: var(--dds-color-text-muted);
+}
