@@ -1,11 +1,38 @@
-.dds-storybook-docs-mode .docs-story {
+.docs-story {
+  display: block !important;
   color: var(--dds-color-text-default);
   background-color: var(--dds-color-bg-default);
 }
 
+.sb-show-main {
+  display: block;
+}
+
+.sb-show-main #storybook-root {
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.sb-show-main.sb-main-fullscreen #storybook-root {
+  box-sizing: border-box;
+  padding: var(--dds-space-6);
+}
+
+.docs-story > div,
+.docs-story .innerZoomElementWrapper,
+.docs-story .innerZoomElementWrapper > div,
+.docs-story .sb-story,
+.docs-story .sb-story > div,
+.docs-story [data-story-block='true'],
+.docs-story [data-story-block='true'] > div {
+  inline-size: 100% !important;
+  width: 100% !important;
+  max-inline-size: 100% !important;
+}
+
 .dds-storybook-docs-preview {
   box-sizing: border-box;
-  width: 100%;
+  inline-size: 100%;
   min-inline-size: 0;
   max-inline-size: 100%;
   padding: var(--dds-space-6);
@@ -16,10 +43,11 @@
 .dds-storybook-docs-preview > .dds-story-a11y-scope {
   display: block;
   inline-size: 100%;
-  min-inline-size: 0;
 }
 
 .dds-story-a11y-scope {
+  min-inline-size: 0;
+  max-inline-size: 100%;
   display: inline-flex;
 }
 

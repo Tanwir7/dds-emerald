@@ -19,7 +19,7 @@ const getStoredTheme = () => {
 const preview: Preview = {
   parameters: {
     backgrounds: { disable: true },
-    layout: 'centered',
+    layout: 'fullscreen',
     controls: {
       disableSaveFromUI: true,
     },
@@ -66,7 +66,6 @@ const preview: Preview = {
       }
 
       document.documentElement.setAttribute('data-theme', theme);
-      document.body.classList.toggle('dds-storybook-docs-mode', context.viewMode === 'docs');
 
       const story = createElement('div', { className: 'dds-story-a11y-scope' }, Story());
 
