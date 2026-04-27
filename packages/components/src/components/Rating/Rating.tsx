@@ -22,11 +22,11 @@ export interface RatingProps extends Omit<
 
 const STAR_PATH = 'M10 1l2.39 7.26H19l-5.5 4 2.1 7.26L10 15.27l-5.6 4.25 2.1-7.26L1 8.26h6.61z';
 
-const fillClassName: Record<RatingFill, string> = {
-  full: styles.fillFull,
-  half: styles.fillHalf,
-  empty: styles.fillEmpty,
-};
+const fillClassName = {
+  full: styles.fillFull!,
+  half: styles.fillHalf!,
+  empty: styles.fillEmpty!,
+} as const satisfies Record<RatingFill, string>;
 
 const getResolvedMax = (max: number | undefined) => {
   if (typeof max !== 'number' || !Number.isFinite(max) || max < 1) {
@@ -179,7 +179,7 @@ export const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
               >
                 <StarIcon
                   fill={fill}
-                  halfId={fill === 'half' ? `${uid}-${starIndex}` : undefined}
+                  {...(fill === 'half' ? { halfId: `${uid}-${starIndex}` } : {})}
                 />
               </span>
             );
@@ -223,7 +223,10 @@ export const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
               onMouseEnter={() => setHoveredIndex(starIndex)}
               tabIndex={isTabStop ? 0 : -1}
             >
-              <StarIcon fill={fill} halfId={fill === 'half' ? `${uid}-${starIndex}` : undefined} />
+              <StarIcon
+                fill={fill}
+                {...(fill === 'half' ? { halfId: `${uid}-${starIndex}` } : {})}
+              />
             </button>
           );
         })}

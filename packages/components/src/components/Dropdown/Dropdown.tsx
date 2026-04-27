@@ -26,25 +26,23 @@ export const Dropdown = React.forwardRef<HTMLButtonElement, DropdownProps>(
 );
 Dropdown.displayName = 'Dropdown';
 
-export interface DropdownTriggerProps extends React.ComponentPropsWithoutRef<
-  typeof DropdownMenuPrimitive.Trigger
-> {
+export interface DropdownTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   children: React.ReactNode;
+  asChild?: boolean;
 }
 
-export const DropdownTrigger = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.Trigger>,
-  DropdownTriggerProps
->(({ className, children, ...props }, ref) => (
-  <DropdownMenuPrimitive.Trigger ref={ref} className={className} {...props}>
-    {children}
-  </DropdownMenuPrimitive.Trigger>
-));
+export const DropdownTrigger = React.forwardRef<HTMLButtonElement, DropdownTriggerProps>(
+  ({ className, children, ...props }, ref) => (
+    <DropdownMenuPrimitive.Trigger ref={ref} className={className} {...props}>
+      {children}
+    </DropdownMenuPrimitive.Trigger>
+  )
+);
 DropdownTrigger.displayName = 'DropdownTrigger';
 
 export interface DropdownContentProps extends Omit<
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content>,
+  React.HTMLAttributes<HTMLDivElement>,
   'side' | 'align'
 > {
   side?: 'top' | 'right' | 'bottom' | 'left';
@@ -54,41 +52,39 @@ export interface DropdownContentProps extends Omit<
   children: React.ReactNode;
 }
 
-export const DropdownContent = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.Content>,
-  DropdownContentProps
->(({ side = 'bottom', align = 'start', sideOffset = 4, className, children, ...props }, ref) => (
-  <DropdownMenuPrimitive.Portal>
-    <DropdownMenuPrimitive.Content
-      ref={ref}
-      side={side}
-      align={align}
-      sideOffset={sideOffset}
-      className={clsx(styles.content, className)}
-      {...props}
-    >
-      {children}
-    </DropdownMenuPrimitive.Content>
-  </DropdownMenuPrimitive.Portal>
-));
+export const DropdownContent = React.forwardRef<HTMLDivElement, DropdownContentProps>(
+  ({ side = 'bottom', align = 'start', sideOffset = 4, className, children, ...props }, ref) => (
+    <DropdownMenuPrimitive.Portal>
+      <DropdownMenuPrimitive.Content
+        ref={ref}
+        side={side}
+        align={align}
+        sideOffset={sideOffset}
+        className={clsx(styles.content, className)}
+        {...props}
+      >
+        {children}
+      </DropdownMenuPrimitive.Content>
+    </DropdownMenuPrimitive.Portal>
+  )
+);
 DropdownContent.displayName = 'DropdownContent';
 
 export interface DropdownItemProps extends Omit<
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item>,
-  'children'
+  React.HTMLAttributes<HTMLDivElement>,
+  'children' | 'onSelect'
 > {
   intent?: 'default' | 'destructive';
   startIcon?: React.ReactNode;
   endText?: string;
   inset?: boolean;
+  disabled?: boolean;
   className?: string;
   children: React.ReactNode;
+  onSelect?: (event: Event) => void;
 }
 
-export const DropdownItem = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.Item>,
-  DropdownItemProps
->(
+export const DropdownItem = React.forwardRef<HTMLDivElement, DropdownItemProps>(
   (
     { intent = 'default', startIcon, endText, inset = false, className, children, ...props },
     ref
@@ -116,35 +112,40 @@ export const DropdownItem = React.forwardRef<
 DropdownItem.displayName = 'DropdownItem';
 
 export interface DropdownCheckboxItemProps extends Omit<
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.CheckboxItem>,
-  'children'
+  React.HTMLAttributes<HTMLDivElement>,
+  'children' | 'onSelect'
 > {
   className?: string;
+  checked?: boolean;
+  onCheckedChange?: (checked: boolean) => void;
   children: React.ReactNode;
+  onSelect?: (event: Event) => void;
 }
 
-export const DropdownCheckboxItem = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.CheckboxItem>,
-  DropdownCheckboxItemProps
->(({ className, children, ...props }, ref) => (
-  <DropdownMenuPrimitive.CheckboxItem
-    ref={ref}
-    className={clsx(styles.item, styles.checkboxItem, className)}
-    {...props}
-  >
-    <span className={styles.itemIndicatorSlot} aria-hidden="true">
-      <DropdownMenuPrimitive.ItemIndicator className={styles.itemIndicator}>
-        <Check className={styles.indicatorIcon} aria-hidden="true" />
-      </DropdownMenuPrimitive.ItemIndicator>
-    </span>
-    <span className={styles.itemText}>{children}</span>
-  </DropdownMenuPrimitive.CheckboxItem>
-));
+export const DropdownCheckboxItem = React.forwardRef<HTMLDivElement, DropdownCheckboxItemProps>(
+  ({ className, children, ...props }, ref) => (
+    <DropdownMenuPrimitive.CheckboxItem
+      ref={ref}
+      className={clsx(styles.item, styles.checkboxItem, className)}
+      {...props}
+    >
+      <span className={styles.itemIndicatorSlot} aria-hidden="true">
+        <DropdownMenuPrimitive.ItemIndicator className={styles.itemIndicator}>
+          <Check className={styles.indicatorIcon} aria-hidden="true" />
+        </DropdownMenuPrimitive.ItemIndicator>
+      </span>
+      <span className={styles.itemText}>{children}</span>
+    </DropdownMenuPrimitive.CheckboxItem>
+  )
+);
 DropdownCheckboxItem.displayName = 'DropdownCheckboxItem';
 
-export interface DropdownRadioGroupProps extends React.ComponentPropsWithoutRef<
-  typeof DropdownMenuPrimitive.RadioGroup
+export interface DropdownRadioGroupProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'onSelect'
 > {
+  value?: string;
+  onValueChange?: (value: string) => void;
   children: React.ReactNode;
 }
 
@@ -156,9 +157,10 @@ export const DropdownRadioGroup = React.forwardRef<HTMLDivElement, DropdownRadio
 DropdownRadioGroup.displayName = 'DropdownRadioGroup';
 
 export interface DropdownRadioItemProps extends Omit<
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.RadioItem>,
-  'children'
+  React.HTMLAttributes<HTMLDivElement>,
+  'children' | 'onSelect'
 > {
+  value: string;
   className?: string;
   children: React.ReactNode;
 }
@@ -169,55 +171,48 @@ const DotIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const DropdownRadioItem = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.RadioItem>,
-  DropdownRadioItemProps
->(({ className, children, ...props }, ref) => (
-  <DropdownMenuPrimitive.RadioItem
-    ref={ref}
-    className={clsx(styles.item, styles.radioItem, className)}
-    {...props}
-  >
-    <span className={styles.itemIndicatorSlot} aria-hidden="true">
-      <DropdownMenuPrimitive.ItemIndicator className={styles.itemIndicator}>
-        <DotIcon className={styles.indicatorIcon} />
-      </DropdownMenuPrimitive.ItemIndicator>
-    </span>
-    <span className={styles.itemText}>{children}</span>
-  </DropdownMenuPrimitive.RadioItem>
-));
+export const DropdownRadioItem = React.forwardRef<HTMLDivElement, DropdownRadioItemProps>(
+  ({ className, children, ...props }, ref) => (
+    <DropdownMenuPrimitive.RadioItem
+      ref={ref}
+      className={clsx(styles.item, styles.radioItem, className)}
+      {...props}
+    >
+      <span className={styles.itemIndicatorSlot} aria-hidden="true">
+        <DropdownMenuPrimitive.ItemIndicator className={styles.itemIndicator}>
+          <DotIcon className={styles.indicatorIcon} />
+        </DropdownMenuPrimitive.ItemIndicator>
+      </span>
+      <span className={styles.itemText}>{children}</span>
+    </DropdownMenuPrimitive.RadioItem>
+  )
+);
 DropdownRadioItem.displayName = 'DropdownRadioItem';
 
-export interface DropdownLabelProps extends React.ComponentPropsWithoutRef<
-  typeof DropdownMenuPrimitive.Label
-> {
+export interface DropdownLabelProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
 }
 
-export const DropdownLabel = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.Label>,
-  DropdownLabelProps
->(({ className, ...props }, ref) => (
-  <DropdownMenuPrimitive.Label ref={ref} className={clsx(styles.label, className)} {...props} />
-));
+export const DropdownLabel = React.forwardRef<HTMLDivElement, DropdownLabelProps>(
+  ({ className, ...props }, ref) => (
+    <DropdownMenuPrimitive.Label ref={ref} className={clsx(styles.label, className)} {...props} />
+  )
+);
 DropdownLabel.displayName = 'DropdownLabel';
 
-export interface DropdownSeparatorProps extends React.ComponentPropsWithoutRef<
-  typeof DropdownMenuPrimitive.Separator
-> {
+export interface DropdownSeparatorProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
 }
 
-export const DropdownSeparator = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.Separator>,
-  DropdownSeparatorProps
->(({ className, ...props }, ref) => (
-  <DropdownMenuPrimitive.Separator
-    ref={ref}
-    className={clsx(styles.separator, className)}
-    {...props}
-  />
-));
+export const DropdownSeparator = React.forwardRef<HTMLDivElement, DropdownSeparatorProps>(
+  ({ className, ...props }, ref) => (
+    <DropdownMenuPrimitive.Separator
+      ref={ref}
+      className={clsx(styles.separator, className)}
+      {...props}
+    />
+  )
+);
 DropdownSeparator.displayName = 'DropdownSeparator';
 
 export interface DropdownSubProps {
@@ -241,30 +236,29 @@ export const DropdownSub = React.forwardRef<HTMLDivElement, DropdownSubProps>(
 DropdownSub.displayName = 'DropdownSub';
 
 export interface DropdownSubTriggerProps extends Omit<
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubTrigger>,
+  React.HTMLAttributes<HTMLDivElement>,
   'children'
 > {
   className?: string;
   children: React.ReactNode;
 }
 
-export const DropdownSubTrigger = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.SubTrigger>,
-  DropdownSubTriggerProps
->(({ className, children, ...props }, ref) => (
-  <DropdownMenuPrimitive.SubTrigger
-    ref={ref}
-    className={clsx(styles.item, styles.subTrigger, className)}
-    {...props}
-  >
-    <span className={styles.itemText}>{children}</span>
-    <ChevronRight className={styles.subArrow} aria-hidden="true" />
-  </DropdownMenuPrimitive.SubTrigger>
-));
+export const DropdownSubTrigger = React.forwardRef<HTMLDivElement, DropdownSubTriggerProps>(
+  ({ className, children, ...props }, ref) => (
+    <DropdownMenuPrimitive.SubTrigger
+      ref={ref}
+      className={clsx(styles.item, styles.subTrigger, className)}
+      {...props}
+    >
+      <span className={styles.itemText}>{children}</span>
+      <ChevronRight className={styles.subArrow} aria-hidden="true" />
+    </DropdownMenuPrimitive.SubTrigger>
+  )
+);
 DropdownSubTrigger.displayName = 'DropdownSubTrigger';
 
 export interface DropdownSubContentProps extends Omit<
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubContent>,
+  React.HTMLAttributes<HTMLDivElement>,
   'sideOffset'
 > {
   sideOffset?: number;
@@ -272,35 +266,31 @@ export interface DropdownSubContentProps extends Omit<
   children: React.ReactNode;
 }
 
-export const DropdownSubContent = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.SubContent>,
-  DropdownSubContentProps
->(({ sideOffset = 4, className, children, ...props }, ref) => (
-  <DropdownMenuPrimitive.Portal>
-    <DropdownMenuPrimitive.SubContent
-      ref={ref}
-      sideOffset={sideOffset}
-      className={clsx(styles.content, styles.subContent, className)}
-      {...props}
-    >
-      {children}
-    </DropdownMenuPrimitive.SubContent>
-  </DropdownMenuPrimitive.Portal>
-));
+export const DropdownSubContent = React.forwardRef<HTMLDivElement, DropdownSubContentProps>(
+  ({ sideOffset = 4, className, children, ...props }, ref) => (
+    <DropdownMenuPrimitive.Portal>
+      <DropdownMenuPrimitive.SubContent
+        ref={ref}
+        sideOffset={sideOffset}
+        className={clsx(styles.content, styles.subContent, className)}
+        {...props}
+      >
+        {children}
+      </DropdownMenuPrimitive.SubContent>
+    </DropdownMenuPrimitive.Portal>
+  )
+);
 DropdownSubContent.displayName = 'DropdownSubContent';
 
-export interface DropdownGroupProps extends React.ComponentPropsWithoutRef<
-  typeof DropdownMenuPrimitive.Group
-> {
+export interface DropdownGroupProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
 }
 
-export const DropdownGroup = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.Group>,
-  DropdownGroupProps
->(({ children, ...props }, ref) => (
-  <DropdownMenuPrimitive.Group ref={ref} {...props}>
-    {children}
-  </DropdownMenuPrimitive.Group>
-));
+export const DropdownGroup = React.forwardRef<HTMLDivElement, DropdownGroupProps>(
+  ({ children, ...props }, ref) => (
+    <DropdownMenuPrimitive.Group ref={ref} {...props}>
+      {children}
+    </DropdownMenuPrimitive.Group>
+  )
+);
 DropdownGroup.displayName = 'DropdownGroup';

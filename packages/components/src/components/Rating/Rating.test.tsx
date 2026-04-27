@@ -135,7 +135,7 @@ describe('Rating', () => {
     const stars = getRadioStars(container);
 
     await act(async () => {
-      await user.click(stars[3]);
+      await user.click(stars[3]!);
     });
 
     expect(onChange).toHaveBeenCalledWith(4);
@@ -153,7 +153,7 @@ describe('Rating', () => {
     const stars = getRadioStars(container);
 
     await act(async () => {
-      await user.click(stars[4]);
+      await user.click(stars[4]!);
     });
 
     expect(onChange).toHaveBeenCalledWith(5);
@@ -185,7 +185,7 @@ describe('Rating', () => {
     const stars = getRadioStars(container);
 
     await act(async () => {
-      stars[1].focus();
+      stars[1]!.focus();
       await user.keyboard('{ArrowRight}');
     });
 
@@ -199,7 +199,7 @@ describe('Rating', () => {
     const stars = getRadioStars(container);
 
     await act(async () => {
-      stars[2].focus();
+      stars[2]!.focus();
       await user.keyboard('{ArrowLeft}');
     });
 
@@ -213,7 +213,7 @@ describe('Rating', () => {
     const stars = getRadioStars(container);
 
     await act(async () => {
-      stars[2].focus();
+      stars[2]!.focus();
       await user.keyboard('{Home}');
     });
     expect(stars[0]).toHaveFocus();
@@ -232,7 +232,7 @@ describe('Rating', () => {
     const stars = getRadioStars(container);
 
     act(() => {
-      fireEvent.mouseEnter(stars[3]);
+      fireEvent.mouseEnter(stars[3]!);
     });
 
     expect(stars[2]).toHaveClass(classNames.fillFull);
