@@ -1,0 +1,16 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.storyA11yScope {
+  display: flex;
+  width: min(100%, 40rem);
+  flex-direction: column;
+  gap: var(--dds-space-4);
+}
+
+.storyCard {
+  padding: var(--dds-space-4);
+  border: 1px solid var(--dds-color-border-default);
+  border-radius: var(--dds-radius-none);
+  background: var(--dds-color-bg-card);
+}

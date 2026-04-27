@@ -170,5 +170,17 @@ export {
 export type { DropdownProps } from './components/Dropdown';
 export { Disclosure, DisclosureTrigger, DisclosureContent } from './components/Disclosure';
 export type { DisclosureProps } from './components/Disclosure';
+export {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from './components/Accordion';
+export type {
+  AccordionProps,
+  AccordionItemProps,
+  AccordionTriggerProps,
+  AccordionContentProps,
+} from './components/Accordion';
 export { Combobox } from './components/Combobox';
 export type { ComboboxOption, ComboboxProps } from './components/Combobox';
