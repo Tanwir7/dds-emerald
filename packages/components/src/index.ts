@@ -190,3 +190,15 @@ export { Typeahead } from './components/Typeahead';
 export type { TypeaheadProps, TypeaheadSuggestion } from './components/Typeahead';
 export { MultiTypeahead } from './components/MultiTypeahead';
 export type { MultiTypeaheadProps, MultiTypeaheadSuggestion } from './components/MultiTypeahead';
+export { List, ListItem, SelectableList, SelectableListItem } from './components/List';
+export type {
+  ListElement,
+  ListItemElement,
+  ListItemProps,
+  ListProps,
+  ListSize,
+  SelectableListItemProps,
+  SelectableListOrientation,
+  SelectableListProps,
+  SelectableListSelectionMode,
+} from './components/List';

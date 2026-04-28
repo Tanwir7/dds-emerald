@@ -1,0 +1,29 @@
+.storyA11yScope {
+  display: flex;
+  width: 100%;
+}
+
+.storyStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-6);
+  width: min(100%, 40rem);
+}
+
+.storyListStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-4);
+}
+
+.storyRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--dds-space-4);
+}
+
+.storyPanel {
+  width: min(100%, 32rem);
+  padding: var(--dds-space-4);
+  background-color: var(--dds-color-bg-muted);
+}
