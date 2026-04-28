@@ -93,6 +93,18 @@
   padding-right: var(--dds-space-9);
 }
 
+.hasWideEndAdornment.sm {
+  padding-right: var(--dds-space-16);
+}
+
+.hasWideEndAdornment.md {
+  padding-right: var(--dds-space-16);
+}
+
+.hasWideEndAdornment.lg {
+  padding-right: var(--dds-space-20);
+}
+
 .startIcon,
 .endIcon,
 .endIconButton {
@@ -116,6 +128,11 @@
 
 .endIcon {
   right: var(--dds-space-2-5);
+}
+
+.endAdornmentInteractive {
+  right: var(--dds-space-1);
+  pointer-events: auto;
 }
 
 .endIconButton {

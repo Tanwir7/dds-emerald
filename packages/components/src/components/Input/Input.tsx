@@ -12,6 +12,9 @@ type InputBaseProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> 
   invalid?: boolean;
   startIcon?: LucideIcon;
   endAdornment?: React.ReactNode;
+  endAdornmentInteractive?: boolean;
+  endAdornmentWidth?: 'default' | 'wide';
+  endAdornmentClassName?: string;
   className?: string;
 };
 
@@ -38,6 +41,8 @@ const sizeClassName: Record<InputSize, string> = {
 const startIconClassName = getRequiredClassName(styles, 'startIcon');
 const endIconClassName = getRequiredClassName(styles, 'endIcon');
 const endIconButtonClassName = getRequiredClassName(styles, 'endIconButton');
+const hasWideEndAdornmentClassName = getRequiredClassName(styles, 'hasWideEndAdornment');
+const endAdornmentInteractiveClassName = getRequiredClassName(styles, 'endAdornmentInteractive');
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
@@ -46,6 +51,9 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       invalid = false,
       startIcon,
       endAdornment,
+      endAdornmentInteractive = false,
+      endAdornmentWidth = 'default',
+      endAdornmentClassName,
       endIcon,
       endIconLabel,
       onEndIconClick,
@@ -59,6 +67,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const hasEndAdornment = Boolean(endAdornment);
     const hasEndIconAction = Boolean(EndIcon && onEndIconClick);
     const hasEndAffordance = Boolean(EndIcon || hasEndAdornment);
+    const hasWideEndAdornment = hasEndAdornment && endAdornmentWidth === 'wide';
 
     return (
       <div className={styles.wrapper}>
@@ -73,11 +82,22 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             invalid && styles.invalid,
             StartIcon && styles.hasStartIcon,
             hasEndAffordance && styles.hasEndIcon,
+            hasWideEndAdornment && hasWideEndAdornmentClassName,
             className
           )}
           {...props}
         />
-        {hasEndAdornment ? <span className={endIconClassName}>{endAdornment}</span> : null}
+        {hasEndAdornment ? (
+          <span
+            className={clsx(
+              endIconClassName,
+              endAdornmentInteractive && endAdornmentInteractiveClassName,
+              endAdornmentClassName
+            )}
+          >
+            {endAdornment}
+          </span>
+        ) : null}
         {EndIcon && hasEndIconAction ? (
           <button
             className={endIconButtonClassName}

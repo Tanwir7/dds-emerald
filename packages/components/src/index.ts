@@ -97,6 +97,8 @@ export { Label } from './components/Label';
 export type { LabelProps, LabelSize } from './components/Label';
 export { Input } from './components/Input';
 export type { InputProps, InputSize } from './components/Input';
+export { PasswordInput } from './components/PasswordInput';
+export type { PasswordInputProps } from './components/PasswordInput';
 export { Spinner } from './components/Spinner';
 export type { SpinnerProps, SpinnerSize } from './components/Spinner';
 export { Textarea } from './components/Textarea';

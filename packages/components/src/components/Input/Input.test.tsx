@@ -21,9 +21,11 @@ const classNames = {
   invalid: getRequiredClassName(styles, 'invalid'),
   hasStartIcon: getRequiredClassName(styles, 'hasStartIcon'),
   hasEndIcon: getRequiredClassName(styles, 'hasEndIcon'),
+  hasWideEndAdornment: getRequiredClassName(styles, 'hasWideEndAdornment'),
   startIcon: getRequiredClassName(styles, 'startIcon'),
   endIcon: getRequiredClassName(styles, 'endIcon'),
   endIconButton: getRequiredClassName(styles, 'endIconButton'),
+  endAdornmentInteractive: getRequiredClassName(styles, 'endAdornmentInteractive'),
 } as const;
 
 const render = (ui: React.ReactNode) => {
@@ -203,6 +205,43 @@ describe('Input', () => {
     );
 
     expect(getInput(container)).toHaveClass(classNames.hasEndIcon);
+  });
+
+  it('applies wide end adornment padding when requested', () => {
+    const { container } = render(
+      <Input
+        endAdornment={<span data-testid="loading-adornment">Loading</span>}
+        endAdornmentWidth="wide"
+        aria-label="Search"
+      />
+    );
+
+    expect(getInput(container)).toHaveClass(classNames.hasWideEndAdornment);
+  });
+
+  it('supports interactive end adornments without disabling pointer events', async () => {
+    const user = userEvent.setup();
+    const onClick = vi.fn();
+    const { container } = render(
+      <Input
+        endAdornment={
+          <button type="button" onClick={onClick}>
+            Toggle
+          </button>
+        }
+        endAdornmentInteractive
+        aria-label="Password"
+      />
+    );
+    const adornment = container.querySelector(`.${classNames.endIcon}`);
+    const button = container.querySelector('button');
+
+    expect(adornment).toHaveClass(classNames.endAdornmentInteractive);
+    expect(button).toBeInstanceOf(HTMLButtonElement);
+
+    await user.click(button as HTMLButtonElement);
+
+    expect(onClick).toHaveBeenCalledTimes(1);
   });
 
   it('renders an accessible end icon button when onEndIconClick is provided', () => {
