@@ -36,6 +36,8 @@ const toSearchString = (value: InputProps['value'] | InputProps['defaultValue'])
   return '';
 };
 
+const getSpinnerClassName = () => styles.spinner || '';
+
 export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
   (
     {
@@ -94,7 +96,7 @@ export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
         className={clsx(styles.root, className)}
         startAdornment={
           loading ? (
-            <Spinner className={styles.spinner} size="sm" label="Searching…" />
+            <Spinner className={getSpinnerClassName()} size="sm" label="Searching…" />
           ) : (
             <span className={styles.searchAdornment} aria-hidden="true">
               <Search />
