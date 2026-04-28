@@ -31,6 +31,8 @@
 - Never use `cx`, `cn`, `classnames` — only `clsx`
 - Radix UI for all interactive primitives needing accessibility (Dialog, Select, etc.)
 - No custom ARIA implementations when a Radix primitive exists
+- Do not export public component prop types that directly reference Radix types or `React.ComponentPropsWithoutRef<typeof RadixPrimitive.*>`; declaration output must not import from `@radix-ui/*`
+- For any Radix-based component, define stable public props explicitly from DOM/consumer-facing types so `dist/index.d.ts` does not leak Radix internals
 
 ### Design constraints — do NOT deviate
 

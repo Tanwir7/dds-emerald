@@ -7,10 +7,12 @@ import styles from './Accordion.module.scss';
 type AccordionVariant = 'default' | 'flush';
 
 type AccordionRootSharedProps = Omit<
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Root>,
-  'children' | 'className' | 'type' | 'value' | 'defaultValue' | 'onValueChange' | 'collapsible'
+  React.HTMLAttributes<HTMLDivElement>,
+  'children' | 'className'
 > & {
   variant?: AccordionVariant;
+  dir?: 'ltr' | 'rtl';
+  orientation?: 'horizontal' | 'vertical';
   className?: string;
   children: React.ReactNode;
 };
@@ -35,16 +37,17 @@ export type AccordionProps = AccordionRootSharedProps &
   (AccordionSingleModeProps | AccordionMultipleModeProps);
 
 export type AccordionItemProps = Omit<
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>,
+  React.HTMLAttributes<HTMLDivElement>,
   'children' | 'className'
 > & {
   value: string;
+  disabled?: boolean;
   className?: string;
   children: React.ReactNode;
 };
 
 export type AccordionTriggerProps = Omit<
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>,
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
   'children' | 'className'
 > & {
   className?: string;
@@ -52,9 +55,10 @@ export type AccordionTriggerProps = Omit<
 };
 
 export type AccordionContentProps = Omit<
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Content>,
+  React.HTMLAttributes<HTMLDivElement>,
   'children' | 'className'
 > & {
+  forceMount?: true;
   className?: string;
   children: React.ReactNode;
 };
@@ -64,20 +68,42 @@ const variantClassNames: Record<AccordionVariant, string> = {
   flush: styles.variantFlush!,
 };
 
-export const Accordion = React.forwardRef<
-  React.ElementRef<typeof AccordionPrimitive.Root>,
-  AccordionProps
->(({ type = 'single', variant = 'default', className, children, ...props }, ref) => {
-  if (type === 'multiple') {
-    const { value, defaultValue, onValueChange, ...rootProps } = props as AccordionRootSharedProps &
-      AccordionMultipleModeProps;
+export const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
+  ({ type = 'single', variant = 'default', className, children, ...props }, ref) => {
+    if (type === 'multiple') {
+      const { value, defaultValue, onValueChange, ...rootProps } =
+        props as AccordionRootSharedProps & AccordionMultipleModeProps;
+
+      return (
+        <AccordionPrimitive.Root
+          ref={ref}
+          className={clsx(styles.root, variantClassNames[variant], className)}
+          {...rootProps}
+          type="multiple"
+          {...(value !== undefined ? { value } : {})}
+          {...(defaultValue !== undefined ? { defaultValue } : {})}
+          {...(onValueChange !== undefined ? { onValueChange } : {})}
+        >
+          {children}
+        </AccordionPrimitive.Root>
+      );
+    }
+
+    const {
+      collapsible = true,
+      value,
+      defaultValue,
+      onValueChange,
+      ...rootProps
+    } = props as AccordionRootSharedProps & AccordionSingleModeProps;
 
     return (
       <AccordionPrimitive.Root
         ref={ref}
         className={clsx(styles.root, variantClassNames[variant], className)}
         {...rootProps}
-        type="multiple"
+        type="single"
+        collapsible={collapsible}
         {...(value !== undefined ? { value } : {})}
         {...(defaultValue !== undefined ? { defaultValue } : {})}
         {...(onValueChange !== undefined ? { onValueChange } : {})}
@@ -86,61 +112,35 @@ export const Accordion = React.forwardRef<
       </AccordionPrimitive.Root>
     );
   }
-
-  const {
-    collapsible = true,
-    value,
-    defaultValue,
-    onValueChange,
-    ...rootProps
-  } = props as AccordionRootSharedProps & AccordionSingleModeProps;
-
-  return (
-    <AccordionPrimitive.Root
-      ref={ref}
-      className={clsx(styles.root, variantClassNames[variant], className)}
-      {...rootProps}
-      type="single"
-      collapsible={collapsible}
-      {...(value !== undefined ? { value } : {})}
-      {...(defaultValue !== undefined ? { defaultValue } : {})}
-      {...(onValueChange !== undefined ? { onValueChange } : {})}
-    >
-      {children}
-    </AccordionPrimitive.Root>
-  );
-});
+);
 Accordion.displayName = 'Accordion';
 
-export const AccordionItem = React.forwardRef<
-  React.ElementRef<typeof AccordionPrimitive.Item>,
-  AccordionItemProps
->(({ className, children, ...props }, ref) => (
-  <AccordionPrimitive.Item ref={ref} className={clsx(styles.item, className)} {...props}>
-    {children}
-  </AccordionPrimitive.Item>
-));
+export const AccordionItem = React.forwardRef<HTMLDivElement, AccordionItemProps>(
+  ({ className, children, ...props }, ref) => (
+    <AccordionPrimitive.Item ref={ref} className={clsx(styles.item, className)} {...props}>
+      {children}
+    </AccordionPrimitive.Item>
+  )
+);
 AccordionItem.displayName = 'AccordionItem';
 
-export const AccordionTrigger = React.forwardRef<
-  React.ElementRef<typeof AccordionPrimitive.Trigger>,
-  AccordionTriggerProps
->(({ className, children, ...props }, ref) => (
-  <AccordionPrimitive.Header className={styles.header}>
-    <AccordionPrimitive.Trigger ref={ref} className={clsx(styles.trigger, className)} {...props}>
-      {children}
-      <ChevronDown className={styles.chevron} aria-hidden="true" />
-    </AccordionPrimitive.Trigger>
-  </AccordionPrimitive.Header>
-));
+export const AccordionTrigger = React.forwardRef<HTMLButtonElement, AccordionTriggerProps>(
+  ({ className, children, ...props }, ref) => (
+    <AccordionPrimitive.Header className={styles.header}>
+      <AccordionPrimitive.Trigger ref={ref} className={clsx(styles.trigger, className)} {...props}>
+        {children}
+        <ChevronDown className={styles.chevron} aria-hidden="true" />
+      </AccordionPrimitive.Trigger>
+    </AccordionPrimitive.Header>
+  )
+);
 AccordionTrigger.displayName = 'AccordionTrigger';
 
-export const AccordionContent = React.forwardRef<
-  React.ElementRef<typeof AccordionPrimitive.Content>,
-  AccordionContentProps
->(({ className, children, ...props }, ref) => (
-  <AccordionPrimitive.Content ref={ref} className={clsx(styles.content, className)} {...props}>
-    <div className={styles.contentInner}>{children}</div>
-  </AccordionPrimitive.Content>
-));
+export const AccordionContent = React.forwardRef<HTMLDivElement, AccordionContentProps>(
+  ({ className, children, ...props }, ref) => (
+    <AccordionPrimitive.Content ref={ref} className={clsx(styles.content, className)} {...props}>
+      <div className={styles.contentInner}>{children}</div>
+    </AccordionPrimitive.Content>
+  )
+);
 AccordionContent.displayName = 'AccordionContent';

@@ -202,3 +202,5 @@ export type {
   SelectableListProps,
   SelectableListSelectionMode,
 } from './components/List';
+export { Tooltip, TooltipProvider } from './components/Tooltip';
+export type { TooltipProps, TooltipProviderProps } from './components/Tooltip';
