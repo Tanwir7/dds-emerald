@@ -99,6 +99,8 @@ export { Input } from './components/Input';
 export type { InputProps, InputSize } from './components/Input';
 export { PasswordInput } from './components/PasswordInput';
 export type { PasswordInputProps } from './components/PasswordInput';
+export { SearchInput } from './components/SearchInput';
+export type { SearchInputProps } from './components/SearchInput';
 export { Spinner } from './components/Spinner';
 export type { SpinnerProps, SpinnerSize } from './components/Spinner';
 export { Textarea } from './components/Textarea';

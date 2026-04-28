@@ -11,6 +11,7 @@ type InputBaseProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> 
   size?: InputSize;
   invalid?: boolean;
   startIcon?: LucideIcon;
+  startAdornment?: React.ReactNode;
   endAdornment?: React.ReactNode;
   endAdornmentInteractive?: boolean;
   endAdornmentWidth?: 'default' | 'wide';
@@ -50,6 +51,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       size = 'md',
       invalid = false,
       startIcon,
+      startAdornment,
       endAdornment,
       endAdornmentInteractive = false,
       endAdornmentWidth = 'default',
@@ -63,15 +65,18 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     ref
   ) => {
     const StartIcon = startIcon;
+    const hasStartAdornment = Boolean(startAdornment);
     const EndIcon = endIcon;
     const hasEndAdornment = Boolean(endAdornment);
     const hasEndIconAction = Boolean(EndIcon && onEndIconClick);
+    const hasStartAffordance = Boolean(StartIcon || hasStartAdornment);
     const hasEndAffordance = Boolean(EndIcon || hasEndAdornment);
     const hasWideEndAdornment = hasEndAdornment && endAdornmentWidth === 'wide';
 
     return (
       <div className={styles.wrapper}>
-        {StartIcon ? (
+        {hasStartAdornment ? <span className={startIconClassName}>{startAdornment}</span> : null}
+        {!hasStartAdornment && StartIcon ? (
           <DDSIcon icon={StartIcon} className={startIconClassName} aria-hidden="true" />
         ) : null}
         <input
@@ -80,7 +85,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             styles.root,
             sizeClassName[size],
             invalid && styles.invalid,
-            StartIcon && styles.hasStartIcon,
+            hasStartAffordance && styles.hasStartIcon,
             hasEndAffordance && styles.hasEndIcon,
             hasWideEndAdornment && hasWideEndAdornmentClassName,
             className

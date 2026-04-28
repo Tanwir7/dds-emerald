@@ -1,0 +1,49 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.root {
+  &::-webkit-search-cancel-button,
+  &::-webkit-search-decoration {
+    appearance: none;
+  }
+}
+
+.searchAdornment {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dds-color-text-muted);
+
+  @include icon-size(md);
+}
+
+.spinner {
+  color: var(--dds-color-text-muted);
+}
+
+.clearButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--dds-space-6);
+  height: var(--dds-space-6);
+  padding: 0 var(--dds-space-1);
+  margin: 0;
+  color: var(--dds-color-text-muted);
+  background-color: transparent;
+  border: 0;
+  border-radius: var(--dds-radius-none);
+  outline: 3px solid transparent;
+  outline-offset: 2px;
+  cursor: pointer;
+
+  @include interactive-focus-ring;
+}
+
+.clearIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  @include icon-size(md);
+}
