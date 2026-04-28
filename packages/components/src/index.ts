@@ -204,3 +204,11 @@ export type {
 } from './components/List';
 export { Tooltip, TooltipProvider } from './components/Tooltip';
 export type { TooltipProps, TooltipProviderProps } from './components/Tooltip';
+export {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverClose,
+  PopoverAnchor,
+} from './components/Popover';
+export type { PopoverProps, PopoverContentProps } from './components/Popover';

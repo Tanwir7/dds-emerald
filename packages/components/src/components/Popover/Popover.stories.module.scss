@@ -1,0 +1,78 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.storyA11yScope {
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-height: 280px;
+  padding: var(--dds-space-8);
+}
+
+.storyGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--dds-space-6);
+}
+
+.storyThreeUp {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--dds-space-6);
+}
+
+.storyPanelStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-4);
+  min-width: 220px;
+}
+
+.storyActions {
+  display: flex;
+  gap: var(--dds-space-2);
+  justify-content: flex-end;
+}
+
+.storyTriggerWidth {
+  width: 280px;
+}
+
+.storyCalendar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-4);
+  min-width: 280px;
+}
+
+.storyCalendarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--dds-space-4);
+}
+
+.storyCalendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--dds-space-2);
+}
+
+.storyDayLabel {
+  font-family: var(--dds-font-mono);
+  font-size: var(--dds-font-size-xs);
+  color: var(--dds-color-text-muted);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.storyDayButton {
+  min-height: 32px;
+}
+
+.storyNestedArea {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-4);
+  min-width: 260px;
+}
