@@ -160,6 +160,36 @@ export {
   SelectSeparator,
 } from './components/Select';
 export type { SelectProps } from './components/Select';
+export {
+  Dropdown,
+  DropdownTrigger,
+  DropdownContent,
+  DropdownItem,
+  DropdownCheckboxItem,
+  DropdownRadioGroup,
+  DropdownRadioItem,
+  DropdownLabel,
+  DropdownSeparator,
+  DropdownSub,
+  DropdownSubTrigger,
+  DropdownSubContent,
+  DropdownGroup,
+} from './components/Dropdown';
+export type {
+  DropdownProps,
+  DropdownTriggerProps,
+  DropdownContentProps,
+  DropdownItemProps,
+  DropdownCheckboxItemProps,
+  DropdownRadioGroupProps,
+  DropdownRadioItemProps,
+  DropdownLabelProps,
+  DropdownSeparatorProps,
+  DropdownSubProps,
+  DropdownSubTriggerProps,
+  DropdownSubContentProps,
+  DropdownGroupProps,
+} from './components/Dropdown';
 export { Disclosure, DisclosureTrigger, DisclosureContent } from './components/Disclosure';
 export type { DisclosureProps } from './components/Disclosure';
 export {

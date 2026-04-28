@@ -1,0 +1,26 @@
+.storyA11yScope {
+  min-height: 320px;
+  padding: var(--dds-space-6);
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.storyMenuStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-1);
+}
+
+.storyRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--dds-space-3);
+}
+
+.storyKey {
+  font-family: var(--dds-font-mono);
+  font-size: var(--dds-font-size-xs);
+  color: var(--dds-color-text-muted);
+}
