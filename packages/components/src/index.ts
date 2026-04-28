@@ -188,3 +188,5 @@ export { Combobox } from './components/Combobox';
 export type { ComboboxOption, ComboboxProps } from './components/Combobox';
 export { Typeahead } from './components/Typeahead';
 export type { TypeaheadProps, TypeaheadSuggestion } from './components/Typeahead';
+export { MultiTypeahead } from './components/MultiTypeahead';
+export type { MultiTypeaheadProps, MultiTypeaheadSuggestion } from './components/MultiTypeahead';
