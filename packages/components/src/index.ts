@@ -25,6 +25,8 @@ export type {
 } from './components/Text';
 export { Link } from './components/Link';
 export type { LinkProps, LinkSize, LinkUnderline, LinkVariant } from './components/Link';
+export { Breadcrumbs, BreadcrumbItem, BreadcrumbSeparator } from './components/Breadcrumbs';
+export type { BreadcrumbsProps, BreadcrumbItemProps } from './components/Breadcrumbs';
 export { Container } from './components/Container';
 export type {
   ContainerBackground,

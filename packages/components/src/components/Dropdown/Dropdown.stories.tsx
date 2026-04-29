@@ -60,6 +60,66 @@ const BasicMenu = () => (
   </>
 );
 
+const CheckboxItemsStory = () => {
+  const [checked, setChecked] = React.useState({
+    comments: true,
+    mentions: false,
+    releases: true,
+  });
+
+  return (
+    <div className={storyStyles.storyA11yScope}>
+      <Dropdown>
+        <DropdownTrigger asChild>
+          <Button variant="secondary">Notifications</Button>
+        </DropdownTrigger>
+        <DropdownContent>
+          <DropdownCheckboxItem
+            checked={checked.comments}
+            onCheckedChange={(value) => setChecked((state) => ({ ...state, comments: value }))}
+          >
+            Comment alerts
+          </DropdownCheckboxItem>
+          <DropdownCheckboxItem
+            checked={checked.mentions}
+            onCheckedChange={(value) => setChecked((state) => ({ ...state, mentions: value }))}
+          >
+            Mentions
+          </DropdownCheckboxItem>
+          <DropdownCheckboxItem
+            checked={checked.releases}
+            onCheckedChange={(value) => setChecked((state) => ({ ...state, releases: value }))}
+          >
+            Release notes
+          </DropdownCheckboxItem>
+        </DropdownContent>
+      </Dropdown>
+    </div>
+  );
+};
+
+const RadioItemsStory = () => {
+  const [assignee, setAssignee] = React.useState('ada');
+
+  return (
+    <div className={storyStyles.storyA11yScope}>
+      <Dropdown>
+        <DropdownTrigger asChild>
+          <Button variant="secondary">Assign owner</Button>
+        </DropdownTrigger>
+        <DropdownContent>
+          <DropdownLabel>Owner</DropdownLabel>
+          <DropdownRadioGroup value={assignee} onValueChange={setAssignee}>
+            <DropdownRadioItem value="ada">Ada Lovelace</DropdownRadioItem>
+            <DropdownRadioItem value="grace">Grace Hopper</DropdownRadioItem>
+            <DropdownRadioItem value="radia">Radia Perlman</DropdownRadioItem>
+          </DropdownRadioGroup>
+        </DropdownContent>
+      </Dropdown>
+    </div>
+  );
+};
+
 export const Default: Story = {
   render: () => (
     <div className={storyStyles.storyA11yScope}>
@@ -185,70 +245,14 @@ export const WithSeparators: Story = {
 };
 
 export const WithCheckboxItems: Story = {
-  render: () => {
-    const [checked, setChecked] = React.useState({
-      comments: true,
-      mentions: false,
-      releases: true,
-    });
-
-    return (
-      <div className={storyStyles.storyA11yScope}>
-        <Dropdown>
-          <DropdownTrigger asChild>
-            <Button variant="secondary">Notifications</Button>
-          </DropdownTrigger>
-          <DropdownContent>
-            <DropdownCheckboxItem
-              checked={checked.comments}
-              onCheckedChange={(value) => setChecked((state) => ({ ...state, comments: value }))}
-            >
-              Comment alerts
-            </DropdownCheckboxItem>
-            <DropdownCheckboxItem
-              checked={checked.mentions}
-              onCheckedChange={(value) => setChecked((state) => ({ ...state, mentions: value }))}
-            >
-              Mentions
-            </DropdownCheckboxItem>
-            <DropdownCheckboxItem
-              checked={checked.releases}
-              onCheckedChange={(value) => setChecked((state) => ({ ...state, releases: value }))}
-            >
-              Release notes
-            </DropdownCheckboxItem>
-          </DropdownContent>
-        </Dropdown>
-      </div>
-    );
-  },
+  render: () => <CheckboxItemsStory />,
   parameters: storySourceParameters(
     '<Dropdown><DropdownTrigger asChild><Button variant="secondary">Notifications</Button></DropdownTrigger><DropdownContent><DropdownCheckboxItem checked>Comment alerts</DropdownCheckboxItem></DropdownContent></Dropdown>'
   ),
 };
 
 export const WithRadioItems: Story = {
-  render: () => {
-    const [assignee, setAssignee] = React.useState('ada');
-
-    return (
-      <div className={storyStyles.storyA11yScope}>
-        <Dropdown>
-          <DropdownTrigger asChild>
-            <Button variant="secondary">Assign owner</Button>
-          </DropdownTrigger>
-          <DropdownContent>
-            <DropdownLabel>Owner</DropdownLabel>
-            <DropdownRadioGroup value={assignee} onValueChange={setAssignee}>
-              <DropdownRadioItem value="ada">Ada Lovelace</DropdownRadioItem>
-              <DropdownRadioItem value="grace">Grace Hopper</DropdownRadioItem>
-              <DropdownRadioItem value="radia">Radia Perlman</DropdownRadioItem>
-            </DropdownRadioGroup>
-          </DropdownContent>
-        </Dropdown>
-      </div>
-    );
-  },
+  render: () => <RadioItemsStory />,
   parameters: storySourceParameters(
     '<Dropdown><DropdownTrigger asChild><Button variant="secondary">Assign owner</Button></DropdownTrigger><DropdownContent><DropdownRadioGroup value="ada"><DropdownRadioItem value="ada">Ada Lovelace</DropdownRadioItem></DropdownRadioGroup></DropdownContent></Dropdown>'
   ),
