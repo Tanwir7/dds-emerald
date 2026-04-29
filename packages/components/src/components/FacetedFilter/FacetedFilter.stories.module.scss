@@ -1,0 +1,31 @@
+.storyA11yScope {
+  width: 100%;
+}
+
+.storySidebarLayout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: var(--dds-space-6);
+  align-items: start;
+}
+
+.storySidebar {
+  padding: var(--dds-space-4);
+  border: 1px solid var(--dds-color-border-default);
+  background: var(--dds-color-bg-card);
+}
+
+.storyContent {
+  padding: var(--dds-space-4);
+  border: 1px solid var(--dds-color-border-default);
+  background: var(--dds-color-bg-card);
+  min-height: 280px;
+}
+
+.storySelectionSummary {
+  margin-top: var(--dds-space-4);
+  font-family: var(--dds-font-mono);
+  font-size: var(--dds-font-size-xs);
+  color: var(--dds-color-text-muted);
+  white-space: pre-wrap;
+}

@@ -236,3 +236,11 @@ export {
   PopoverAnchor,
 } from './components/Popover';
 export type { PopoverProps, PopoverContentProps } from './components/Popover';
+export { FacetedFilter, FacetGroup, FacetItem } from './components/FacetedFilter';
+export type {
+  FacetedFilterProps,
+  FacetGroupProps,
+  FacetItemProps,
+  FacetedFilterValue,
+  FacetedFilterState,
+} from './components/FacetedFilter';
