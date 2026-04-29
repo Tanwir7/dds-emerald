@@ -206,6 +206,8 @@ export type {
   AccordionTriggerProps,
   AccordionContentProps,
 } from './components/Accordion';
+export { Tabs, TabList, Tab, TabPanels, TabPanel } from './components/Tabs';
+export type { TabsProps, TabListProps, TabProps, TabPanelProps } from './components/Tabs';
 export { Combobox } from './components/Combobox';
 export type { ComboboxOption, ComboboxProps } from './components/Combobox';
 export { Typeahead } from './components/Typeahead';

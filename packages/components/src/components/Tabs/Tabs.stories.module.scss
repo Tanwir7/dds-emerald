@@ -1,0 +1,23 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.storyA11yScope {
+  display: flex;
+  width: min(100%, 44rem);
+  flex-direction: column;
+  gap: var(--dds-space-4);
+}
+
+.storyPanel {
+  display: grid;
+  gap: var(--dds-space-2);
+}
+
+.storyMeta {
+  font-variant-numeric: tabular-nums;
+  color: var(--dds-color-text-muted);
+}
+
+.storyVertical {
+  width: min(100%, 48rem);
+}
