@@ -27,6 +27,8 @@
   border-radius: var(--dds-radius-none);
 }
 
-.storyIcon {
-  margin-right: var(--dds-space-1);
+.storyTriggerLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dds-space-1);
 }

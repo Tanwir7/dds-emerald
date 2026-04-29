@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, userEvent, within } from 'storybook/test';
 import { Settings } from 'lucide-react';
 import { Disclosure, DisclosureTrigger, DisclosureContent } from './Disclosure';
+import { Icon } from '../Icon';
 import { Stack } from '../Stack';
 import { Input } from '../Input';
 import { Field } from '../Field';
@@ -90,8 +91,10 @@ export const NoChevron: Story = {
     <div className={storyStyles.storyA11yScope}>
       <Disclosure>
         <DisclosureTrigger showChevron={false}>
-          <Settings className={storyStyles.storyIcon} aria-hidden="true" />
-          Toggle settings
+          <span className={storyStyles.storyTriggerLabel}>
+            <Icon icon={Settings} />
+            <span>Toggle settings</span>
+          </span>
         </DisclosureTrigger>
         <DisclosureContent>
           Settings panel with a custom icon instead of the default chevron.
@@ -103,8 +106,8 @@ export const NoChevron: Story = {
     storySource(
       '<Disclosure>',
       '  <DisclosureTrigger showChevron={false}>',
-      '    <Settings aria-hidden="true" />',
-      '    Toggle settings',
+      '    <Icon icon={Settings} />',
+      '    <span>Toggle settings</span>',
       '  </DisclosureTrigger>',
       '  <DisclosureContent>',
       '    Settings panel with a custom icon instead of the default chevron.',
