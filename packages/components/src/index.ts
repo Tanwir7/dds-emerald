@@ -244,3 +244,5 @@ export type {
   FacetedFilterValue,
   FacetedFilterState,
 } from './components/FacetedFilter';
+export { TreeView, TreeItem, TreeItemGroup } from './components/TreeView';
+export type { TreeViewProps, TreeItemProps, TreeItemGroupProps } from './components/TreeView';

@@ -1,0 +1,125 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.root {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  outline: none;
+}
+
+.item {
+  list-style: none;
+  outline: none;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--dds-space-1-5);
+  min-width: 0;
+  border-radius: var(--dds-radius-none);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color var(--dds-duration-fast) var(--dds-ease-standard);
+}
+
+.item:hover > .row {
+  background-color: var(--dds-color-action-ghost-hover);
+}
+
+.sm > .row {
+  min-height: 28px;
+  padding: var(--dds-space-0-5) var(--dds-space-2);
+  font-size: var(--dds-font-size-xs);
+}
+
+.md > .row {
+  min-height: 32px;
+  padding: var(--dds-space-1) var(--dds-space-2);
+  font-size: var(--dds-font-size-sm);
+}
+
+.selected > .row {
+  color: var(--dds-color-accent-foreground);
+  background-color: var(--dds-color-accent);
+}
+
+.focused > .row {
+  outline: 3px solid oklch(from var(--dds-color-focus-ring) l c h / 0.5);
+  outline-offset: 2px;
+}
+
+.itemDisabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.toggle {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--dds-icon-size-sm);
+  height: var(--dds-icon-size-sm);
+  color: var(--dds-color-text-muted);
+  transition: transform var(--dds-duration-fast) var(--dds-ease-standard);
+}
+
+.toggle :global(svg) {
+  width: 100%;
+  height: 100%;
+}
+
+.toggleOpen {
+  transform: rotate(90deg);
+}
+
+.toggleSpacer {
+  flex-shrink: 0;
+  width: var(--dds-icon-size-sm);
+}
+
+.label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--dds-color-text-default);
+  font-family: var(--dds-font-sans);
+  font-weight: var(--dds-font-weight-normal);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.selected > .row .label {
+  font-weight: var(--dds-font-weight-medium);
+}
+
+.startIcon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--dds-icon-size-sm);
+  height: var(--dds-icon-size-sm);
+  color: inherit;
+}
+
+.startIcon :global(svg) {
+  width: 100%;
+  height: 100%;
+}
+
+.endSlot {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  margin-left: auto;
+}
+
+.group {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

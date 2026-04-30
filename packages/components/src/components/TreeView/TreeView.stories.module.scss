@@ -1,0 +1,37 @@
+.storyA11yScope {
+  width: 100%;
+}
+
+.storyStack {
+  display: grid;
+  gap: var(--dds-space-6);
+}
+
+.storyColumn {
+  display: grid;
+  gap: var(--dds-space-3);
+}
+
+.storyFrame {
+  width: min(100%, 32rem);
+  padding: var(--dds-space-4);
+  background-color: var(--dds-color-bg-card);
+  border: 1px solid var(--dds-color-border-default);
+}
+
+.storyCaption {
+  color: var(--dds-color-text-muted);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-sm);
+}
+
+.countBadge {
+  min-width: var(--dds-space-6);
+  padding: 0 var(--dds-space-2);
+  color: var(--dds-color-text-default);
+  font-family: var(--dds-font-mono);
+  font-size: var(--dds-font-size-xs);
+  line-height: var(--dds-line-height-normal);
+  text-align: center;
+  background-color: var(--dds-color-bg-muted);
+}
