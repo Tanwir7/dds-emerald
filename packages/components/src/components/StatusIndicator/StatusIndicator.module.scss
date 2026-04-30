@@ -1,0 +1,108 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.root {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--dds-radius-none);
+}
+
+.dot {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--dds-radius-full);
+  background-color: currentColor;
+}
+
+.xs {
+  width: var(--dds-space-1-5);
+  height: var(--dds-space-1-5);
+}
+
+.sm {
+  width: var(--dds-space-2);
+  height: var(--dds-space-2);
+}
+
+.md {
+  width: var(--dds-space-2-5);
+  height: var(--dds-space-2-5);
+}
+
+.online {
+  color: var(--dds-color-status-success);
+}
+
+.offline {
+  color: var(--dds-color-text-muted);
+}
+
+.away {
+  color: var(--dds-color-status-warning);
+}
+
+.busy {
+  color: var(--dds-color-status-danger);
+}
+
+.pending {
+  color: var(--dds-color-status-warning);
+}
+
+.success {
+  color: var(--dds-color-status-success);
+}
+
+.warning {
+  color: var(--dds-color-status-warning);
+}
+
+.error {
+  color: var(--dds-color-status-danger);
+}
+
+.info {
+  color: var(--dds-color-status-info);
+}
+
+.neutral {
+  color: var(--dds-color-border-default);
+}
+
+.pulse {
+}
+
+.pulse .dot {
+  animation: indicatorPulse 2s ease-in-out infinite;
+}
+
+.srOnly {
+  @include visually-hidden;
+}
+
+@keyframes indicatorPulse {
+  0% {
+    box-shadow: 0 0 0 0 currentColor;
+    opacity: 1;
+  }
+
+  70% {
+    box-shadow: 0 0 0 calc(var(--dds-space-2-5) / 2) currentColor;
+    opacity: 0;
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 currentColor;
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse .dot {
+    animation: none;
+  }
+}

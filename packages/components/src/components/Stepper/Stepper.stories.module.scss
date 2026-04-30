@@ -1,0 +1,33 @@
+.storyA11yScope {
+  width: 100%;
+}
+
+.storyStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-6);
+}
+
+.storySection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-4);
+}
+
+.storyActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--dds-space-2);
+}
+
+.wizardForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-4);
+}
+
+.wizardField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-1);
+}

@@ -1,0 +1,33 @@
+.storyA11yScope {
+  width: 100%;
+}
+
+.storyRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--dds-space-3);
+}
+
+.storyStack {
+  display: grid;
+  gap: var(--dds-space-3);
+}
+
+.storyFrame {
+  width: min(100%, 24rem);
+}
+
+.storySidebar {
+  width: min(100%, 20rem);
+  padding: var(--dds-space-4);
+  background-color: var(--dds-color-bg-sidebar);
+}
+
+.storyTopNav {
+  display: flex;
+  gap: var(--dds-space-2);
+  width: min(100%, 36rem);
+  padding: var(--dds-space-3);
+  background-color: var(--dds-color-bg-card);
+  border: 1px solid var(--dds-color-border-default);
+}

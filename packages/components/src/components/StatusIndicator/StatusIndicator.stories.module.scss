@@ -1,0 +1,38 @@
+.storyA11yScope {
+  width: 100%;
+}
+
+.storyRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--dds-space-4);
+}
+
+.storyStack {
+  display: grid;
+  gap: var(--dds-space-4);
+}
+
+.storyLine {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dds-space-2);
+}
+
+.avatarWrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.avatarBadge {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  transform: translate(25%, 25%);
+}
+
+.healthGrid {
+  display: grid;
+  gap: var(--dds-space-3);
+}

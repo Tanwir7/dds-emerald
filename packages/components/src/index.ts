@@ -149,6 +149,8 @@ export type {
   ProgressRingSize,
   ProgressRingVariant,
 } from './components/ProgressRing';
+export { Stepper, Step } from './components/Stepper';
+export type { StepperProps, StepProps, StepStatus } from './components/Stepper';
 export { Rating } from './components/Rating';
 export type { RatingFill, RatingProps, RatingSize } from './components/Rating/Rating';
 export {
@@ -244,5 +246,9 @@ export type {
   FacetedFilterValue,
   FacetedFilterState,
 } from './components/FacetedFilter';
+export { NavItem } from './components/NavItem';
+export type { NavItemProps } from './components/NavItem';
+export { StatusIndicator } from './components/StatusIndicator';
+export type { StatusIndicatorProps, StatusIndicatorStatus } from './components/StatusIndicator';
 export { TreeView, TreeItem, TreeItemGroup } from './components/TreeView';
 export type { TreeViewProps, TreeItemProps, TreeItemGroupProps } from './components/TreeView';

@@ -44,6 +44,7 @@
 - KPICard highlighted variant MUST include the `h-4px w-full bg-[--dds-color-action-primary]` absolute top stripe
 - Focus ring is always outline-based: `outline: 3px solid oklch(from var(--dds-color-focus-ring) l c h / 0.5); outline-offset: 2px;`
 - NavItem minimum height is always 44px (Emerald navigation design constraint)
+- Exception: the standalone `NavItem` component implementation must follow `.ai/component_instructions/52-NavItem.md` for `sm` and `md` sizing, and any raw measurements in that spec must be mapped to the closest existing DDS tokens
 - `font-feature-settings: "cv02", "cv03", "cv04", "cv11"` must be set on body-level text
 - All numeric/tabular data uses `font-variant-numeric: tabular-nums`
 
