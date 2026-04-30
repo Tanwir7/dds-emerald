@@ -18,20 +18,29 @@ const componentDescription = `Stepper communicates sequence progress across comp
 - Designers: keep labels short, descriptions optional, and do not rely on color alone to explain progress or errors.
 - QA: verify connector count is always \`n - 1\`, active state uses \`aria-current="step"\`, and non-linear steps stay keyboard-operable.`;
 
-const renderDefaultSteps = () => (
-  <>
-    <Step label="Account" />
-    <Step label="Billing" />
-    <Step label="Review" />
-    <Step label="Complete" />
-  </>
-);
+const renderDefaultSteps = () => [
+  <Step key="account" label="Account" />,
+  <Step key="billing" label="Billing" />,
+  <Step key="review" label="Review" />,
+  <Step key="complete" label="Complete" />,
+];
 
-const StoryRender = (args: StepperProps) => (
-  <div className={storyStyles.storyA11yScope}>
-    <Stepper {...args}>{renderDefaultSteps()}</Stepper>
-  </div>
-);
+const StoryRender = ({ activeStep, orientation, size, nonLinear, className }: StepperProps) => {
+  const stepperProps: StepperProps = {
+    activeStep,
+    children: renderDefaultSteps(),
+    ...(orientation !== undefined ? { orientation } : {}),
+    ...(size !== undefined ? { size } : {}),
+    ...(nonLinear !== undefined ? { nonLinear } : {}),
+    ...(className !== undefined ? { className } : {}),
+  };
+
+  return (
+    <div className={storyStyles.storyA11yScope}>
+      <Stepper {...stepperProps} />
+    </div>
+  );
+};
 
 const meta: Meta<typeof Stepper> = {
   title: 'Core Components/Stepper',
@@ -129,9 +138,9 @@ const WizardExample = () => {
 };
 
 export const Horizontal: Story = {
-  render: (args) => (
+  render: () => (
     <div className={storyStyles.storyA11yScope}>
-      <Stepper {...args}>{renderDefaultSteps()}</Stepper>
+      <Stepper activeStep={1}>{renderDefaultSteps()}</Stepper>
     </div>
   ),
   parameters: storySourceParameters(
@@ -150,9 +159,11 @@ export const Vertical: Story = {
   args: {
     orientation: 'vertical',
   },
-  render: (args) => (
+  render: () => (
     <div className={storyStyles.storyA11yScope}>
-      <Stepper {...args}>{renderDefaultSteps()}</Stepper>
+      <Stepper activeStep={1} orientation="vertical">
+        {renderDefaultSteps()}
+      </Stepper>
     </div>
   ),
   parameters: storySourceParameters(

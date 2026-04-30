@@ -248,6 +248,8 @@ export type {
 } from './components/FacetedFilter';
 export { NavItem } from './components/NavItem';
 export type { NavItemProps } from './components/NavItem';
+export { Pagination } from './components/Pagination';
+export type { PaginationProps } from './components/Pagination';
 export { StatusIndicator } from './components/StatusIndicator';
 export type { StatusIndicatorProps, StatusIndicatorStatus } from './components/StatusIndicator';
 export { TreeView, TreeItem, TreeItemGroup } from './components/TreeView';
