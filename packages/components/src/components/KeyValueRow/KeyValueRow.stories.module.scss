@@ -1,0 +1,33 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.storyA11yScope {
+  width: 100%;
+}
+
+.storyPanel {
+  width: min(100%, 42rem);
+  padding: var(--dds-space-4);
+  background: var(--dds-color-bg-card);
+  border: 1px solid var(--dds-color-border-default);
+}
+
+.storyGrid {
+  display: grid;
+  gap: var(--dds-space-4);
+}
+
+.storyRow {
+  display: grid;
+  gap: var(--dds-space-4);
+
+  @include respond-to(sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.storyAvatarValue {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dds-space-2);
+}

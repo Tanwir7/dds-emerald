@@ -1,0 +1,28 @@
+.storyA11yScope {
+  display: inline-flex;
+  min-height: 12rem;
+}
+
+.triggerRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--dds-space-3);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-4);
+}
+
+.note {
+  color: var(--dds-color-text-muted);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-sm);
+  line-height: var(--dds-line-height-normal);
+}
+
+.longContent {
+  display: grid;
+  gap: var(--dds-space-4);
+}

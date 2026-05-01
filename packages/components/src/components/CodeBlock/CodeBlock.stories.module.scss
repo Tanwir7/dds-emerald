@@ -1,0 +1,37 @@
+.storyA11yScope {
+  width: 100%;
+}
+
+.storyPanel {
+  width: 100%;
+  max-width: 960px;
+}
+
+.storyDocsLayout {
+  display: grid;
+  gap: var(--dds-space-4);
+  max-width: 720px;
+}
+
+.storyHighlightedScope {
+  :global(.token.keyword) {
+    color: var(--dds-color-action-primary);
+  }
+
+  :global(.token.string) {
+    color: var(--dds-color-text-success);
+  }
+
+  :global(.token.function) {
+    color: var(--dds-color-text-default);
+    font-weight: var(--dds-font-weight-medium);
+  }
+
+  :global(.token.variable) {
+    color: var(--dds-color-text-warning);
+  }
+
+  :global(.token.punctuation) {
+    color: var(--dds-color-text-muted);
+  }
+}

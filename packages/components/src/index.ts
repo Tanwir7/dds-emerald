@@ -89,12 +89,29 @@ export type {
 } from './components/Avatar';
 export { AvatarGroup } from './components/AvatarGroup';
 export type { AvatarGroupProps } from './components/AvatarGroup';
+export { MediaObject } from './components/MediaObject';
+export type {
+  MediaObjectAlign,
+  MediaObjectGap,
+  MediaObjectPosition,
+  MediaObjectProps,
+  MediaObjectStackAt,
+} from './components/MediaObject';
 export { Image } from './components/Image';
 export type { ImageAspectRatio, ImageFit, ImageProps } from './components/Image';
 export { Code } from './components/Code';
 export type { CodeProps, CodeSize } from './components/Code';
+export { CodeBlock } from './components/CodeBlock';
+export type { CodeBlockProps } from './components/CodeBlock';
 export { Kbd } from './components/Kbd';
 export type { KbdProps, KbdSize } from './components/Kbd';
+export { KeyValueList, KeyValueRow } from './components/KeyValueRow';
+export type {
+  KeyValueListProps,
+  KeyValueRowLayout,
+  KeyValueRowProps,
+  KeyValueRowSize,
+} from './components/KeyValueRow';
 export { Label } from './components/Label';
 export type { LabelProps, LabelSize } from './components/Label';
 export { Input } from './components/Input';
@@ -124,6 +141,51 @@ export { Slider } from './components/Slider';
 export type { SliderOrientation, SliderProps, SliderSize } from './components/Slider';
 export { Field } from './components/Field';
 export type { FieldLayout, FieldProps } from './components/Field';
+export {
+  Dialog,
+  DialogTrigger,
+  DialogOverlay,
+  DialogContent,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+  DialogClose,
+  DialogTitle,
+  DialogDescription,
+} from './components/Dialog';
+export type {
+  DialogProps,
+  DialogTriggerProps,
+  DialogOverlayProps,
+  DialogContentProps,
+  DialogHeaderProps,
+  DialogBodyProps,
+  DialogFooterProps,
+  DialogCloseProps,
+  DialogSize,
+} from './components/Dialog';
+export {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogOverlay,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+} from './components/AlertDialog';
+export type {
+  AlertDialogProps,
+  AlertDialogTriggerProps,
+  AlertDialogOverlayProps,
+  AlertDialogContentProps,
+  AlertDialogHeaderProps,
+  AlertDialogBodyProps,
+  AlertDialogFooterProps,
+  AlertDialogVariant,
+  AlertDialogSize,
+} from './components/AlertDialog';
 export { CheckboxField } from './components/CheckboxField';
 export type { CheckboxFieldProps } from './components/CheckboxField';
 export { SwitchField } from './components/SwitchField';
@@ -143,6 +205,8 @@ export type {
   ProgressBarSize,
   ProgressBarVariant,
 } from './components/ProgressBar';
+export { FileItem } from './components/FileItem';
+export type { FileItemProps, FileItemStatus } from './components/FileItem';
 export { ProgressRing } from './components/ProgressRing';
 export type {
   ProgressRingProps,
@@ -252,5 +316,7 @@ export { Pagination } from './components/Pagination';
 export type { PaginationProps } from './components/Pagination';
 export { StatusIndicator } from './components/StatusIndicator';
 export type { StatusIndicatorProps, StatusIndicatorStatus } from './components/StatusIndicator';
+export { StatCard } from './components/StatCard';
+export type { StatCardDelta, StatCardProps } from './components/StatCard';
 export { TreeView, TreeItem, TreeItemGroup } from './components/TreeView';
 export type { TreeViewProps, TreeItemProps, TreeItemGroupProps } from './components/TreeView';

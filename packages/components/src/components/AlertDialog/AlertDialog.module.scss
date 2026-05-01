@@ -1,0 +1,64 @@
+.overlay {
+  composes: overlay from '../Dialog/Dialog.module.scss';
+}
+
+.content {
+  composes: content from '../Dialog/Dialog.module.scss';
+}
+
+.size-sm {
+  composes: size-sm from '../Dialog/Dialog.module.scss';
+}
+
+.size-md {
+  composes: size-md from '../Dialog/Dialog.module.scss';
+}
+
+.header {
+  composes: header from '../Dialog/Dialog.module.scss';
+  padding-right: var(--dds-space-6);
+}
+
+.title {
+  composes: title from '../Dialog/Dialog.module.scss';
+}
+
+.description {
+  composes: description from '../Dialog/Dialog.module.scss';
+}
+
+.body {
+  composes: body from '../Dialog/Dialog.module.scss';
+}
+
+.footer {
+  composes: footer from '../Dialog/Dialog.module.scss';
+}
+
+.footerAlign-start {
+  composes: footerAlign-start from '../Dialog/Dialog.module.scss';
+}
+
+.footerAlign-center {
+  composes: footerAlign-center from '../Dialog/Dialog.module.scss';
+}
+
+.footerAlign-end {
+  composes: footerAlign-end from '../Dialog/Dialog.module.scss';
+}
+
+.footerAlign-between {
+  composes: footerAlign-between from '../Dialog/Dialog.module.scss';
+}
+
+.variant-destructive {
+  border-left: 4px solid var(--dds-color-action-destructive);
+}
+
+.variant-warning {
+  border-left: 4px solid var(--dds-color-status-warning);
+}
+
+.variant-info {
+  border-left: 4px solid var(--dds-color-status-info);
+}

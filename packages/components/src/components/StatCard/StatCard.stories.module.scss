@@ -1,0 +1,15 @@
+.storyA11yScope {
+  display: block;
+}
+
+.storyGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--dds-space-6);
+}
+
+.storySurface {
+  padding: var(--dds-space-4);
+  background-color: var(--dds-color-bg-card);
+  border: 1px solid var(--dds-color-border-default);
+}
