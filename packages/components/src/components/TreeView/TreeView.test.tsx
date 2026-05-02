@@ -256,6 +256,17 @@ describe('TreeView', () => {
       expect(getTreeItem(/README\.md/i)).toHaveAttribute('aria-selected', 'true');
     });
 
+    it('clicking a nested leaf item selects it without selecting ancestor items', async () => {
+      const user = userEvent.setup();
+      renderTree({ defaultExpandedValues: ['src', 'components'] });
+
+      await user.click(getTreeItem(/Button\.tsx/i));
+
+      expect(getTreeItem(/Button\.tsx/i)).toHaveAttribute('aria-selected', 'true');
+      expect(getTreeItem(/^components$/i)).toHaveAttribute('aria-selected', 'false');
+      expect(getTreeItem(/^src$/i)).toHaveAttribute('aria-selected', 'false');
+    });
+
     it('clicking another item deselects previous', async () => {
       const user = userEvent.setup();
       renderTree();

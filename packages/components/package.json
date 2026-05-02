@@ -28,12 +28,12 @@
     "clean": "rm -rf dist"
   },
   "peerDependencies": {
+    "@dds/emerald-tokens": "^0.1.0",
     "lucide-react": "^1.7.0",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
   },
   "devDependencies": {
-    "@dds/emerald-tokens": "workspace:*",
     "@dds/eslint-config": "workspace:*",
     "@dds/typescript-config": "workspace:*",
     "@dds/vitest-config": "workspace:*",

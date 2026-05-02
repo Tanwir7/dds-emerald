@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect, userEvent, within } from 'storybook/test';
+import { expect, userEvent, waitFor, within } from 'storybook/test';
 import { storySource, storySourceParameters } from '../../utils/storySource';
 import { Button } from '../Button';
 import { Field } from '../Field';
@@ -435,7 +435,9 @@ export const OpenAndClose: Story = {
     await expect(sheet).toBeVisible();
     const closeButton = within(sheet).getByRole('button', { name: /close sheet/i });
     await userEvent.click(closeButton);
-    await expect(within(document.body).queryByRole('dialog')).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(within(document.body).queryByRole('dialog')).not.toBeInTheDocument();
+    });
   },
 };
 
@@ -447,7 +449,9 @@ export const EscapeClose: Story = {
     await userEvent.click(trigger);
     await expect(within(document.body).getByRole('dialog')).toBeVisible();
     await userEvent.keyboard('{Escape}');
-    await expect(within(document.body).queryByRole('dialog')).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(within(document.body).queryByRole('dialog')).not.toBeInTheDocument();
+    });
   },
 };
 

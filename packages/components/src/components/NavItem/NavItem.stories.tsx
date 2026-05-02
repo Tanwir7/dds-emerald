@@ -326,9 +326,21 @@ export const FocusAndActivate: Story = {
 };
 
 export const DisabledNotClickable: Story = {
+  render: (_args, { args }) => (
+    <div className={storyStyles.storyA11yScope}>
+      <div className={storyStyles.storyFrame}>
+        <NavItem
+          disabled
+          {...(args.onClick
+            ? { onClick: args.onClick as React.MouseEventHandler<HTMLButtonElement> }
+            : {})}
+        >
+          Disabled action
+        </NavItem>
+      </div>
+    </div>
+  ),
   args: {
-    children: 'Disabled action',
-    disabled: true,
     onClick: fn(),
   },
   play: async ({ canvasElement, args }) => {

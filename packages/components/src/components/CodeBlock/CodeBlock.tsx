@@ -36,6 +36,32 @@ type CodeBlockStyle = React.CSSProperties & {
 
 const getPlainTextFromHtml = (html: string) => html.replace(/<[^>]+>/g, '');
 
+const copyTextWithSelectionFallback = async (text: string) => {
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.setAttribute('readonly', 'true');
+  textarea.setAttribute('aria-hidden', 'true');
+  textarea.tabIndex = -1;
+  textarea.style.position = 'fixed';
+  textarea.style.top = '0';
+  textarea.style.left = '0';
+  textarea.style.opacity = '0';
+
+  document.body.appendChild(textarea);
+  textarea.select();
+  textarea.setSelectionRange(0, text.length);
+
+  try {
+    if (typeof document.execCommand !== 'function') {
+      return false;
+    }
+
+    return document.execCommand('copy');
+  } finally {
+    document.body.removeChild(textarea);
+  }
+};
+
 /**
  * Display-only block code container with optional language label, copy affordance,
  * line numbers, and scrollable overflow.
@@ -75,12 +101,25 @@ export const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
     const handleCopy = async () => {
       const codeToCopy = plainTextCode;
 
-      if (!navigator.clipboard?.writeText) {
-        return;
-      }
-
       try {
-        await navigator.clipboard.writeText(codeToCopy);
+        if (navigator.clipboard?.writeText) {
+          try {
+            await navigator.clipboard.writeText(codeToCopy);
+          } catch {
+            const didCopy = await copyTextWithSelectionFallback(codeToCopy);
+
+            if (!didCopy) {
+              return;
+            }
+          }
+        } else {
+          const didCopy = await copyTextWithSelectionFallback(codeToCopy);
+
+          if (!didCopy) {
+            return;
+          }
+        }
+
         setCopied(true);
         onCopy?.(codeToCopy);
 

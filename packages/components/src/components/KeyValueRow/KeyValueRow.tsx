@@ -19,6 +19,32 @@ const KeyValueContext = React.createContext<KeyValueContextValue>({
   size: 'md',
 });
 
+const copyTextWithSelectionFallback = async (text: string) => {
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.setAttribute('readonly', 'true');
+  textarea.setAttribute('aria-hidden', 'true');
+  textarea.tabIndex = -1;
+  textarea.style.position = 'fixed';
+  textarea.style.top = '0';
+  textarea.style.left = '0';
+  textarea.style.opacity = '0';
+
+  document.body.appendChild(textarea);
+  textarea.select();
+  textarea.setSelectionRange(0, text.length);
+
+  try {
+    if (typeof document.execCommand !== 'function') {
+      return false;
+    }
+
+    return document.execCommand('copy');
+  } finally {
+    document.body.removeChild(textarea);
+  }
+};
+
 export interface KeyValueRowProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
   'children' | 'onCopy'
@@ -124,12 +150,25 @@ export const KeyValueRow = React.forwardRef<HTMLDivElement, KeyValueRowProps>(
     const handleCopy = async () => {
       const text = valueContentRef.current?.textContent ?? '';
 
-      if (!navigator.clipboard?.writeText) {
-        return;
-      }
-
       try {
-        await navigator.clipboard.writeText(text);
+        if (navigator.clipboard?.writeText) {
+          try {
+            await navigator.clipboard.writeText(text);
+          } catch {
+            const didCopy = await copyTextWithSelectionFallback(text);
+
+            if (!didCopy) {
+              return;
+            }
+          }
+        } else {
+          const didCopy = await copyTextWithSelectionFallback(text);
+
+          if (!didCopy) {
+            return;
+          }
+        }
+
         setCopied(true);
         onCopy?.(text);
 

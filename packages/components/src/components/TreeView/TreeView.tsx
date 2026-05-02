@@ -579,7 +579,9 @@ export const TreeItem = React.forwardRef<HTMLLIElement, TreeItemProps>(
       assignRef(ref, node);
     };
 
-    const handleClick = () => {
+    const handleClick = (event: React.MouseEvent<HTMLLIElement>) => {
+      event.stopPropagation();
+
       if (disabled) {
         return;
       }

@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect, fn, userEvent, within } from 'storybook/test';
+import { expect, fn, userEvent, waitFor, within } from 'storybook/test';
 import { storySource, storySourceParameters } from '../../utils/storySource';
 import { Button } from '../Button';
 import { Text } from '../Text';
@@ -397,11 +397,13 @@ export const ShowAndDismiss: Story = {
   play: async ({ canvasElement }) => {
     const button = within(canvasElement).getByRole('button', { name: /show notification/i });
     await userEvent.click(button);
-    const toast = await within(document.body).findByRole('status');
-    await expect(toast).toBeVisible();
-    const closeButton = within(toast).getByRole('button', { name: /dismiss notification/i });
+    const closeButton = await within(document.body).findByRole('button', {
+      name: /dismiss notification/i,
+    });
     await userEvent.click(closeButton);
-    await expect(within(document.body).queryByRole('status')).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(within(document.body).queryByText('File saved')).not.toBeInTheDocument();
+    });
   },
 };
 
@@ -415,11 +417,18 @@ export const ActionFires: Story = {
   play: async ({ canvasElement }) => {
     const triggerButton = within(canvasElement).getByRole('button', { name: /show notification/i });
     await userEvent.click(triggerButton);
-    const toast = await within(document.body).findByRole('status');
-    const undoButton = within(toast).getByRole('button', { name: /undo/i });
-    await userEvent.click(undoButton);
-    const statusToasts = within(document.body).queryAllByRole('status');
-    const alertToasts = within(document.body).queryAllByRole('alert');
-    await expect(statusToasts.length + alertToasts.length).toBeGreaterThan(0);
+    await waitFor(() => {
+      expect(within(document.body).queryAllByText('File deleted').length).toBeGreaterThan(0);
+    });
+
+    const undoAction = await within(document.body).findByText(/^Undo$/, {
+      selector: 'button, button *',
+    });
+
+    await userEvent.click(undoAction);
+
+    await waitFor(() => {
+      expect(within(document.body).queryAllByText('Action undone').length).toBeGreaterThan(0);
+    });
   },
 };

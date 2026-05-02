@@ -65,3 +65,19 @@ Emerald is the DDS design system for building accessible, consistent product int
 ## Where To Start
 
 Start with `Foundations/Tokens` to understand the token model, then review `Foundations/Colors` and `Foundations/Typography`. For implementation examples, move into `Core Components` and inspect the component docs, controls, and source examples.
+
+## Installation
+
+Install both published packages:
+
+```bash
+pnpm add @dds/emerald @dds/emerald-tokens
+```
+
+Then import the Emerald stylesheet once at your app root:
+
+```tsx
+import '@dds/emerald/styles';
+```
+
+`@dds/emerald/styles` now provides Emerald base and component styles only. It expects `@dds/emerald-tokens` to be installed so its `styles` and `fonts` CSS entrypoints can resolve at consumer build time.

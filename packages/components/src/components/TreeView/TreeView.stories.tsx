@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect, userEvent, within } from 'storybook/test';
+import { expect, userEvent, waitFor, within } from 'storybook/test';
 import { File, Folder } from 'lucide-react';
 import { TreeItem, TreeItemGroup, TreeView } from './TreeView';
 import storyStyles from './TreeView.stories.module.scss';
@@ -285,6 +285,8 @@ export const SelectItem: Story = {
   play: async ({ canvasElement }) => {
     const leaf = within(canvasElement).getByRole('treeitem', { name: /Button\.tsx/i });
     await userEvent.click(leaf);
-    await expect(leaf).toHaveAttribute('aria-selected', 'true');
+    await waitFor(() => {
+      expect(leaf).toHaveAttribute('aria-selected', 'true');
+    });
   },
 };

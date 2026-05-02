@@ -3,11 +3,18 @@ import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
 import { resolve } from 'path';
 import { createRequire } from 'module';
+import { readFileSync, writeFileSync } from 'node:fs';
 
 const require = createRequire(import.meta.url);
 const reactRoot = resolve(require.resolve('react/package.json'), '..');
 const reactDomRoot = resolve(require.resolve('react-dom/package.json'), '..');
 const rolldownRegionCommentPattern = /^\/\/#(?:end)?region.*(?:\r?\n)?/gm;
+const tokenCssImports = ['@dds/emerald-tokens/fonts', '@dds/emerald-tokens/styles'];
+const baseStylesPath = resolve(__dirname, 'src/styles/base.css');
+const tokenImportPattern = new RegExp(
+  `^@import ['"](?:${tokenCssImports.map((entry) => entry.replace('/', '\\/')).join('|')})['"];\\s*`,
+  'gm'
+);
 
 export default defineConfig({
   resolve: {
@@ -43,6 +50,32 @@ export default defineConfig({
             output.code = output.code.replace(rolldownRegionCommentPattern, '');
           }
         }
+      },
+    },
+    {
+      name: 'preserve-token-css-package-imports',
+      apply: 'build',
+      enforce: 'pre',
+      transform(source, id) {
+        if (id !== baseStylesPath) {
+          return null;
+        }
+
+        return {
+          code: source.replace(tokenImportPattern, ''),
+          map: null,
+        };
+      },
+      writeBundle() {
+        const stylesPath = resolve(__dirname, 'dist/styles.css');
+        const styles = readFileSync(stylesPath, 'utf8');
+        const importBlock = `${tokenCssImports.map((entry) => `@import '${entry}';`).join('\n')}\n`;
+
+        if (styles.startsWith(importBlock)) {
+          return;
+        }
+
+        writeFileSync(stylesPath, `${importBlock}${styles}`);
       },
     },
   ],

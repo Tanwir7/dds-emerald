@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { CalendarDays, ChevronLeft, ChevronRight, Filter, Settings2 } from 'lucide-react';
-import { expect, userEvent, within } from 'storybook/test';
+import { expect, userEvent, waitFor, within } from 'storybook/test';
 import { Button } from '../Button';
 import { Field } from '../Field';
 import { Heading } from '../Heading';
@@ -462,7 +462,9 @@ export const OpenAndClose: Story = {
 
     await userEvent.keyboard('{Escape}');
     await expect(trigger).toHaveAttribute('aria-expanded', 'false');
-    await expect(trigger).toHaveFocus();
+    await waitFor(() => {
+      expect(trigger).toHaveFocus();
+    });
   },
   parameters: storySourceParameters(
     '<Popover><PopoverTrigger asChild><Button variant="secondary">Open</Button></PopoverTrigger><PopoverContent><Text as="p" size="sm">Popover content</Text></PopoverContent></Popover>'

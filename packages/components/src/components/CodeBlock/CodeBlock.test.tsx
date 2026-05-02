@@ -227,6 +227,33 @@ describe('CodeBlock', () => {
     expect(screen.getByRole('status')).toHaveTextContent('Code copied to clipboard');
   });
 
+  it('falls back to document.execCommand when clipboard writeText rejects', async () => {
+    const user = userEvent.setup();
+    Object.defineProperty(document, 'execCommand', {
+      configurable: true,
+      value: vi.fn(() => true),
+    });
+    const execCommand = vi.mocked(document.execCommand);
+
+    if (!globalThis.navigator.clipboard) {
+      Object.defineProperty(globalThis.navigator, 'clipboard', {
+        configurable: true,
+        value: {
+          writeText: vi.fn(),
+        },
+      });
+    }
+
+    vi.spyOn(globalThis.navigator.clipboard, 'writeText').mockRejectedValue(new Error('denied'));
+
+    render(<CodeBlock code={sampleCode} />);
+
+    await user.click(screen.getByRole('button', { name: /copy code/i }));
+
+    expect(execCommand).toHaveBeenCalledWith('copy');
+    expect(screen.getByText('Copied!')).toBeInTheDocument();
+  });
+
   it('live region is empty initially', () => {
     render(<CodeBlock code={sampleCode} />);
 

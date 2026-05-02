@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Copy, FolderOpen, Pencil, Trash2 } from 'lucide-react';
-import { expect, userEvent, within } from 'storybook/test';
+import { expect, fireEvent, userEvent, waitFor, within } from 'storybook/test';
 import { storySource, storySourceParameters } from '../../utils/storySource';
 import {
   ContextMenu,
@@ -378,12 +378,13 @@ export const OpenAndNavigate: Story = {
   ),
   play: async ({ canvasElement }) => {
     const triggerZone = within(canvasElement).getByText(/right-click here/i);
-    await userEvent.pointer([{ target: triggerZone, keys: '[MouseRight]' }]);
-    const menu = within(document.body).getByRole('menu');
-    await expect(menu).toBeVisible();
+    fireEvent.contextMenu(triggerZone, { clientX: 24, clientY: 24 });
+    await within(document.body).findByRole('menuitem', { name: 'Open' });
     await userEvent.keyboard('{ArrowDown}');
     await userEvent.keyboard('{Enter}');
-    await expect(within(document.body).queryByRole('menu')).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(within(document.body).queryByRole('menu')).not.toBeInTheDocument();
+    });
   },
   parameters: storySourceParameters(
     '<ContextMenu><ContextMenuTrigger><div>Right-click here</div></ContextMenuTrigger><ContextMenuContent><ContextMenuItem>Open</ContextMenuItem></ContextMenuContent></ContextMenu>'
@@ -405,10 +406,12 @@ export const EscapeCloses: Story = {
   ),
   play: async ({ canvasElement }) => {
     const triggerZone = within(canvasElement).getByText(/right-click here/i);
-    await userEvent.pointer([{ target: triggerZone, keys: '[MouseRight]' }]);
-    await expect(within(document.body).getByRole('menu')).toBeVisible();
+    fireEvent.contextMenu(triggerZone, { clientX: 24, clientY: 24 });
+    await within(document.body).findByRole('menuitem', { name: 'Open' });
     await userEvent.keyboard('{Escape}');
-    await expect(within(document.body).queryByRole('menu')).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(within(document.body).queryByRole('menu')).not.toBeInTheDocument();
+    });
   },
   parameters: storySourceParameters(
     '<ContextMenu><ContextMenuTrigger><div>Right-click here</div></ContextMenuTrigger><ContextMenuContent><ContextMenuItem>Open</ContextMenuItem></ContextMenuContent></ContextMenu>'

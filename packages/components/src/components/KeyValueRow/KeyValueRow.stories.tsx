@@ -192,6 +192,15 @@ export const CopyValue: Story = {
     )
   ),
   play: async ({ canvasElement }) => {
+    const existingClipboard = globalThis.navigator.clipboard ?? {};
+
+    Object.defineProperty(globalThis.navigator, 'clipboard', {
+      configurable: true,
+      value: {
+        ...existingClipboard,
+        writeText: async () => undefined,
+      },
+    });
     const copyBtn = within(canvasElement).getByRole('button', { name: /copy/i });
     await userEvent.click(copyBtn);
     const liveRegion = within(canvasElement).getByRole('status');

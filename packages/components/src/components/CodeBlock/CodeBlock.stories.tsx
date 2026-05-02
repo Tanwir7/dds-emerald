@@ -1,6 +1,6 @@
 import type { ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect, userEvent, within } from 'storybook/test';
+import { expect, userEvent, waitFor, within } from 'storybook/test';
 import { CodeBlock } from './CodeBlock';
 import storyStyles from './CodeBlock.stories.module.scss';
 import { Heading } from '../Heading';
@@ -116,11 +116,11 @@ export const WithLineNumbers: Story = {
 
 export const BashSnippet: Story = {
   args: {
-    code: 'pnpm add @dds/emerald',
+    code: 'pnpm add @dds/emerald @dds/emerald-tokens',
     language: 'bash',
   },
   parameters: storySourceParameters(
-    storySource('<CodeBlock code="pnpm add @dds/emerald" language="bash" />')
+    storySource('<CodeBlock code="pnpm add @dds/emerald @dds/emerald-tokens" language="bash" />')
   ),
 };
 
@@ -212,9 +212,19 @@ export const CopyCode: Story = {
     storySource('<CodeBlock code={snippet} language="typescript" />')
   ),
   play: async ({ canvasElement }) => {
+    const existingClipboard = globalThis.navigator.clipboard ?? {};
+
+    Object.defineProperty(globalThis.navigator, 'clipboard', {
+      configurable: true,
+      value: {
+        ...existingClipboard,
+        writeText: async () => undefined,
+      },
+    });
     const copyBtn = within(canvasElement).getByRole('button', { name: /copy code/i });
     await userEvent.click(copyBtn);
-    const liveRegion = within(canvasElement).getByRole('status');
-    await expect(liveRegion).toHaveTextContent(/copied/i);
+    await waitFor(() => {
+      expect(within(canvasElement).getByText('Copied!')).toBeInTheDocument();
+    });
   },
 };

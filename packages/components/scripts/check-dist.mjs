@@ -67,9 +67,34 @@ if (!existsSync(stylesPath)) {
 }
 
 const styles = readFileSync(stylesPath, 'utf8');
+const expectedTokenImports = ["@import '@dds/emerald-tokens/fonts';", "@import '@dds/emerald-tokens/styles';"];
 
 if (styles.includes('dds-story')) {
   fail('dist hygiene check failed: Storybook CSS selectors were emitted in dist/styles.css.');
+}
+
+const missingTokenImports = expectedTokenImports.filter((cssImport) => !styles.includes(cssImport));
+
+if (missingTokenImports.length > 0) {
+  fail(
+    'dist hygiene check failed: dist/styles.css must preserve external token package imports.',
+    missingTokenImports
+  );
+}
+
+const inlinedTokenMarkers = [
+  '--dds-emerald-50:',
+  '--dds-color-bg-default:',
+  'fonts.googleapis.com/css2?family=Barlow+Condensed',
+];
+
+const emittedTokenMarkers = inlinedTokenMarkers.filter((marker) => styles.includes(marker));
+
+if (emittedTokenMarkers.length > 0) {
+  fail(
+    'dist hygiene check failed: dist/styles.css must not inline token variables or font CSS.',
+    emittedTokenMarkers
+  );
 }
 
 const declarationFiles = files.filter((filePath) => filePath.endsWith('.d.ts'));

@@ -358,6 +358,31 @@ describe('KeyValueRow', () => {
     expect(screen.getByRole('status')).toHaveTextContent('Copied!');
   });
 
+  it('falls back to document.execCommand when clipboard API is unavailable', async () => {
+    const user = userEvent.setup();
+    Object.defineProperty(document, 'execCommand', {
+      configurable: true,
+      value: vi.fn(() => true),
+    });
+    const execCommand = vi.mocked(document.execCommand);
+
+    Object.defineProperty(globalThis.navigator, 'clipboard', {
+      configurable: true,
+      value: undefined,
+    });
+
+    renderStandaloneRow(
+      <KeyValueRow label="Email" copyable>
+        ada@example.com
+      </KeyValueRow>
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Copy Email' }));
+
+    expect(execCommand).toHaveBeenCalledWith('copy');
+    expect(screen.getByRole('status')).toHaveTextContent('Copied!');
+  });
+
   it('copy button receives Tab focus when copyable is true', async () => {
     const user = userEvent.setup();
 

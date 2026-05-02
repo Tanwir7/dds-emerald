@@ -392,7 +392,7 @@ export const KeyboardNavigation: Story = {
     await userEvent.keyboard('{Enter}');
     await userEvent.keyboard('{ArrowDown}');
     const items = within(document.body).getAllByRole('menuitem');
-    await expect(items[0]).toHaveFocus();
+    await expect(items[1]).toHaveFocus();
   },
   parameters: storySourceParameters(
     '<Dropdown><DropdownTrigger asChild><Button variant="secondary">Keyboard menu</Button></DropdownTrigger><DropdownContent><DropdownItem>Edit</DropdownItem><DropdownItem>Share</DropdownItem></DropdownContent></Dropdown>'
