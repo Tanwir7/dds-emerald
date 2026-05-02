@@ -118,6 +118,27 @@ export type {
   CardTitleProps,
   CardDescriptionProps,
 } from './components/Card/Card';
+export {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFoot,
+  TableHead,
+  TableHeader,
+  TableRow,
+  TableScrollWrapper,
+} from './components/Table';
+export type {
+  TableCaptionProps,
+  TableCellProps,
+  TableDensity,
+  TableHeaderProps,
+  TableLayout,
+  TableProps,
+  TableRowProps,
+  TableScrollWrapperProps,
+} from './components/Table';
 export { Code } from './components/Code';
 export type { CodeProps, CodeSize } from './components/Code';
 export { CodeBlock } from './components/CodeBlock';

@@ -1,0 +1,47 @@
+.storyA11yScope {
+  width: 100%;
+}
+
+.storyStack {
+  display: grid;
+  gap: var(--dds-space-6);
+}
+
+.storyGrid {
+  display: grid;
+  gap: var(--dds-space-6);
+}
+
+.stickyWrapper {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.responsiveWrapper {
+  max-width: 100%;
+}
+
+.richCell {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dds-space-3);
+}
+
+.richMeta {
+  display: grid;
+  gap: var(--dds-space-1);
+}
+
+.richName {
+  font-weight: var(--dds-font-weight-semibold);
+}
+
+.richSubtle {
+  color: var(--dds-color-text-muted);
+}
+
+@media (min-width: 960px) {
+  .storyGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
