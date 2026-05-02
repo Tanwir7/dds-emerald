@@ -1,0 +1,201 @@
+@use '../../styles/mixins' as *;
+
+.trigger {
+}
+
+.content {
+  min-width: 200px;
+  max-width: min(320px, calc(100vw - (var(--dds-space-4) * 2)));
+  max-height: min(320px, var(--radix-context-menu-content-available-height, 320px));
+  padding: var(--dds-space-1) 0;
+  color: var(--dds-color-text-default);
+  background-color: var(--dds-color-bg-popover);
+  border: 1px solid var(--dds-color-border-default);
+  border-radius: var(--dds-radius-none);
+  box-shadow: var(--dds-shadow-sm);
+  outline: none;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  transform-origin: var(--radix-context-menu-content-transform-origin);
+  z-index: 60;
+
+  &[data-state='open'] {
+    animation: contentIn var(--dds-duration-fast) var(--dds-ease-out);
+  }
+
+  &[data-state='closed'] {
+    animation: contentOut var(--dds-duration-fast) var(--dds-ease-standard);
+  }
+}
+
+@keyframes contentIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes contentOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .content[data-state='open'],
+  .content[data-state='closed'] {
+    animation: none;
+  }
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--dds-space-2);
+  min-height: 32px;
+  padding: var(--dds-space-1-5) var(--dds-space-3);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-sm);
+  line-height: var(--dds-line-height-snug);
+  color: var(--dds-color-text-default);
+  cursor: default;
+  user-select: none;
+  outline: none;
+  border-radius: var(--dds-radius-none);
+
+  &[data-highlighted] {
+    background-color: var(--dds-color-action-ghost-hover);
+    color: var(--dds-color-text-default);
+  }
+
+  &[data-disabled] {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+}
+
+.itemDestructive {
+  color: var(--dds-color-text-danger);
+
+  &[data-highlighted] {
+    background-color: oklch(from var(--dds-color-action-destructive) l c h / 0.08);
+    color: var(--dds-color-action-destructive);
+  }
+}
+
+.itemInset {
+  padding-left: calc(var(--dds-space-3) + var(--dds-icon-size-md) + var(--dds-space-2));
+}
+
+.itemCheckbox,
+.itemRadio {
+  padding-left: var(--dds-space-1-5);
+}
+
+.itemIcon {
+  @include icon-size(md);
+
+  flex-shrink: 0;
+  color: var(--dds-color-text-muted);
+
+  .item[data-highlighted] & {
+    color: var(--dds-color-text-default);
+  }
+
+  .itemDestructive[data-highlighted] & {
+    color: var(--dds-color-action-destructive);
+  }
+}
+
+.itemLabel {
+  @include truncate;
+
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.itemIndicatorSlot {
+  @include icon-size(md);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.indicatorIcon {
+  @include icon-size(md);
+
+  color: var(--dds-color-action-primary);
+}
+
+.radioDot {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: var(--dds-radius-full);
+  background-color: var(--dds-color-action-primary);
+}
+
+.shortcut {
+  @include tabular;
+
+  margin-left: auto;
+  flex-shrink: 0;
+  font-family: var(--dds-font-mono);
+  font-size: var(--dds-font-size-xs);
+  color: var(--dds-color-text-muted);
+  letter-spacing: var(--dds-tracking-wide);
+  white-space: nowrap;
+
+  .item[data-highlighted] & {
+    color: var(--dds-color-text-muted);
+  }
+}
+
+.subTrigger {
+  &[data-state='open'] {
+    background-color: var(--dds-color-action-ghost-hover);
+  }
+}
+
+.subTriggerChevron {
+  @include icon-size(md);
+
+  margin-left: auto;
+  color: var(--dds-color-text-muted);
+  flex-shrink: 0;
+}
+
+.separator {
+  height: 1px;
+  margin: var(--dds-space-1) 0;
+  background-color: var(--dds-color-border-default);
+}
+
+.label {
+  padding: var(--dds-space-1-5) var(--dds-space-3);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-xs);
+  font-weight: var(--dds-font-weight-semibold);
+  color: var(--dds-color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: var(--dds-tracking-wider);
+  user-select: none;
+}
+
+.labelInset {
+  padding-left: calc(var(--dds-space-3) + var(--dds-icon-size-md) + var(--dds-space-2));
+}

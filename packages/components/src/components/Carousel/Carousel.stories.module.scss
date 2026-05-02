@@ -1,0 +1,61 @@
+.storyA11yScope {
+  width: 100%;
+}
+
+.storyStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-4);
+}
+
+.controlsRow {
+  align-items: center;
+  display: flex;
+  gap: var(--dds-space-3);
+  justify-content: space-between;
+}
+
+.controlsCluster {
+  align-items: center;
+  display: flex;
+  gap: var(--dds-space-2);
+}
+
+.slideCard {
+  background-color: var(--dds-color-bg-card);
+  border: 1px solid var(--dds-color-border-default);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-3);
+  min-height: 16rem;
+  padding: var(--dds-space-6);
+}
+
+.eyebrow {
+  color: var(--dds-color-text-muted);
+  font-family: var(--dds-font-mono);
+  font-size: var(--dds-font-size-xs);
+  font-variant-numeric: tabular-nums;
+  margin: 0;
+}
+
+.title {
+  color: var(--dds-color-text-default);
+  font-family: var(--dds-font-display);
+  font-size: var(--dds-font-size-4xl);
+  line-height: var(--dds-line-height-tight);
+  margin: 0;
+}
+
+.body {
+  color: var(--dds-color-text-default);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-base);
+  line-height: var(--dds-line-height-relaxed);
+  margin: 0;
+}
+
+.pauseButton {
+  align-self: flex-start;
+}

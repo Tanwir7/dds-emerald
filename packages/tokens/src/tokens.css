@@ -99,6 +99,7 @@
      ============================================================ */
   --dds-shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.025);
   --dds-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --dds-shadow-md: 0 4px 12px 0 rgb(0 0 0 / 0.1);
 
   /* ============================================================
      TIER 1 — MOTION
@@ -250,6 +251,8 @@
    ============================================================ */
 
 [data-theme='dark'] {
+  --dds-shadow-md: 0 4px 12px 0 rgb(0 0 0 / 0.35);
+
   /* --- Backgrounds & Surfaces ---
      bg-default: black (Y=0) — maximum contrast headroom in dark mode.
      Cards: emerald-950 (Y≈0.003) — visually distinct from black.
@@ -383,6 +386,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
+    --dds-shadow-md: 0 4px 12px 0 rgb(0 0 0 / 0.35);
+
     --dds-color-bg-default: black;
     --dds-color-bg-subtle: var(--dds-silver-900);
     --dds-color-bg-card: var(--dds-emerald-950);

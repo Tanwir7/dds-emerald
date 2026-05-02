@@ -1,0 +1,87 @@
+@use '../../styles/mixins' as *;
+
+.carousel {
+  position: relative;
+  width: 100%;
+}
+
+.content {
+  display: flex;
+  gap: var(--dds-carousel-gap, var(--dds-space-4));
+  overflow-x: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overscroll-behavior-x: contain;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
+}
+
+.slide {
+  flex: 0 0
+    calc(
+      (
+          100% -
+            (
+              var(--dds-carousel-gap, var(--dds-space-4)) *
+                (var(--dds-carousel-slides-per-view, 1) - 1)
+            )
+        ) /
+        var(--dds-carousel-slides-per-view, 1)
+    );
+  min-width: 0;
+  outline: none;
+  scroll-snap-align: start;
+}
+
+.prevButton,
+.nextButton {
+  flex-shrink: 0;
+}
+
+.dots {
+  align-items: center;
+  display: flex;
+  gap: var(--dds-space-2);
+  justify-content: center;
+  padding-top: var(--dds-space-3);
+}
+
+.dot {
+  background-color: var(--dds-color-border-default);
+  border: none;
+  border-radius: var(--dds-radius-full);
+  cursor: pointer;
+  display: block;
+  height: var(--dds-space-2);
+  padding: 0;
+  transition:
+    background-color var(--dds-duration-fast) var(--dds-ease-standard),
+    width var(--dds-duration-fast) var(--dds-ease-standard);
+  width: var(--dds-space-2);
+
+  &:focus-visible {
+    outline: 3px solid oklch(from var(--dds-color-focus-ring) l c h / 0.5);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.dotActive {
+  background-color: var(--dds-color-action-primary);
+  width: var(--dds-space-5);
+}
+
+.liveRegion {
+  @include visually-hidden;
+}

@@ -1,0 +1,212 @@
+@use '../../styles/mixins' as *;
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.layout-default .item {
+  display: grid;
+  grid-template-columns: var(--dds-space-8) minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  column-gap: var(--dds-space-3);
+}
+
+.layout-alternate .item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--dds-space-8) minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  column-gap: var(--dds-space-4);
+}
+
+.item {
+  min-height: var(--dds-space-12);
+  position: relative;
+}
+
+.status-completed {
+}
+
+.status-active {
+}
+
+.status-pending {
+}
+
+.status-error {
+}
+
+.itemAlternate {
+}
+
+.node {
+  align-items: flex-start;
+  display: flex;
+  grid-column: 1;
+  grid-row: 1;
+  justify-content: center;
+  inline-size: var(--dds-space-8);
+  padding-top: var(--dds-space-0-5);
+  position: relative;
+  z-index: 1;
+}
+
+.layout-alternate .node {
+  grid-column: 2;
+}
+
+.node-completed {
+}
+
+.node-active {
+}
+
+.node-pending {
+}
+
+.node-error {
+}
+
+.dot {
+  align-items: center;
+  border-radius: var(--dds-radius-full);
+  display: flex;
+  flex-shrink: 0;
+  height: var(--dds-space-3);
+  justify-content: center;
+  width: var(--dds-space-3);
+}
+
+.dotErrorGlyph {
+  color: inherit;
+  font-family: var(--dds-font-sans);
+  font-size: 0.625rem;
+  font-weight: var(--dds-font-weight-bold);
+  line-height: 1;
+  transform: translateY(-0.5px);
+}
+
+.dot-completed {
+  background-color: var(--dds-color-status-success);
+}
+
+.dot-active {
+  animation: activePulse 2s ease-in-out infinite;
+  background-color: var(--dds-color-action-primary);
+}
+
+.dot-pending {
+  background-color: transparent;
+  border: var(--dds-space-0-5) solid var(--dds-color-border-default);
+}
+
+.dot-error {
+  background-color: var(--dds-color-status-danger);
+  color: var(--dds-color-status-danger-foreground);
+}
+
+.connector {
+  align-self: stretch;
+  border-radius: var(--dds-radius-full);
+  grid-column: 1;
+  grid-row: 2;
+  justify-self: center;
+  margin-top: var(--dds-space-1);
+  min-height: var(--dds-space-4);
+  width: var(--dds-space-0-5);
+}
+
+.layout-alternate .connector {
+  grid-column: 2;
+}
+
+.itemLast .connector {
+  display: none;
+}
+
+.connector-completed {
+  background-color: var(--dds-color-status-success);
+}
+
+.connector-active,
+.connector-pending,
+.connector-error {
+  background-color: var(--dds-color-border-default);
+}
+
+.content {
+  align-self: start;
+  grid-column: 2;
+  grid-row: 1 / -1;
+  min-width: 0;
+  padding-bottom: var(--dds-space-6);
+}
+
+.layout-alternate .item:nth-child(odd) .content {
+  grid-column: 1;
+  text-align: right;
+}
+
+.layout-alternate .item:nth-child(even) .content {
+  grid-column: 3;
+  text-align: left;
+}
+
+.itemLast .content {
+  padding-bottom: 0;
+}
+
+.title {
+  color: var(--dds-color-text-default);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-sm);
+  font-weight: var(--dds-font-weight-semibold);
+  line-height: var(--dds-line-height-snug);
+  margin: 0;
+}
+
+.status-active .title {
+  color: var(--dds-color-action-primary);
+}
+
+.description {
+  color: var(--dds-color-text-muted);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-sm);
+  line-height: var(--dds-line-height-normal);
+  margin: var(--dds-space-1) 0 0;
+}
+
+.timestamp {
+  color: var(--dds-color-text-muted);
+  display: block;
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-xs);
+  line-height: var(--dds-line-height-snug);
+  margin-bottom: var(--dds-space-0-5);
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes activePulse {
+  0% {
+    box-shadow: 0 0 0 0 oklch(from var(--dds-color-action-primary) l c h / 0.4);
+  }
+
+  70% {
+    box-shadow: 0 0 0 var(--dds-space-1-5) oklch(from var(--dds-color-action-primary) l c h / 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 oklch(from var(--dds-color-action-primary) l c h / 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot-active {
+    animation: none;
+    box-shadow: 0 0 0 var(--dds-space-1) oklch(from var(--dds-color-action-primary) l c h / 0.25);
+  }
+}

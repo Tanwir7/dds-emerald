@@ -1,0 +1,197 @@
+@use '../../styles/mixins' as *;
+
+.content {
+  z-index: 50;
+  min-width: 240px;
+  max-width: 360px;
+  padding: var(--dds-space-4);
+  background-color: var(--dds-color-bg-popover);
+  border: 1px solid var(--dds-color-border-default);
+  border-radius: var(--dds-radius-none);
+  box-shadow: var(--dds-shadow-sm);
+  color: var(--dds-color-text-default);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-sm);
+  line-height: var(--dds-line-height-normal);
+  outline: none;
+
+  &[data-state='open'] {
+    animation: hoverCardIn var(--dds-duration-fast) var(--dds-ease-out);
+  }
+
+  &[data-state='closed'] {
+    animation: hoverCardOut var(--dds-duration-fast) var(--dds-ease-standard);
+  }
+}
+
+.content[data-side='top'] {
+  &[data-state='open'] {
+    animation-name: slideInFromBottom;
+  }
+
+  &[data-state='closed'] {
+    animation-name: slideOutToBottom;
+  }
+}
+
+.content[data-side='bottom'] {
+  &[data-state='open'] {
+    animation-name: slideInFromTop;
+  }
+
+  &[data-state='closed'] {
+    animation-name: slideOutToTop;
+  }
+}
+
+.content[data-side='left'] {
+  &[data-state='open'] {
+    animation-name: slideInFromRight;
+  }
+
+  &[data-state='closed'] {
+    animation-name: slideOutToRight;
+  }
+}
+
+.content[data-side='right'] {
+  &[data-state='open'] {
+    animation-name: slideInFromLeft;
+  }
+
+  &[data-state='closed'] {
+    animation-name: slideOutToLeft;
+  }
+}
+
+.arrow {
+  fill: var(--dds-color-bg-popover);
+  stroke: var(--dds-color-border-default);
+}
+
+@keyframes hoverCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hoverCardOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOutToTop {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes slideInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOutToBottom {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutToLeft {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutToRight {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .content[data-state='open'],
+  .content[data-state='closed'] {
+    animation: none;
+  }
+}

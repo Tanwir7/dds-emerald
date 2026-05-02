@@ -1,54 +1,58 @@
+@use '../../styles/dialog-surface' as dialog-surface;
+
 .overlay {
-  composes: overlay from '../Dialog/Dialog.module.scss';
+  @include dialog-surface.overlay;
 }
+
+@include dialog-surface.overlay-keyframes;
 
 .content {
-  composes: content from '../Dialog/Dialog.module.scss';
+  @include dialog-surface.content;
 }
 
+@include dialog-surface.content-keyframes;
+
 .size-sm {
-  composes: size-sm from '../Dialog/Dialog.module.scss';
 }
 
 .size-md {
-  composes: size-md from '../Dialog/Dialog.module.scss';
 }
 
 .header {
-  composes: header from '../Dialog/Dialog.module.scss';
+  @include dialog-surface.header($with-close-offset: false);
   padding-right: var(--dds-space-6);
 }
 
 .title {
-  composes: title from '../Dialog/Dialog.module.scss';
+  @include dialog-surface.title;
 }
 
 .description {
-  composes: description from '../Dialog/Dialog.module.scss';
+  @include dialog-surface.description;
 }
 
 .body {
-  composes: body from '../Dialog/Dialog.module.scss';
+  @include dialog-surface.body;
 }
 
 .footer {
-  composes: footer from '../Dialog/Dialog.module.scss';
+  @include dialog-surface.footer;
 }
 
 .footerAlign-start {
-  composes: footerAlign-start from '../Dialog/Dialog.module.scss';
+  @include dialog-surface.footer-align-start;
 }
 
 .footerAlign-center {
-  composes: footerAlign-center from '../Dialog/Dialog.module.scss';
+  @include dialog-surface.footer-align-center;
 }
 
 .footerAlign-end {
-  composes: footerAlign-end from '../Dialog/Dialog.module.scss';
+  @include dialog-surface.footer-align-end;
 }
 
 .footerAlign-between {
-  composes: footerAlign-between from '../Dialog/Dialog.module.scss';
+  @include dialog-surface.footer-align-between;
 }
 
 .variant-destructive {

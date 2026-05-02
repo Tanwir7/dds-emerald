@@ -1,0 +1,23 @@
+.storyA11yScope {
+  min-height: 360px;
+  padding: var(--dds-space-6);
+}
+
+.storyTriggerZone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  width: min(100%, 420px);
+  padding: var(--dds-space-4);
+  border: 1px solid var(--dds-color-border-default);
+  background-color: var(--dds-color-bg-subtle);
+  color: var(--dds-color-text-default);
+  font-family: var(--dds-font-sans);
+  text-align: center;
+  cursor: context-menu;
+}
+
+.storyTriggerZoneTall {
+  min-height: 80px;
+}

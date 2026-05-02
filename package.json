@@ -8,6 +8,7 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "test": "turbo run test",
+    "test:storybook": "pnpm --dir apps/docs test",
     "typecheck": "turbo run typecheck",
     "clean": "turbo run clean",
     "docs:generate-colors": "pnpm --dir apps/docs generate:colors",
@@ -46,6 +47,10 @@
   "engines": {
     "node": ">=20",
     "pnpm": ">=9"
+  },
+  "volta": {
+    "node": "22.22.0",
+    "pnpm": "10.33.0"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

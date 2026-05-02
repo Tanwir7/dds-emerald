@@ -61,6 +61,9 @@
 - Tests must be written BEFORE implementation (TDD)
 - Every test file MUST include the axe a11y check
 - Coverage threshold: 80% lines/functions/branches — CI will fail below this
+- For Storybook browser tests that use Chromium/Playwright, always run them through the root script `pnpm run test:storybook`
+- This applies even when testing a single component or passing through narrower runner flags; keep the command prefix stable and add extra args after `--`
+- Do not invoke browser tests via ad hoc `node -e`, direct `playwright` commands, or `pnpm --dir apps/docs test` when `pnpm run test:storybook` can be used instead
 
 ### Tokens
 

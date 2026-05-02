@@ -99,6 +99,25 @@ export type {
 } from './components/MediaObject';
 export { Image } from './components/Image';
 export type { ImageAspectRatio, ImageFit, ImageProps } from './components/Image';
+export {
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  CardMedia,
+  CardTitle,
+  CardDescription,
+} from './components/Card';
+export type {
+  CardProps,
+  CardVariant,
+  CardHeaderProps,
+  CardBodyProps,
+  CardFooterProps,
+  CardMediaProps,
+  CardTitleProps,
+  CardDescriptionProps,
+} from './components/Card/Card';
 export { Code } from './components/Code';
 export type { CodeProps, CodeSize } from './components/Code';
 export { CodeBlock } from './components/CodeBlock';
@@ -165,6 +184,27 @@ export type {
   DialogSize,
 } from './components/Dialog';
 export {
+  Sheet,
+  SheetTrigger,
+  SheetOverlay,
+  SheetContent,
+  SheetHeader,
+  SheetBody,
+  SheetFooter,
+  SheetClose,
+  SheetTitle,
+  SheetDescription,
+} from './components/Sheet';
+export type {
+  SheetProps,
+  SheetContentProps,
+  SheetHeaderProps,
+  SheetBodyProps,
+  SheetFooterProps,
+  SheetSide,
+  SheetSize,
+} from './components/Sheet';
+export {
   AlertDialog,
   AlertDialogTrigger,
   AlertDialogOverlay,
@@ -196,6 +236,17 @@ export { Alert } from './components/Alert';
 export type { AlertProps } from './components/Alert';
 export { InlineAlert } from './components/InlineAlert';
 export type { InlineAlertIntent, InlineAlertProps } from './components/InlineAlert';
+export {
+  ToastProvider,
+  ToastViewport,
+  Toast,
+  ToastTitle,
+  ToastDescription,
+  ToastClose,
+  ToastAction,
+  useToast,
+} from './components/Toast';
+export type { ToastActionProps, ToastProps, ToastVariant } from './components/Toast';
 export type { FieldInlineAlert } from './types/fieldInlineAlert';
 export { Skeleton } from './components/Skeleton';
 export type { SkeletonProps, SkeletonVariant } from './components/Skeleton';
@@ -215,6 +266,27 @@ export type {
 } from './components/ProgressRing';
 export { Stepper, Step } from './components/Stepper';
 export type { StepperProps, StepProps, StepStatus } from './components/Stepper';
+export {
+  Timeline,
+  TimelineItem,
+  TimelineNode,
+  TimelineContent,
+  TimelineTitle,
+  TimelineDescription,
+  TimelineTimestamp,
+  TimelineConnector,
+} from './components/Timeline';
+export type {
+  TimelineProps,
+  TimelineItemProps,
+  TimelineNodeProps,
+  TimelineContentProps,
+  TimelineTitleProps,
+  TimelineDescriptionProps,
+  TimelineTimestampProps,
+  TimelineLayout,
+  TimelineStatus,
+} from './components/Timeline';
 export { Rating } from './components/Rating';
 export type { RatingFill, RatingProps, RatingSize } from './components/Rating/Rating';
 export {
@@ -302,6 +374,42 @@ export {
   PopoverAnchor,
 } from './components/Popover';
 export type { PopoverProps, PopoverContentProps } from './components/Popover';
+export {
+  HoverCard,
+  HoverCardTrigger,
+  HoverCardContent,
+  HoverCardArrow,
+} from './components/HoverCard';
+export type { HoverCardProps, HoverCardContentProps } from './components/HoverCard';
+export {
+  ContextMenu,
+  ContextMenuTrigger,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuCheckboxItem,
+  ContextMenuRadioGroup,
+  ContextMenuRadioItem,
+  ContextMenuSeparator,
+  ContextMenuLabel,
+  ContextMenuSub,
+  ContextMenuSubTrigger,
+  ContextMenuSubContent,
+  ContextMenuShortcut,
+  ContextMenuItemIndicator,
+} from './components/ContextMenu';
+export type {
+  ContextMenuProps,
+  ContextMenuContentProps,
+  ContextMenuItemProps,
+  ContextMenuCheckboxItemProps,
+  ContextMenuRadioGroupProps,
+  ContextMenuRadioItemProps,
+  ContextMenuSubProps,
+  ContextMenuSubTriggerProps,
+  ContextMenuSubContentProps,
+  ContextMenuLabelProps,
+  ContextMenuItemIndicatorProps,
+} from './components/ContextMenu';
 export { FacetedFilter, FacetGroup, FacetItem } from './components/FacetedFilter';
 export type {
   FacetedFilterProps,
@@ -320,3 +428,19 @@ export { StatCard } from './components/StatCard';
 export type { StatCardDelta, StatCardProps } from './components/StatCard';
 export { TreeView, TreeItem, TreeItemGroup } from './components/TreeView';
 export type { TreeViewProps, TreeItemProps, TreeItemGroupProps } from './components/TreeView';
+export {
+  Carousel,
+  CarouselContent,
+  CarouselSlide,
+  CarouselPrevButton,
+  CarouselNextButton,
+  CarouselDots,
+  CarouselDot,
+  useCarousel,
+} from './components/Carousel';
+export type {
+  CarouselProps,
+  CarouselContentProps,
+  CarouselSlideProps,
+  CarouselDotsProps,
+} from './components/Carousel';

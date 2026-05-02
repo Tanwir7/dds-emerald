@@ -1,0 +1,52 @@
+.storyA11yScope {
+  min-height: 100vh;
+  padding: var(--dds-space-8);
+}
+
+.triggerRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--dds-space-3);
+}
+
+.longContent {
+  display: grid;
+  gap: var(--dds-space-4);
+}
+
+.formFields {
+  display: grid;
+  gap: var(--dds-space-4);
+}
+
+.navList {
+  display: grid;
+  gap: var(--dds-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.navLink {
+  display: block;
+  min-height: 44px;
+  padding: var(--dds-space-3) var(--dds-space-4);
+  color: var(--dds-color-text-default);
+  font-family: var(--dds-font-sans);
+  text-decoration: none;
+  border: 1px solid var(--dds-color-border-subtle);
+  border-radius: var(--dds-radius-none);
+
+  &:focus-visible {
+    outline: 3px solid oklch(from var(--dds-color-focus-ring) l c h / 0.5);
+    outline-offset: 2px;
+  }
+}
+
+.note {
+  margin: 0 0 var(--dds-space-4);
+  color: var(--dds-color-text-muted);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-sm);
+  line-height: var(--dds-line-height-normal);
+}
