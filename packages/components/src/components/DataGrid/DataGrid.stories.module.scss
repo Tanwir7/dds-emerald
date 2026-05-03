@@ -1,0 +1,18 @@
+.storyA11yScope {
+  width: 100%;
+  display: block;
+}
+
+.storyFrame {
+  width: 100%;
+  max-width: 1120px;
+}
+
+.stackFrame {
+  width: min(100%, 540px);
+}
+
+.subRowContent {
+  display: grid;
+  gap: var(--dds-space-2);
+}

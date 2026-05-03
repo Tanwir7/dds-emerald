@@ -139,6 +139,18 @@ export type {
   TableRowProps,
   TableScrollWrapperProps,
 } from './components/Table';
+export { DataGrid, DataGridPagination, DataGridToolbar, useDataGrid } from './components/DataGrid';
+export type {
+  DataGridColumn,
+  DataGridColumnVisibilityState,
+  DataGridFilterState,
+  DataGridPaginationState,
+  DataGridProps,
+  DataGridRowAction,
+  DataGridRowSelectionState,
+  DataGridSortingState,
+  UseDataGridOptions,
+} from './components/DataGrid';
 export { Code } from './components/Code';
 export type { CodeProps, CodeSize } from './components/Code';
 export { CodeBlock } from './components/CodeBlock';

@@ -20,7 +20,7 @@ Before writing any code:
    packages/components/src/components/Checkbox/
    packages/components/src/components/Input/
    packages/components/src/components/Dropdown/
-   packages/components/src/components/Badge/
+   packages/components/src/components/Tag/
    packages/components/src/components/
    ```
 
@@ -1556,7 +1556,7 @@ Named exports required:
 - `CustomEmptySlot` — `data={[]}`, `renderEmpty` renders an illustration + call-to-action button.
 - `Densities` — three stacked DataGrids (compact / default / comfortable) with 5 rows each.
 - `ResponsiveStack` — `responsiveMode="stack"`. Resize the Storybook canvas below 640px to see card mode.
-- `RichCellContent` — Status column renders `Badge`, salary renders currency format, name renders `Avatar` + text, actions column renders `Button` directly (not via rowActions). Demonstrates DDS components inside cells.
+- `RichCellContent` — Status column renders `Tag`, salary renders currency format, name renders `Avatar` + text, actions column renders `Button` directly (not via rowActions). Demonstrates DDS components inside cells.
 - `AllFeatures` — single story combining: multi-row selection, row actions, expandable rows, sorting, column filtering, pagination, pinned first column, column visibility toggle. Closest to a real app scenario.
 
 `SortByName` with `play()`:
