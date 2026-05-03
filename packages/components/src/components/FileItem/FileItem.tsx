@@ -15,6 +15,8 @@ export interface FileItemProps extends Omit<
   size?: number;
   status?: FileItemStatus;
   progress?: number;
+  error?: string;
+  /** @deprecated Use `error` instead. */
   errorMessage?: string;
   removable?: boolean;
   onRemove?: () => void;
@@ -140,6 +142,7 @@ export const FileItem = React.forwardRef<HTMLDivElement, FileItemProps>(
       size,
       status = 'idle',
       progress,
+      error,
       errorMessage,
       removable = false,
       onRemove,
@@ -151,6 +154,8 @@ export const FileItem = React.forwardRef<HTMLDivElement, FileItemProps>(
     },
     ref
   ) => {
+    const resolvedError = error ?? errorMessage;
+
     const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
@@ -222,9 +227,9 @@ export const FileItem = React.forwardRef<HTMLDivElement, FileItemProps>(
             </div>
           ) : null}
 
-          {status === 'error' && errorMessage ? (
+          {status === 'error' && resolvedError ? (
             <span className={styles.errorMessage} role="alert">
-              {errorMessage}
+              {resolvedError}
             </span>
           ) : null}
         </div>

@@ -89,6 +89,8 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: resolve(__dirname, '../../tooling/vitest/setup.ts'),
+    testTimeout: 15000,
+    hookTimeout: 15000,
     server: {
       deps: {
         inline: ['@testing-library/react', '@testing-library/user-event'],

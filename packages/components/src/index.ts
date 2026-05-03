@@ -168,6 +168,14 @@ export { Label } from './components/Label';
 export type { LabelProps, LabelSize } from './components/Label';
 export { Input } from './components/Input';
 export type { InputProps, InputSize } from './components/Input';
+export { ColorPicker } from './components/ColorPicker';
+export type { ColorPickerProps, ColorSwatch } from './components/ColorPicker';
+export { FilePicker } from './components/FilePicker';
+export type {
+  FilePickerFile,
+  FilePickerFileStatus,
+  FilePickerProps,
+} from './components/FilePicker';
 export { PasswordInput } from './components/PasswordInput';
 export type { PasswordInputProps } from './components/PasswordInput';
 export { SearchInput } from './components/SearchInput';

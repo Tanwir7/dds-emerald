@@ -209,6 +209,12 @@ describe('FileItem', () => {
     expect(screen.getByRole('alert')).toHaveTextContent('Upload failed.');
   });
 
+  it('renders an alert error message when status is error and error is provided', () => {
+    render(<FileItem name="report.pdf" status="error" error="Upload failed." />);
+
+    expect(screen.getByRole('alert')).toHaveTextContent('Upload failed.');
+  });
+
   it('renders a check icon when status is complete', () => {
     const { container } = render(<FileItem name="report.pdf" status="complete" />);
 

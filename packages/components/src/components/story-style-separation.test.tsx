@@ -37,6 +37,24 @@ const sourceHelperNames = new Set([
   'storySourceParameters',
 ]);
 
+const runtimeStyleSelectorOffenders = runtimeStyleFiles.filter((filePath) =>
+  /^\s*\.story[A-Z0-9]/m.test(readFileSync(filePath, 'utf8'))
+);
+
+const missingStoryModuleOffenders = storyFiles.filter((filePath) => {
+  const source = readFileSync(filePath, 'utf8');
+
+  if (!source.includes('storyA11yScope')) {
+    return false;
+  }
+
+  return !existsSync(filePath.replace('.stories.tsx', '.stories.module.scss'));
+});
+
+const runtimeImportOffenders = runtimeComponentFiles.filter((filePath) =>
+  readFileSync(filePath, 'utf8').includes('.stories.module.scss')
+);
+
 const getStringLiteralValue = (node: ts.Node) => {
   if (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)) {
     return node.text;
@@ -93,50 +111,36 @@ const getSourceSnippetStrings = (source: string, filePath: string) => {
   return snippets;
 };
 
+const docsSourceOffenders = storyFiles.flatMap((filePath) => {
+  const source = readFileSync(filePath, 'utf8');
+  const snippets = getSourceSnippetStrings(source, filePath);
+
+  return snippets.flatMap((snippet) =>
+    forbiddenDocsSourceFragments
+      .filter((fragment) => snippet.includes(fragment))
+      .map((fragment) => `${relative(process.cwd(), filePath)} includes "${fragment}"`)
+  );
+});
+
 describe('Story style separation', () => {
   it('keeps story-only selectors out of runtime component styles', () => {
-    const offenders = runtimeStyleFiles.filter((filePath) =>
-      /^\s*\.story[A-Z0-9]/m.test(readFileSync(filePath, 'utf8'))
-    );
-
-    expect(offenders.map((filePath) => relative(process.cwd(), filePath))).toEqual([]);
+    expect(
+      runtimeStyleSelectorOffenders.map((filePath) => relative(process.cwd(), filePath))
+    ).toEqual([]);
   });
 
   it('keeps Storybook helper styles in separate story modules', () => {
-    const offenders = storyFiles.filter((filePath) => {
-      const source = readFileSync(filePath, 'utf8');
-
-      if (!source.includes('storyA11yScope')) {
-        return false;
-      }
-
-      return !existsSync(filePath.replace('.stories.tsx', '.stories.module.scss'));
-    });
-
-    expect(offenders.map((filePath) => relative(process.cwd(), filePath))).toEqual([]);
+    expect(
+      missingStoryModuleOffenders.map((filePath) => relative(process.cwd(), filePath))
+    ).toEqual([]);
   });
 
   it('prevents runtime components from importing story style modules', () => {
-    const offenders = runtimeComponentFiles.filter((filePath) =>
-      readFileSync(filePath, 'utf8').includes('.stories.module.scss')
-    );
-
-    expect(offenders.map((filePath) => relative(process.cwd(), filePath))).toEqual([]);
+    expect(runtimeImportOffenders.map((filePath) => relative(process.cwd(), filePath))).toEqual([]);
   });
 
   it('keeps Storybook source snippets free of render and story wrapper implementation details', () => {
-    const offenders = storyFiles.flatMap((filePath) => {
-      const source = readFileSync(filePath, 'utf8');
-      const snippets = getSourceSnippetStrings(source, filePath);
-
-      return snippets.flatMap((snippet) =>
-        forbiddenDocsSourceFragments
-          .filter((fragment) => snippet.includes(fragment))
-          .map((fragment) => `${relative(process.cwd(), filePath)} includes "${fragment}"`)
-      );
-    });
-
-    expect(offenders).toEqual([]);
+    expect(docsSourceOffenders).toEqual([]);
   });
 
   it('has no a11y violations for the Storybook a11y scope wrapper', async () => {
