@@ -1,0 +1,232 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/calendar' as *;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-1-5);
+  width: 100%;
+}
+
+.triggerWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.trigger {
+  @include tabular;
+
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  height: var(--dds-space-9);
+  padding: 0 var(--dds-space-3);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-sm);
+  font-weight: var(--dds-font-weight-normal);
+  line-height: var(--dds-line-height-normal);
+  color: var(--dds-color-text-default);
+  text-align: left;
+  background-color: var(--dds-color-bg-input);
+  border: 1px solid var(--dds-color-border-input);
+  border-radius: var(--dds-radius-none);
+  cursor: pointer;
+  transition:
+    border-color var(--dds-duration-fast) var(--dds-ease-standard),
+    outline-color var(--dds-duration-fast) var(--dds-ease-standard),
+    background-color var(--dds-duration-fast) var(--dds-ease-standard);
+
+  &:focus-visible {
+    border-color: var(--dds-color-focus-ring);
+    @include focus-ring;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.triggerWithClear {
+  padding-right: var(--dds-space-10);
+}
+
+.triggerReadOnly {
+  background-color: var(--dds-color-bg-muted);
+  cursor: default;
+}
+
+.triggerDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.triggerError {
+  border-color: var(--dds-color-status-danger);
+
+  &:focus-visible {
+    outline-color: oklch(from var(--dds-color-status-danger) l c h / 0.5);
+  }
+}
+
+.triggerIcon {
+  @include icon-size(md);
+
+  margin-right: var(--dds-space-2);
+  color: var(--dds-color-text-muted);
+}
+
+.triggerText {
+  @include truncate;
+
+  display: inline-block;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.triggerPlaceholder {
+  color: var(--dds-color-text-muted);
+}
+
+.clearButton {
+  position: absolute;
+  top: 50%;
+  right: var(--dds-space-1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--dds-space-6);
+  height: var(--dds-space-6);
+  padding: 0;
+  color: var(--dds-color-text-muted);
+  background-color: transparent;
+  border: 0;
+  border-radius: var(--dds-radius-none);
+  cursor: pointer;
+  transform: translateY(-50%);
+
+  &:hover {
+    color: var(--dds-color-text-default);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.popoverContent {
+  padding: 0;
+}
+
+.calendar {
+  @extend %calendar;
+}
+
+.rdpRoot {
+  @extend %rdpRoot;
+}
+
+.rdpMonths {
+  @extend %rdpMonths;
+}
+
+.calendar[data-month-count='2'] .rdpMonths {
+  @media (min-width: 48rem) {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+.rdpMonth {
+  @extend %rdpMonth;
+}
+
+.rdpCaption {
+  @extend %rdpCaption;
+}
+
+.rdpCaptionLabel {
+  @extend %rdpCaptionLabel;
+}
+
+.rdpNav {
+  @extend %rdpNav;
+}
+
+.rdpNavButton {
+  @extend %rdpNavButton;
+}
+
+.rdpNavButtonPrev,
+.rdpNavButtonNext,
+.rdpNavSpacer {
+  width: var(--dds-space-7);
+  height: var(--dds-space-7);
+}
+
+.rdpNavSpacer {
+  display: inline-block;
+}
+
+.rdpTable {
+  @extend %rdpTable;
+}
+
+.rdpHeadRow {
+  @extend %rdpHeadRow;
+}
+
+.rdpHeadCell {
+  @extend %rdpHeadCell;
+}
+
+.rdpRow {
+  @extend %rdpRow;
+}
+
+.rdpCell {
+  @extend %rdpCell;
+}
+
+.rdpDay {
+  @extend %rdpDay;
+}
+
+.rdpDaySelected {
+  @extend %rdpDaySelected;
+}
+
+.rdpDayToday {
+  @extend %rdpDayToday;
+}
+
+.rdpDayOutside {
+  @extend %rdpDayOutside;
+}
+
+.rdpDayDisabled {
+  @extend %rdpDayDisabled;
+}
+
+.rdpDayRangeStart {
+  @extend %rdpDayRangeStart;
+}
+
+.rdpDayRangeEnd {
+  @extend %rdpDayRangeEnd;
+}
+
+.rdpDayRangeMiddle {
+  @extend %rdpDayRangeMiddle;
+}
+
+.rdpDayHidden {
+  @extend %rdpDayHidden;
+}
+
+.message {
+  margin: 0;
+}

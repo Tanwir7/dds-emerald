@@ -1,0 +1,106 @@
+@use '../../styles/mixins' as *;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-1-5);
+  width: 100%;
+}
+
+.segmentGroup {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: var(--dds-space-9);
+  background-color: var(--dds-color-bg-input);
+  border: 1px solid var(--dds-color-border-input);
+  border-radius: var(--dds-radius-none);
+  transition:
+    border-color var(--dds-duration-fast) var(--dds-ease-standard),
+    outline-color var(--dds-duration-fast) var(--dds-ease-standard),
+    background-color var(--dds-duration-fast) var(--dds-ease-standard);
+
+  &:hover:not(.segmentGroupDisabled) {
+    border-color: var(--dds-color-action-primary);
+  }
+
+  &:focus-within {
+    border-color: var(--dds-color-focus-ring);
+    @include focus-ring;
+  }
+}
+
+.segmentGroupError {
+  border-color: var(--dds-color-status-danger);
+
+  &:focus-within {
+    outline-color: oklch(from var(--dds-color-status-danger) l c h / 0.5);
+  }
+}
+
+.segmentGroupDisabled {
+  opacity: 0.5;
+}
+
+.segment {
+  @include tabular;
+
+  appearance: none;
+  min-height: var(--dds-space-9);
+  padding: 0 var(--dds-space-2);
+  font-family: var(--dds-font-mono);
+  font-size: var(--dds-font-size-sm);
+  line-height: var(--dds-line-height-normal);
+  color: var(--dds-color-text-default);
+  text-align: center;
+  background: transparent;
+  border: 0;
+  border-radius: var(--dds-radius-none);
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: none;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.segmentHour,
+.segmentMinute,
+.segmentSecond {
+  width: 44px;
+}
+
+.segmentAmPm {
+  width: 60px;
+}
+
+.separator,
+.ampmSpacer {
+  flex-shrink: 0;
+}
+
+.separator {
+  @include tabular;
+
+  padding: 0 var(--dds-space-0-5);
+  font-family: var(--dds-font-mono);
+  font-size: var(--dds-font-size-sm);
+  font-weight: var(--dds-font-weight-semibold);
+  color: var(--dds-color-text-muted);
+  user-select: none;
+}
+
+.ampmSpacer {
+  width: var(--dds-space-1);
+}
+
+.message {
+  margin: 0;
+}

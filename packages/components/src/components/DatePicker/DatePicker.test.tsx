@@ -1,0 +1,196 @@
+import '@testing-library/jest-dom/vitest';
+import { cleanup, render, screen, waitFor, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { axe, toHaveNoViolations } from 'jest-axe';
+import React from 'react';
+import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
+import { DatePicker } from './DatePicker';
+
+expect.extend(toHaveNoViolations);
+
+beforeAll(() => {
+  globalThis.ResizeObserver =
+    globalThis.ResizeObserver ??
+    class ResizeObserver {
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    };
+});
+
+afterEach(() => {
+  cleanup();
+});
+
+describe('DatePicker', () => {
+  it('renders the visible label and placeholder text', () => {
+    render(<DatePicker id="invoice-date" label="Invoice date" placeholder="Select date" />);
+
+    expect(screen.getByText('Invoice date')).toBeInTheDocument();
+    expect(
+      screen.getByRole('combobox', { name: /invoice date, select date/i })
+    ).toBeInTheDocument();
+  });
+
+  it('forwards ref to the trigger button', () => {
+    const ref = React.createRef<HTMLButtonElement>();
+    render(<DatePicker ref={ref} id="invoice-date" label="Invoice date" />);
+
+    expect(ref.current).toBeInstanceOf(HTMLButtonElement);
+    expect(ref.current).toHaveAttribute('type', 'button');
+  });
+
+  it('opens the calendar popover when activated', async () => {
+    const user = userEvent.setup();
+    render(<DatePicker id="invoice-date" label="Invoice date" />);
+
+    await user.click(screen.getByRole('combobox', { name: /invoice date, select date/i }));
+
+    expect(await screen.findByRole('dialog', { name: 'Date picker calendar' })).toBeInTheDocument();
+  });
+
+  it('selects a date, closes the popover, and updates the hidden input', async () => {
+    const user = userEvent.setup();
+    render(
+      <DatePicker
+        defaultMonth={new Date(2026, 4, 1)}
+        id="invoice-date"
+        label="Invoice date"
+        name="invoiceDate"
+      />
+    );
+
+    await user.click(screen.getByRole('combobox', { name: /invoice date, select date/i }));
+    const calendar = await screen.findByRole('dialog', { name: 'Date picker calendar' });
+    await user.click(within(calendar).getByRole('gridcell', { name: '15' }));
+
+    await waitFor(() => {
+      expect(
+        screen.queryByRole('dialog', { name: 'Date picker calendar' })
+      ).not.toBeInTheDocument();
+    });
+
+    expect(
+      screen.getByRole('combobox', { name: /invoice date, selected date: friday, may 15th, 2026/i })
+    ).toHaveTextContent('15/05/2026');
+    expect(document.querySelector('input[type="hidden"][name="invoiceDate"]')).toHaveAttribute(
+      'value',
+      '2026-05-15'
+    );
+  });
+
+  it('clears the selected date and calls onChange with null', async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    render(
+      <DatePicker
+        defaultValue={new Date(2026, 4, 3)}
+        defaultMonth={new Date(2026, 4, 1)}
+        id="invoice-date"
+        label="Invoice date"
+        onChange={onChange}
+      />
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Clear selected date' }));
+
+    expect(screen.getByRole('combobox', { name: /invoice date, select date/i })).toHaveTextContent(
+      'Select date'
+    );
+    expect(onChange).toHaveBeenCalledWith(null);
+  });
+
+  it('honors controlled value updates', async () => {
+    const user = userEvent.setup();
+
+    const ControlledExample = () => {
+      const [value, setValue] = React.useState<Date | null>(new Date(2026, 4, 3));
+      return (
+        <DatePicker
+          defaultMonth={new Date(2026, 4, 1)}
+          id="invoice-date"
+          label="Invoice date"
+          onChange={setValue}
+          value={value}
+        />
+      );
+    };
+
+    render(<ControlledExample />);
+
+    await user.click(
+      screen.getByRole('combobox', {
+        name: /invoice date, selected date: sunday, may 3rd, 2026/i,
+      })
+    );
+    const calendar = await screen.findByRole('dialog', { name: 'Date picker calendar' });
+    await user.click(within(calendar).getByRole('gridcell', { name: '18' }));
+
+    expect(
+      screen.getByRole('combobox', {
+        name: /invoice date, selected date: monday, may 18th, 2026/i,
+      })
+    ).toHaveTextContent('18/05/2026');
+  });
+
+  it('prevents opening when readOnly while remaining focusable', async () => {
+    const user = userEvent.setup();
+    render(
+      <DatePicker
+        defaultValue={new Date(2026, 4, 3)}
+        defaultMonth={new Date(2026, 4, 1)}
+        id="invoice-date"
+        label="Invoice date"
+        readOnly
+      />
+    );
+
+    const trigger = screen.getByRole('combobox', {
+      name: /invoice date, selected date: sunday, may 3rd, 2026/i,
+    });
+    trigger.focus();
+    await user.click(trigger);
+
+    expect(trigger).toHaveFocus();
+    expect(screen.queryByRole('dialog', { name: 'Date picker calendar' })).not.toBeInTheDocument();
+  });
+
+  it('disables blocked dates from minDate and maxDate constraints', async () => {
+    const user = userEvent.setup();
+    render(
+      <DatePicker
+        defaultMonth={new Date(2026, 4, 1)}
+        id="invoice-date"
+        label="Invoice date"
+        maxDate={new Date(2026, 4, 20)}
+        minDate={new Date(2026, 4, 10)}
+      />
+    );
+
+    await user.click(screen.getByRole('combobox', { name: /invoice date, select date/i }));
+
+    const calendar = await screen.findByRole('dialog', { name: 'Date picker calendar' });
+
+    expect(within(calendar).getByRole('gridcell', { name: '9' })).toBeDisabled();
+    expect(within(calendar).getByRole('gridcell', { name: '10' })).toBeEnabled();
+    expect(within(calendar).getByRole('gridcell', { name: '21' })).toBeDisabled();
+  });
+
+  it('wires error message via aria-describedby and aria-invalid', () => {
+    render(
+      <DatePicker error="Choose a valid invoice date." id="invoice-date" label="Invoice date" />
+    );
+
+    const trigger = screen.getByRole('combobox', { name: /invoice date, select date/i });
+
+    expect(trigger).toHaveAttribute('aria-invalid', 'true');
+    expect(trigger).toHaveAttribute('aria-describedby', 'invoice-date-error');
+    expect(screen.getByText('Choose a valid invoice date.')).toHaveAttribute('role', 'alert');
+  });
+
+  it('has no accessibility violations in the default state', async () => {
+    const { container } = render(<DatePicker id="invoice-date" label="Invoice date" />);
+
+    expect(await axe(container)).toHaveNoViolations();
+  });
+});

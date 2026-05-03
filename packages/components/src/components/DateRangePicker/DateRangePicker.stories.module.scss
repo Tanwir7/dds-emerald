@@ -1,0 +1,10 @@
+.storyA11yScope {
+  width: 100%;
+}
+
+.storyField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-2);
+  width: min(100%, 440px);
+}

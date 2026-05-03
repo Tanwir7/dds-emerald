@@ -1,0 +1,164 @@
+@use './mixins' as *;
+
+%calendar {
+  padding: var(--dds-space-4);
+  background-color: var(--dds-color-bg-popover);
+  user-select: none;
+}
+
+%rdpRoot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-4);
+}
+
+%rdpMonths {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-6);
+}
+
+%rdpMonth {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-3);
+}
+
+%rdpCaption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--dds-space-3);
+}
+
+%rdpCaptionLabel {
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-sm);
+  font-weight: var(--dds-font-weight-semibold);
+  line-height: var(--dds-line-height-normal);
+  color: var(--dds-color-text-default);
+  text-transform: capitalize;
+}
+
+%rdpNav {
+  display: flex;
+  align-items: center;
+  gap: var(--dds-space-1);
+}
+
+%rdpNavButton {
+  flex-shrink: 0;
+}
+
+%rdpTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+%rdpHeadRow {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+%rdpHeadCell {
+  padding-bottom: var(--dds-space-2);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-xs);
+  font-weight: var(--dds-font-weight-medium);
+  line-height: var(--dds-line-height-normal);
+  text-align: center;
+  color: var(--dds-color-text-muted);
+}
+
+%rdpRow {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+%rdpCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--dds-space-0-5);
+}
+
+%rdpDay {
+  @include tabular;
+  @include icon-size(md);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--dds-space-8);
+  height: var(--dds-space-8);
+  padding: 0;
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-sm);
+  font-weight: var(--dds-font-weight-medium);
+  line-height: var(--dds-line-height-none);
+  color: var(--dds-color-text-default);
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--dds-radius-none);
+  cursor: pointer;
+  transition:
+    background-color var(--dds-duration-fast) var(--dds-ease-standard),
+    color var(--dds-duration-fast) var(--dds-ease-standard),
+    border-color var(--dds-duration-fast) var(--dds-ease-standard);
+
+  &:hover:not([aria-disabled='true']):not(.rdp-day_selected) {
+    background-color: var(--dds-color-action-ghost-hover);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+%rdpDaySelected {
+  color: var(--dds-color-text-on-primary);
+  background-color: var(--dds-color-action-primary);
+  border-color: var(--dds-color-action-primary);
+
+  &:hover,
+  &:focus-visible {
+    color: var(--dds-color-text-on-primary);
+    background-color: var(--dds-color-action-primary-hover);
+    border-color: var(--dds-color-action-primary-hover);
+  }
+}
+
+%rdpDayToday {
+  border-color: var(--dds-color-action-primary);
+}
+
+%rdpDayOutside {
+  color: var(--dds-color-text-muted);
+  opacity: 0.72;
+}
+
+%rdpDayDisabled {
+  color: var(--dds-color-text-muted);
+  opacity: 0.48;
+  cursor: not-allowed;
+  background-color: transparent;
+}
+
+%rdpDayRangeStart {
+  @extend %rdpDaySelected;
+}
+
+%rdpDayRangeEnd {
+  @extend %rdpDaySelected;
+}
+
+%rdpDayRangeMiddle {
+  color: var(--dds-color-text-default);
+  background-color: oklch(from var(--dds-color-action-primary) l c h / 0.12);
+  border-color: transparent;
+}
+
+%rdpDayHidden {
+  visibility: hidden;
+}
