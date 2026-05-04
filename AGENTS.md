@@ -1,224 +1,122 @@
 # AGENTS.md — DDS Emerald Design System
 
-# READ THIS BEFORE WRITING ANY CODE
+Read this before making code changes.
 
 ## Identity
 
-- System name: Emerald
+- System: Emerald
 - Company: Digital Dev Studio (DDS)
-- CSS prefix: `dds` — applies to ALL CSS custom properties, SCSS variables, class names
-- Component prefix: all React components are PascalCase, no prefix in JSX
+- CSS prefix: `dds`
+- React components use PascalCase names with no JSX prefix
 
-## Non-negotiable rules
+## Repo map
 
-### Styling
+- Component library: `packages/components`
+- Tokens: `packages/tokens/src/tokens.css`
+- Docs and Storybook: `apps/docs`
+- New component scaffold: `scaffolding.mjs`
+- Component source root: `packages/components/src/components`
+- Patterns source root: `packages/components/src/patterns`
 
-- NO Tailwind CSS. Not one class, not one import.
-- NO inline styles. All styles via SCSS modules.
-- Exception: low-level layout primitives may use inline styles or CSS custom properties only for dynamic numeric layout values that cannot be represented by existing token or class APIs (for example, numeric `flex-grow`, `flex-shrink`, or `order`).
-- NO hardcoded color values. Always consume `--dds-*` tokens.
-- SCSS modules only: runtime component styles must be named `ComponentName.module.scss`
-- Storybook-only layout/demo styles must be named `ComponentName.stories.module.scss`
-- Never place `.story*` selectors in `ComponentName.module.scss`; story styles must not ship in the consumer runtime CSS bundle
-- Always `@use` shared mixins and breakpoints, never copy-paste mixins inline
-- Components consume Tier 2 tokens (`--dds-color-*`, `--dds-space-*`). Never Tier 1 directly.
+## Styling
 
-### Components
+- No Tailwind.
+- No inline styles except low-level layout primitives using dynamic numeric values that cannot be represented via existing class or token APIs.
+- No hardcoded color values; use `--dds-*` tokens.
+- Runtime styles live in `ComponentName.module.scss`.
+- Story-only styles live in `ComponentName.stories.module.scss`.
+- Do not put story selectors in runtime SCSS.
+- Use shared `@use` mixins and breakpoints; do not copy mixins inline.
+- Components should consume Tier 2 tokens such as `--dds-color-*` and `--dds-space-*`.
 
-- All components use `React.forwardRef`
-- All components accept and forward `className` prop
-- All components use `clsx` for conditional class merging
-- Never use `cx`, `cn`, `classnames` — only `clsx`
-- Radix UI for all interactive primitives needing accessibility (Dialog, Select, etc.)
-- No custom ARIA implementations when a Radix primitive exists
-- Do not export public component prop types that directly reference Radix types or `React.ComponentPropsWithoutRef<typeof RadixPrimitive.*>`; declaration output must not import from `@radix-ui/*`
-- For any Radix-based component, define stable public props explicitly from DOM/consumer-facing types so `dist/index.d.ts` does not leak Radix internals
+## Components
 
-### Design constraints — do NOT deviate
+- Use `React.forwardRef`.
+- Accept and forward `className`.
+- Use `clsx` for class merging. Do not use `cx`, `cn`, or `classnames`.
+- Prefer Radix for interactive accessibility primitives.
+- Do not expose Radix types in public component props.
+- Public declarations must not import from `@radix-ui/*`.
 
-- Border radius is ALWAYS `var(--dds-radius-none)` (0px) on all UI components
-- The ONLY exception is `var(--dds-radius-full)` for Avatar, StatusIndicator dot, AvatarGroup overflow, ProgressBar track
-- Never add rounding to Button, Input, Badge, Card, NavItem, DataTable, or any other UI element
-- Sidebar background is ALWAYS `var(--dds-color-bg-sidebar)` — it is dark in both light AND dark mode
-- ProgressBar uses `var(--dds-radius-full)` on track and fill — this is the only non-avatar exception
-- KPICard highlighted variant MUST include the `h-4px w-full bg-[--dds-color-action-primary]` absolute top stripe
-- Focus ring is always outline-based: `outline: 3px solid oklch(from var(--dds-color-focus-ring) l c h / 0.5); outline-offset: 2px;`
-- NavItem minimum height is always 44px (Emerald navigation design constraint)
-- Exception: the standalone `NavItem` component implementation must follow `.ai/component_instructions/52-NavItem.md` for `sm` and `md` sizing, and any raw measurements in that spec must be mapped to the closest existing DDS tokens
-- `font-feature-settings: "cv02", "cv03", "cv04", "cv11"` must be set on body-level text
-- All numeric/tabular data uses `font-variant-numeric: tabular-nums`
+## Design constraints
 
-### Typography
+- Border radius is `var(--dds-radius-none)` unless an existing component spec says otherwise.
+- Sidebar background is always `var(--dds-color-bg-sidebar)`.
+- Focus ring is always outline-based:
+  `outline: 3px solid oklch(from var(--dds-color-focus-ring) l c h / 0.5); outline-offset: 2px;`
+- `NavItem` minimum height is 44px.
+- `NavItem` sizing must follow `.ai/component_instructions/52-NavItem.md`, mapped to existing DDS tokens.
+- Body-level text must use `font-feature-settings: "cv02", "cv03", "cv04", "cv11"`.
+- Numeric and tabular data uses `font-variant-numeric: tabular-nums`.
 
-- Display headings: `font-family: var(--dds-font-display)` (Barlow Condensed)
-- Body text: `font-family: var(--dds-font-sans)` (DM Sans)
-- Code/data: `font-family: var(--dds-font-mono)` (JetBrains Mono)
-- Never use system fonts directly — always via token variables
+## Typography
 
-### Testing
+- Display: `var(--dds-font-display)`
+- Body: `var(--dds-font-sans)`
+- Code/data: `var(--dds-font-mono)`
+- Do not hardcode font-family values in component styles.
+- Do not import font files inside components.
 
-- Every component MUST have a corresponding `*.test.tsx` file
-- Tests must be written BEFORE implementation (TDD)
-- Every test file MUST include the axe a11y check
-- Coverage threshold: 80% lines/functions/branches — CI will fail below this
-- Storybook Vitest browser tests in `apps/docs` must launch Storybook through the dedicated `apps/docs` script `pnpm dev:ci`; do not switch `storybookScript` back to `pnpm dev -- --ci`
-- Keep `apps/docs/vitest.config.ts` browser-test serving aligned with the monorepo layout: preserve the repo-root file-system allowlist and the browser API host binding unless you are intentionally reworking the Storybook Vitest infrastructure
-- For Storybook browser tests that use Chromium/Playwright, always run them through the root script `pnpm run test:storybook`
-- This applies even when testing a single component or passing through narrower runner flags; keep the command prefix stable and add extra args after `--`
-- Do not invoke browser tests via ad hoc `node -e`, direct `playwright` commands, or `pnpm --dir apps/docs test` when `pnpm run test:storybook` can be used instead
+## Testing
 
-### Tokens
+- Every component needs a `*.test.tsx`.
+- Include axe accessibility coverage in every component test file.
+- Coverage threshold is 80% for lines, functions, and branches.
+- Storybook browser tests must keep `apps/docs/vitest.config.ts` aligned with the repo-root fs allowlist and `127.0.0.1` browser API host binding unless intentionally reworking that setup.
+- For Storybook browser tests, use `pnpm run test:storybook`.
+- Do not use ad hoc `node -e` or direct Playwright commands when the root Storybook test script can be used.
 
-- Never add a new CSS custom property without the `--dds-` prefix
-- Never create a new color value without adding it to `packages/tokens/src/tokens.css` first
-- Color values are always oklch format
+## Tokens
 
-### File structure
+- New CSS custom properties must use the `--dds-` prefix.
+- New color values must be added in `packages/tokens/src/tokens.css`.
+- Color values use OKLCH.
 
-- One component per directory: `src/components/ComponentName/`
-- Directory must contain: `.tsx`, `.module.scss`, `.test.tsx`, `.stories.tsx`, `index.ts`
-- If a story needs layout, demo framing, or a11y scan scope styles, add `ComponentName.stories.module.scss`
-- Runtime components may import only `ComponentName.module.scss`; stories may import `ComponentName.stories.module.scss`
-- Use `scaffolding.mjs` to generate the initial files for any new component
-- Storybook stories using addon-a11y MUST scope checks to the component story root with `parameters.a11y.context`; never let addon-a11y scan surrounding docs/chrome markup
-- Storybook source previews MUST show consumer-facing JSX only. If a story uses
-  `render`, layout wrappers, or a11y scope wrappers, use `storySourceParameters`
-  from `packages/components/src/utils/storySource.ts` so docs do not show
-  `render`, `storyStyles`, or Storybook wrapper markup.
+## File structure
 
-### Storybook naming
+- One component per directory under `packages/components/src/components/ComponentName/`.
+- New components should include `ComponentName.tsx`, `ComponentName.module.scss`, `ComponentName.test.tsx`, `ComponentName.stories.tsx`, and `index.ts`.
+- Use `scaffolding.mjs` for new components.
+- Runtime components may import only `ComponentName.module.scss`.
+- Stories may import `ComponentName.stories.module.scss`.
+- Storybook addon-a11y scans must be scoped with `parameters.a11y.context`.
+- Storybook source previews should show consumer-facing JSX only; use `storySourceParameters` from `packages/components/src/utils/storySource.ts` when wrappers or custom renders would otherwise leak into docs.
 
-- Primitive, foundational components are grouped under `Core Components`; story titles must use `Core Components/ComponentName`
-- Grouped component compositions are grouped under `Grouped Components`; story titles must use `Grouped Components/ComponentName`
-- Marketing page patterns are grouped under `Marketing Patterns`; story titles must use `Marketing Patterns/PatternName`
-- App/product UI patterns are grouped under `App Patterns`; story titles must use `App Patterns/PatternName`
-- AI-specific workflows and patterns are grouped under `AI Patterns`; story titles must use `AI Patterns/PatternName`
-- Do not use `Atoms`, `Molecules`, or the generic `Components` group in Storybook titles
-- Keep Storybook group names in Title Case exactly as listed above
+## Storybook naming
 
-### Font loading
+- `Core Components/ComponentName`
+- `Grouped Components/ComponentName`
+- `Marketing Patterns/PatternName`
+- `App Patterns/PatternName`
+- `AI Patterns/PatternName`
+- Do not use `Atoms`, `Molecules`, or generic `Components`.
 
-- Never hardcode font-family strings in component SCSS
-- Always use var(--dds-font-display), var(--dds-font-sans), var(--dds-font-mono)
-- Do not import font files inside component files
-- Font loading is handled at the app root level — components assume the CSS
-  variables are already resolved by the time they render
-- font-feature-settings "cv02" "cv03" "cv04" "cv11" is set globally in base.css
-  Do not repeat it in component SCSS
-- DM Sans optical size axis (opsz) is loaded — use font-size changes to benefit
-  from it automatically; do not set font-variation-settings manually in components
+## Icons
 
-### Icons (lucide-react)
+- Icon prop type is `LucideIcon` from `lucide-react`.
+- Use component-as-prop: `icon={Inbox}`, not `icon={<Inbox />}`.
+- Do not pass `size` directly to Lucide icons inside DDS components.
+- Control icon sizing through SCSS and DDS icon-size tokens.
+- Decorative icons should usually be `aria-hidden="true"`.
+- Semantic icons need a visible label or accessible name.
+- Default icon size is `--dds-icon-size-md`.
+- Use `--dds-icon-size-lg` only when a component spec explicitly calls for it.
+- Import named icons only.
 
-- Icon prop type is always `LucideIcon` from 'lucide-react'
-- Always use component-as-prop: `icon={Inbox}` not `icon={<Inbox />}`
-- Never pass a `size` prop to a Lucide icon inside a DDS component
-- Control icon size via the icon-size SCSS mixin only
-- Never hardcode width/height on icons — use --dds-icon-size-\* tokens
-- Icons are aria-hidden="true" when decorative (almost always)
-- Icons require aria-label or visible paired text when semantic
-- Default icon size is --dds-icon-size-md (16px)
-- EmptyState is the only component using --dds-icon-size-lg (32px)
-- Always import individual named icons, never import _
-  ✅ import { Inbox } from 'lucide-react'
-  ❌ import _ as Icons from 'lucide-react'
+## Accessibility baseline
 
-## Accessibility
+- Target WCAG 2.2 AA.
+- For detailed accessibility review guidance, see `docs/accessibility.md`.
+- All interactive elements must be keyboard reachable and operable.
+- Overlays and modals must trap focus and restore focus on close.
+- Do not leave visually hidden interactive elements focusable.
+- Do not rely on color alone for meaning.
+- Form controls need a visible label or equivalent accessible name.
+- Use native HTML before ARIA.
+- Verify clear name, role, and state for interactive controls.
+- Use `aria-live` for dynamic announcements when needed.
+- Pointer targets must meet WCAG 2.2 AA minimum target size requirements unless a documented exception applies.
 
-Accessibility is not optional. It is part of the definition of done for every component and UI pattern in this system. Apply WCAG 2.2 Level AA as the baseline.
+## When unsure
 
-### Core principles (POUR)
-
-Every UI decision must satisfy all four:
-
-| Principle          | Question to answer                           | Examples                                                                               |
-| ------------------ | -------------------------------------------- | -------------------------------------------------------------------------------------- |
-| **Perceivable**    | Can people see or hear the content?          | Contrast, captions, alt text, non-color indicators                                     |
-| **Operable**       | Can people use it without a mouse?           | Keyboard nav, focus order, no focus traps, WCAG AA target sizes                        |
-| **Understandable** | Is the interface clear?                      | Labels, instructions, specific error messages                                          |
-| **Robust**         | Does it work with real assistive technology? | Semantic HTML, correct roles/names/states, ARIA only when native HTML can't do the job |
-
-### Non-negotiable accessibility rules
-
-- Every interactive element must be reachable and operable via keyboard (Tab, Shift+Tab, Enter, Space, Escape)
-- Focus order must follow a logical reading sequence — never strand or skip focus
-- Modals and overlays MUST trap focus while open and return focus on close
-- Never leave interactive elements reachable when visually hidden (e.g. off-screen menus)
-- Meaning must never be conveyed by color alone — always pair with text, icon, or pattern
-- All form fields must have a visible `<label>` or accessible name — placeholder is not a label
-- Error messages must be specific, human-readable, and non-blaming
-- Error / success states must not rely on color alone
-- Images require meaningful `alt` text; decorative images use `alt=""`
-- Use native HTML elements before reaching for ARIA — avoid bloated ARIA when a `<button>`, `<input>`, or `<dialog>` suffices
-- All text must meet WCAG AA contrast minimums (4.5:1 body, 3:1 large/UI)
-- Pointer targets must meet WCAG 2.2 AA Target Size (Minimum): at least 24 by 24 CSS pixels, or satisfy a documented WCAG exception. Use 44 by 44 CSS pixels only where an Emerald component spec explicitly requires it.
-
-### Accessibility review passes
-
-When building or reviewing any UI component, pattern, or flow, run the following five review passes. These are listed in priority order.
-
----
-
-#### Pass 1 — Keyboard-first
-
-Walk through the UI as if you can only use a keyboard.
-
-1. List the tab order from first to last meaningful interactive element
-2. Identify any interactive elements that might be missed, skipped, or unreachable
-3. Flag focus risks: modals that don't trap focus, hidden elements that remain focusable, dropdowns that strand focus, custom controls that behave like unlabelled `<div>`s
-4. Verify Enter/Space activate buttons and links; Escape closes overlays
-5. Confirm no keyboard traps exist
-
----
-
-#### Pass 2 — Screen reader narration
-
-Narrate the screen as a screen reader user would experience it.
-
-1. Navigate landmarks first (`<nav>`, `<main>`, `<aside>`, `<header>`, `<footer>`), then main content, then secondary regions
-2. For each interactive element, confirm a clear **name**, **role**, and **state** would be announced
-3. Flag: unnamed buttons, duplicated labels, confusing reading order, images with missing or useless alt text, form fields without proper labels
-4. Confirm live regions (`aria-live`) announce dynamic content changes (toasts, inline validation, loading states)
-
----
-
-#### Pass 3 — Color and contrast
-
-Review for color-dependent meaning and risky contrast pairings.
-
-1. Identify places where meaning is conveyed by color alone (errors, success, required fields, links vs body text)
-2. Call out text/background pairings that are risky — especially small body text on subtle backgrounds
-3. Suggest safer alternatives that preserve the DDS brand (don't default to ugly)
-4. Note what still requires measurement with engineering tools (Colour Contrast Analyser, browser DevTools) — AI cannot reliably measure exact ratios from screenshots
-
----
-
-#### Pass 4 — Forms
-
-Review all form fields for accessibility and clarity.
-
-1. Every field has a visible, associated `<label>` (or `aria-label` / `aria-labelledby` when visual label is impossible)
-2. Helper text is linked via `aria-describedby`
-3. Error messages are specific, human, and non-blaming — rewrite any weak messages
-4. Success states don't rely on color alone
-5. Related fields are grouped with `<fieldset>` / `<legend>` where applicable
-6. Instructions appear **before** users can fail, not after
-
----
-
-#### Pass 5 — Component accessibility contract
-
-When defining or extending a design-system component, produce a concise accessibility contract:
-
-1. **Keyboard interactions** — document behaviour for default, hover, focus, active, disabled, loading, and error states
-2. **Screen reader expectations** — required names, roles, state announcements
-3. **Focus management** — rules for overlays, menus, dialogs, inline editing
-4. **Designer specs** — what designers must document: labels, helper text, error patterns, empty states
-5. **QA checklist** — what must be validated in code review and testing
-6. ARIA is allowed only when native HTML cannot do the job — keep it minimal
-
----
-
-### What to ask when unsure
-
-If a design decision is not documented here or in the token file, ask the human before implementing. Do not guess or use a "sensible default".
+- If a design decision is not documented here, in component instructions, or in tokens, ask before inventing a default.
