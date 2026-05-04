@@ -96,7 +96,7 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
             </Text>
           ) : null}
           {hasBodyContent ? (
-            <Text size="sm" className={getRequiredClassName(styles, 'body')}>
+            <Text as="div" size="sm" className={getRequiredClassName(styles, 'body')}>
               {children}
             </Text>
           ) : null}

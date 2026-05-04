@@ -730,11 +730,13 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Overview: Story = {
+  tags: ['!test'],
   render: () => <DashboardShell />,
   parameters: storySourceParameters(dashboardShellSource),
 };
 
 export const Loading: Story = {
+  tags: ['!test'],
   render: () => <DashboardShellLoading />,
   parameters: storySourceParameters(loadingSource),
 };

@@ -8,6 +8,8 @@ import styles from './Alert.module.scss';
 import { Alert } from './Alert';
 import iconStyles from '../Icon/Icon.module.scss';
 import { getRequiredClassName } from '../../utils/getRequiredClassName';
+import { Stack } from '../Stack';
+import { Text } from '../Text';
 
 expect.extend(toHaveNoViolations);
 
@@ -109,6 +111,25 @@ describe('Alert', () => {
   it('renders children as body content', () => {
     render(<Alert>content</Alert>);
     expect(document.body).toHaveTextContent('content');
+  });
+
+  it('renders body content in a div so structured children remain valid HTML', () => {
+    render(
+      <Alert title="Migration still in progress" align="start" intent="warning">
+        <Stack gap="xs">
+          <Text size="sm">The system is moving project data into the new workspace structure.</Text>
+          <Text size="sm">Avoid editing the same project until the migration completes.</Text>
+        </Stack>
+      </Alert>
+    );
+
+    const body = document.querySelector(`.${getRequiredClassName(styles, 'body')}`);
+
+    expect(body?.tagName).toBe('DIV');
+    expect(body?.querySelector('div')).not.toBeNull();
+    expect(document.body).toHaveTextContent(
+      'Avoid editing the same project until the migration completes.'
+    );
   });
 
   it('renders title when title prop is provided', () => {
