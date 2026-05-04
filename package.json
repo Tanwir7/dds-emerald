@@ -21,7 +21,7 @@
     "@changesets/changelog-github": "^0.6.0",
     "@changesets/cli": "^2.30.0",
     "@commitlint/cli": "^19.x.x",
-    "@commitlint/config-conventional": "^19.x.x",
+    "@commitlint/config-conventional": "^20.x.x",
     "eslint": "^9.39.4",
     "eslint-plugin-storybook": "^10.3.6",
     "husky": "^9.x.x",
