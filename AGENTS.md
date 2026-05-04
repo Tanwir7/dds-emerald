@@ -61,6 +61,8 @@
 - Tests must be written BEFORE implementation (TDD)
 - Every test file MUST include the axe a11y check
 - Coverage threshold: 80% lines/functions/branches — CI will fail below this
+- Storybook Vitest browser tests in `apps/docs` must launch Storybook through the dedicated `apps/docs` script `pnpm dev:ci`; do not switch `storybookScript` back to `pnpm dev -- --ci`
+- Keep `apps/docs/vitest.config.ts` browser-test serving aligned with the monorepo layout: preserve the repo-root file-system allowlist and the browser API host binding unless you are intentionally reworking the Storybook Vitest infrastructure
 - For Storybook browser tests that use Chromium/Playwright, always run them through the root script `pnpm run test:storybook`
 - This applies even when testing a single component or passing through narrower runner flags; keep the command prefix stable and add extra args after `--`
 - Do not invoke browser tests via ad hoc `node -e`, direct `playwright` commands, or `pnpm --dir apps/docs test` when `pnpm run test:storybook` can be used instead

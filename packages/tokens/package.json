@@ -28,8 +28,9 @@
   "devDependencies": {
     "@dds/typescript-config": "workspace:*",
     "@dds/vitest-config": "workspace:*",
-    "@types/node": "^24.6.0",
+    "@types/node": "^22",
     "tsup": "^8.x.x",
-    "typescript": "^5.x.x"
+    "typescript": "^5.x.x",
+    "vitest": "^4.1.5"
   }
 }

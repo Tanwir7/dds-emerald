@@ -9,10 +9,15 @@ const openExternalUrl = (url: string) => {
 };
 
 export function DocsCtas() {
+  const ctaButtonClassName = styles.ctaButton;
+  const ctaButtonClassNameProps = ctaButtonClassName
+    ? { className: ctaButtonClassName }
+    : undefined;
+
   return (
     <div className={styles.ctas}>
       <Button
-        className={styles.ctaButton}
+        {...ctaButtonClassNameProps}
         onClick={() =>
           openExternalUrl(
             'https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app'
@@ -30,7 +35,7 @@ export function DocsCtas() {
       </Button>
       <Button
         variant="outline"
-        className={styles.ctaButton}
+        {...ctaButtonClassNameProps}
         onClick={() =>
           openExternalUrl(
             'https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app'

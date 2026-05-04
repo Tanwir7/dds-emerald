@@ -1,4 +1,4 @@
-import type { Preview, Decorator } from '@storybook/react';
+import type { Preview, Decorator } from '@storybook/nextjs-vite';
 import { withThemeByDataAttribute } from '@storybook/addon-themes';
 import { createElement } from 'react';
 import '@dds/emerald-tokens/styles';

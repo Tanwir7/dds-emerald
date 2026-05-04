@@ -10,8 +10,10 @@
     "generate:tokens": "node scripts/generate-tokens-doc.mjs",
     "generate:docs": "pnpm generate:colors && pnpm generate:tokens",
     "dev": "storybook dev -p 6006",
+    "dev:ci": "storybook dev -p 6006 --ci",
     "build": "storybook build",
-    "test": "test-storybook"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest --config ./vitest.config.ts --run"
   },
   "dependencies": {
     "@dds/emerald": "workspace:*",
@@ -21,21 +23,24 @@
     "react-dom": "19.2.4"
   },
   "devDependencies": {
-    "@chromatic-com/storybook": "^5.1.1",
-    "@storybook/addon-a11y": "^10.3.5",
-    "@storybook/addon-docs": "^10.3.5",
-    "@storybook/addon-themes": "^10.3.5",
-    "@storybook/nextjs-vite": "^10.3.5",
-    "@storybook/react": "^10.3.5",
-    "@storybook/test-runner": "^0.24.3",
-    "@types/node": "^20",
+    "@chromatic-com/storybook": "^5.1.2",
+    "@storybook/addon-a11y": "^10.3.6",
+    "@storybook/addon-docs": "^10.3.6",
+    "@storybook/addon-themes": "^10.3.6",
+    "@storybook/addon-vitest": "^10.3.6",
+    "@storybook/nextjs-vite": "^10.3.6",
+    "@vitest/browser-playwright": "4.1.5",
+    "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@dds/typescript-config": "workspace:*",
     "babel-plugin-react-compiler": "1.0.0",
-    "eslint-plugin-storybook": "^10.3.5",
+    "eslint-plugin-storybook": "^10.3.6",
+    "playwright": "^1.58.2",
     "sass": "^1.98.0",
-    "storybook": "^10.3.5",
+    "storybook": "^10.3.6",
     "typescript": "^5",
+    "vitest": "4.1.5",
     "vite": "^8.0.3"
   }
 }
