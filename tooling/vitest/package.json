@@ -10,7 +10,11 @@
     "jsdom": "^29.0.1",
     "vitest": "^4.1.5"
   },
+  "scripts": {
+    "lint": "pnpm --dir ../.. exec eslint tooling/vitest"
+  },
   "exports": {
-    ".": "./vitest.config.ts"
+    ".": "./vitest.config.ts",
+    "./setup": "./setup.ts"
   }
 }

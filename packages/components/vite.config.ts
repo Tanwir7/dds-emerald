@@ -88,7 +88,7 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom',
-    setupFiles: resolve(__dirname, '../../tooling/vitest/setup.ts'),
+    setupFiles: ['@dds/vitest-config/setup'],
     testTimeout: 15000,
     hookTimeout: 15000,
     server: {

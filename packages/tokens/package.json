@@ -21,6 +21,7 @@
   "scripts": {
     "build": "tsup && node scripts/check-dist.mjs",
     "check:dist": "node scripts/check-dist.mjs",
+    "lint": "pnpm --dir ../.. exec eslint packages/tokens",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "clean": "rm -rf dist"

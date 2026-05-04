@@ -12,6 +12,7 @@
     "dev": "storybook dev -p 6006",
     "dev:ci": "storybook dev -p 6006 --ci",
     "build": "storybook build",
+    "lint": "pnpm --dir ../.. exec eslint apps/docs",
     "typecheck": "tsc --noEmit",
     "test": "vitest --config ./vitest.config.ts --run"
   },
