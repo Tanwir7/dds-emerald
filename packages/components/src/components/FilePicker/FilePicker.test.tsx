@@ -38,9 +38,9 @@ const makePickerFile = (
       overrides.size ?? 1024
     ),
   status: overrides.status ?? 'idle',
-  progress: overrides.progress,
-  error: overrides.error,
-  downloadUrl: overrides.downloadUrl,
+  ...(overrides.progress !== undefined ? { progress: overrides.progress } : {}),
+  ...(overrides.error !== undefined ? { error: overrides.error } : {}),
+  ...(overrides.downloadUrl !== undefined ? { downloadUrl: overrides.downloadUrl } : {}),
 });
 
 beforeEach(() => {
