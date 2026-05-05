@@ -252,6 +252,25 @@ export type {
   SheetSize,
 } from './components/Sheet';
 export {
+  Sidebar,
+  SidebarBottom,
+  SidebarCollapseToggle,
+  SidebarContent,
+  SidebarGroup,
+  SidebarItem,
+  SidebarProvider,
+  SidebarSubItem,
+  SidebarTop,
+  useSidebar,
+} from './components/Sidebar';
+export type {
+  SidebarContextValue,
+  SidebarGroupProps,
+  SidebarItemProps,
+  SidebarProps,
+  SidebarSubItemProps,
+} from './components/Sidebar';
+export {
   AlertDialog,
   AlertDialogTrigger,
   AlertDialogOverlay,

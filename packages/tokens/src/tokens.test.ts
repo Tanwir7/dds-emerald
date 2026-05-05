@@ -306,4 +306,44 @@ describe('tokens', () => {
       });
     });
   });
+
+  it('keeps sidebar text and state tokens at accessible contrast in each theme', () => {
+    const cssSource = readFileSync(new URL('./tokens.css', import.meta.url), 'utf8');
+    const rootBlock = extractBlock(cssSource, ':root');
+    const darkBlock = extractBlock(cssSource, "[data-theme='dark']");
+    const themes = [rootBlock, `${darkBlock}\n${rootBlock}`];
+
+    themes.forEach((block) => {
+      const sidebarBackground = colorToRgb(
+        resolveCssCustomPropertyValue(block, '--dds-color-bg-sidebar')
+      );
+      const sidebarText = colorToRgb(
+        resolveCssCustomPropertyValue(block, '--dds-color-text-on-sidebar')
+      );
+      const sidebarMutedText = colorToRgb(
+        resolveCssCustomPropertyValue(block, '--dds-color-text-muted-on-sidebar')
+      );
+      const sidebarAccent = colorToRgb(
+        resolveCssCustomPropertyValue(block, '--dds-color-sidebar-accent')
+      );
+      const sidebarAccentForeground = colorToRgb(
+        resolveCssCustomPropertyValue(block, '--dds-color-sidebar-accent-foreground')
+      );
+      const sidebarPrimary = colorToRgb(
+        resolveCssCustomPropertyValue(block, '--dds-color-sidebar-primary')
+      );
+      const sidebarPrimaryForeground = colorToRgb(
+        resolveCssCustomPropertyValue(block, '--dds-color-sidebar-primary-foreground')
+      );
+
+      expect(getContrastRatio(sidebarText, sidebarBackground)).toBeGreaterThanOrEqual(4.5);
+      expect(getContrastRatio(sidebarMutedText, sidebarBackground)).toBeGreaterThanOrEqual(4.5);
+      expect(getContrastRatio(sidebarAccentForeground, sidebarAccent)).toBeGreaterThanOrEqual(3);
+      expect(getContrastRatio(sidebarPrimaryForeground, sidebarPrimary)).toBeGreaterThanOrEqual(
+        4.5
+      );
+      expect(getContrastRatio(sidebarAccent, sidebarBackground)).toBeGreaterThanOrEqual(2);
+      expect(getContrastRatio(sidebarPrimary, sidebarBackground)).toBeGreaterThanOrEqual(3);
+    });
+  });
 });
