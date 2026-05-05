@@ -147,12 +147,18 @@ const StoryShell = ({
               <Container
                 as="main"
                 padding="xl"
-                className={storyStyles.contentPanel}
+                className={storyStyles.contentPanel ?? ''}
                 aria-label="Sidebar story content"
               >
                 <Stack gap="lg">
                   <Stack gap="sm">
-                    <Text as="p" size="xs" weight="semibold" color="muted" transform="uppercase">
+                    <Text
+                      as="p"
+                      size="xs"
+                      weight="semibold"
+                      color="muted"
+                      textTransform="uppercase"
+                    >
                       Quarterly review
                     </Text>
                     <Grid columns={{ default: 1, lg: 2 }} gap="md" align="start">
@@ -168,7 +174,7 @@ const StoryShell = ({
                         </Stack>
                       </GridItem>
                       <GridItem>
-                        <Container className={storyStyles.headerTags}>
+                        <Container className={storyStyles.headerTags ?? ''}>
                           <Tag>52 teams</Tag>
                           <Tag>94.2% SLA</Tag>
                         </Container>
@@ -179,9 +185,9 @@ const StoryShell = ({
                   <Grid
                     columns={{ default: 1, lg: 3 }}
                     gap="md"
-                    className={storyStyles.summaryGrid}
+                    className={storyStyles.summaryGrid ?? ''}
                   >
-                    <GridItem columnSpan={1}>
+                    <GridItem colSpan={1}>
                       <Card variant="outlined">
                         <CardHeader>
                           <Text
@@ -189,7 +195,7 @@ const StoryShell = ({
                             size="xs"
                             weight="semibold"
                             color="muted"
-                            transform="uppercase"
+                            textTransform="uppercase"
                           >
                             Current focus
                           </Text>
@@ -206,7 +212,7 @@ const StoryShell = ({
                         </CardBody>
                       </Card>
                     </GridItem>
-                    <GridItem columnSpan={1}>
+                    <GridItem colSpan={1}>
                       <Container padding="md" background="card" border>
                         <StatCard
                           label="Escalations"
@@ -215,7 +221,7 @@ const StoryShell = ({
                         />
                       </Container>
                     </GridItem>
-                    <GridItem columnSpan={1}>
+                    <GridItem colSpan={1}>
                       <Container padding="md" background="card" border>
                         <StatCard
                           label="Open launches"
