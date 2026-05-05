@@ -302,6 +302,24 @@ const sections = [
       ],
       [
         getResolvedSemanticTokens(
+          '--dds-color-',
+          [
+            ['bg-sidebar', 'bg'],
+            ['text-on-sidebar', 'text'],
+            ['text-muted-on-sidebar', 'muted-text'],
+            ['sidebar-primary', 'primary'],
+            ['sidebar-primary-foreground', 'primary-fg'],
+            ['sidebar-accent', 'accent'],
+            ['sidebar-accent-foreground', 'accent-fg'],
+            ['border-sidebar', 'border'],
+          ],
+          'Light Sidebar',
+          'Sidebar surface, text, and navigation accents in light mode',
+          rootTokenMap
+        ),
+      ],
+      [
+        getResolvedSemanticTokens(
           '--dds-color-action-destructive',
           [
             ['', 'destructive'],
@@ -322,6 +340,24 @@ const sections = [
           ],
           'Dark Border and Focus',
           'Structural lines and focus indication in dark mode',
+          darkTokenMap
+        ),
+      ],
+      [
+        getResolvedSemanticTokens(
+          '--dds-color-',
+          [
+            ['bg-sidebar', 'bg'],
+            ['text-on-sidebar', 'text'],
+            ['text-muted-on-sidebar', 'muted-text'],
+            ['sidebar-primary', 'primary'],
+            ['sidebar-primary-foreground', 'primary-fg'],
+            ['sidebar-accent', 'accent'],
+            ['sidebar-accent-foreground', 'accent-fg'],
+            ['border-sidebar', 'border'],
+          ],
+          'Dark Sidebar',
+          'Sidebar surface, text, and navigation accents in dark mode',
           darkTokenMap
         ),
       ],

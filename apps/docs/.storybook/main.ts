@@ -1,6 +1,7 @@
 import type { StorybookConfig } from '@storybook/nextjs-vite';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { emeraldStyleAliases } from './viteAliases.ts';
 
 function getAbsolutePath(value: string) {
   return dirname(fileURLToPath(import.meta.resolve(`${value}/package.json`)));
@@ -20,6 +21,18 @@ const config: StorybookConfig = {
     options: {},
   },
   staticDirs: ['../public'],
+  async viteFinal(config) {
+    return {
+      ...config,
+      resolve: {
+        ...config.resolve,
+        alias: {
+          ...(config.resolve?.alias ?? {}),
+          ...emeraldStyleAliases,
+        },
+      },
+    };
+  },
 };
 
 export default config;

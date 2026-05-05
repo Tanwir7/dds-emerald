@@ -3,11 +3,15 @@ import { fileURLToPath } from 'node:url';
 import { playwright } from '@vitest/browser-playwright';
 import { defineConfig } from 'vitest/config';
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
+import { emeraldStyleAliases } from './.storybook/viteAliases';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(dirname, '../..');
 
 export default defineConfig({
+  resolve: {
+    alias: emeraldStyleAliases,
+  },
   server: {
     fs: {
       allow: [repoRoot],

@@ -95,6 +95,17 @@ const resolvedModeTable = (rows) =>
     },
   ]);
 
+const sidebarTokenNames = new Set([
+  '--dds-color-bg-sidebar',
+  '--dds-color-text-on-sidebar',
+  '--dds-color-text-muted-on-sidebar',
+  '--dds-color-sidebar-primary',
+  '--dds-color-sidebar-primary-foreground',
+  '--dds-color-sidebar-accent',
+  '--dds-color-sidebar-accent-foreground',
+  '--dds-color-border-sidebar',
+]);
+
 const colorFamilyRows = [
   {
     family: 'Primitive palette',
@@ -172,8 +183,12 @@ const shadowTokens = byPattern(/^--dds-shadow-/);
 const motionTokens = byPattern(/^--dds-(duration|ease)-/);
 const iconSizeTokens = byPattern(/^--dds-icon-size-/);
 const semanticColorTokens = byPattern(/^--dds-color-/).filter(
-  (declaration) => !declaration.name.startsWith('--dds-color-chart-')
+  (declaration) =>
+    !declaration.name.startsWith('--dds-color-chart-') && !sidebarTokenNames.has(declaration.name)
 );
+const sidebarTokens = byName([
+  ...sidebarTokenNames,
+]);
 const tagTokens = byPattern(/^--dds-tag-/);
 const chartTokens = byPattern(/^--dds-color-chart-/);
 
@@ -252,6 +267,12 @@ ${tokenValueTable(motionTokens)}
 These values are resolved from \`:root\` and \`[data-theme='dark']\` so both modes are visible at once.
 
 ${resolvedModeTable(semanticColorTokens)}
+
+## Sidebar Tokens
+
+These tokens define the dedicated sidebar surface, text, border, and navigation accent roles.
+
+${resolvedModeTable(sidebarTokens)}
 
 ## Tag Tokens
 

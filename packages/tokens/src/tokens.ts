@@ -117,7 +117,7 @@ export const tokens = {
           popover: 'oklch(1 0 0)',
           input: 'oklch(0.90 0 0)',
           muted: 'oklch(0.96 0 0)',
-          sidebar: 'oklch(0.20 0.05 160)',
+          sidebar: 'oklch(0.15 0.06 160)',
         },
         text: {
           default: 'oklch(0.13 0 0)',
@@ -127,8 +127,8 @@ export const tokens = {
           warning: 'oklch(0.50 0.14 85)',
           danger: 'oklch(0.53 0.20 25)',
           info: 'oklch(0.50 0.12 240)',
-          'on-sidebar': 'oklch(0.92 0 0)',
-          'muted-on-sidebar': 'oklch(0.92 0 0 / 0.5)',
+          'on-sidebar': 'oklch(0.96 0 0)',
+          'muted-on-sidebar': 'oklch(0.92 0 0)',
         },
         action: {
           primary: 'oklch(0.35 0.12 160)',
@@ -151,10 +151,10 @@ export const tokens = {
         accent: 'oklch(0.94 0.03 160)',
         'accent-foreground': 'oklch(0.25 0.08 160)',
         sidebar: {
-          primary: 'oklch(0.45 0.12 160)',
-          'primary-foreground': 'oklch(0.98 0 0)',
-          accent: 'oklch(0.28 0.06 160)',
-          'accent-foreground': 'oklch(0.92 0 0)',
+          primary: 'oklch(0.65 0.10 160)',
+          'primary-foreground': 'oklch(0.10 0 0)',
+          accent: 'oklch(0.50 0.12 160)',
+          'accent-foreground': 'oklch(0.98 0 0)',
         },
         status: {
           success: 'oklch(0.45 0.12 160)',
@@ -216,11 +216,11 @@ export const tokens = {
           warning: 'oklch(0.80 0.12 85)',
           danger: 'oklch(0.70 0.15 25)',
           info: 'oklch(0.70 0.10 240)',
-          'on-sidebar': 'oklch(0.92 0 0)',
-          'muted-on-sidebar': 'oklch(0.92 0 0 / 0.5)',
+          'on-sidebar': 'oklch(0.98 0 0)',
+          'muted-on-sidebar': 'oklch(0.92 0 0)',
         },
         action: {
-          primary: 'oklch(0.55 0.14 160)',
+          primary: 'oklch(0.65 0.10 160)',
           'primary-hover': 'oklch(0.55 0.14 160 / 0.9)',
           'primary-foreground': 'oklch(0.12 0 0)',
           secondary: 'oklch(0.22 0.01 160)',
@@ -241,7 +241,9 @@ export const tokens = {
         'accent-foreground': 'oklch(0.85 0.06 160)',
         sidebar: {
           primary: 'oklch(0.55 0.14 160)',
-          accent: 'oklch(0.22 0.04 160)',
+          'primary-foreground': 'oklch(0.98 0 0)',
+          accent: 'oklch(0.45 0.12 160)',
+          'accent-foreground': 'oklch(0.98 0 0)',
         },
         status: {
           success: 'oklch(0.55 0.14 160)',

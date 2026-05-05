@@ -105,6 +105,17 @@ describe('Sheet', () => {
       expect(screen.getByRole('dialog')).toHaveClass('custom-sheet');
     });
 
+    it('renders the portal into a custom container when provided', () => {
+      const portalContainer = document.createElement('div');
+      document.body.appendChild(portalContainer);
+
+      renderSheet({ defaultOpen: true }, { portalContainer });
+
+      expect(portalContainer.contains(screen.getByRole('dialog'))).toBe(true);
+
+      portalContainer.remove();
+    });
+
     it('renders the internal close button by default', () => {
       renderSheet({ defaultOpen: true });
 
