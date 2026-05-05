@@ -37,6 +37,7 @@ export interface SidebarProps {
   collapsible?: boolean | undefined;
   collapsedOverlay?: boolean | undefined;
   overlayPortalContainer?: HTMLElement | null | undefined;
+  topOffset?: string | undefined;
   className?: string | undefined;
   children: React.ReactNode;
 }
@@ -369,8 +370,8 @@ export const SidebarProvider = ({
 
 export const Sidebar = React.forwardRef<
   HTMLElement,
-  Pick<SidebarProps, 'className' | 'children' | 'overlayPortalContainer'>
->(({ className, children, overlayPortalContainer }, ref) => {
+  Pick<SidebarProps, 'className' | 'children' | 'overlayPortalContainer' | 'topOffset'>
+>(({ className, children, overlayPortalContainer, topOffset = '0px' }, ref) => {
   const sidebar = useSidebar();
   const {
     collapsed,
@@ -396,6 +397,7 @@ export const Sidebar = React.forwardRef<
       className={clsx(styles.sidebar, collapsed && styles.sidebarCollapsed, className)}
       data-desktop-phase={desktopCollapsePhase}
       data-rail-presentation={railPresentation ? 'true' : 'false'}
+      style={{ '--dds-sidebar-top-offset': topOffset } as React.CSSProperties}
     >
       {children}
     </nav>

@@ -28,6 +28,8 @@ expect.extend(toHaveNoViolations);
 const warningTagClassName = getRequiredClassName(tagStyles, 'variantWarning');
 const dangerTagClassName = getRequiredClassName(tagStyles, 'variantDanger');
 const sidebarOverlayRailClassName = getRequiredClassName(sidebarStyles, 'sidebarOverlayRail');
+const sidebarContentClassName = getRequiredClassName(sidebarStyles, 'sidebarContent');
+const sidebarBottomClassName = getRequiredClassName(sidebarStyles, 'sidebarBottom');
 
 const mediaListeners = new Set<(event: MediaQueryListEvent) => void>();
 const mediaQueryLists = new Set<{
@@ -129,13 +131,15 @@ const SidebarStateProbe = () => {
 const renderSidebarShell = ({
   providerProps,
   includeTop = true,
+  sidebarProps,
 }: {
   providerProps?: Partial<React.ComponentProps<typeof SidebarProvider>>;
   includeTop?: boolean;
+  sidebarProps?: Partial<React.ComponentProps<typeof Sidebar>>;
 } = {}) =>
   render(
     <SidebarProvider {...providerProps}>
-      <Sidebar>
+      <Sidebar {...sidebarProps}>
         {includeTop ? (
           <SidebarTop>
             <span>Brand</span>
@@ -321,6 +325,22 @@ describe('Sidebar', () => {
       expect(screen.getByRole('navigation', { name: 'Main navigation' })).toBeInTheDocument();
     });
 
+    it('defaults topOffset to 0px on the persistent desktop sidebar', () => {
+      renderSidebarShell();
+
+      expect(screen.getByRole('navigation', { name: 'Main navigation' })).toHaveStyle(
+        '--dds-sidebar-top-offset: 0px'
+      );
+    });
+
+    it('applies a custom topOffset to the persistent desktop sidebar', () => {
+      renderSidebarShell({ sidebarProps: { topOffset: '72px' } });
+
+      expect(screen.getByRole('navigation', { name: 'Main navigation' })).toHaveStyle(
+        '--dds-sidebar-top-offset: 72px'
+      );
+    });
+
     it('applies collapsed class when collapsed=true', () => {
       renderSidebarShell({ providerProps: { defaultCollapsed: true } });
 
@@ -380,6 +400,20 @@ describe('Sidebar', () => {
       expect(screen.queryByText('Brand')).not.toBeInTheDocument();
       expect(screen.getByRole('group', { name: 'Workspace' })).toBeInTheDocument();
       expect(screen.getByRole('link', { name: 'Settings' })).toBeInTheDocument();
+    });
+
+    it('keeps SidebarContent as the scroll container after applying a topOffset', () => {
+      const { container } = renderSidebarShell({ sidebarProps: { topOffset: '72px' } });
+
+      const navigation = screen.getByRole('navigation', { name: 'Main navigation' });
+      const content = container.querySelector(`.${sidebarContentClassName}`);
+      const bottom = container.querySelector(`.${sidebarBottomClassName}`);
+
+      expect(navigation).toHaveStyle('--dds-sidebar-top-offset: 72px');
+      expect(content).toBeInTheDocument();
+      expect(bottom).toBeInTheDocument();
+      expect(content?.className).toContain(sidebarContentClassName);
+      expect(bottom?.className).toContain(sidebarBottomClassName);
     });
 
     it('opens a desktop navigation dialog from the collapsed rail when overlay mode is enabled', async () => {
