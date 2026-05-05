@@ -131,6 +131,11 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  opacity: 1;
+  transform: translateX(0);
+  transition:
+    opacity var(--dds-duration-fast) var(--dds-ease-standard),
+    transform var(--dds-duration-fast) var(--dds-ease-standard);
 }
 
 .endSlot {
@@ -139,4 +144,21 @@
   align-items: center;
   justify-content: flex-end;
   margin-left: auto;
+  opacity: 1;
+  transform: translateX(0);
+  transition:
+    opacity var(--dds-duration-fast) var(--dds-ease-standard),
+    transform var(--dds-duration-fast) var(--dds-ease-standard);
+}
+
+.root[data-sidebar-motion='collapsing'] .label,
+.root[data-sidebar-motion='collapsing'] .endSlot {
+  opacity: 0;
+  transform: translateX(calc(var(--dds-space-2) * -1));
+}
+
+.root[data-sidebar-motion='expanding'] .label,
+.root[data-sidebar-motion='expanding'] .endSlot {
+  opacity: 1;
+  transform: translateX(0);
 }

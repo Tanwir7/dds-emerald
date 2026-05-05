@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
 import '@testing-library/jest-dom/vitest';
-import { act, cleanup, render, screen, waitFor } from '@testing-library/react';
+import { act, cleanup, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import { Folder, House, Settings } from 'lucide-react';
@@ -9,6 +9,7 @@ import React from 'react';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import tagStyles from '../Tag/Tag.module.scss';
 import { getRequiredClassName } from '../../utils/getRequiredClassName';
+import sidebarStyles from './Sidebar.module.scss';
 import {
   Sidebar,
   SidebarBottom,
@@ -26,6 +27,7 @@ expect.extend(toHaveNoViolations);
 
 const warningTagClassName = getRequiredClassName(tagStyles, 'variantWarning');
 const dangerTagClassName = getRequiredClassName(tagStyles, 'variantDanger');
+const sidebarOverlayRailClassName = getRequiredClassName(sidebarStyles, 'sidebarOverlayRail');
 
 const mediaListeners = new Set<(event: MediaQueryListEvent) => void>();
 const mediaQueryLists = new Set<{
@@ -91,20 +93,34 @@ const emitMediaChange = (matches: boolean) => {
 };
 
 const SidebarStateProbe = () => {
-  const { collapsed, mobileOpen, isMobile, collapsible, setCollapsed, setMobileOpen } =
-    useSidebar();
+  const {
+    collapsed,
+    mobileOpen,
+    desktopOverlayOpen,
+    isMobile,
+    collapsible,
+    collapsedOverlay,
+    setCollapsed,
+    setMobileOpen,
+    setDesktopOverlayOpen,
+  } = useSidebar();
 
   return (
     <div>
       <span>collapsed:{collapsed ? 'true' : 'false'}</span>
       <span>mobile:{mobileOpen ? 'true' : 'false'}</span>
+      <span>desktopOverlay:{desktopOverlayOpen ? 'true' : 'false'}</span>
       <span>isMobile:{isMobile ? 'true' : 'false'}</span>
       <span>collapsible:{collapsible ? 'true' : 'false'}</span>
+      <span>collapsedOverlay:{collapsedOverlay ? 'true' : 'false'}</span>
       <button type="button" onClick={() => setCollapsed(!collapsed)}>
         toggle collapsed
       </button>
       <button type="button" onClick={() => setMobileOpen(!mobileOpen)}>
         toggle mobile
+      </button>
+      <button type="button" onClick={() => setDesktopOverlayOpen(!desktopOverlayOpen)}>
+        toggle desktop overlay
       </button>
     </div>
   );
@@ -256,6 +272,46 @@ describe('Sidebar', () => {
         expect(screen.getByText('isMobile:true')).toBeInTheDocument();
       });
     });
+
+    it('provides desktop overlay state in uncontrolled mode', async () => {
+      const user = userEvent.setup();
+
+      render(
+        <SidebarProvider defaultCollapsed collapsedOverlay>
+          <SidebarStateProbe />
+        </SidebarProvider>
+      );
+
+      expect(screen.getByText('desktopOverlay:false')).toBeInTheDocument();
+      expect(screen.getByText('collapsedOverlay:true')).toBeInTheDocument();
+
+      await user.click(screen.getByRole('button', { name: 'toggle desktop overlay' }));
+
+      expect(screen.getByText('desktopOverlay:true')).toBeInTheDocument();
+    });
+
+    it('supports controlled desktop overlay state', async () => {
+      const user = userEvent.setup();
+      const onDesktopOverlayOpenChange = vi.fn();
+
+      render(
+        <SidebarProvider
+          defaultCollapsed
+          collapsedOverlay
+          desktopOverlayOpen
+          onDesktopOverlayOpenChange={onDesktopOverlayOpenChange}
+        >
+          <SidebarStateProbe />
+        </SidebarProvider>
+      );
+
+      expect(screen.getByText('desktopOverlay:true')).toBeInTheDocument();
+
+      await user.click(screen.getByRole('button', { name: 'toggle desktop overlay' }));
+
+      expect(screen.getByText('desktopOverlay:true')).toBeInTheDocument();
+      expect(onDesktopOverlayOpenChange).toHaveBeenCalledWith(false);
+    });
   });
 
   describe('desktop rendering', () => {
@@ -271,12 +327,127 @@ describe('Sidebar', () => {
       expect(screen.getByRole('navigation').className).toMatch(/sidebarCollapsed/);
     });
 
+    it('keeps the expanded content layout during the desktop collapsing motion before settling into the rail', async () => {
+      const user = userEvent.setup();
+
+      renderSidebarShell();
+
+      const navigation = screen.getByRole('navigation', { name: 'Main navigation' });
+
+      expect(navigation).toHaveAttribute('data-desktop-phase', 'idle');
+      expect(navigation).toHaveAttribute('data-rail-presentation', 'false');
+
+      await user.click(screen.getByRole('button', { name: 'Collapse sidebar' }));
+
+      expect(navigation).toHaveAttribute('data-desktop-phase', 'collapsing');
+      expect(navigation).toHaveAttribute('data-rail-presentation', 'false');
+      expect(screen.getByRole('button', { name: 'Expand sidebar' })).toBeInTheDocument();
+
+      await waitFor(() => {
+        expect(navigation).toHaveAttribute('data-desktop-phase', 'idle');
+      });
+      expect(navigation).toHaveAttribute('data-rail-presentation', 'true');
+      expect(screen.getByRole('button', { name: 'Expand sidebar' })).toBeInTheDocument();
+    });
+
+    it('keeps the rail layout during the desktop expanding motion before restoring expanded content', async () => {
+      const user = userEvent.setup();
+
+      renderSidebarShell({ providerProps: { defaultCollapsed: true } });
+
+      const navigation = screen.getByRole('navigation', { name: 'Main navigation' });
+
+      expect(navigation).toHaveAttribute('data-desktop-phase', 'idle');
+      expect(navigation).toHaveAttribute('data-rail-presentation', 'true');
+
+      await user.click(screen.getByRole('button', { name: 'Expand sidebar' }));
+
+      expect(navigation).toHaveAttribute('data-desktop-phase', 'expanding');
+      expect(navigation).toHaveAttribute('data-rail-presentation', 'true');
+      expect(screen.getByRole('button', { name: 'Collapse sidebar' })).toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: 'Workspace' })).not.toBeInTheDocument();
+
+      await waitFor(() => {
+        expect(navigation).toHaveAttribute('data-desktop-phase', 'idle');
+      });
+      expect(navigation).toHaveAttribute('data-rail-presentation', 'false');
+      expect(screen.getByRole('button', { name: 'Workspace' })).toBeInTheDocument();
+    });
+
     it('renders without SidebarTop when omitted', () => {
       renderSidebarShell({ includeTop: false });
 
       expect(screen.queryByText('Brand')).not.toBeInTheDocument();
       expect(screen.getByRole('group', { name: 'Workspace' })).toBeInTheDocument();
       expect(screen.getByRole('link', { name: 'Settings' })).toBeInTheDocument();
+    });
+
+    it('opens a desktop navigation dialog from the collapsed rail when overlay mode is enabled', async () => {
+      const user = userEvent.setup();
+
+      const { container } = renderSidebarShell({
+        providerProps: { defaultCollapsed: true, collapsedOverlay: true },
+      });
+
+      const trigger = screen.getByRole('button', { name: 'Expand sidebar' });
+      expect(screen.getByRole('navigation').className).toMatch(/sidebarCollapsed/);
+
+      await user.click(trigger);
+
+      const dialog = await screen.findByRole('dialog', { name: 'Navigation' });
+      expect(dialog).toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: 'Expand sidebar' })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: 'Close sheet' })).not.toBeInTheDocument();
+      expect(container.querySelector(`.${sidebarOverlayRailClassName}`)).toBeInTheDocument();
+      expect(within(dialog).getByRole('button', { name: 'Collapse sidebar' })).toBeInTheDocument();
+      expect(within(dialog).getByText('Brand')).toBeInTheDocument();
+      expect(within(dialog).getByRole('link', { name: 'Settings' })).toBeInTheDocument();
+    });
+
+    it('closes the desktop overlay from the sidebar collapse toggle and restores focus to the rail toggle', async () => {
+      const user = userEvent.setup();
+
+      renderSidebarShell({
+        providerProps: { defaultCollapsed: true, collapsedOverlay: true },
+      });
+
+      const trigger = screen.getByRole('button', { name: 'Expand sidebar' });
+
+      await user.click(trigger);
+      expect(await screen.findByRole('dialog', { name: 'Navigation' })).toBeInTheDocument();
+
+      await user.click(await screen.findByRole('button', { name: 'Collapse sidebar' }));
+
+      await waitFor(() => {
+        expect(screen.queryByRole('dialog', { name: 'Navigation' })).not.toBeInTheDocument();
+      });
+      await waitFor(() => {
+        expect(screen.getByRole('button', { name: 'Expand sidebar' })).toHaveFocus();
+      });
+    });
+
+    it('closes the desktop overlay on Escape and restores focus to the rail toggle', async () => {
+      const user = userEvent.setup();
+
+      renderSidebarShell({
+        providerProps: { defaultCollapsed: true, collapsedOverlay: true },
+      });
+
+      const trigger = screen.getByRole('button', { name: 'Expand sidebar' });
+
+      await user.click(trigger);
+
+      const dialog = await screen.findByRole('dialog', { name: 'Navigation' });
+      expect(dialog).toBeInTheDocument();
+
+      await user.keyboard('{Escape}');
+
+      await waitFor(() => {
+        expect(screen.queryByRole('dialog', { name: 'Navigation' })).not.toBeInTheDocument();
+      });
+      await waitFor(() => {
+        expect(screen.getByRole('button', { name: 'Expand sidebar' })).toHaveFocus();
+      });
     });
   });
 
@@ -703,6 +874,24 @@ describe('Sidebar', () => {
       expect(await screen.findByRole('tooltip')).toHaveTextContent('Expand sidebar');
     });
 
+    it('opens the desktop overlay instead of expanding the persistent rail when overlay mode is enabled', async () => {
+      const user = userEvent.setup();
+
+      render(
+        <SidebarProvider defaultCollapsed collapsedOverlay>
+          <SidebarCollapseToggle />
+          <SidebarStateProbe />
+        </SidebarProvider>
+      );
+
+      const toggle = screen.getByRole('button', { name: 'Expand sidebar' });
+
+      await user.click(toggle);
+
+      expect(screen.getByText('collapsed:true')).toBeInTheDocument();
+      expect(screen.getByText('desktopOverlay:true')).toBeInTheDocument();
+    });
+
     it('does not render when provider collapsible=false', () => {
       render(
         <SidebarProvider collapsible={false}>
@@ -731,6 +920,17 @@ describe('Sidebar', () => {
     const { container } = renderSidebarShell({ providerProps: { defaultMobileOpen: true } });
     expect(await screen.findByRole('dialog', { name: 'Navigation' })).toBeInTheDocument();
     const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+
+  it('has no a11y violations in collapsed desktop overlay mode', async () => {
+    const user = userEvent.setup();
+    renderSidebarShell({ providerProps: { defaultCollapsed: true, collapsedOverlay: true } });
+
+    await user.click(screen.getByRole('button', { name: 'Expand sidebar' }));
+    expect(await screen.findByRole('dialog', { name: 'Navigation' })).toBeInTheDocument();
+
+    const results = await axe(document.body);
     expect(results).toHaveNoViolations();
   });
 

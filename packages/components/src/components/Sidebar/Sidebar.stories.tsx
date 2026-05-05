@@ -10,6 +10,7 @@ import {
   Settings,
   Users,
 } from 'lucide-react';
+import React from 'react';
 import { storySource, storySourceParameters } from '../../utils/storySource';
 import storyStyles from './Sidebar.stories.module.scss';
 import {
@@ -35,19 +36,24 @@ const componentDescription = `Sidebar composes DDS navigation primitives into a 
 - QA: verify expanded and collapsed modes, group disclosure state, mobile drawer state, rail flyouts, and axe coverage for composed navigation.`;
 
 const SidebarBrand = () => {
-  const { collapsed } = useSidebar();
+  const { collapsed, desktopCollapsePhase, desktopOverlayPresentation } = useSidebar();
+  const compactPresentation =
+    !desktopOverlayPresentation && (collapsed || desktopCollapsePhase !== 'idle');
 
   return (
     <div
-      className={[storyStyles.brandBlock, collapsed ? storyStyles.brandBlockCollapsed : null]
+      className={[
+        storyStyles.brandBlock,
+        compactPresentation ? storyStyles.brandBlockCollapsed : null,
+      ]
         .filter(Boolean)
         .join(' ')}
     >
       <div className={storyStyles.brandMark} aria-hidden="true">
         DDS
       </div>
-      {!collapsed ? (
-        <div>
+      {!compactPresentation ? (
+        <div className={storyStyles.brandCopy}>
           <p className={storyStyles.brandEyebrow}>Emerald OS</p>
           <p className={storyStyles.brandTitle}>Operations Hub</p>
         </div>
@@ -56,16 +62,24 @@ const SidebarBrand = () => {
   );
 };
 
-const SidebarNavigation = ({ withTop = true }: { withTop?: boolean }) => {
+const SidebarNavigation = ({
+  withTop = true,
+  overlayPortalContainer,
+}: {
+  withTop?: boolean;
+  overlayPortalContainer?: HTMLElement | null;
+}) => {
   return (
-    <Sidebar className={storyStyles.storySidebar}>
-      <SidebarTop className={storyStyles.brandTop}>
+    <Sidebar className={storyStyles.storySidebar} overlayPortalContainer={overlayPortalContainer}>
+      <SidebarTop className={withTop ? storyStyles.brandTop : storyStyles.navigationOnlyTop}>
         {withTop ? <SidebarBrand /> : null}
         <div className={storyStyles.toggleRow}>
           <SidebarCollapseToggle />
         </div>
       </SidebarTop>
-      <SidebarContent>
+      <SidebarContent
+        className={withTop ? storyStyles.brandedContent : storyStyles.navigationOnlyContent}
+      >
         <SidebarGroup label="Workspace" icon={House}>
           <SidebarItem href="#" icon={House} label="Overview" active />
           <SidebarItem href="#" icon={ChartColumn} label="Analytics" />
@@ -96,67 +110,85 @@ const SidebarNavigation = ({ withTop = true }: { withTop?: boolean }) => {
 
 const StoryShell = ({
   defaultCollapsed = false,
+  collapsedOverlay = false,
   withTop = true,
 }: {
   defaultCollapsed?: boolean;
+  collapsedOverlay?: boolean;
   withTop?: boolean;
-}) => (
-  <div className={storyStyles.storyA11yScope}>
-    <div className={storyStyles.canvas}>
-      <SidebarProvider defaultCollapsed={defaultCollapsed} mobileBreakpoint={0}>
-        <div className={storyStyles.storyFrame}>
-          <SidebarNavigation withTop={withTop} />
-          <section className={storyStyles.contentPanel}>
-            <header className={storyStyles.contentHeader}>
-              <div>
-                <p className={storyStyles.contentEyebrow}>Quarterly review</p>
-                <h2 className={storyStyles.contentTitle}>Regional delivery performance</h2>
-              </div>
-              <div className={storyStyles.headerMetrics}>
-                <span>52 teams</span>
-                <span>94.2% SLA</span>
-              </div>
-            </header>
-            <div className={storyStyles.contentGrid}>
-              <article className={storyStyles.heroCard}>
-                <p className={storyStyles.cardEyebrow}>Current focus</p>
-                <h3>
-                  Program health is stable, but change requests are clustering in two regions.
-                </h3>
-                <p>
-                  The shell is intentionally spacious so sidebar hierarchy, text rhythm, and rail
-                  flyouts can be reviewed against a realistic adjacent content layout.
-                </p>
-              </article>
-              <article className={storyStyles.metricCard}>
-                <span>Escalations</span>
-                <strong>12</strong>
-              </article>
-              <article className={storyStyles.metricCard}>
-                <span>Open launches</span>
-                <strong>08</strong>
-              </article>
-              <article className={storyStyles.tableCard}>
-                <div className={storyStyles.tableRow}>
-                  <span>North America</span>
-                  <strong>On track</strong>
+}) => {
+  const [overlayPortalContainer, setOverlayPortalContainer] = React.useState<HTMLElement | null>(
+    null
+  );
+
+  return (
+    <div className={storyStyles.storyA11yScope}>
+      <div className={storyStyles.canvas}>
+        <SidebarProvider
+          defaultCollapsed={defaultCollapsed}
+          collapsedOverlay={collapsedOverlay}
+          mobileBreakpoint={0}
+        >
+          <div className={storyStyles.storyViewport}>
+            <div className={storyStyles.storyFrame}>
+              <SidebarNavigation
+                withTop={withTop}
+                overlayPortalContainer={overlayPortalContainer}
+              />
+              <section className={storyStyles.contentPanel}>
+                <header className={storyStyles.contentHeader}>
+                  <div>
+                    <p className={storyStyles.contentEyebrow}>Quarterly review</p>
+                    <h2 className={storyStyles.contentTitle}>Regional delivery performance</h2>
+                  </div>
+                  <div className={storyStyles.headerMetrics}>
+                    <span>52 teams</span>
+                    <span>94.2% SLA</span>
+                  </div>
+                </header>
+                <div className={storyStyles.contentGrid}>
+                  <article className={storyStyles.heroCard}>
+                    <p className={storyStyles.cardEyebrow}>Current focus</p>
+                    <h3>
+                      Program health is stable, but change requests are clustering in two regions.
+                    </h3>
+                    <p>
+                      The shell is intentionally spacious so sidebar hierarchy, text rhythm, and
+                      rail flyouts can be reviewed against a realistic adjacent content layout.
+                    </p>
+                  </article>
+                  <article className={storyStyles.metricCard}>
+                    <span>Escalations</span>
+                    <strong>12</strong>
+                  </article>
+                  <article className={storyStyles.metricCard}>
+                    <span>Open launches</span>
+                    <strong>08</strong>
+                  </article>
+                  <article className={storyStyles.tableCard}>
+                    <div className={storyStyles.tableRow}>
+                      <span>North America</span>
+                      <strong>On track</strong>
+                    </div>
+                    <div className={storyStyles.tableRow}>
+                      <span>Europe</span>
+                      <strong>Needs review</strong>
+                    </div>
+                    <div className={storyStyles.tableRow}>
+                      <span>APAC</span>
+                      <strong>On track</strong>
+                    </div>
+                  </article>
                 </div>
-                <div className={storyStyles.tableRow}>
-                  <span>Europe</span>
-                  <strong>Needs review</strong>
-                </div>
-                <div className={storyStyles.tableRow}>
-                  <span>APAC</span>
-                  <strong>On track</strong>
-                </div>
-              </article>
+              </section>
             </div>
-          </section>
-        </div>
-      </SidebarProvider>
+            <div ref={setOverlayPortalContainer} className={storyStyles.overlayPortal} />
+          </div>
+        </SidebarProvider>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const meta: Meta<typeof Sidebar> = {
   title: 'Core Components/Sidebar',
@@ -231,6 +263,17 @@ export const NavigationOnly: Story = {
       '      <SidebarItem href="#" icon={Settings} label="Settings" />',
       '    </SidebarBottom>',
       '  </Sidebar>',
+      '</SidebarProvider>'
+    )
+  ),
+};
+
+export const CollapsedRailOverlay: Story = {
+  render: () => <StoryShell defaultCollapsed collapsedOverlay />,
+  parameters: storySourceParameters(
+    storySource(
+      '<SidebarProvider defaultCollapsed collapsedOverlay>',
+      '  <Sidebar>{/* ... */}</Sidebar>',
       '</SidebarProvider>'
     )
   ),

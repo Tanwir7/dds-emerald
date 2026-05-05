@@ -14,8 +14,13 @@ export interface SidebarContextValue {
   setCollapsed: (value: boolean) => void;
   mobileOpen: boolean;
   setMobileOpen: (value: boolean) => void;
+  desktopOverlayOpen: boolean;
+  setDesktopOverlayOpen: (value: boolean) => void;
+  desktopOverlayPresentation: boolean;
+  desktopCollapsePhase: 'idle' | 'collapsing' | 'expanding';
   isMobile: boolean;
   collapsible: boolean;
+  collapsedOverlay: boolean;
 }
 
 export interface SidebarProps {
@@ -25,8 +30,13 @@ export interface SidebarProps {
   mobileOpen?: boolean | undefined;
   defaultMobileOpen?: boolean | undefined;
   onMobileOpenChange?: ((value: boolean) => void) | undefined;
+  desktopOverlayOpen?: boolean | undefined;
+  defaultDesktopOverlayOpen?: boolean | undefined;
+  onDesktopOverlayOpenChange?: ((value: boolean) => void) | undefined;
   mobileBreakpoint?: number | undefined;
   collapsible?: boolean | undefined;
+  collapsedOverlay?: boolean | undefined;
+  overlayPortalContainer?: HTMLElement | null | undefined;
   className?: string | undefined;
   children: React.ReactNode;
 }
@@ -78,6 +88,19 @@ type SidebarCollapseToggleProps = Omit<
 
 const SidebarContext = React.createContext<SidebarContextValue | null>(null);
 const flyoutCloseDelay = 120;
+const desktopCollapseMotionDurationMs = 220;
+const desktopOverlayTriggerSelector = '[data-sidebar-overlay-trigger="true"]';
+const isDesktopRailPresentation = ({
+  collapsed,
+  desktopCollapsePhase,
+  desktopOverlayPresentation,
+}: Pick<
+  SidebarContextValue,
+  'collapsed' | 'desktopCollapsePhase' | 'desktopOverlayPresentation'
+>) =>
+  !desktopOverlayPresentation &&
+  desktopCollapsePhase !== 'collapsing' &&
+  (collapsed || desktopCollapsePhase === 'expanding');
 
 const useMediaQuery = (query: string) => {
   const [matches, setMatches] = React.useState(false);
@@ -169,104 +192,284 @@ export const SidebarProvider = ({
   mobileOpen,
   defaultMobileOpen = false,
   onMobileOpenChange,
+  desktopOverlayOpen,
+  defaultDesktopOverlayOpen = false,
+  onDesktopOverlayOpenChange,
   mobileBreakpoint = 768,
   collapsible = true,
+  collapsedOverlay = false,
 }: SidebarProps) => {
   const [internalCollapsed, setInternalCollapsed] = React.useState(defaultCollapsed);
   const [internalMobileOpen, setInternalMobileOpen] = React.useState(defaultMobileOpen);
+  const [internalDesktopOverlayOpen, setInternalDesktopOverlayOpen] =
+    React.useState(defaultDesktopOverlayOpen);
   const isMobile = useMediaQuery(`(max-width: ${mobileBreakpoint}px)`);
-  const lastFocusedElementRef = React.useRef<HTMLElement | null>(null);
+  const lastMobileFocusedElementRef = React.useRef<HTMLElement | null>(null);
+  const lastDesktopOverlayFocusedElementRef = React.useRef<HTMLElement | null>(null);
+  const desktopCollapseTimerRef = React.useRef<number | null>(null);
+  const previousCollapsedRef = React.useRef<boolean | null>(null);
+  const [desktopCollapsePhase, setDesktopCollapsePhase] = React.useState<
+    'idle' | 'collapsing' | 'expanding'
+  >('idle');
+  const resolvedCollapsed = collapsible ? (collapsed ?? internalCollapsed) : false;
+  const resolvedDesktopOverlayOpen = desktopOverlayOpen ?? internalDesktopOverlayOpen;
+  const desktopOverlayEnabled = collapsible && collapsedOverlay;
 
-  const sidebarContextValue = React.useMemo<SidebarContextValue>(
-    () => ({
-      collapsed: collapsible ? (collapsed ?? internalCollapsed) : false,
-      setCollapsed: (value) => {
-        if (!collapsible) {
-          return;
-        }
+  const clearDesktopCollapseTimer = React.useCallback(() => {
+    if (desktopCollapseTimerRef.current !== null) {
+      window.clearTimeout(desktopCollapseTimerRef.current);
+      desktopCollapseTimerRef.current = null;
+    }
+  }, []);
 
-        if (collapsed === undefined) {
-          setInternalCollapsed(value);
-        }
+  const beginDesktopCollapsePhase = React.useCallback(
+    (nextCollapsed: boolean) => {
+      if (isMobile) {
+        clearDesktopCollapseTimer();
+        setDesktopCollapsePhase('idle');
+        return;
+      }
 
-        onCollapsedChange?.(value);
-      },
-      mobileOpen: mobileOpen ?? internalMobileOpen,
-      setMobileOpen: (value) => {
-        if (value) {
-          lastFocusedElementRef.current =
-            document.activeElement instanceof HTMLElement ? document.activeElement : null;
-        }
-
-        if (mobileOpen === undefined) {
-          setInternalMobileOpen(value);
-        }
-
-        onMobileOpenChange?.(value);
-
-        if (!value) {
-          window.setTimeout(() => {
-            lastFocusedElementRef.current?.focus();
-            lastFocusedElementRef.current = null;
-          }, 0);
-        }
-      },
-      isMobile,
-      collapsible,
-    }),
-    [
-      collapsed,
-      collapsible,
-      internalCollapsed,
-      internalMobileOpen,
-      isMobile,
-      mobileOpen,
-      onCollapsedChange,
-      onMobileOpenChange,
-    ]
+      setDesktopCollapsePhase(nextCollapsed ? 'collapsing' : 'expanding');
+      clearDesktopCollapseTimer();
+      desktopCollapseTimerRef.current = window.setTimeout(() => {
+        setDesktopCollapsePhase('idle');
+        desktopCollapseTimerRef.current = null;
+      }, desktopCollapseMotionDurationMs);
+    },
+    [clearDesktopCollapseTimer, isMobile]
   );
+
+  React.useEffect(() => {
+    if (!desktopOverlayEnabled || isMobile || !resolvedCollapsed || !resolvedDesktopOverlayOpen) {
+      if (desktopOverlayOpen === undefined) {
+        setInternalDesktopOverlayOpen(false);
+      }
+
+      if (resolvedDesktopOverlayOpen) {
+        onDesktopOverlayOpenChange?.(false);
+      }
+    }
+  }, [
+    desktopOverlayEnabled,
+    desktopOverlayOpen,
+    isMobile,
+    onDesktopOverlayOpenChange,
+    resolvedCollapsed,
+    resolvedDesktopOverlayOpen,
+  ]);
+
+  React.useEffect(() => {
+    if (previousCollapsedRef.current === null) {
+      previousCollapsedRef.current = resolvedCollapsed;
+      return;
+    }
+
+    if (isMobile) {
+      clearDesktopCollapseTimer();
+      setDesktopCollapsePhase('idle');
+      previousCollapsedRef.current = resolvedCollapsed;
+      return;
+    }
+
+    if (previousCollapsedRef.current !== resolvedCollapsed && desktopCollapsePhase === 'idle') {
+      beginDesktopCollapsePhase(resolvedCollapsed);
+    }
+
+    previousCollapsedRef.current = resolvedCollapsed;
+  }, [
+    beginDesktopCollapsePhase,
+    clearDesktopCollapseTimer,
+    desktopCollapsePhase,
+    isMobile,
+    resolvedCollapsed,
+  ]);
+
+  React.useEffect(
+    () => () => {
+      clearDesktopCollapseTimer();
+    },
+    [clearDesktopCollapseTimer]
+  );
+
+  const sidebarContextValue: SidebarContextValue = {
+    collapsed: resolvedCollapsed,
+    setCollapsed: (value) => {
+      if (!collapsible) {
+        return;
+      }
+
+      if (value !== resolvedCollapsed) {
+        beginDesktopCollapsePhase(value);
+      }
+
+      if (collapsed === undefined) {
+        setInternalCollapsed(value);
+      }
+
+      onCollapsedChange?.(value);
+    },
+    mobileOpen: mobileOpen ?? internalMobileOpen,
+    setMobileOpen: (value) => {
+      if (value) {
+        lastMobileFocusedElementRef.current =
+          document.activeElement instanceof HTMLElement ? document.activeElement : null;
+      }
+
+      if (mobileOpen === undefined) {
+        setInternalMobileOpen(value);
+      }
+
+      onMobileOpenChange?.(value);
+
+      if (!value) {
+        window.setTimeout(() => {
+          lastMobileFocusedElementRef.current?.focus();
+          lastMobileFocusedElementRef.current = null;
+        }, 0);
+      }
+    },
+    desktopOverlayOpen: resolvedDesktopOverlayOpen,
+    setDesktopOverlayOpen: (value) => {
+      if (!desktopOverlayEnabled || isMobile || !resolvedCollapsed) {
+        return;
+      }
+
+      if (value) {
+        lastDesktopOverlayFocusedElementRef.current =
+          document.activeElement instanceof HTMLElement ? document.activeElement : null;
+      }
+
+      if (desktopOverlayOpen === undefined) {
+        setInternalDesktopOverlayOpen(value);
+      }
+
+      onDesktopOverlayOpenChange?.(value);
+
+      if (!value) {
+        window.setTimeout(() => {
+          if (lastDesktopOverlayFocusedElementRef.current?.isConnected) {
+            lastDesktopOverlayFocusedElementRef.current.focus();
+          } else {
+            document.querySelector<HTMLElement>(desktopOverlayTriggerSelector)?.focus();
+          }
+          lastDesktopOverlayFocusedElementRef.current = null;
+        }, 0);
+      }
+    },
+    desktopOverlayPresentation: false,
+    desktopCollapsePhase,
+    isMobile,
+    collapsible,
+    collapsedOverlay: desktopOverlayEnabled,
+  };
 
   return <SidebarContext.Provider value={sidebarContextValue}>{children}</SidebarContext.Provider>;
 };
 
-export const Sidebar = React.forwardRef<HTMLElement, Pick<SidebarProps, 'className' | 'children'>>(
-  ({ className, children }, ref) => {
-    const { collapsed, isMobile, mobileOpen, setMobileOpen } = useSidebar();
+export const Sidebar = React.forwardRef<
+  HTMLElement,
+  Pick<SidebarProps, 'className' | 'children' | 'overlayPortalContainer'>
+>(({ className, children, overlayPortalContainer }, ref) => {
+  const sidebar = useSidebar();
+  const {
+    collapsed,
+    collapsedOverlay,
+    desktopCollapsePhase,
+    desktopOverlayPresentation,
+    desktopOverlayOpen,
+    isMobile,
+    mobileOpen,
+    setDesktopOverlayOpen,
+    setMobileOpen,
+  } = sidebar;
+  const railPresentation = isDesktopRailPresentation({
+    collapsed,
+    desktopCollapsePhase,
+    desktopOverlayPresentation,
+  });
 
-    if (isMobile) {
-      return (
-        <TooltipProvider>
-          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-            <SheetContent
-              side="left"
-              size="sm"
-              showCloseButton
-              closeOnOverlayClick
-              aria-label="Navigation"
-              aria-describedby={undefined}
-              className={clsx(styles.sidebarSheet, className)}
-              style={{ width: 'var(--dds-sidebar-width)', maxWidth: '100vw' }}
-            >
-              <div className={styles.mobilePanel}>{children}</div>
-            </SheetContent>
-          </Sheet>
-        </TooltipProvider>
-      );
-    }
+  const sidebarContent = (
+    <nav
+      ref={ref}
+      aria-label="Main navigation"
+      className={clsx(styles.sidebar, collapsed && styles.sidebarCollapsed, className)}
+      data-desktop-phase={desktopCollapsePhase}
+      data-rail-presentation={railPresentation ? 'true' : 'false'}
+    >
+      {children}
+    </nav>
+  );
 
+  if (isMobile) {
     return (
       <TooltipProvider>
-        <nav
-          ref={ref}
-          aria-label="Main navigation"
-          className={clsx(styles.sidebar, collapsed && styles.sidebarCollapsed, className)}
-        >
-          {children}
-        </nav>
+        <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+          <SheetContent
+            side="left"
+            size="sm"
+            portalContainer={overlayPortalContainer}
+            showCloseButton
+            closeOnOverlayClick
+            aria-label="Navigation"
+            aria-describedby={undefined}
+            className={clsx(styles.sidebarSheet, className)}
+            style={{ width: 'var(--dds-sidebar-width)', maxWidth: '100vw' }}
+          >
+            <div className={styles.mobilePanel}>{children}</div>
+          </SheetContent>
+        </Sheet>
       </TooltipProvider>
     );
   }
-);
+
+  if (collapsed && collapsedOverlay) {
+    const overlayContextValue: SidebarContextValue = {
+      ...sidebar,
+      collapsed: false,
+      desktopOverlayPresentation: true,
+      desktopCollapsePhase: 'idle',
+    };
+
+    return (
+      <TooltipProvider>
+        <div
+          aria-hidden={desktopOverlayOpen ? 'true' : undefined}
+          className={clsx(
+            styles.sidebarOverlayRail,
+            desktopOverlayOpen && styles.sidebarOverlayRailHidden
+          )}
+        >
+          {sidebarContent}
+        </div>
+        <Sheet open={desktopOverlayOpen} onOpenChange={setDesktopOverlayOpen}>
+          <SheetContent
+            side="left"
+            size="sm"
+            portalContainer={overlayPortalContainer}
+            showCloseButton={false}
+            closeOnOverlayClick
+            aria-label="Navigation"
+            aria-describedby={undefined}
+            className={clsx(styles.sidebarSheet, styles.sidebarOverlaySheet, className)}
+            style={{ width: 'var(--dds-sidebar-width)', maxWidth: '100vw' }}
+          >
+            <SidebarContext.Provider value={overlayContextValue}>
+              <nav
+                aria-label="Main navigation"
+                className={clsx(styles.sidebar, styles.sidebarOverlay)}
+              >
+                {children}
+              </nav>
+            </SidebarContext.Provider>
+          </SheetContent>
+        </Sheet>
+      </TooltipProvider>
+    );
+  }
+
+  return <TooltipProvider>{sidebarContent}</TooltipProvider>;
+});
 
 Sidebar.displayName = 'Sidebar';
 
@@ -304,41 +507,81 @@ export const SidebarCollapseToggle = React.forwardRef<
   HTMLButtonElement,
   SidebarCollapseToggleProps
 >(({ className, ...props }, ref) => {
-  const { collapsed, collapsible, isMobile, setCollapsed } = useSidebar();
+  const {
+    collapsed,
+    collapsedOverlay,
+    collapsible,
+    desktopCollapsePhase,
+    desktopOverlayPresentation,
+    desktopOverlayOpen,
+    isMobile,
+    setCollapsed,
+    setDesktopOverlayOpen,
+  } = useSidebar();
 
   if (!collapsible) {
     return null;
   }
 
-  const toggleIcon = collapsed ? PanelLeftOpen : PanelLeftClose;
-  const toggleLabel = collapsed ? 'Expand sidebar' : 'Collapse sidebar';
+  const isDesktopOverlayTrigger = collapsedOverlay && !isMobile;
+  const closesDesktopOverlay =
+    isDesktopOverlayTrigger && desktopOverlayPresentation && desktopOverlayOpen;
+  const compactToggle = isDesktopRailPresentation({
+    collapsed,
+    desktopCollapsePhase,
+    desktopOverlayPresentation,
+  });
+  const railOverlayToggle = isDesktopOverlayTrigger && compactToggle;
+  const toggleIcon = collapsed && !desktopOverlayOpen ? PanelLeftOpen : PanelLeftClose;
+  const toggleLabel = railOverlayToggle
+    ? 'Expand sidebar'
+    : closesDesktopOverlay
+      ? 'Collapse sidebar'
+      : collapsed
+        ? 'Expand sidebar'
+        : 'Collapse sidebar';
+  const handleClick = () => {
+    if (railOverlayToggle) {
+      setDesktopOverlayOpen(!desktopOverlayOpen);
+      return;
+    }
+
+    if (closesDesktopOverlay) {
+      setDesktopOverlayOpen(false);
+      return;
+    }
+
+    setCollapsed(!collapsed);
+  };
   const toggleButton = (
     <button
       ref={ref}
       type="button"
       aria-label={toggleLabel}
-      aria-expanded={!collapsed}
+      aria-expanded={railOverlayToggle || closesDesktopOverlay ? desktopOverlayOpen : !collapsed}
       className={clsx(
         styles.navItem,
         styles.collapseToggle,
-        collapsed ? styles.railItem : styles.collapseToggleExpanded,
+        compactToggle ? styles.railItem : styles.collapseToggleExpanded,
         className
       )}
-      onClick={() => setCollapsed(!collapsed)}
-      data-compact={collapsed ? 'true' : undefined}
+      onClick={handleClick}
+      data-compact={compactToggle ? 'true' : undefined}
+      data-sidebar-motion={desktopCollapsePhase}
+      data-sidebar-overlay-trigger={railOverlayToggle ? 'true' : undefined}
       {...props}
     >
       <span className={styles.collapseToggleIcon}>
         <Icon icon={toggleIcon} aria-hidden="true" />
       </span>
-      {collapsed ? null : <span className={styles.collapseToggleLabel}>{toggleLabel}</span>}
+      {compactToggle ? null : <span className={styles.collapseToggleLabel}>{toggleLabel}</span>}
     </button>
   );
 
-  if (collapsed && !isMobile) {
+  if (compactToggle && !isMobile) {
     return (
       <TooltipProvider>
-        <Tooltip content="Expand sidebar" side="right">
+        <Tooltip content={toggleLabel} side="right">
           {toggleButton}
         </Tooltip>
       </TooltipProvider>
@@ -364,10 +607,15 @@ export const SidebarGroup = React.forwardRef<HTMLDivElement, SidebarGroupProps>(
     },
     ref
   ) => {
-    const { collapsed } = useSidebar();
+    const { collapsed, desktopCollapsePhase, desktopOverlayPresentation } = useSidebar();
     const [internalOpen, setInternalOpen] = React.useState(defaultOpen);
     const isOpen = collapsible ? (open ?? internalOpen) : true;
     const groupId = React.useId();
+    const railPresentation = isDesktopRailPresentation({
+      collapsed,
+      desktopCollapsePhase,
+      desktopOverlayPresentation,
+    });
 
     const handleToggle = () => {
       if (!collapsible) {
@@ -383,7 +631,7 @@ export const SidebarGroup = React.forwardRef<HTMLDivElement, SidebarGroupProps>(
       onOpenChange?.(nextOpen);
     };
 
-    if (collapsed) {
+    if (railPresentation) {
       return (
         <section ref={ref} className={clsx(styles.group, styles.groupCollapsed, className)}>
           <SidebarGroupItems role="group" aria-label={label}>
@@ -434,9 +682,14 @@ export const SidebarSubItem = React.forwardRef<SidebarItemElement, SidebarSubIte
     { label, href, onClick, active = false, disabled = false, badge, badgeVariant, className },
     ref
   ) => {
-    const { collapsed } = useSidebar();
+    const { collapsed, desktopCollapsePhase, desktopOverlayPresentation } = useSidebar();
     const endSlot = badge != null ? renderBadge(badge, badgeVariant) : undefined;
     const baseClassName = clsx(styles.navItem, styles.subItem, className);
+    const railPresentation = isDesktopRailPresentation({
+      collapsed,
+      desktopCollapsePhase,
+      desktopOverlayPresentation,
+    });
 
     if (href) {
       return (
@@ -446,8 +699,9 @@ export const SidebarSubItem = React.forwardRef<SidebarItemElement, SidebarSubIte
           isActive={active}
           disabled={disabled}
           variant="sidebar"
-          level={collapsed ? 0 : 1}
+          level={railPresentation ? 0 : 1}
           className={baseClassName}
+          data-sidebar-motion={desktopCollapsePhase}
           {...(endSlot ? { endSlot } : {})}
         >
           {label}
@@ -461,8 +715,9 @@ export const SidebarSubItem = React.forwardRef<SidebarItemElement, SidebarSubIte
         isActive={active}
         disabled={disabled}
         variant="sidebar"
-        level={collapsed ? 0 : 1}
+        level={railPresentation ? 0 : 1}
         className={baseClassName}
+        data-sidebar-motion={desktopCollapsePhase}
         {...(onClick ? { onClick } : {})}
         {...(endSlot ? { endSlot } : {})}
       >
@@ -674,13 +929,18 @@ export const SidebarItem = React.forwardRef<SidebarItemElement, SidebarItemProps
     },
     ref
   ) => {
-    const { collapsed } = useSidebar();
+    const { collapsed, desktopCollapsePhase, desktopOverlayPresentation } = useSidebar();
     const hasChildren = React.Children.count(children) > 0;
     const [subOpen, setSubOpen] = React.useState(false);
     const subId = React.useId();
     const iconNode = icon ? <Icon icon={icon} aria-hidden="true" /> : null;
+    const railPresentation = isDesktopRailPresentation({
+      collapsed,
+      desktopCollapsePhase,
+      desktopOverlayPresentation,
+    });
 
-    if (collapsed && hasChildren) {
+    if (railPresentation && hasChildren) {
       return (
         <RailFlyoutItem
           ref={ref}
@@ -697,7 +957,7 @@ export const SidebarItem = React.forwardRef<SidebarItemElement, SidebarItemProps
       );
     }
 
-    if (collapsed) {
+    if (railPresentation) {
       return (
         <Tooltip content={label} side="right">
           {href ? (
@@ -716,6 +976,7 @@ export const SidebarItem = React.forwardRef<SidebarItemElement, SidebarItemProps
               )}
               data-rail-notification={badge != null ? 'true' : undefined}
               data-compact="true"
+              data-sidebar-motion={desktopCollapsePhase}
               {...(iconNode ? { icon: iconNode } : {})}
             >
               {label}
@@ -735,6 +996,7 @@ export const SidebarItem = React.forwardRef<SidebarItemElement, SidebarItemProps
               )}
               data-rail-notification={badge != null ? 'true' : undefined}
               data-compact="true"
+              data-sidebar-motion={desktopCollapsePhase}
               {...(onClick ? { onClick } : {})}
               {...(iconNode ? { icon: iconNode } : {})}
             >
@@ -753,6 +1015,7 @@ export const SidebarItem = React.forwardRef<SidebarItemElement, SidebarItemProps
           disabled,
           variant: 'sidebar' as const,
           className: clsx(styles.navItem),
+          'data-sidebar-motion': desktopCollapsePhase,
           ...(iconNode ? { icon: iconNode } : {}),
           ...(badge != null ? { endSlot: renderBadge(badge, badgeVariant) } : {}),
         };
@@ -792,6 +1055,7 @@ export const SidebarItem = React.forwardRef<SidebarItemElement, SidebarItemProps
             className={clsx(styles.navItem, styles.itemToggle)}
             aria-expanded={subOpen}
             aria-controls={subId}
+            data-sidebar-motion={desktopCollapsePhase}
             endSlot={
               <span className={styles.itemEndSlot}>
                 {badge != null ? renderBadge(badge, badgeVariant) : null}
@@ -827,6 +1091,7 @@ export const SidebarItem = React.forwardRef<SidebarItemElement, SidebarItemProps
           disabled={disabled}
           variant="sidebar"
           className={clsx(styles.navItem, className)}
+          data-sidebar-motion={desktopCollapsePhase}
           {...(iconNode ? { icon: iconNode } : {})}
           {...(endSlot ? { endSlot } : {})}
         >
@@ -842,6 +1107,7 @@ export const SidebarItem = React.forwardRef<SidebarItemElement, SidebarItemProps
         disabled={disabled}
         variant="sidebar"
         className={clsx(styles.navItem, className)}
+        data-sidebar-motion={desktopCollapsePhase}
         {...(onClick ? { onClick } : {})}
         {...(iconNode ? { icon: iconNode } : {})}
         {...(endSlot ? { endSlot } : {})}

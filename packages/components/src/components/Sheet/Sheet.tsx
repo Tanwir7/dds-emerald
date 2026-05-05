@@ -33,6 +33,7 @@ interface SheetOverlayProps extends React.HTMLAttributes<HTMLDivElement> {
 export interface SheetContentProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
   side?: SheetSide;
   size?: SheetSize;
+  portalContainer?: HTMLElement | null | undefined;
   closeOnOverlayClick?: boolean;
   closeOnEscape?: boolean;
   showCloseButton?: boolean;
@@ -108,6 +109,7 @@ export const SheetContent = React.forwardRef<HTMLDivElement, SheetContentProps>(
     {
       side = 'right',
       size = 'md',
+      portalContainer,
       closeOnOverlayClick = true,
       closeOnEscape = true,
       showCloseButton = true,
@@ -138,7 +140,7 @@ export const SheetContent = React.forwardRef<HTMLDivElement, SheetContentProps>(
     });
 
     return (
-      <RadixDialog.Portal>
+      <RadixDialog.Portal container={portalContainer ?? undefined}>
         <SheetOverlay />
         <RadixDialog.Content
           ref={ref}
