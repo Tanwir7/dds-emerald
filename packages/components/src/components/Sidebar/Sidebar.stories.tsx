@@ -11,6 +11,15 @@ import {
   Users,
 } from 'lucide-react';
 import React from 'react';
+import { Card, CardBody, CardDescription, CardHeader, CardTitle } from '../Card';
+import { Container } from '../Container';
+import { Grid, GridItem } from '../Grid';
+import { Heading } from '../Heading';
+import { KeyValueList, KeyValueRow } from '../KeyValueRow';
+import { Stack } from '../Stack';
+import { StatCard } from '../StatCard';
+import { Tag } from '../Tag';
+import { Text } from '../Text';
 import { storySource, storySourceParameters } from '../../utils/storySource';
 import storyStyles from './Sidebar.stories.module.scss';
 import {
@@ -135,52 +144,112 @@ const StoryShell = ({
                 withTop={withTop}
                 overlayPortalContainer={overlayPortalContainer}
               />
-              <section className={storyStyles.contentPanel}>
-                <header className={storyStyles.contentHeader}>
-                  <div>
-                    <p className={storyStyles.contentEyebrow}>Quarterly review</p>
-                    <h2 className={storyStyles.contentTitle}>Regional delivery performance</h2>
-                  </div>
-                  <div className={storyStyles.headerMetrics}>
-                    <span>52 teams</span>
-                    <span>94.2% SLA</span>
-                  </div>
-                </header>
-                <div className={storyStyles.contentGrid}>
-                  <article className={storyStyles.heroCard}>
-                    <p className={storyStyles.cardEyebrow}>Current focus</p>
-                    <h3>
-                      Program health is stable, but change requests are clustering in two regions.
-                    </h3>
-                    <p>
-                      The shell is intentionally spacious so sidebar hierarchy, text rhythm, and
-                      rail flyouts can be reviewed against a realistic adjacent content layout.
-                    </p>
-                  </article>
-                  <article className={storyStyles.metricCard}>
-                    <span>Escalations</span>
-                    <strong>12</strong>
-                  </article>
-                  <article className={storyStyles.metricCard}>
-                    <span>Open launches</span>
-                    <strong>08</strong>
-                  </article>
-                  <article className={storyStyles.tableCard}>
-                    <div className={storyStyles.tableRow}>
-                      <span>North America</span>
-                      <strong>On track</strong>
-                    </div>
-                    <div className={storyStyles.tableRow}>
-                      <span>Europe</span>
-                      <strong>Needs review</strong>
-                    </div>
-                    <div className={storyStyles.tableRow}>
-                      <span>APAC</span>
-                      <strong>On track</strong>
-                    </div>
-                  </article>
-                </div>
-              </section>
+              <Container
+                as="main"
+                padding="xl"
+                className={storyStyles.contentPanel}
+                aria-label="Sidebar story content"
+              >
+                <Stack gap="lg">
+                  <Stack gap="sm">
+                    <Text as="p" size="xs" weight="semibold" color="muted" transform="uppercase">
+                      Quarterly review
+                    </Text>
+                    <Grid columns={{ default: 1, lg: 2 }} gap="md" align="start">
+                      <GridItem>
+                        <Stack gap="xs">
+                          <Heading as="h2" size="5xl">
+                            Regional delivery performance
+                          </Heading>
+                          <Text size="lg" color="muted">
+                            A compact content pane to review sidebar hierarchy alongside realistic
+                            DDS surfaces.
+                          </Text>
+                        </Stack>
+                      </GridItem>
+                      <GridItem>
+                        <Container className={storyStyles.headerTags}>
+                          <Tag>52 teams</Tag>
+                          <Tag>94.2% SLA</Tag>
+                        </Container>
+                      </GridItem>
+                    </Grid>
+                  </Stack>
+
+                  <Grid
+                    columns={{ default: 1, lg: 3 }}
+                    gap="md"
+                    className={storyStyles.summaryGrid}
+                  >
+                    <GridItem columnSpan={1}>
+                      <Card variant="outlined">
+                        <CardHeader>
+                          <Text
+                            as="p"
+                            size="xs"
+                            weight="semibold"
+                            color="muted"
+                            transform="uppercase"
+                          >
+                            Current focus
+                          </Text>
+                          <CardTitle as="h3">
+                            Program health is stable, but change requests are clustering in two
+                            regions.
+                          </CardTitle>
+                        </CardHeader>
+                        <CardBody>
+                          <CardDescription>
+                            The story keeps the content intentionally compact so the sidebar remains
+                            the primary review surface without relying on custom story-only cards.
+                          </CardDescription>
+                        </CardBody>
+                      </Card>
+                    </GridItem>
+                    <GridItem columnSpan={1}>
+                      <Container padding="md" background="card" border>
+                        <StatCard
+                          label="Escalations"
+                          value="12"
+                          delta={{ value: '+3', trend: 'up', label: 'this week' }}
+                        />
+                      </Container>
+                    </GridItem>
+                    <GridItem columnSpan={1}>
+                      <Container padding="md" background="card" border>
+                        <StatCard
+                          label="Open launches"
+                          value="08"
+                          delta={{ value: '-2', trend: 'down', label: 'from last review' }}
+                        />
+                      </Container>
+                    </GridItem>
+                  </Grid>
+
+                  <Card variant="outlined">
+                    <CardHeader>
+                      <CardTitle as="h3">Regional status</CardTitle>
+                      <CardDescription>
+                        Delivery signals remain concise and responsive while using DDS content
+                        primitives only.
+                      </CardDescription>
+                    </CardHeader>
+                    <CardBody>
+                      <KeyValueList dividers>
+                        <KeyValueRow label="North America">
+                          <Tag variant="success">On track</Tag>
+                        </KeyValueRow>
+                        <KeyValueRow label="Europe">
+                          <Tag variant="warning">Needs review</Tag>
+                        </KeyValueRow>
+                        <KeyValueRow label="APAC">
+                          <Tag variant="success">On track</Tag>
+                        </KeyValueRow>
+                      </KeyValueList>
+                    </CardBody>
+                  </Card>
+                </Stack>
+              </Container>
             </div>
             <div ref={setOverlayPortalContainer} className={storyStyles.overlayPortal} />
           </div>
