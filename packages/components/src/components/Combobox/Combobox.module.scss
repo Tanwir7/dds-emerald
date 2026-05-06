@@ -63,15 +63,15 @@
 }
 
 .hasClear.sm {
-  padding-right: var(--dds-space-8);
+  padding-right: var(--dds-space-10);
 }
 
 .hasClear.md {
-  padding-right: var(--dds-space-9);
+  padding-right: var(--dds-space-10);
 }
 
 .hasClear.lg {
-  padding-right: var(--dds-space-10);
+  padding-right: calc(var(--dds-space-10) + var(--dds-space-1));
 }
 
 .triggerText {
@@ -96,12 +96,12 @@
 .clearButton {
   position: absolute;
   top: 50%;
-  right: var(--dds-space-6);
+  right: var(--dds-space-4);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--dds-icon-size-md);
-  height: var(--dds-icon-size-md);
+  width: var(--dds-space-6);
+  height: var(--dds-space-6);
   padding: 0;
   color: var(--dds-color-text-muted);
   background-color: transparent;
