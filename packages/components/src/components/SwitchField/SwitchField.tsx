@@ -100,7 +100,7 @@ export const SwitchField = React.forwardRef<HTMLDivElement, SwitchFieldProps>(
           />
 
           <div className={classNames.labelGroup}>
-            <Label htmlFor={switchId} required={required} disabled={disabled}>
+            <Label htmlFor={switchId} required={required}>
               {label}
             </Label>
             {description ? (

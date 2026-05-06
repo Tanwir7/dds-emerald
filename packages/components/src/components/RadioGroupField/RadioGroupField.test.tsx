@@ -28,7 +28,6 @@ const classNames = {
   root: getRequiredClassName(styles, 'root'),
   groupLabel: getRequiredClassName(styles, 'groupLabel'),
   groupLabelNoInstruction: getRequiredClassName(styles, 'groupLabelNoInstruction'),
-  groupLabelDisabled: getRequiredClassName(styles, 'groupLabelDisabled'),
   requiredMark: getRequiredClassName(styles, 'requiredMark'),
   instruction: getRequiredClassName(styles, 'instruction'),
   helper: getRequiredClassName(styles, 'helper'),
@@ -372,16 +371,6 @@ describe('RadioGroupField', () => {
       'aria-hidden',
       'true'
     );
-  });
-
-  it('group label applies .groupLabelDisabled when disabled={true}', () => {
-    const { container } = render(
-      <RadioGroupField label="Notification frequency" disabled>
-        <RadioOption id="frequency-daily" label="Daily" value="daily" />
-      </RadioGroupField>
-    );
-
-    expect(getGroupLabel(container)).toHaveClass(classNames.groupLabelDisabled);
   });
 
   it('orientation="vertical" forwarded to RadioGroup by default', () => {

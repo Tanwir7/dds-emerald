@@ -152,12 +152,7 @@ export const Field = React.forwardRef<HTMLDivElement, FieldProps>(
           style={inlineStyle}
         >
           <div className={classNames.labelCol}>
-            <Label
-              className={classNames.label}
-              htmlFor={fieldId}
-              required={required}
-              disabled={disabled}
-            >
+            <Label className={classNames.label} htmlFor={fieldId} required={required}>
               {label}
             </Label>
           </div>
@@ -207,12 +202,7 @@ export const Field = React.forwardRef<HTMLDivElement, FieldProps>(
           className
         )}
       >
-        <Label
-          className={classNames.label}
-          htmlFor={fieldId}
-          required={required}
-          disabled={disabled}
-        >
+        <Label className={classNames.label} htmlFor={fieldId} required={required}>
           {label}
         </Label>
 

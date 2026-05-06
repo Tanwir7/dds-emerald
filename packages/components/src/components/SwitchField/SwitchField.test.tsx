@@ -301,12 +301,6 @@ describe('SwitchField', () => {
     expect(getLabel(container).querySelector('[aria-hidden="true"]')).toHaveTextContent('*');
   });
 
-  it('Label is disabled when disabled={true}', () => {
-    const { container } = render(<SwitchField label="Enable notifications" disabled />);
-
-    expect(getLabel(container).className).toContain('disabled');
-  });
-
   it('size="sm" is forwarded to Switch', () => {
     const { container } = render(<SwitchField label="Enable notifications" size="sm" />);
 

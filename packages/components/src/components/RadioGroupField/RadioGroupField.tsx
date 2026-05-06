@@ -34,7 +34,6 @@ const classNames = {
   root: getRequiredClassName(styles, 'root'),
   groupLabel: getRequiredClassName(styles, 'groupLabel'),
   groupLabelNoInstruction: getRequiredClassName(styles, 'groupLabelNoInstruction'),
-  groupLabelDisabled: getRequiredClassName(styles, 'groupLabelDisabled'),
   requiredMark: getRequiredClassName(styles, 'requiredMark'),
   instruction: getRequiredClassName(styles, 'instruction'),
   helper: getRequiredClassName(styles, 'helper'),
@@ -74,8 +73,7 @@ export const RadioGroupField = React.forwardRef<HTMLDivElement, RadioGroupFieldP
           id={labelId}
           className={clsx(
             classNames.groupLabel,
-            !instruction && classNames.groupLabelNoInstruction,
-            disabled && classNames.groupLabelDisabled
+            !instruction && classNames.groupLabelNoInstruction
           )}
         >
           {label}

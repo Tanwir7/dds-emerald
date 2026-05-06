@@ -50,9 +50,7 @@ const RadioField = ({
   return (
     <div className={storyStyles.storyField}>
       <Radio id={id} value={value} {...radioProps} />
-      <Label htmlFor={id} {...(disabled !== undefined ? { disabled } : {})}>
-        {label}
-      </Label>
+      <Label htmlFor={id}>{label}</Label>
     </div>
   );
 };
@@ -150,7 +148,7 @@ export const Disabled: Story = {
       '  <Radio id="standard" value="standard" />',
       '  <Label htmlFor="standard">Standard</Label>',
       '  <Radio id="express" value="express" disabled />',
-      '  <Label htmlFor="express" disabled>Express</Label>',
+      '  <Label htmlFor="express">Express</Label>',
       '</RadioGroup>'
     )
   ),

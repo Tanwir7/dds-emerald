@@ -8,7 +8,6 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { Field } from './Field';
 import styles from './Field.module.scss';
 import { Input } from '../Input';
-import labelStyles from '../Label/Label.module.scss';
 import textStyles from '../Text/Text.module.scss';
 import { Textarea } from '../Textarea';
 import { getRequiredClassName } from '../../utils/getRequiredClassName';
@@ -26,10 +25,6 @@ const classNames = {
   inputRow: getRequiredClassName(styles, 'inputRow'),
   instruction: getRequiredClassName(styles, 'instruction'),
   helper: getRequiredClassName(styles, 'helper'),
-} as const;
-
-const labelClassNames = {
-  disabled: getRequiredClassName(labelStyles, 'disabled'),
 } as const;
 
 const textClassNames = {
@@ -361,16 +356,6 @@ describe('Field', () => {
     );
 
     expect(document.querySelector('label span')).toHaveTextContent('*');
-  });
-
-  it('Label has disabled appearance when disabled={true}', () => {
-    render(
-      <Field label="Email address" disabled>
-        <Input />
-      </Field>
-    );
-
-    expect(document.querySelector('label')).toHaveClass(labelClassNames.disabled);
   });
 
   it('renders inline alert after helper when both are provided', () => {

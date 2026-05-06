@@ -225,12 +225,6 @@ describe('CheckboxField', () => {
     expect(getLabel(container).querySelector('[aria-hidden="true"]')).toHaveTextContent('*');
   });
 
-  it('Label is disabled when disabled={true}', () => {
-    const { container } = render(<CheckboxField label="Accept terms" disabled />);
-
-    expect(getLabel(container).className).toContain('disabled');
-  });
-
   it('size="sm" is forwarded to Checkbox', () => {
     const { container } = render(<CheckboxField label="Accept terms" size="sm" />);
 

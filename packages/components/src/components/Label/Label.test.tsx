@@ -13,7 +13,6 @@ expect.extend(toHaveNoViolations);
 const rootClassName = getRequiredClassName(styles, 'root');
 const smClassName = getRequiredClassName(styles, 'sm');
 const baseClassName = getRequiredClassName(styles, 'base');
-const disabledClassName = getRequiredClassName(styles, 'disabled');
 
 const render = (ui: React.ReactNode) => {
   const container = document.createElement('div');
@@ -119,18 +118,6 @@ describe('Label', () => {
     expect(getLabelByText('content')).not.toHaveAttribute('aria-required');
   });
 
-  it('applies the disabled class when disabled is true', () => {
-    render(<Label disabled>content</Label>);
-
-    expect(getLabelByText('content')).toHaveClass(disabledClassName);
-  });
-
-  it('does not apply the disabled class when disabled is false', () => {
-    render(<Label disabled={false}>content</Label>);
-
-    expect(getLabelByText('content')).not.toHaveClass(disabledClassName);
-  });
-
   it('applies the sm class by default', () => {
     render(<Label>content</Label>);
 
@@ -164,13 +151,6 @@ describe('Label', () => {
 
   it('has no a11y violations when required', async () => {
     const { container } = render(<Label required>content</Label>);
-
-    const results = await axe(container);
-    expect(results).toHaveNoViolations();
-  });
-
-  it('has no a11y violations when disabled', async () => {
-    const { container } = render(<Label disabled>content</Label>);
 
     const results = await axe(container);
     expect(results).toHaveNoViolations();

@@ -22,14 +22,10 @@ const meta: Meta<typeof Label> = {
   args: {
     children: 'Email address',
     required: false,
-    disabled: false,
     size: 'sm',
   },
   argTypes: {
     required: {
-      control: 'boolean',
-    },
-    disabled: {
       control: 'boolean',
     },
     size: {
@@ -52,21 +48,6 @@ export const Required: Story = {
     required: true,
   },
   parameters: storySourceParameters('<Label required>Email address</Label>'),
-};
-
-export const Disabled: Story = {
-  args: {
-    disabled: true,
-  },
-  parameters: storySourceParameters('<Label disabled>Email address</Label>'),
-};
-
-export const RequiredAndDisabled: Story = {
-  args: {
-    required: true,
-    disabled: true,
-  },
-  parameters: storySourceParameters('<Label required disabled>Email address</Label>'),
 };
 
 export const Sizes: Story = {

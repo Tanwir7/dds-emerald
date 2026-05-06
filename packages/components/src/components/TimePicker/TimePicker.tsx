@@ -422,7 +422,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
     return (
       <div className={clsx(styles.root, className)} ref={ref}>
         {label ? (
-          <Label disabled={disabled} id={labelId} onClick={handleLabelClick}>
+          <Label id={labelId} onClick={handleLabelClick}>
             {label}
           </Label>
         ) : null}
