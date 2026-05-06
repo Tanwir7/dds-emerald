@@ -11,9 +11,9 @@ const componentDescription = `Skeleton is a visual-only loading placeholder used
 ### Accessibility contract
 
 - Keyboard: no interaction, no focus target, no tab stop.
-- Screen readers: every rendered placeholder is \`aria-hidden="true"\`; the parent region should announce loading with \`aria-busy\`.
+- Screen readers: every rendered placeholder is \`aria-hidden="true"\`; the parent loading region should carry the announcement with \`role="status"\` and \`aria-busy="true"\`.
 - Motion: shimmer is disabled when the user enables \`prefers-reduced-motion\`.
-- Designers: compose multiple Skeleton instances to match the final layout instead of adding fake text labels.
+- Designers: compose multiple Skeleton instances to match the final layout instead of adding fake text labels; put any loading label on the parent status region.
 - QA: verify multi-line text uses a shorter final line, circular placeholders keep equal width and height, and axe stays clean.`;
 
 const meta: Meta<typeof Skeleton> = {
@@ -93,7 +93,12 @@ export const Circular: Story = {
 export const CardSkeleton: Story = {
   render: () => (
     <div className={storyStyles.storyA11yScope}>
-      <div className={storyStyles.cardShell} aria-busy="true" aria-label="Loading profile card">
+      <div
+        className={storyStyles.cardShell}
+        role="status"
+        aria-busy="true"
+        aria-label="Loading profile card"
+      >
         <div className={storyStyles.cardHeader}>
           <Skeleton variant="circular" width="48px" />
           <div className={storyStyles.cardContent}>
@@ -110,7 +115,7 @@ export const CardSkeleton: Story = {
     docs: {
       source: storySourceBlock(
         storySource(
-          '<div aria-busy="true" aria-label="Loading profile card">',
+          '<div role="status" aria-busy="true" aria-label="Loading profile card">',
           '  <Skeleton variant="circular" width="48px" />',
           '  <Skeleton variant="text" width="160px" />',
           '  <Skeleton variant="text" width="112px" />',
@@ -126,7 +131,12 @@ export const CardSkeleton: Story = {
 export const TableSkeleton: Story = {
   render: () => (
     <div className={storyStyles.storyA11yScope}>
-      <div className={storyStyles.tableShell} aria-busy="true" aria-label="Loading table">
+      <div
+        className={storyStyles.tableShell}
+        role="status"
+        aria-busy="true"
+        aria-label="Loading table"
+      >
         <div className={storyStyles.tableHeader}>
           <Skeleton variant="text" width="120px" />
           <Skeleton variant="text" width="72px" />
@@ -148,7 +158,7 @@ export const TableSkeleton: Story = {
     docs: {
       source: storySourceBlock(
         storySource(
-          '<div aria-busy="true" aria-label="Loading table">',
+          '<div role="status" aria-busy="true" aria-label="Loading table">',
           '  <div>',
           '    <Skeleton variant="text" width="120px" />',
           '    <Skeleton variant="text" width="72px" />',
