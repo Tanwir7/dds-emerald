@@ -23,7 +23,9 @@ const renderField = (
 ) => (
   <div className={storyStyles.storyA11yScope}>
     <div className={storyStyles.storyField}>
-      <Label htmlFor={id}>{label}</Label>
+      <Label htmlFor={id} disabled={args.disabled}>
+        {label}
+      </Label>
       <PinInput {...args} id={id} />
     </div>
   </div>
@@ -228,7 +230,7 @@ export const Disabled: Story = {
   },
   parameters: storySourceParameters(
     storySource(
-      '<Label htmlFor="disabled-pin">Verification code</Label>',
+      '<Label htmlFor="disabled-pin" disabled>Verification code</Label>',
       '<PinInput id="disabled-pin" disabled defaultValue="123456" />'
     )
   ),

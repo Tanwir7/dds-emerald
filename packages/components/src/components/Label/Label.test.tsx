@@ -14,6 +14,7 @@ const rootClassName = getRequiredClassName(styles, 'root');
 const smClassName = getRequiredClassName(styles, 'sm');
 const baseClassName = getRequiredClassName(styles, 'base');
 const disabledClassName = getRequiredClassName(styles, 'disabled');
+const requiredClassName = getRequiredClassName(styles, 'required');
 
 const render = (ui: React.ReactNode) => {
   const container = document.createElement('div');
@@ -131,6 +132,20 @@ describe('Label', () => {
     expect(getLabelByText('content')).not.toHaveClass(disabledClassName);
   });
 
+  it('keeps the required indicator muted when required and disabled are both true', () => {
+    render(
+      <Label required disabled>
+        content
+      </Label>
+    );
+
+    const label = getLabelByText('content');
+    const requiredIndicator = label.querySelector(`.${requiredClassName}`);
+
+    expect(label).toHaveClass(disabledClassName);
+    expect(requiredIndicator).toBeInstanceOf(HTMLSpanElement);
+  });
+
   it('applies the sm class by default', () => {
     render(<Label>content</Label>);
 
@@ -193,5 +208,18 @@ describe('Label', () => {
 
     expect(stylesheet).toContain('color: var(--dds-color-text-danger);');
     expect(stylesheet).not.toContain('color: var(--dds-color-status-danger);');
+  });
+
+  it('uses muted text instead of opacity for the disabled state', () => {
+    const stylesheet = readFileSync('src/components/Label/Label.module.scss', 'utf8');
+
+    expect(stylesheet).toContain('color: var(--dds-color-text-muted);');
+    expect(stylesheet).not.toContain('opacity: 0.5;');
+  });
+
+  it('uses the muted token for the required indicator when disabled', () => {
+    const stylesheet = readFileSync('src/components/Label/Label.module.scss', 'utf8');
+
+    expect(stylesheet).toContain('--dds-label-required-color: var(--dds-color-text-muted);');
   });
 });

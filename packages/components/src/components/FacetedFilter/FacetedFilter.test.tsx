@@ -3,6 +3,7 @@ import '@testing-library/jest-dom/vitest';
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe, toHaveNoViolations } from 'jest-axe';
+import { readFileSync } from 'node:fs';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import styles from './FacetedFilter.module.scss';
 import { FacetedFilter, FacetGroup, FacetItem, type FacetedFilterProps } from './FacetedFilter';
@@ -462,6 +463,23 @@ describe('FacetItem', () => {
     expect(onChange).not.toHaveBeenCalled();
   });
 
+  it('disabled facet item keeps text visible through muted token styling', () => {
+    render(
+      <FacetedFilter>
+        <FacetGroup groupKey="status" label="Status">
+          <FacetItem value="open" count={42} disabled>
+            Open
+          </FacetItem>
+        </FacetGroup>
+      </FacetedFilter>
+    );
+
+    expect(screen.getByText('Open').closest(`.${classNames.item}`)).toHaveClass(
+      classNames.itemDisabled
+    );
+    expect(screen.getByText('42')).toHaveClass(classNames.count);
+  });
+
   it('clicking label toggles checkbox on', async () => {
     const user = userEvent.setup();
     renderFilter();
@@ -508,6 +526,16 @@ describe('FacetItem', () => {
     );
 
     expect(await axe(container)).toHaveNoViolations();
+  });
+
+  it('uses muted text instead of opacity for disabled facet items', () => {
+    const stylesheet = readFileSync(
+      'src/components/FacetedFilter/FacetedFilter.module.scss',
+      'utf8'
+    );
+
+    expect(stylesheet).toContain('color: var(--dds-color-text-muted);');
+    expect(stylesheet).not.toContain('opacity: 0.5;');
   });
 });
 

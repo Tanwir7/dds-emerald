@@ -14,7 +14,9 @@ const renderField = (
 ) => (
   <div className={storyStyles.storyA11yScope}>
     <div className={storyStyles.storyField}>
-      <Label htmlFor={id}>{label}</Label>
+      <Label htmlFor={id} disabled={args.disabled}>
+        {label}
+      </Label>
       <Input {...args} id={id} />
     </div>
   </div>
@@ -206,7 +208,7 @@ export const Disabled: Story = {
   },
   parameters: storySourceParameters(
     storySource(
-      '<Label htmlFor="disabled-input">Email address</Label>',
+      '<Label htmlFor="disabled-input" disabled>Email address</Label>',
       '<Input id="disabled-input" disabled placeholder="Disabled input" />'
     )
   ),

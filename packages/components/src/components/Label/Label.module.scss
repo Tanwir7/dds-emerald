@@ -2,6 +2,8 @@
 @use '../../styles/breakpoints' as *;
 
 .root {
+  --dds-label-required-color: var(--dds-color-text-danger);
+
   display: inline-flex;
   align-items: center;
   gap: var(--dds-space-1);
@@ -22,11 +24,13 @@
 }
 
 .required {
-  color: var(--dds-color-text-danger);
+  color: var(--dds-label-required-color);
   font-weight: var(--dds-font-weight-bold);
 }
 
 .disabled {
-  opacity: 0.5;
+  --dds-label-required-color: var(--dds-color-text-muted);
+
+  color: var(--dds-color-text-muted);
   cursor: not-allowed;
 }
