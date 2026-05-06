@@ -179,15 +179,39 @@ export const Sizes: Story = {
   render: () => (
     <div className={storyStyles.storyA11yScope}>
       <div className={storyStyles.storyStack}>
-        <Pagination currentPage={3} totalPages={10} onPageChange={fn()} size="sm" />
-        <Pagination currentPage={3} totalPages={10} onPageChange={fn()} size="md" />
+        <Pagination
+          currentPage={3}
+          totalPages={10}
+          onPageChange={fn()}
+          size="sm"
+          aria-label="Pagination small size"
+        />
+        <Pagination
+          currentPage={3}
+          totalPages={10}
+          onPageChange={fn()}
+          size="md"
+          aria-label="Pagination medium size"
+        />
       </div>
     </div>
   ),
   parameters: storySourceParameters(
     storySourceFragment(
-      '<Pagination currentPage={3} totalPages={10} onPageChange={handlePageChange} size="sm" />',
-      '<Pagination currentPage={3} totalPages={10} onPageChange={handlePageChange} size="md" />'
+      '<Pagination',
+      '  currentPage={3}',
+      '  totalPages={10}',
+      '  onPageChange={handlePageChange}',
+      '  size="sm"',
+      '  aria-label="Pagination small size"',
+      '/>',
+      '<Pagination',
+      '  currentPage={3}',
+      '  totalPages={10}',
+      '  onPageChange={handlePageChange}',
+      '  size="md"',
+      '  aria-label="Pagination medium size"',
+      '/>'
     )
   ),
 };
