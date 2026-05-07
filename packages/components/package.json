@@ -63,7 +63,7 @@
     "@tanstack/react-table": "^8",
     "@tanstack/react-virtual": "^3",
     "@storybook/react-vite": "^10.3.6",
-    "@types/node": "^22",
+    "@types/node": "^25",
     "@types/jest-axe": "^3.5.9",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
