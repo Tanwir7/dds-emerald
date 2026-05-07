@@ -19,8 +19,8 @@
     "prepare": "husky"
   },
   "devDependencies": {
-    "@changesets/changelog-github": "^0.6.0",
-    "@changesets/cli": "^2.30.0",
+    "@changesets/changelog-github": "^0.7.0",
+    "@changesets/cli": "^2.31.0",
     "@commitlint/cli": "^19.x.x",
     "@commitlint/config-conventional": "^19.x.x",
     "eslint": "^9.39.4",
@@ -30,7 +30,7 @@
     "prettier": "^3.x.x",
     "turbo": "^2.x.x",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.57.2"
+    "typescript-eslint": "^8.59.2"
   },
   "engines": {
     "node": ">=22",
