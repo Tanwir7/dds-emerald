@@ -193,6 +193,25 @@ describe('Carousel', () => {
       expect(ref.current).toBeInstanceOf(HTMLDivElement);
       expect(ref.current).toBe(screen.getByLabelText('Ref carousel'));
     });
+
+    it('makes the scrollable content region keyboard focusable by default', () => {
+      renderCarousel();
+
+      expect(getContentElement()).toHaveAttribute('tabindex', '0');
+    });
+
+    it('preserves a consumer-provided content tabIndex', () => {
+      render(
+        <Carousel aria-label="Custom tab index carousel">
+          <CarouselContent tabIndex={-1}>
+            <CarouselSlide>One</CarouselSlide>
+          </CarouselContent>
+        </Carousel>
+      );
+
+      const slide = screen.getByRole('group', { name: 'Slide 1 of 1' });
+      expect(slide.parentElement).toHaveAttribute('tabindex', '-1');
+    });
   });
 
   describe('navigation', () => {

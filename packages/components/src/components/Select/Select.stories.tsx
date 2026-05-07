@@ -138,7 +138,9 @@ export const Disabled: Story = {
   render: () => (
     <div className={storyStyles.storyA11yScope}>
       <div className={storyStyles.storyField}>
-        <Label htmlFor="storybook-select-disabled">Disabled</Label>
+        <Label htmlFor="storybook-select-disabled" disabled>
+          Disabled
+        </Label>
         <Select disabled>
           <SelectTrigger id="storybook-select-disabled" aria-label="Disabled">
             <SelectValue placeholder="Disabled..." />

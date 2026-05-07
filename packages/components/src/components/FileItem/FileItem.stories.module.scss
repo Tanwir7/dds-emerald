@@ -1,19 +1,13 @@
 .storyA11yScope {
-  display: block;
+  display: flex;
 }
 
-.storyStack {
-  display: flex;
-  flex-direction: column;
-  gap: var(--dds-space-4);
+.storyItemWidth {
+  width: 560px;
 }
 
 .storyList {
   display: flex;
+  width: 560px;
   flex-direction: column;
-  gap: var(--dds-space-3);
-}
-
-.storyItemWidth {
-  width: min(100%, 480px);
 }

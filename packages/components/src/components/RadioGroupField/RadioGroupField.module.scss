@@ -8,6 +8,8 @@
 }
 
 .groupLabel {
+  --dds-radio-group-required-color: var(--dds-color-text-danger);
+
   display: inline-flex;
   align-items: center;
   gap: var(--dds-space-1);
@@ -20,7 +22,9 @@
 }
 
 .groupLabelDisabled {
-  opacity: 0.5;
+  --dds-radio-group-required-color: var(--dds-color-text-muted);
+
+  color: var(--dds-color-text-muted);
 }
 
 .groupLabelNoInstruction {
@@ -28,7 +32,7 @@
 }
 
 .requiredMark {
-  color: var(--dds-color-status-danger);
+  color: var(--dds-radio-group-required-color);
   font-weight: var(--dds-font-weight-bold);
 }
 

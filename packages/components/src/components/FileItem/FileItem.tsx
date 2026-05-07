@@ -1,254 +1,144 @@
-import { AlertCircle, CheckCircle, X } from 'lucide-react';
-import clsx from 'clsx';
 import React from 'react';
-import styles from './FileItem.module.scss';
-import { Spinner } from '../Spinner';
+import clsx from 'clsx';
+import {
+  AlertCircle,
+  CheckCircle2,
+  Clock,
+  File,
+  PauseCircle,
+  RefreshCw,
+  Trash2,
+} from 'lucide-react';
+import { Button } from '../Button';
 import { getRequiredClassName } from '../../utils/getRequiredClassName';
+import styles from './FileItem.module.scss';
 
-export type FileItemStatus = 'idle' | 'uploading' | 'complete' | 'error';
+export type FileItemStatus = 'idle' | 'waiting' | 'uploading' | 'paused' | 'complete' | 'error';
 
-export interface FileItemProps extends Omit<
-  React.HTMLAttributes<HTMLDivElement>,
-  'children' | 'onClick'
-> {
+export interface FileItemProps {
   name: string;
   size?: number;
   status?: FileItemStatus;
   progress?: number;
   error?: string;
-  /** @deprecated Use `error` instead. */
-  errorMessage?: string;
-  removable?: boolean;
-  onRemove?: () => void;
   downloadUrl?: string;
-  onClick?: React.MouseEventHandler<HTMLElement>;
+  onRemove?: () => void;
   className?: string;
 }
 
-type FileType =
-  | 'pdf'
-  | 'image'
-  | 'video'
-  | 'audio'
-  | 'code'
-  | 'spreadsheet'
-  | 'document'
-  | 'archive'
-  | 'unknown';
-
-const getFileType = (name: string): FileType => {
-  const ext = name.split('.').pop()?.toLowerCase() ?? '';
-
-  if (['pdf'].includes(ext)) {
-    return 'pdf';
-  }
-
-  if (['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'avif'].includes(ext)) {
-    return 'image';
-  }
-
-  if (['mp4', 'mov', 'avi', 'webm'].includes(ext)) {
-    return 'video';
-  }
-
-  if (['mp3', 'wav', 'ogg', 'flac'].includes(ext)) {
-    return 'audio';
-  }
-
-  if (
-    [
-      'js',
-      'ts',
-      'jsx',
-      'tsx',
-      'py',
-      'rb',
-      'go',
-      'rs',
-      'java',
-      'cpp',
-      'c',
-      'html',
-      'css',
-      'scss',
-      'json',
-      'yaml',
-      'yml',
-      'md',
-    ].includes(ext)
-  ) {
-    return 'code';
-  }
-
-  if (['xls', 'xlsx', 'csv', 'numbers'].includes(ext)) {
-    return 'spreadsheet';
-  }
-
-  if (['doc', 'docx', 'txt', 'rtf', 'pages'].includes(ext)) {
-    return 'document';
-  }
-
-  if (['zip', 'tar', 'gz', 'rar', '7z'].includes(ext)) {
-    return 'archive';
-  }
-
-  return 'unknown';
-};
+const statusIconMap = {
+  idle: { Icon: File, className: getRequiredClassName(styles, 'iconIdle') },
+  waiting: { Icon: Clock, className: getRequiredClassName(styles, 'iconWaiting') },
+  uploading: { Icon: RefreshCw, className: getRequiredClassName(styles, 'iconUploading') },
+  paused: { Icon: PauseCircle, className: getRequiredClassName(styles, 'iconPaused') },
+  complete: { Icon: CheckCircle2, className: getRequiredClassName(styles, 'iconComplete') },
+  error: { Icon: AlertCircle, className: getRequiredClassName(styles, 'iconError') },
+} satisfies Record<FileItemStatus, { Icon: React.ComponentType; className: string }>;
 
 const formatFileSize = (bytes: number): string => {
-  if (bytes === 0) {
-    return '0 B';
+  if (bytes < 1024) {
+    return `${bytes} B`;
   }
 
-  const units = ['B', 'KB', 'MB', 'GB'];
-  const unitIndex = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
-  const value = bytes / Math.pow(1024, unitIndex);
-  const formattedValue = value < 10 ? Number(value.toFixed(1)) : Math.round(value);
+  if (bytes < 1024 * 1024) {
+    return `${(bytes / 1024).toFixed(1)} KB`;
+  }
 
-  return `${formattedValue} ${units[unitIndex]}`;
+  if (bytes < 1024 ** 3) {
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  }
+
+  return `${(bytes / 1024 ** 3).toFixed(1)} GB`;
 };
 
-const fileTypeClassName: Record<FileType, string> = {
-  pdf: getRequiredClassName(styles, 'typePdf'),
-  image: getRequiredClassName(styles, 'typeImage'),
-  video: getRequiredClassName(styles, 'typeVideo'),
-  audio: getRequiredClassName(styles, 'typeAudio'),
-  code: getRequiredClassName(styles, 'typeCode'),
-  spreadsheet: getRequiredClassName(styles, 'typeSpreadsheet'),
-  document: getRequiredClassName(styles, 'typeDocument'),
-  archive: getRequiredClassName(styles, 'typeArchive'),
-  unknown: getRequiredClassName(styles, 'typeUnknown'),
-};
-
-const FileTypeIcon = ({ name }: { name: string }) => {
-  const type = getFileType(name);
-  const ext = (name.split('.').pop() ?? 'file').toUpperCase().slice(0, 4);
-
-  return (
-    <span className={clsx(styles.fileIcon, fileTypeClassName[type])} aria-hidden="true">
-      <span className={styles.fileIconText}>{ext}</span>
-    </span>
-  );
-};
-
-/**
- * FileItem exposes a file row with optional upload progress. The progress fill width uses an
- * inline style as a documented exception because the 0-100 value is dynamic runtime data.
- */
 export const FileItem = React.forwardRef<HTMLDivElement, FileItemProps>(
-  (
-    {
-      name,
-      size,
-      status = 'idle',
-      progress,
-      error,
-      errorMessage,
-      removable = false,
-      onRemove,
-      downloadUrl,
-      onClick,
-      onKeyDown,
-      className,
-      ...props
-    },
-    ref
-  ) => {
-    const resolvedError = error ?? errorMessage;
+  ({ name, size, status = 'idle', progress = 0, error, downloadUrl, onRemove, className }, ref) => {
+    const { Icon, className: iconClassName } = statusIconMap[status];
+    const showProgress = status === 'uploading' || status === 'paused';
 
-    const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        onClick?.(event as unknown as React.MouseEvent<HTMLElement>);
+    const statusLabel = (() => {
+      if (status === 'uploading' || status === 'paused') {
+        return `${progress}% complete`;
       }
 
-      onKeyDown?.(event);
-    };
+      if (status === 'waiting') {
+        return 'Waiting…';
+      }
 
-    const statusIcon =
-      status === 'complete' ? (
-        <span className={styles.statusIcon} aria-hidden="true">
-          <CheckCircle />
-        </span>
-      ) : status === 'uploading' ? (
-        <span className={styles.statusIcon}>
-          <Spinner size="sm" label={`Uploading ${name}`} />
-        </span>
-      ) : status === 'error' ? (
-        <span className={styles.statusIcon} aria-hidden="true">
-          <AlertCircle />
-        </span>
-      ) : null;
+      if (status === 'error') {
+        return error ?? 'Upload failed';
+      }
+
+      return null;
+    })();
 
     return (
-      <div
-        ref={ref}
-        className={clsx(styles.root, styles[status], onClick && styles.clickable, className)}
-        onClick={onClick as React.MouseEventHandler<HTMLDivElement> | undefined}
-        role={onClick ? 'button' : undefined}
-        tabIndex={onClick ? 0 : undefined}
-        onKeyDown={onClick ? handleKeyDown : onKeyDown}
-        {...props}
-      >
-        <FileTypeIcon name={name} />
+      <div ref={ref} className={clsx(styles.fileItem, styles[`status-${status}`], className)}>
+        <div className={styles.itemRow}>
+          <span className={clsx(styles.statusIcon, iconClassName)} aria-hidden="true">
+            <Icon />
+          </span>
 
-        <div className={styles.info}>
-          <div className={styles.nameRow}>
+          <div className={styles.fileInfo}>
             {downloadUrl ? (
               <a
                 href={downloadUrl}
                 download={name}
-                className={styles.nameLink}
-                onClick={(event) => {
-                  event.stopPropagation();
-                }}
+                className={clsx(styles.fileName, styles.fileNameLink)}
               >
                 {name}
               </a>
             ) : (
-              <span className={styles.name}>{name}</span>
+              <span className={styles.fileName}>{name}</span>
             )}
-
-            {size !== undefined ? (
-              <span className={styles.size}>{formatFileSize(size)}</span>
-            ) : null}
+            {size != null ? <span className={styles.fileSize}>{formatFileSize(size)}</span> : null}
           </div>
 
-          {status === 'uploading' && progress !== undefined ? (
-            <div
-              className={styles.progressBar}
-              role="progressbar"
-              aria-valuenow={progress}
-              aria-valuemin={0}
-              aria-valuemax={100}
-              aria-label={`Uploading ${name}`}
+          {statusLabel ? (
+            <span
+              className={clsx(styles.statusLabel, status === 'error' && styles.statusLabelError)}
+              aria-live="off"
             >
-              <div className={styles.progressFill} style={{ width: `${progress}%` }} />
-            </div>
+              {statusLabel}
+            </span>
           ) : null}
 
-          {status === 'error' && resolvedError ? (
-            <span className={styles.errorMessage} role="alert">
-              {resolvedError}
-            </span>
+          {onRemove ? (
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              aria-label={`Remove ${name}`}
+              icon={Trash2}
+              onClick={onRemove}
+              className={getRequiredClassName(styles, 'removeButton')}
+            />
           ) : null}
         </div>
 
-        {statusIcon}
-
-        {removable ? (
-          <button
-            type="button"
-            className={styles.removeBtn}
-            onClick={(event) => {
-              event.stopPropagation();
-              onRemove?.();
-            }}
-            aria-label={`Remove ${name}`}
+        {showProgress ? (
+          <div
+            className={styles.progressTrack}
+            role="progressbar"
+            aria-valuenow={progress}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-label={`${name} upload progress`}
+            aria-valuetext={`${progress}% complete`}
           >
-            <X aria-hidden="true" />
-          </button>
+            <div
+              className={clsx(
+                styles.progressFill,
+                status === 'paused' && styles.progressFillPaused
+              )}
+              style={{ width: `${progress}%` } as React.CSSProperties}
+            />
+          </div>
         ) : null}
+
+        <span className={styles.srOnly} aria-live="polite" aria-atomic="true">
+          {status === 'complete' ? `${name} upload complete` : ''}
+          {status === 'error' ? `${name} upload failed: ${error ?? 'Upload failed'}` : ''}
+        </span>
       </div>
     );
   }

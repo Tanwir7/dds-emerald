@@ -384,6 +384,19 @@ describe('RadioGroupField', () => {
     expect(getGroupLabel(container)).toHaveClass(classNames.groupLabelDisabled);
   });
 
+  it('keeps the required mark muted when disabled and required are both true', () => {
+    const { container } = render(
+      <RadioGroupField label="Notification frequency" disabled required>
+        <RadioOption id="frequency-daily" label="Daily" value="daily" />
+      </RadioGroupField>
+    );
+
+    expect(getGroupLabel(container)).toHaveClass(classNames.groupLabelDisabled);
+    expect(getGroupLabel(container).querySelector(`.${classNames.requiredMark}`)).toBeInstanceOf(
+      HTMLSpanElement
+    );
+  });
+
   it('orientation="vertical" forwarded to RadioGroup by default', () => {
     const { container } = render(defaultField);
 
@@ -647,10 +660,12 @@ describe('RadioGroupField', () => {
     expect(stylesheet).toContain('font-size: var(--dds-font-size-sm);');
     expect(stylesheet).toContain('font-weight: var(--dds-font-weight-medium);');
     expect(stylesheet).toContain('color: var(--dds-color-text-default);');
-    expect(stylesheet).toContain('color: var(--dds-color-status-danger);');
+    expect(stylesheet).toContain('color: var(--dds-color-text-danger);');
+    expect(stylesheet).toContain('color: var(--dds-color-text-muted);');
     expect(stylesheet).toContain('margin-bottom: var(--dds-space-0-5);');
     expect(stylesheet).toContain('margin-bottom: var(--dds-space-1-5);');
     expect(stylesheet).toContain('margin-top: var(--dds-space-2);');
+    expect(stylesheet).not.toContain('opacity: 0.5;');
     expect(stylesheet).not.toContain('.story');
   });
 });

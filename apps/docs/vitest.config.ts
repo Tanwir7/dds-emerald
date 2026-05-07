@@ -34,5 +34,10 @@ export default defineConfig({
       },
       instances: [{ browser: 'chromium' }],
     },
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'html', 'lcov'],
+      reportsDirectory: path.join(dirname, 'coverage', 'storybook'),
+    },
   },
 });
