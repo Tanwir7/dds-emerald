@@ -239,8 +239,9 @@ export const MenuTriggerKeyboard: Story = {
       expect(document.body.querySelector('[role="menu"][data-state="open"]')).not.toBeNull();
     });
     const menu = document.body.querySelector('[role="menu"][data-state="open"]') as HTMLElement;
-    const uploadItem = within(menu).getByRole('menuitem', { name: /upload file/i });
-    await expect(uploadItem).toBeVisible();
+    await waitFor(() => {
+      expect(within(menu).getByRole('menuitem', { name: /upload file/i })).toBeVisible();
+    });
     await userEvent.keyboard('{Escape}');
     await waitFor(() => {
       expect(menu).toHaveAttribute('data-state', 'closed');
