@@ -1,0 +1,407 @@
+.sidebar-header,
+.sidebar-header *,
+.sidebar-container,
+.sidebar-container * {
+  font-family: var(--dds-font-sans);
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+
+.sidebar-header {
+  background-color: var(--dds-color-bg-sidebar) !important;
+  color: var(--dds-color-text-on-sidebar) !important;
+}
+
+.sidebar-container {
+  background-color: var(--dds-color-bg-sidebar) !important;
+  color: var(--dds-color-text-on-sidebar) !important;
+  border-inline-end: 1px solid var(--dds-color-border-sidebar);
+}
+
+.sidebar-header a,
+.sidebar-header a *,
+.sidebar-header button,
+.sidebar-header button *,
+.sidebar-header [role='button'],
+.sidebar-header [role='button'] *,
+.sidebar-header .sidebar-header-brand,
+.sidebar-header .sidebar-header-brand *,
+.sidebar-header svg {
+  color: var(--dds-color-text-on-sidebar) !important;
+}
+
+.sidebar-container .search-field,
+.sidebar-container .search-field input,
+.sidebar-container .search-field button,
+.sidebar-container .search-field [role='combobox'],
+.sidebar-container .search-field [role='combobox'] *,
+.sidebar-container .search-field > button,
+.sidebar-container .search-field > a,
+.sidebar-container .sidebar-subheading,
+.sidebar-container .sidebar-subheading-action,
+.sidebar-container .sidebar-item,
+.sidebar-container .search-result-item,
+.sidebar-container .search-result-recentlyOpened,
+.sidebar-container .search-result-recentlyOpened-clear,
+.sidebar-container #sidebar-bottom-wrapper {
+  border-radius: var(--dds-radius-none) !important;
+}
+
+.sidebar-container .search-field,
+.sidebar-container .search-field input,
+.sidebar-container .search-field [role='combobox'],
+.sidebar-container .search-field > button,
+.sidebar-container .search-field > a {
+  color: var(--dds-color-text-on-sidebar) !important;
+  border-color: var(--dds-color-border-sidebar) !important;
+  background-color: var(--dds-color-bg-sidebar) !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+.sidebar-container .search-field input,
+.sidebar-container .search-field [role='combobox'] {
+  border-style: solid !important;
+  border-width: 1px !important;
+}
+
+.sidebar-container .search-field input::placeholder,
+.sidebar-container .search-field [role='combobox']::placeholder {
+  color: var(--dds-color-text-muted-on-sidebar) !important;
+}
+
+.sidebar-container [data-dds-search-row='true'] [data-dds-search-icon='true'],
+.sidebar-container [data-dds-search-row='true'] [data-dds-search-icon='true'] * {
+  color: var(--dds-color-text-muted-on-sidebar) !important;
+}
+
+.sidebar-container [data-dds-search-row='true'] [data-dds-search-shortcut='true'] {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dds-space-1);
+  padding-block: var(--dds-space-1);
+  padding-inline: var(--dds-space-2);
+  border: 1px solid var(--dds-color-border-sidebar) !important;
+  border-radius: var(--dds-radius-none) !important;
+  color: var(--dds-color-text-muted-on-sidebar) !important;
+  font-family: var(--dds-font-mono) !important;
+  font-size: var(--dds-font-size-xs) !important;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  box-shadow: none !important;
+}
+
+.sidebar-container
+  [data-dds-search-row='true']
+  [data-dds-search-shortcut]
+  [data-dds-search-shortcut-glyph='true'] {
+  margin-inline-end: var(--dds-space-1);
+}
+
+.sidebar-container .sidebar-subheading,
+.sidebar-container .search-field button,
+.sidebar-container .search-field a,
+.sidebar-container .search-field [role='combobox'],
+.sidebar-container .search-field [role='combobox'] *,
+.sidebar-container .sidebar-subheading button,
+.sidebar-container .sidebar-subheading-action,
+.sidebar-container .sidebar-item,
+.sidebar-container .search-result-item,
+.sidebar-container .search-result-recentlyOpened,
+.sidebar-container .search-result-recentlyOpened-clear,
+.sidebar-container #storybook-explorer-menu svg,
+.sidebar-container .search-field svg {
+  color: var(--dds-color-text-on-sidebar) !important;
+}
+
+.sidebar-container .sidebar-item,
+.sidebar-container .search-result-item,
+.sidebar-container .sidebar-subheading-action,
+.sidebar-container .search-result-recentlyOpened-clear {
+  transition:
+    background-color var(--dds-duration-fast) var(--dds-ease-standard),
+    color var(--dds-duration-fast) var(--dds-ease-standard);
+}
+
+.sidebar-container .sidebar-item:hover,
+.sidebar-container .sidebar-subheading-action:hover,
+.sidebar-container .search-result-item:hover,
+.sidebar-container .search-result-recentlyOpened-clear:hover {
+  background-color: var(--dds-color-sidebar-accent) !important;
+  color: var(--dds-color-text-on-sidebar) !important;
+  -webkit-text-fill-color: var(--dds-color-text-on-sidebar) !important;
+}
+
+.sidebar-container .sidebar-item:hover > a,
+.sidebar-container .sidebar-item:hover > a *,
+.sidebar-container .sidebar-item:hover .sidebar-item-kicker,
+.sidebar-container .sidebar-item:hover .sidebar-item-kicker *,
+.sidebar-container .sidebar-item:hover .sidebar-item-label,
+.sidebar-container .sidebar-item:hover .sidebar-item-label *,
+.sidebar-container .sidebar-item:hover .sidebar-subheading-button,
+.sidebar-container .sidebar-item:hover .sidebar-subheading-button * {
+  color: var(--dds-color-text-on-sidebar) !important;
+  -webkit-text-fill-color: var(--dds-color-text-on-sidebar) !important;
+}
+
+.sidebar-container .sidebar-item:hover > a svg,
+.sidebar-container .sidebar-item:hover > a svg *,
+.sidebar-container .sidebar-item:hover > a use {
+  color: currentColor !important;
+  fill: currentColor !important;
+}
+
+.sidebar-container .sidebar-item > button[data-testid='context-menu'],
+.sidebar-container .sidebar-item > button[data-testid='context-menu'] *,
+.sidebar-container .sidebar-item > button[data-testid='context-menu']::before,
+.sidebar-container .sidebar-item > button[data-testid='context-menu']::after,
+.sidebar-container .sidebar-item > button[data-testid='context-menu'] *::before,
+.sidebar-container .sidebar-item > button[data-testid='context-menu'] *::after {
+  background-color: transparent !important;
+  color: inherit !important;
+  box-shadow: none !important;
+  filter: none !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+.sidebar-container .sidebar-item > button[data-testid='context-menu'] svg,
+.sidebar-container .sidebar-item > button[data-testid='context-menu'] svg *,
+.sidebar-container .sidebar-item > button[data-testid='context-menu'] use {
+  color: currentColor !important;
+  fill: currentColor !important;
+}
+
+.sidebar-container .sidebar-item:hover > button[data-testid='context-menu'],
+.sidebar-container .sidebar-item:hover > button[data-testid='context-menu'] *,
+.sidebar-container .sidebar-item:hover > button[data-testid='context-menu']::before,
+.sidebar-container .sidebar-item:hover > button[data-testid='context-menu']::after,
+.sidebar-container .sidebar-item > button[data-testid='context-menu']:focus-visible,
+.sidebar-container .sidebar-item > button[data-testid='context-menu']:focus-visible *,
+.sidebar-container .sidebar-item > button[data-testid='context-menu']:focus-visible::before,
+.sidebar-container .sidebar-item > button[data-testid='context-menu']:focus-visible::after,
+.sidebar-container .sidebar-item > button[data-testid='context-menu'][aria-expanded='true'],
+.sidebar-container .sidebar-item > button[data-testid='context-menu'][aria-expanded='true'] *,
+.sidebar-container .sidebar-item > button[data-testid='context-menu'][aria-expanded='true']::before,
+.sidebar-container .sidebar-item > button[data-testid='context-menu'][aria-expanded='true']::after,
+.sidebar-container .sidebar-item > button[data-testid='context-menu'][data-state='open'],
+.sidebar-container .sidebar-item > button[data-testid='context-menu'][data-state='open'] *,
+.sidebar-container .sidebar-item > button[data-testid='context-menu'][data-state='open']::before,
+.sidebar-container .sidebar-item > button[data-testid='context-menu'][data-state='open']::after,
+.sidebar-container .sidebar-item > button[data-testid='context-menu'][data-active='true'],
+.sidebar-container .sidebar-item > button[data-testid='context-menu'][data-active='true'] *,
+.sidebar-container .sidebar-item > button[data-testid='context-menu'][data-active='true']::before,
+.sidebar-container .sidebar-item > button[data-testid='context-menu'][data-active='true']::after,
+.sidebar-container .sidebar-item > button[data-testid='context-menu']:active,
+.sidebar-container .sidebar-item > button[data-testid='context-menu']:active *,
+.sidebar-container .sidebar-item > button[data-testid='context-menu']:active::before,
+.sidebar-container .sidebar-item > button[data-testid='context-menu']:active::after,
+.sidebar-container .sidebar-item[data-selected='true'] > button[data-testid='context-menu'],
+.sidebar-container .sidebar-item[data-selected='true'] > button[data-testid='context-menu'] *,
+.sidebar-container .sidebar-item[data-selected='true'] > button[data-testid='context-menu']::before,
+.sidebar-container .sidebar-item[data-selected='true'] > button[data-testid='context-menu']::after {
+  background-color: inherit !important;
+  color: inherit !important;
+  box-shadow: none !important;
+  filter: none !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+.sidebar-container .sidebar-item[data-selected='true'] {
+  background-color: var(--dds-color-sidebar-primary) !important;
+  color: var(--dds-color-sidebar-primary-foreground) !important;
+  font-weight: var(--dds-font-weight-medium) !important;
+}
+
+.sidebar-container .sidebar-item[data-selected='true'] > a,
+.sidebar-container .sidebar-item[data-selected='true'] > button {
+  background-color: var(--dds-color-sidebar-primary) !important;
+  color: var(--dds-color-sidebar-primary-foreground) !important;
+  -webkit-text-fill-color: var(--dds-color-sidebar-primary-foreground) !important;
+}
+
+.sidebar-container .sidebar-item[data-selected='true'] svg,
+.sidebar-container .sidebar-item[data-selected='true'] svg *,
+.sidebar-container .sidebar-item[data-selected='true'] use,
+.sidebar-container .sidebar-item[data-selected='true'] > a svg,
+.sidebar-container .sidebar-item[data-selected='true'] > a svg *,
+.sidebar-container .sidebar-item[data-selected='true'] > a use,
+.sidebar-container .sidebar-item[data-selected='true'] > button svg,
+.sidebar-container .sidebar-item[data-selected='true'] > button svg *,
+.sidebar-container .sidebar-item[data-selected='true'] > button use,
+.sidebar-container .sidebar-item[data-selected='true'] > a,
+.sidebar-container .sidebar-item[data-selected='true'] > a *,
+.sidebar-container .sidebar-item[data-selected='true'] > button,
+.sidebar-container .sidebar-item[data-selected='true'] > button *,
+.sidebar-container .sidebar-item[data-selected='true'] .sidebar-item-kicker,
+.sidebar-container .sidebar-item[data-selected='true'] .sidebar-item-label,
+.sidebar-container .sidebar-item[data-selected='true'] .sidebar-item-label *,
+.sidebar-container .sidebar-item[data-selected='true'] .sidebar-subheading-button,
+.sidebar-container .sidebar-item[data-selected='true'] .sidebar-subheading-button * {
+  color: var(--dds-color-sidebar-primary-foreground) !important;
+  fill: currentColor !important;
+  -webkit-text-fill-color: var(--dds-color-sidebar-primary-foreground) !important;
+}
+
+.sidebar-container .sidebar-item[data-selected='true']:hover {
+  background-color: var(--dds-color-sidebar-primary) !important;
+  color: var(--dds-color-sidebar-primary-foreground) !important;
+}
+
+.sidebar-container .sidebar-item svg,
+.sidebar-container .sidebar-subheading svg,
+.sidebar-container .search-result-item svg,
+.sidebar-container .search-field svg,
+.sidebar-container .search-field [role='combobox'] svg {
+  color: currentColor !important;
+}
+
+.sidebar-container .search-result-item--label,
+.sidebar-container .search-result-item--label * {
+  color: inherit !important;
+}
+
+.sidebar-container .sidebar-subheading,
+.sidebar-container .sidebar-subheading *,
+.sidebar-container .sidebar-item *,
+.sidebar-container .search-result-item *,
+.sidebar-container .search-result-recentlyOpened *,
+.sidebar-container .search-result-recentlyOpened-clear * {
+  color: inherit !important;
+}
+
+.sidebar-container .search-field > [aria-label*='create' i],
+.sidebar-container .search-field > [title*='create' i],
+.sidebar-container .search-field > a[href*='new-story' i],
+.sidebar-container .search-field > button[data-testid*='create' i],
+.sidebar-container .search-field > a[data-testid*='create' i],
+.sidebar-container .search-field > button[aria-label*='create' i],
+.sidebar-container .search-field > button[title*='create' i] {
+  display: none !important;
+}
+
+.sidebar-container .search-field + * [aria-label='Create a new story'],
+.sidebar-container .search-field + * [title='Create a new story'],
+.sidebar-container .search-field ~ * [aria-label='Create a new story'],
+.sidebar-container .search-field ~ * [title='Create a new story'] {
+  display: none !important;
+}
+
+.sidebar-container [data-dds-search-empty-state='true'] {
+  display: grid;
+  gap: var(--dds-space-1);
+  padding: var(--dds-space-4);
+  background-color: var(--dds-color-bg-sidebar) !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+.sidebar-container [data-dds-search-empty-state='true'] strong {
+  color: var(--dds-color-text-on-sidebar) !important;
+  font-size: var(--dds-font-size-sm);
+  font-weight: var(--dds-font-weight-semibold);
+}
+
+.sidebar-container [data-dds-search-empty-state='true'] small {
+  color: var(--dds-color-text-muted-on-sidebar) !important;
+  font-size: var(--dds-font-size-xs);
+  line-height: var(--dds-line-height-normal);
+}
+
+.sidebar-container .search-result-item,
+.sidebar-container .search-result-item:hover,
+.sidebar-container .search-result-item:focus,
+.sidebar-container .search-result-item:focus-visible,
+.sidebar-container .search-result-item[aria-selected='true'],
+.sidebar-container .search-result-item[data-selected='true'],
+.sidebar-container .search-result-item[data-highlighted='true'],
+.sidebar-container .search-result-item[data-active='true'],
+.sidebar-container .search-result-item[data-state='active'],
+.sidebar-container .search-result-recentlyOpened,
+.sidebar-container .search-result-recentlyOpened:hover,
+.sidebar-container .search-result-recentlyOpened:focus,
+.sidebar-container .search-result-recentlyOpened:focus-visible,
+.sidebar-container .search-result-recentlyOpened[aria-selected='true'],
+.sidebar-container .search-result-recentlyOpened[data-selected='true'],
+.sidebar-container .search-result-recentlyOpened[data-highlighted='true'],
+.sidebar-container .search-result-recentlyOpened[data-active='true'],
+.sidebar-container .search-result-recentlyOpened[data-state='active'] {
+  background-color: var(--dds-color-bg-sidebar) !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+.sidebar-container .search-result-item:hover,
+.sidebar-container .search-result-item:focus,
+.sidebar-container .search-result-item:focus-visible,
+.sidebar-container .search-result-item[aria-selected='true'],
+.sidebar-container .search-result-item[data-selected='true'],
+.sidebar-container .search-result-item[data-highlighted='true'],
+.sidebar-container .search-result-item[data-active='true'],
+.sidebar-container .search-result-item[data-state='active'] {
+  background-color: var(--dds-color-sidebar-accent) !important;
+}
+
+.sidebar-container .search-field:hover,
+.sidebar-container .search-field:focus-within,
+.sidebar-container .search-field input:hover,
+.sidebar-container .search-field input:focus,
+.sidebar-container .search-field input[aria-expanded='true'],
+.sidebar-container .search-field [role='combobox']:hover,
+.sidebar-container .search-field [role='combobox']:focus,
+.sidebar-container .search-field [role='combobox']:focus-visible,
+.sidebar-container .search-field [role='combobox'][aria-expanded='true'],
+.sidebar-container .search-field [role='combobox'][data-state='open'],
+.sidebar-container .search-field > button:hover,
+.sidebar-container .search-field > button:focus-visible,
+.sidebar-container .search-field > a:hover,
+.sidebar-container .search-field > a:focus-visible {
+  background-color: var(--dds-color-bg-sidebar) !important;
+  border-color: var(--dds-color-border-sidebar) !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+.sidebar-container [data-dds-search-row='true'],
+.sidebar-container [data-dds-search-row='true']:hover,
+.sidebar-container [data-dds-search-row='true']:focus-within {
+  border-color: var(--dds-color-border-sidebar) !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+.sidebar-container [data-dds-search-row='true']:focus-within {
+  outline: 3px solid oklch(from var(--dds-color-focus-ring) l c h / 0.5) !important;
+  outline-offset: 2px !important;
+}
+
+.sidebar-container [data-dds-search-row='true'] input:focus,
+.sidebar-container [data-dds-search-row='true'] input:focus-visible,
+.sidebar-container [data-dds-search-row='true'] [role='combobox']:focus,
+.sidebar-container [data-dds-search-row='true'] [role='combobox']:focus-visible,
+.sidebar-container [data-dds-search-row='true'] button:focus,
+.sidebar-container [data-dds-search-row='true'] button:focus-visible,
+.sidebar-container [data-dds-search-row='true'] a:focus,
+.sidebar-container [data-dds-search-row='true'] a:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+.sidebar-container #sidebar-bottom-wrapper,
+.sidebar-container #sidebar-bottom-wrapper *,
+.sidebar-container #sidebar-bottom-wrapper *::before,
+.sidebar-container #sidebar-bottom-wrapper *::after {
+  animation: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  text-shadow: none !important;
+}
+
+.sidebar-container .sidebar-item:focus-visible,
+.sidebar-container .sidebar-subheading-action:focus-visible,
+.sidebar-container .search-result-item:focus-visible,
+.sidebar-container .search-result-recentlyOpened-clear:focus-visible,
+.sidebar-container .search-field input:focus-visible,
+.sidebar-container .search-field button:focus-visible {
+  outline: 3px solid oklch(from var(--dds-color-focus-ring) l c h / 0.5) !important;
+  outline-offset: 2px !important;
+}
