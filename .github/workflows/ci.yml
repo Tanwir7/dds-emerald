@@ -13,9 +13,9 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v6
         with: { node-version: 22.22.0, cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
@@ -23,9 +23,9 @@ jobs:
   typecheck:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v6
         with: { node-version: 22.22.0, cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
@@ -33,9 +33,9 @@ jobs:
   generated-docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v6
         with: { node-version: 22.22.0, cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - run: pnpm docs:check
@@ -43,9 +43,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v6
         with: { node-version: 22.22.0, cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - run: pnpm test --filter @dds/emerald --filter @dds/emerald-tokens
@@ -53,9 +53,9 @@ jobs:
   storybook-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v6
         with: { node-version: 22.22.0, cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - run: pnpm --dir apps/docs exec playwright install --with-deps chromium
@@ -64,9 +64,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v6
         with: { node-version: 22.22.0, cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
