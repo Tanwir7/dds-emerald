@@ -470,6 +470,38 @@ const sections = [
     ],
   },
   {
+    heading: 'Upload Status Palette',
+    body: 'Upload status tokens show resolved light and dark values from tokens.css.',
+    palettes: [
+      [
+        getResolvedSemanticTokens(
+          '--dds-color-upload-',
+          [
+            ['progress', 'progress'],
+            ['paused', 'paused'],
+            ['waiting', 'waiting'],
+          ],
+          'Light Upload Status',
+          'Upload state tokens in light mode',
+          rootTokenMap
+        ),
+      ],
+      [
+        getResolvedSemanticTokens(
+          '--dds-color-upload-',
+          [
+            ['progress', 'progress'],
+            ['paused', 'paused'],
+            ['waiting', 'waiting'],
+          ],
+          'Dark Upload Status',
+          'Upload state tokens in dark mode',
+          darkTokenMap
+        ),
+      ],
+    ],
+  },
+  {
     heading: 'Tag Palettes',
     body: 'Tag palettes show resolved light and dark values from tokens.css.',
     palettes: [
