@@ -107,49 +107,59 @@ export const Truncated: Story = {
 export const CustomSeparator: Story = {
   render: () => (
     <div className={storyStyles.storyA11yScope}>
-      <div className={storyStyles.storyStack}>
-        <Breadcrumbs separator={<span>/</span>}>
-          <BreadcrumbItem href="/">Home</BreadcrumbItem>
-          <BreadcrumbItem href="/settings">Settings</BreadcrumbItem>
-          <BreadcrumbItem>Profile</BreadcrumbItem>
-        </Breadcrumbs>
-        <Breadcrumbs>
-          <BreadcrumbItem href="/">Home</BreadcrumbItem>
-          <BreadcrumbSeparator>
-            <span>/</span>
-          </BreadcrumbSeparator>
-          <BreadcrumbItem href="/settings">Settings</BreadcrumbItem>
-          <BreadcrumbSeparator>
-            <span>/</span>
-          </BreadcrumbSeparator>
-          <BreadcrumbItem>Profile</BreadcrumbItem>
-        </Breadcrumbs>
-      </div>
+      <Breadcrumbs separator={<span>/</span>}>
+        <BreadcrumbItem href="/">Home</BreadcrumbItem>
+        <BreadcrumbItem href="/settings">Settings</BreadcrumbItem>
+        <BreadcrumbItem>Profile</BreadcrumbItem>
+      </Breadcrumbs>
     </div>
   ),
   parameters: {
     docs: {
       source: storySourceBlock(
         storySource(
-          '<>',
-          '  <Breadcrumbs separator={<span>/</span>}>',
-          '    <BreadcrumbItem href="/">Home</BreadcrumbItem>',
-          '    <BreadcrumbItem href="/settings">Settings</BreadcrumbItem>',
-          '    <BreadcrumbItem>Profile</BreadcrumbItem>',
-          '  </Breadcrumbs>',
-          '',
-          '  <Breadcrumbs>',
-          '    <BreadcrumbItem href="/">Home</BreadcrumbItem>',
-          '    <BreadcrumbSeparator>',
-          '      <span>/</span>',
-          '    </BreadcrumbSeparator>',
-          '    <BreadcrumbItem href="/settings">Settings</BreadcrumbItem>',
-          '    <BreadcrumbSeparator>',
-          '      <span>/</span>',
-          '    </BreadcrumbSeparator>',
-          '    <BreadcrumbItem>Profile</BreadcrumbItem>',
-          '  </Breadcrumbs>',
-          '</>'
+          '<Breadcrumbs separator={<span>/</span>}>',
+          '  <BreadcrumbItem href="/">Home</BreadcrumbItem>',
+          '  <BreadcrumbItem href="/settings">Settings</BreadcrumbItem>',
+          '  <BreadcrumbItem>Profile</BreadcrumbItem>',
+          '</Breadcrumbs>'
+        )
+      ),
+    },
+  },
+};
+
+export const CustomSeparatorSlots: Story = {
+  render: () => (
+    <div className={storyStyles.storyA11yScope}>
+      <Breadcrumbs>
+        <BreadcrumbItem href="/">Home</BreadcrumbItem>
+        <BreadcrumbSeparator>
+          <span>/</span>
+        </BreadcrumbSeparator>
+        <BreadcrumbItem href="/settings">Settings</BreadcrumbItem>
+        <BreadcrumbSeparator>
+          <span>/</span>
+        </BreadcrumbSeparator>
+        <BreadcrumbItem>Profile</BreadcrumbItem>
+      </Breadcrumbs>
+    </div>
+  ),
+  parameters: {
+    docs: {
+      source: storySourceBlock(
+        storySource(
+          '<Breadcrumbs>',
+          '  <BreadcrumbItem href="/">Home</BreadcrumbItem>',
+          '  <BreadcrumbSeparator>',
+          '    <span>/</span>',
+          '  </BreadcrumbSeparator>',
+          '  <BreadcrumbItem href="/settings">Settings</BreadcrumbItem>',
+          '  <BreadcrumbSeparator>',
+          '    <span>/</span>',
+          '  </BreadcrumbSeparator>',
+          '  <BreadcrumbItem>Profile</BreadcrumbItem>',
+          '</Breadcrumbs>'
         )
       ),
     },

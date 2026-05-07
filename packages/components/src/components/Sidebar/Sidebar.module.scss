@@ -1,13 +1,14 @@
 @use '../../styles/mixins' as *;
 
 .sidebar {
+  --dds-sidebar-top-offset: 0px;
   position: sticky;
-  top: 0;
+  top: var(--dds-sidebar-top-offset);
   z-index: var(--dds-z-sidebar);
   display: flex;
   flex-direction: column;
   width: var(--dds-sidebar-width);
-  height: 100vh;
+  height: calc(100vh - var(--dds-sidebar-top-offset));
   overflow: hidden;
   border-right: 1px solid var(--dds-color-border-sidebar);
   background-color: var(--dds-color-bg-sidebar);
@@ -76,7 +77,7 @@
   overflow-y: auto;
   padding: var(--dds-space-4) var(--dds-space-3);
   scrollbar-width: thin;
-  scrollbar-color: var(--dds-color-border-sidebar) transparent;
+  scrollbar-color: var(--dds-color-text-muted-on-sidebar) transparent;
 }
 
 .sidebarContent::-webkit-scrollbar {
@@ -88,7 +89,7 @@
 }
 
 .sidebarContent::-webkit-scrollbar-thumb {
-  background-color: var(--dds-color-border-sidebar);
+  background-color: var(--dds-color-text-muted-on-sidebar);
 }
 
 .sidebarBottom {

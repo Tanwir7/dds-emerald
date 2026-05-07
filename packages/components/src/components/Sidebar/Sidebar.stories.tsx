@@ -3,12 +3,22 @@ import {
   Bell,
   BriefcaseBusiness,
   ChartColumn,
+  ClipboardList,
   CircleHelp,
   CreditCard,
+  FileClock,
   FolderKanban,
   House,
+  LayoutDashboard,
+  MessagesSquare,
+  PackageCheck,
+  ReceiptText,
   Settings,
+  ShieldCheck,
+  Target,
+  TriangleAlert,
   Users,
+  Wrench,
 } from 'lucide-react';
 import React from 'react';
 import { Card, CardBody, CardDescription, CardHeader, CardTitle } from '../Card';
@@ -43,6 +53,8 @@ const componentDescription = `Sidebar composes DDS navigation primitives into a 
 - Screen readers: desktop navigation renders a labeled \`<nav>\`, mobile navigation uses the Sheet dialog semantics, and active rows delegate \`aria-current="page"\` to \`NavItem\`.
 - Layout: \`SidebarTop\` is optional, so the same primitives work with an in-sidebar brand block or alongside a future top navigation bar.
 - QA: verify expanded and collapsed modes, group disclosure state, mobile drawer state, rail flyouts, and axe coverage for composed navigation.`;
+
+const offsetNavbarHeight = '72px';
 
 const SidebarBrand = () => {
   const { collapsed, desktopCollapsePhase, desktopOverlayPresentation } = useSidebar();
@@ -265,6 +277,128 @@ const StoryShell = ({
   );
 };
 
+const SidebarWithTopOffsetShell = () => (
+  <div className={storyStyles.storyA11yScope}>
+    <div className={storyStyles.canvas}>
+      <SidebarProvider mobileBreakpoint={0}>
+        <div className={storyStyles.storyViewport}>
+          <div className={storyStyles.offsetLayout}>
+            <header className={storyStyles.offsetNavbar}>
+              <div className={storyStyles.offsetNavbarBrand}>
+                <Text as="p" size="xs" weight="semibold" color="muted" textTransform="uppercase">
+                  Emerald OS
+                </Text>
+                <Heading as="h2" size="2xl">
+                  Global operations shell
+                </Heading>
+              </div>
+              <div className={storyStyles.offsetNavbarMeta}>
+                <Tag>Fixed top bar</Tag>
+                <Tag>72px offset</Tag>
+              </div>
+            </header>
+            <div className={storyStyles.offsetFrame}>
+              <Sidebar className={storyStyles.storySidebar} topOffset={offsetNavbarHeight}>
+                <SidebarTop className={storyStyles.brandTop}>
+                  <SidebarBrand />
+                  <div className={storyStyles.toggleRow}>
+                    <SidebarCollapseToggle />
+                  </div>
+                </SidebarTop>
+                <SidebarContent className={storyStyles.brandedContent}>
+                  <SidebarGroup label="Workspace" icon={LayoutDashboard}>
+                    <SidebarItem href="#" icon={House} label="Overview" active />
+                    <SidebarItem href="#" icon={ChartColumn} label="Analytics" />
+                    <SidebarItem href="#" icon={ClipboardList} label="Approvals" badge={12} />
+                    <SidebarItem href="#" icon={MessagesSquare} label="Requests" badge={8} />
+                  </SidebarGroup>
+                  <SidebarGroup label="Delivery" icon={FolderKanban}>
+                    <SidebarItem href="#" icon={FolderKanban} label="Programs">
+                      <SidebarSubItem href="#" label="Delivery roadmap" />
+                      <SidebarSubItem href="#" label="Regional launches" />
+                      <SidebarSubItem href="#" label="Change requests" active />
+                      <SidebarSubItem href="#" label="Exceptions queue" badge={6} />
+                      <SidebarSubItem href="#" label="Release notes" />
+                      <SidebarSubItem href="#" label="Backlog intake" />
+                    </SidebarItem>
+                    <SidebarItem href="#" icon={PackageCheck} label="Fulfillment" />
+                    <SidebarItem href="#" icon={Target} label="Milestones" />
+                    <SidebarItem href="#" icon={FileClock} label="Approvals log" />
+                  </SidebarGroup>
+                  <SidebarGroup label="Operations" icon={BriefcaseBusiness}>
+                    <SidebarItem href="#" icon={Users} label="Teams" />
+                    <SidebarItem
+                      href="#"
+                      icon={Bell}
+                      label="Alerts"
+                      badge="Error"
+                      badgeVariant="danger"
+                    />
+                    <SidebarItem href="#" icon={TriangleAlert} label="Incidents" />
+                    <SidebarItem href="#" icon={ShieldCheck} label="Compliance" />
+                    <SidebarItem href="#" icon={ReceiptText} label="Billing review" />
+                    <SidebarItem href="#" icon={CreditCard} label="Vendor spend" />
+                    <SidebarItem href="#" icon={Wrench} label="Maintenance" />
+                  </SidebarGroup>
+                </SidebarContent>
+                <SidebarBottom>
+                  <SidebarItem href="#" icon={CircleHelp} label="Support" />
+                  <SidebarItem href="#" icon={Settings} label="Settings" />
+                </SidebarBottom>
+              </Sidebar>
+              <Container
+                as="main"
+                padding="xl"
+                className={storyStyles.offsetContentPanel ?? ''}
+                aria-label="Sidebar offset story content"
+              >
+                <Stack gap="lg">
+                  <Stack gap="xs">
+                    <Text
+                      as="p"
+                      size="xs"
+                      weight="semibold"
+                      color="muted"
+                      textTransform="uppercase"
+                    >
+                      Offset behavior
+                    </Text>
+                    <Heading as="h2" size="4xl">
+                      The sidebar clears the navbar and keeps only its middle region scrollable.
+                    </Heading>
+                    <Text size="lg" color="muted">
+                      Add more navigation items or expand nested rows to verify that the footer
+                      stays pinned while the central navigation region takes the overflow.
+                    </Text>
+                  </Stack>
+                  <Card variant="outlined">
+                    <CardHeader>
+                      <CardTitle as="h3">Review checklist</CardTitle>
+                    </CardHeader>
+                    <CardBody>
+                      <KeyValueList dividers>
+                        <KeyValueRow label="Desktop top edge">
+                          <Text size="sm">Aligned below the fixed navbar</Text>
+                        </KeyValueRow>
+                        <KeyValueRow label="Desktop bottom edge">
+                          <Text size="sm">Ends at the viewport bottom</Text>
+                        </KeyValueRow>
+                        <KeyValueRow label="Overflow behavior">
+                          <Text size="sm">Only `SidebarContent` should scroll</Text>
+                        </KeyValueRow>
+                      </KeyValueList>
+                    </CardBody>
+                  </Card>
+                </Stack>
+              </Container>
+            </div>
+          </div>
+        </div>
+      </SidebarProvider>
+    </div>
+  </div>
+);
+
 const meta: Meta<typeof Sidebar> = {
   title: 'Core Components/Sidebar',
   component: Sidebar,
@@ -461,6 +595,36 @@ export const PersistentGroups: Story = {
       '        <SidebarItem href="#" icon={ChartColumn} label="Analytics" />',
       '      </SidebarGroup>',
       '    </SidebarContent>',
+      '  </Sidebar>',
+      '</SidebarProvider>'
+    )
+  ),
+};
+
+export const OffsetWithOverflowContent: Story = {
+  render: () => <SidebarWithTopOffsetShell />,
+  parameters: storySourceParameters(
+    storySource(
+      '<header className="top-navbar">...</header>',
+      '<SidebarProvider>',
+      `  <Sidebar topOffset="${offsetNavbarHeight}">`,
+      '    <SidebarTop>',
+      '      <BrandBlock />',
+      '      <SidebarCollapseToggle />',
+      '    </SidebarTop>',
+      '    <SidebarContent>',
+      '      <SidebarGroup label="Delivery" icon={FolderKanban}>',
+      '        <SidebarItem icon={FolderKanban} label="Programs">',
+      '          <SidebarSubItem href="#" label="Delivery roadmap" />',
+      '          <SidebarSubItem href="#" label="Regional launches" />',
+      '          <SidebarSubItem href="#" label="Change requests" active />',
+      '        </SidebarItem>',
+      '        {/* enough items to force SidebarContent scrolling */}',
+      '      </SidebarGroup>',
+      '    </SidebarContent>',
+      '    <SidebarBottom>',
+      '      <SidebarItem href="#" icon={Settings} label="Settings" />',
+      '    </SidebarBottom>',
       '  </Sidebar>',
       '</SidebarProvider>'
     )

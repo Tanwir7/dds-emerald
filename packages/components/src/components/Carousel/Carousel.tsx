@@ -233,8 +233,14 @@ export const useCarousel = () => {
 };
 
 export const CarouselContent = React.forwardRef<HTMLDivElement, CarouselContentProps>(
-  ({ className, children, style, ...props }, ref) => (
-    <div ref={ref} className={clsx(styles.content, className)} style={style} {...props}>
+  ({ className, children, style, tabIndex, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={clsx(styles.content, className)}
+      style={style}
+      tabIndex={tabIndex ?? 0}
+      {...props}
+    >
       {children}
     </div>
   )

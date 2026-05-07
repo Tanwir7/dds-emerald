@@ -145,9 +145,13 @@
 }
 
 .itemDisabled .label {
-  opacity: 0.5;
   cursor: not-allowed;
   pointer-events: none;
+}
+
+.itemDisabled .itemLabel,
+.itemDisabled .count {
+  color: var(--dds-color-text-muted);
 }
 
 .checkbox {

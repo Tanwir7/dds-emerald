@@ -13,7 +13,9 @@ const renderField = (
 ) => (
   <div className={storyStyles.storyA11yScope}>
     <div className={storyStyles.storyField}>
-      <Label htmlFor={id}>{label}</Label>
+      <Label htmlFor={id} disabled={args.disabled}>
+        {label}
+      </Label>
       <Textarea {...args} id={id} />
     </div>
   </div>
@@ -146,7 +148,7 @@ export const Disabled: Story = {
   },
   parameters: storySourceParameters(
     storySource(
-      '<Label htmlFor="disabled-message">Message</Label>',
+      '<Label htmlFor="disabled-message" disabled>Message</Label>',
       '<Textarea id="disabled-message" disabled placeholder="Disabled textarea" />'
     )
   ),

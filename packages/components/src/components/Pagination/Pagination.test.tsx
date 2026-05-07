@@ -59,6 +59,30 @@ describe('Pagination', () => {
       expect(screen.getByRole('navigation')).toHaveAttribute('aria-label', 'Table pagination');
     });
 
+    it('supports unique accessible names when multiple paginations are rendered', () => {
+      render(
+        <>
+          <Pagination
+            currentPage={3}
+            totalPages={10}
+            onPageChange={vi.fn()}
+            aria-label="Search results pagination"
+          />
+          <Pagination
+            currentPage={3}
+            totalPages={10}
+            onPageChange={vi.fn()}
+            aria-label="Table pagination"
+          />
+        </>
+      );
+
+      expect(
+        screen.getByRole('navigation', { name: 'Search results pagination' })
+      ).toBeInTheDocument();
+      expect(screen.getByRole('navigation', { name: 'Table pagination' })).toBeInTheDocument();
+    });
+
     it('forwards className to nav', () => {
       renderPagination({ className: 'custom-pagination' });
       expect(screen.getByRole('navigation')).toHaveClass('custom-pagination');
@@ -368,6 +392,27 @@ describe('Pagination', () => {
 
     it('passes axe for size="sm"', async () => {
       const { container } = renderPagination({ size: 'sm' });
+      expect(await axe(container)).toHaveNoViolations();
+    });
+
+    it('passes axe when multiple paginations have unique labels', async () => {
+      const { container } = render(
+        <>
+          <Pagination
+            currentPage={3}
+            totalPages={10}
+            onPageChange={vi.fn()}
+            aria-label="Search results pagination"
+          />
+          <Pagination
+            currentPage={3}
+            totalPages={10}
+            onPageChange={vi.fn()}
+            aria-label="Table pagination"
+          />
+        </>
+      );
+
       expect(await axe(container)).toHaveNoViolations();
     });
   });

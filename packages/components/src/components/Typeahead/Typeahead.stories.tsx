@@ -32,9 +32,19 @@ const groupedSuggestions: TypeaheadSuggestion[] = [
   { value: 'Tool calling', group: 'Patterns' },
 ];
 
-const renderStory = (args: ComponentProps<typeof Typeahead>) => (
+const renderFieldStory = ({
+  label,
+  helper,
+  args,
+}: {
+  label: string;
+  helper?: string;
+  args: ComponentProps<typeof Typeahead>;
+}) => (
   <div className={storyStyles.storyA11yScope}>
-    <Typeahead {...args} />
+    <Field label={label} helper={helper}>
+      <Typeahead {...args} />
+    </Field>
   </div>
 );
 
@@ -69,13 +79,15 @@ const AsyncSearchExample = () => {
 
   return (
     <div className={storyStyles.storyA11yScope}>
-      <Typeahead
-        id="async-search"
-        suggestions={results}
-        loading={loading}
-        onInputChange={handleInputChange}
-        placeholder="Search countries"
-      />
+      <Field label="Country">
+        <Typeahead
+          id="async-search"
+          suggestions={results}
+          loading={loading}
+          onInputChange={handleInputChange}
+          placeholder="Search countries"
+        />
+      </Field>
     </div>
   );
 };
@@ -85,13 +97,15 @@ const EmptyStateExample = () => {
 
   return (
     <div className={storyStyles.storyA11yScope}>
-      <Typeahead
-        id="empty-state-search"
-        suggestions={[]}
-        onInputChange={setQuery}
-        emptyMessage="No countries found"
-        placeholder="Search countries"
-      />
+      <Field label="Country">
+        <Typeahead
+          id="empty-state-search"
+          suggestions={[]}
+          onInputChange={setQuery}
+          emptyMessage="No countries found"
+          placeholder="Search countries"
+        />
+      </Field>
     </div>
   );
 };
@@ -100,7 +114,7 @@ const meta: Meta<typeof Typeahead> = {
   title: 'Core Components/Typeahead',
   component: Typeahead,
   tags: ['autodocs'],
-  render: (args) => renderStory(args),
+  render: (args) => renderFieldStory({ args, label: 'Country' }),
   parameters: {
     a11y: {
       context: '.' + storyStyles.storyA11yScope,
@@ -126,40 +140,39 @@ type Story = StoryObj<typeof Typeahead>;
 export const Default: Story = {
   parameters: storySourceParameters(
     storySource(
-      '<Typeahead',
-      '  suggestions={countrySuggestions}',
-      '  placeholder="Search countries"',
-      '/>'
+      '<Field label="Country">',
+      '  <Typeahead suggestions={countrySuggestions} placeholder="Search countries" />',
+      '</Field>'
     )
   ),
 };
 
 export const WithDescriptions: Story = {
+  render: (args) => renderFieldStory({ args, label: 'City' }),
   args: {
     suggestions: citySuggestions,
     placeholder: 'Search cities',
   },
   parameters: storySourceParameters(
     storySource(
-      '<Typeahead',
-      '  suggestions={citySuggestions}',
-      '  placeholder="Search cities"',
-      '/>'
+      '<Field label="City">',
+      '  <Typeahead suggestions={citySuggestions} placeholder="Search cities" />',
+      '</Field>'
     )
   ),
 };
 
 export const WithGroups: Story = {
+  render: (args) => renderFieldStory({ args, label: 'Topic' }),
   args: {
     suggestions: groupedSuggestions,
     placeholder: 'Search AI topics',
   },
   parameters: storySourceParameters(
     storySource(
-      '<Typeahead',
-      '  suggestions={groupedSuggestions}',
-      '  placeholder="Search AI topics"',
-      '/>'
+      '<Field label="Topic">',
+      '  <Typeahead suggestions={groupedSuggestions} placeholder="Search AI topics" />',
+      '</Field>'
     )
   ),
 };
@@ -170,11 +183,13 @@ export const HighlightOff: Story = {
   },
   parameters: storySourceParameters(
     storySource(
-      '<Typeahead',
-      '  suggestions={countrySuggestions}',
-      '  placeholder="Search countries"',
-      '  highlightMatch={false}',
-      '/>'
+      '<Field label="Country">',
+      '  <Typeahead',
+      '    suggestions={countrySuggestions}',
+      '    placeholder="Search countries"',
+      '    highlightMatch={false}',
+      '  />',
+      '</Field>'
     )
   ),
 };
@@ -183,32 +198,44 @@ export const Sizes: Story = {
   render: () => (
     <div className={storyStyles.storyA11yScope}>
       <div className={storyStyles.storyStack}>
-        <Typeahead
-          id="typeahead-sm"
-          suggestions={countrySuggestions}
-          size="sm"
-          placeholder="Small"
-        />
-        <Typeahead
-          id="typeahead-md"
-          suggestions={countrySuggestions}
-          size="md"
-          placeholder="Medium"
-        />
-        <Typeahead
-          id="typeahead-lg"
-          suggestions={countrySuggestions}
-          size="lg"
-          placeholder="Large"
-        />
+        <Field label="Country">
+          <Typeahead
+            id="typeahead-sm"
+            suggestions={countrySuggestions}
+            size="sm"
+            placeholder="Small"
+          />
+        </Field>
+        <Field label="Country">
+          <Typeahead
+            id="typeahead-md"
+            suggestions={countrySuggestions}
+            size="md"
+            placeholder="Medium"
+          />
+        </Field>
+        <Field label="Country">
+          <Typeahead
+            id="typeahead-lg"
+            suggestions={countrySuggestions}
+            size="lg"
+            placeholder="Large"
+          />
+        </Field>
       </div>
     </div>
   ),
   parameters: storySourceParameters(
     storySource(
-      '<Typeahead suggestions={countrySuggestions} size="sm" placeholder="Small" />',
-      '<Typeahead suggestions={countrySuggestions} size="md" placeholder="Medium" />',
-      '<Typeahead suggestions={countrySuggestions} size="lg" placeholder="Large" />'
+      '<Field label="Country">',
+      '  <Typeahead suggestions={countrySuggestions} size="sm" placeholder="Small" />',
+      '</Field>',
+      '<Field label="Country">',
+      '  <Typeahead suggestions={countrySuggestions} size="md" placeholder="Medium" />',
+      '</Field>',
+      '<Field label="Country">',
+      '  <Typeahead suggestions={countrySuggestions} size="lg" placeholder="Large" />',
+      '</Field>'
     )
   ),
 };
@@ -220,7 +247,11 @@ export const Loading: Story = {
     value: 'fra',
   },
   parameters: storySourceParameters(
-    storySource('<Typeahead', '  suggestions={[]}', '  value="fra"', '  loading', '/>')
+    storySource(
+      '<Field label="Country">',
+      '  <Typeahead suggestions={[]} value="fra" loading />',
+      '</Field>'
+    )
   ),
 };
 
@@ -231,11 +262,9 @@ export const Invalid: Story = {
   },
   parameters: storySourceParameters(
     storySource(
-      '<Typeahead',
-      '  suggestions={countrySuggestions}',
-      '  value="fra"',
-      '  invalid',
-      '/>'
+      '<Field label="Country">',
+      '  <Typeahead suggestions={countrySuggestions} value="fra" invalid />',
+      '</Field>'
     )
   ),
 };
@@ -243,14 +272,16 @@ export const Invalid: Story = {
 export const MinChars: Story = {
   render: () => (
     <div className={storyStyles.storyA11yScope}>
-      <Typeahead id="typeahead-min-chars" suggestions={countrySuggestions} minChars={3} />
-      <p className={storyStyles.hint}>Type at least 3 characters to see suggestions.</p>
+      <Field label="Country" helper="Type at least 3 characters to see suggestions.">
+        <Typeahead id="typeahead-min-chars" suggestions={countrySuggestions} minChars={3} />
+      </Field>
     </div>
   ),
   parameters: storySourceParameters(
     storySource(
-      '<Typeahead suggestions={countrySuggestions} minChars={3} />',
-      '<p>Type at least 3 characters to see suggestions.</p>'
+      '<Field label="Country" helper="Type at least 3 characters to see suggestions.">',
+      '  <Typeahead suggestions={countrySuggestions} minChars={3} />',
+      '</Field>'
     )
   ),
 };
@@ -259,12 +290,14 @@ export const AsyncSearch: Story = {
   render: () => <AsyncSearchExample />,
   parameters: storySourceParameters(
     storySource(
-      '<Typeahead',
-      '  suggestions={results}',
-      '  loading={loading}',
-      '  onInputChange={setQuery}',
-      '  placeholder="Search countries"',
-      '/>'
+      '<Field label="Country">',
+      '  <Typeahead',
+      '    suggestions={results}',
+      '    loading={loading}',
+      '    onInputChange={setQuery}',
+      '    placeholder="Search countries"',
+      '  />',
+      '</Field>'
     )
   ),
 };
@@ -273,11 +306,13 @@ export const EmptyState: Story = {
   render: () => <EmptyStateExample />,
   parameters: storySourceParameters(
     storySource(
-      '<Typeahead',
-      '  suggestions={[]}',
-      '  onInputChange={setQuery}',
-      '  emptyMessage="No countries found"',
-      '/>'
+      '<Field label="Country">',
+      '  <Typeahead',
+      '    suggestions={[]}',
+      '    onInputChange={setQuery}',
+      '    emptyMessage="No countries found"',
+      '  />',
+      '</Field>'
     )
   ),
 };

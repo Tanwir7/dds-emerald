@@ -9,6 +9,7 @@
     "lint": "turbo run lint",
     "test": "turbo run test",
     "test:storybook": "pnpm --dir apps/docs test",
+    "test:storybook:coverage": "pnpm --dir apps/docs test:coverage",
     "typecheck": "turbo run typecheck",
     "clean": "turbo run clean",
     "docs:generate-colors": "pnpm --dir apps/docs generate:colors",

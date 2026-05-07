@@ -174,7 +174,9 @@ export { FilePicker } from './components/FilePicker';
 export type {
   FilePickerFile,
   FilePickerFileStatus,
+  FilePickerMenuAction,
   FilePickerProps,
+  FilePickerTriggerVariant,
 } from './components/FilePicker';
 export { PasswordInput } from './components/PasswordInput';
 export type { PasswordInputProps } from './components/PasswordInput';

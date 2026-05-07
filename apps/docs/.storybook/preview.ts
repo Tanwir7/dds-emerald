@@ -44,6 +44,10 @@ const preview: Preview = {
     },
     a11y: {
       context: '.dds-story-a11y-scope',
+      test: 'error',
+      options: {
+        runOnly: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'],
+      },
     },
   },
   decorators: [

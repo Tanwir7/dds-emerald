@@ -23,7 +23,9 @@ const renderField = (
 ) => (
   <div className={storyStyles.storyA11yScope}>
     <div className={storyStyles.storyField}>
-      <Label htmlFor={id}>{label}</Label>
+      <Label htmlFor={id} disabled={args.disabled}>
+        {label}
+      </Label>
       <SearchInput {...args} id={id} />
     </div>
   </div>
@@ -213,7 +215,7 @@ export const Disabled: Story = {
   },
   parameters: storySourceParameters(
     storySource(
-      '<Label htmlFor="disabled-search">Search</Label>',
+      '<Label htmlFor="disabled-search" disabled>Search</Label>',
       '<SearchInput id="disabled-search" disabled defaultValue="Emerald" />'
     )
   ),

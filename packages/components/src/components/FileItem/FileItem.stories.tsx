@@ -1,191 +1,125 @@
-import type { ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect, fn, userEvent, within } from 'storybook/test';
 import storyStyles from './FileItem.stories.module.scss';
 import { FileItem } from './FileItem';
-import { storySource, storySourceFragment, storySourceParameters } from '../../utils/storySource';
-
-const defaultSize = 245 * 1024;
+import { storySourceParameters } from '../../utils/storySource';
 
 const meta: Meta<typeof FileItem> = {
   title: 'Core Components/FileItem',
   component: FileItem,
   tags: ['autodocs'],
-  parameters: {
-    a11y: {
-      context: '.' + storyStyles.storyA11yScope,
-    },
-  },
   args: {
     name: 'report.pdf',
-    size: defaultSize,
+    size: 245 * 1024,
   },
-  render: (args: ComponentProps<typeof FileItem>) => (
+  render: (args) => (
     <div className={storyStyles.storyA11yScope}>
       <div className={storyStyles.storyItemWidth}>
         <FileItem {...args} />
       </div>
     </div>
   ),
+  parameters: {
+    a11y: {
+      context: `.${storyStyles.storyA11yScope}`,
+    },
+  },
 };
 
 export default meta;
 
 type Story = StoryObj<typeof FileItem>;
 
-export const Default: Story = {
-  parameters: storySourceParameters('<FileItem name="report.pdf" size={250880} />'),
-};
-
-export const Uploading: Story = {
-  args: {
-    status: 'uploading',
-    progress: 62,
-  },
-  parameters: storySourceParameters(
-    '<FileItem name="report.pdf" size={250880} status="uploading" progress={62} />'
-  ),
-};
-
-export const Complete: Story = {
-  args: {
-    status: 'complete',
-  },
-  parameters: storySourceParameters(
-    '<FileItem name="report.pdf" size={250880} status="complete" />'
-  ),
-};
-
-export const Error: Story = {
-  args: {
-    status: 'error',
-    errorMessage: 'Upload failed. File too large.',
-  },
-  parameters: storySourceParameters(
-    '<FileItem name="report.pdf" size={250880} status="error" errorMessage="Upload failed. File too large." />'
-  ),
-};
-
-export const Removable: Story = {
-  args: {
-    removable: true,
-  },
-  parameters: storySourceParameters('<FileItem name="report.pdf" size={250880} removable />'),
-};
-
-export const WithDownload: Story = {
-  args: {
-    downloadUrl: '/downloads/report.pdf',
-  },
-  parameters: storySourceParameters(
-    '<FileItem name="report.pdf" size={250880} downloadUrl="/downloads/report.pdf" />'
-  ),
-};
-
-export const Clickable: Story = {
-  args: {
-    onClick: fn(),
-  },
-  parameters: storySourceParameters(
-    '<FileItem name="report.pdf" size={250880} onClick={() => {}} />'
-  ),
-};
-
-export const FileTypes: Story = {
-  render: () => (
-    <div className={storyStyles.storyA11yScope}>
-      <div className={storyStyles.storyStack}>
-        <div className={storyStyles.storyList}>
-          <FileItem name="report.pdf" size={250880} />
-          <FileItem name="hero.png" size={135168} />
-          <FileItem name="demo.mp4" size={4194304} />
-          <FileItem name="voice.mp3" size={524288} />
-          <FileItem name="app.ts" size={4096} />
-          <FileItem name="revenue.xlsx" size={98304} />
-          <FileItem name="proposal.docx" size={196608} />
-          <FileItem name="bundle.zip" size={786432} />
-        </div>
-      </div>
-    </div>
-  ),
-  parameters: storySourceParameters(
-    storySource(
-      '<>',
-      '  <FileItem name="report.pdf" size={250880} />',
-      '  <FileItem name="hero.png" size={135168} />',
-      '  <FileItem name="demo.mp4" size={4194304} />',
-      '  <FileItem name="voice.mp3" size={524288} />',
-      '  <FileItem name="app.ts" size={4096} />',
-      '  <FileItem name="revenue.xlsx" size={98304} />',
-      '  <FileItem name="proposal.docx" size={196608} />',
-      '  <FileItem name="bundle.zip" size={786432} />',
-      '</>'
-    )
-  ),
-};
-
-export const UploadList: Story = {
+export const AllStatuses: Story = {
   render: () => (
     <div className={storyStyles.storyA11yScope}>
       <div className={storyStyles.storyList}>
-        <FileItem name="notes.txt" size={2048} />
-        <FileItem name="recording.mp4" size={3145728} status="uploading" progress={62} />
-        <FileItem name="invoice.pdf" size={122880} status="complete" />
+        <FileItem name="proposal.pdf" size={245 * 1024} status="idle" onRemove={() => undefined} />
+        <FileItem name="mockup.png" size={512 * 1024} status="waiting" onRemove={() => undefined} />
+        <FileItem
+          name="walkthrough.mp4"
+          size={2 * 1024 * 1024}
+          status="uploading"
+          progress={45}
+          onRemove={() => undefined}
+        />
+        <FileItem
+          name="dataset.csv"
+          size={950 * 1024}
+          status="paused"
+          progress={60}
+          onRemove={() => undefined}
+        />
+        <FileItem
+          name="invoice.docx"
+          size={180 * 1024}
+          status="complete"
+          downloadUrl="/downloads/invoice.docx"
+          onRemove={() => undefined}
+        />
         <FileItem
           name="archive.zip"
-          size={786432}
+          size={1_500_000}
           status="error"
-          errorMessage="Upload failed. File too large."
+          error="Network timeout. Please try again."
+          onRemove={() => undefined}
         />
       </div>
     </div>
   ),
-  parameters: storySourceParameters(
-    storySourceFragment(
-      '<FileItem name="notes.txt" size={2048} />',
-      '<FileItem name="recording.mp4" size={3145728} status="uploading" progress={62} />',
-      '<FileItem name="invoice.pdf" size={122880} status="complete" />',
-      '<FileItem name="archive.zip" size={786432} status="error" errorMessage="Upload failed. File too large." />'
-    )
-  ),
-};
-
-export const NoSize: Story = {
-  render: () => (
-    <div className={storyStyles.storyA11yScope}>
-      <div className={storyStyles.storyItemWidth}>
-        <FileItem name="report.pdf" />
-      </div>
-    </div>
-  ),
-  parameters: storySourceParameters('<FileItem name="report.pdf" />'),
-};
-
-export const RemoveFile: Story = {
-  args: {
-    removable: true,
-    onRemove: fn(),
-  },
-  parameters: storySourceParameters(
-    '<FileItem name="report.pdf" size={250880} removable onRemove={() => {}} />'
-  ),
-  play: async ({ args, canvasElement }) => {
-    const removeBtn = within(canvasElement).getByRole('button', { name: /remove/i });
-    await userEvent.click(removeBtn);
-    await expect(args.onRemove).toHaveBeenCalled();
+  parameters: {
+    ...storySourceParameters('// Multiple FileItem states'),
   },
 };
 
-export const ProgressUpdate: Story = {
+export const UploadingProgress: Story = {
   args: {
     status: 'uploading',
-    progress: 62,
+    progress: 45,
+    onRemove: () => undefined,
   },
-  parameters: storySourceParameters(
-    '<FileItem name="report.pdf" size={250880} status="uploading" progress={62} />'
-  ),
-  play: async ({ canvasElement }) => {
-    const progressBar = within(canvasElement).getByRole('progressbar');
-    await expect(progressBar).toHaveAttribute('aria-valuenow', '62');
+};
+
+export const PausedProgress: Story = {
+  args: {
+    status: 'paused',
+    progress: 60,
+    onRemove: () => undefined,
+  },
+};
+
+export const WaitingState: Story = {
+  args: {
+    status: 'waiting',
+    onRemove: () => undefined,
+  },
+};
+
+export const ErrorState: Story = {
+  args: {
+    status: 'error',
+    error: 'Network timeout. Please try again.',
+    onRemove: () => undefined,
+  },
+};
+
+export const WithDownloadUrl: Story = {
+  args: {
+    status: 'complete',
+    downloadUrl: '/downloads/report.pdf',
+  },
+};
+
+export const WithoutRemoveButton: Story = {
+  args: {
+    status: 'idle',
+  },
+};
+
+export const LongFilename: Story = {
+  args: {
+    name: 'this-is-a-very-long-filename-designed-to-demonstrate-overflow-behavior-in-the-file-item-component.pdf',
+    status: 'uploading',
+    progress: 45,
+    onRemove: () => undefined,
   },
 };

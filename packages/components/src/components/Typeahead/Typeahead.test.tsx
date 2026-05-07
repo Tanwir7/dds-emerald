@@ -43,6 +43,7 @@ const renderTypeahead = (props: Partial<React.ComponentProps<typeof Typeahead>> 
       id="framework-typeahead"
       name="framework"
       suggestions={suggestions}
+      aria-label="Framework"
       placeholder="Search frameworks"
       {...props}
     />
@@ -61,7 +62,7 @@ describe('Typeahead', () => {
   it('renders an input element', () => {
     renderTypeahead();
 
-    expect(screen.getByRole('combobox')).toBeInstanceOf(HTMLInputElement);
+    expect(screen.getByRole('combobox', { name: 'Framework' })).toBeInstanceOf(HTMLInputElement);
   });
 
   it('input has aria-autocomplete="list"', () => {

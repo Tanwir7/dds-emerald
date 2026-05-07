@@ -24,7 +24,9 @@ const renderField = (
 ) => (
   <div className={storyStyles.storyA11yScope}>
     <div className={storyStyles.storyField}>
-      <Label htmlFor={id}>{label}</Label>
+      <Label htmlFor={id} disabled={args.disabled}>
+        {label}
+      </Label>
       <PasswordInput {...args} id={id} />
     </div>
   </div>

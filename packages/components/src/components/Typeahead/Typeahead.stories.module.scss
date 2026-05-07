@@ -1,7 +1,9 @@
 .storyA11yScope {
   display: grid;
   gap: var(--dds-space-4);
-  width: min(100%, 32rem);
+  width: 100%;
+  min-height: 20rem;
+  padding-block-end: var(--dds-space-8);
 }
 
 .storyStack {

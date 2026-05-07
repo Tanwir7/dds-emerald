@@ -7,10 +7,10 @@ import { getRequiredClassName } from '../../utils/getRequiredClassName';
 export type LabelSize = 'sm' | 'base';
 
 export interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
-  required?: boolean;
-  disabled?: boolean;
-  size?: LabelSize;
-  className?: string;
+  required?: boolean | undefined;
+  disabled?: boolean | undefined;
+  size?: LabelSize | undefined;
+  className?: string | undefined;
   children: React.ReactNode;
 }
 

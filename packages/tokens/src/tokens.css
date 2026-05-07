@@ -233,6 +233,11 @@
   --dds-color-action-info-hover: oklch(0.5 0.13 240);
   --dds-color-action-info-hover-foreground: var(--dds-silver-50);
 
+  /* --- File Upload Status --- */
+  --dds-color-upload-progress: var(--dds-color-action-primary);
+  --dds-color-upload-paused: var(--dds-color-text-muted);
+  --dds-color-upload-waiting: var(--dds-color-text-muted);
+
   /* ============================================================
      TIER 3 — TAG TOKENS
      ============================================================ */

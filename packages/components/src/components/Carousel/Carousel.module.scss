@@ -22,6 +22,11 @@
   @media (prefers-reduced-motion: reduce) {
     scroll-behavior: auto;
   }
+
+  &:focus-visible {
+    outline: 3px solid oklch(from var(--dds-color-focus-ring) l c h / 0.5);
+    outline-offset: 2px;
+  }
 }
 
 .slide {
@@ -55,17 +60,30 @@
 }
 
 .dot {
-  background-color: var(--dds-color-border-default);
   border: none;
-  border-radius: var(--dds-radius-full);
+  border-radius: var(--dds-radius-none);
   cursor: pointer;
-  display: block;
-  height: var(--dds-space-2);
+  display: inline-grid;
+  height: 44px;
+  min-width: 44px;
   padding: 0;
+  place-items: center;
+  position: relative;
   transition:
-    background-color var(--dds-duration-fast) var(--dds-ease-standard),
+    color var(--dds-duration-fast) var(--dds-ease-standard),
     width var(--dds-duration-fast) var(--dds-ease-standard);
-  width: var(--dds-space-2);
+
+  &::before {
+    background-color: var(--dds-color-border-default);
+    border-radius: var(--dds-radius-full);
+    content: '';
+    display: block;
+    height: var(--dds-space-2);
+    transition:
+      background-color var(--dds-duration-fast) var(--dds-ease-standard),
+      width var(--dds-duration-fast) var(--dds-ease-standard);
+    width: var(--dds-space-2);
+  }
 
   &:focus-visible {
     outline: 3px solid oklch(from var(--dds-color-focus-ring) l c h / 0.5);
@@ -78,8 +96,10 @@
 }
 
 .dotActive {
-  background-color: var(--dds-color-action-primary);
-  width: var(--dds-space-5);
+  &::before {
+    background-color: var(--dds-color-action-primary);
+    width: var(--dds-space-5);
+  }
 }
 
 .liveRegion {

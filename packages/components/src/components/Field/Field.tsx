@@ -11,15 +11,15 @@ export type FieldLayout = 'stack' | 'inline';
 
 export interface FieldProps {
   label: string;
-  required?: boolean;
-  disabled?: boolean;
-  instruction?: string;
-  helper?: string;
-  inlineAlert?: FieldInlineAlert;
-  layout?: FieldLayout;
-  inlineLabelWidth?: string;
-  id?: string;
-  className?: string;
+  required?: boolean | undefined;
+  disabled?: boolean | undefined;
+  instruction?: string | undefined;
+  helper?: string | undefined;
+  inlineAlert?: FieldInlineAlert | undefined;
+  layout?: FieldLayout | undefined;
+  inlineLabelWidth?: string | undefined;
+  id?: string | undefined;
+  className?: string | undefined;
   children: React.ReactNode;
 }
 
