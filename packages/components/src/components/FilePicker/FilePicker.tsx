@@ -1,11 +1,16 @@
 import React from 'react';
 import clsx from 'clsx';
-import { AlertCircle, Paperclip, Upload } from 'lucide-react';
-import styles from './FilePicker.module.scss';
+import type { LucideIcon } from 'lucide-react';
+import { AlertCircle, ChevronDown, Paperclip, Upload, UploadCloud } from 'lucide-react';
 import { Button } from '../Button';
-import { FileItem } from '../FileItem';
+import type { ButtonVariant } from '../Button';
+import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from '../Dropdown';
+import { FileItem, type FileItemStatus } from '../FileItem';
+import { Label } from '../Label';
+import styles from './FilePicker.module.scss';
 
-export type FilePickerFileStatus = 'idle' | 'uploading' | 'complete' | 'error';
+export type FilePickerTriggerVariant = 'button' | 'menu' | 'dropzone';
+export type FilePickerFileStatus = FileItemStatus;
 
 export interface FilePickerFile {
   id: string;
@@ -16,21 +21,37 @@ export interface FilePickerFile {
   downloadUrl?: string;
 }
 
+export interface FilePickerMenuAction {
+  label: string;
+  onClick?: () => void;
+  icon?: LucideIcon;
+}
+
 export interface FilePickerProps {
   files?: FilePickerFile[];
   onFilesChange?: (files: FilePickerFile[]) => void;
   onFilesAdded?: (newFiles: FilePickerFile[]) => void;
+  triggerVariant?: FilePickerTriggerVariant;
+  buttonVariant?: Extract<ButtonVariant, 'primary' | 'secondary'>;
+  buttonLabel?: string;
+  buttonIcon?: LucideIcon;
+  menuLabel?: string;
+  menuActions?: FilePickerMenuAction[];
   multiple?: boolean;
   accept?: string;
   maxSize?: number;
-  maxFiles?: number;
   minSize?: number;
+  maxFiles?: number;
   id?: string;
   label?: string;
   hint?: string;
   error?: string;
   required?: boolean;
   disabled?: boolean;
+  showPanelHeader?: boolean;
+  panelTitle?: string;
+  showClearAll?: boolean;
+  onClearAll?: () => void;
   dropzoneLabel?: string;
   browseLabel?: string;
   dropzoneActiveLabel?: string;
@@ -54,6 +75,8 @@ const DEFAULT_DROPZONE_LABEL = 'Drag and drop files here';
 const DEFAULT_DROPZONE_ARIA_LABEL = 'Drag and drop files here, or use the Browse button';
 const DEFAULT_BROWSE_LABEL = 'Browse files';
 const DEFAULT_ACTIVE_LABEL = 'Drop files to upload';
+const DEFAULT_BUTTON_LABEL = 'Upload Files';
+const DEFAULT_MENU_LABEL = 'Choose an action';
 
 const formatFileSize = (bytes: number) => {
   if (bytes === 0) {
@@ -89,7 +112,12 @@ const getFormatsHint = ({
   maxSize,
   maxFiles,
   multiple,
-}: Pick<FilePickerProps, 'accept' | 'maxSize' | 'maxFiles' | 'multiple'>) => {
+}: {
+  accept?: string;
+  maxSize?: number;
+  maxFiles?: number;
+  multiple?: boolean;
+}) => {
   const parts: string[] = [];
 
   if (accept) {
@@ -117,40 +145,33 @@ const getFormatsHint = ({
   return parts.join(' · ');
 };
 
-const getFormatsHintProps = ({
-  accept,
-  maxSize,
-  maxFiles,
-  multiple,
-}: {
-  accept?: string | undefined;
-  maxSize?: number | undefined;
-  maxFiles?: number | undefined;
-  multiple?: boolean | undefined;
-}) => ({
-  ...(accept ? { accept } : {}),
-  ...(maxSize !== undefined ? { maxSize } : {}),
-  ...(maxFiles !== undefined ? { maxFiles } : {}),
-  ...(multiple !== undefined ? { multiple } : {}),
-});
-
 export const FilePicker = React.forwardRef<HTMLDivElement, FilePickerProps>(
   (
     {
       files = [],
       onFilesChange,
       onFilesAdded,
+      triggerVariant = 'dropzone',
+      buttonVariant = 'primary',
+      buttonLabel = DEFAULT_BUTTON_LABEL,
+      buttonIcon = UploadCloud,
+      menuLabel = DEFAULT_MENU_LABEL,
+      menuActions,
       multiple = false,
       accept,
       maxSize = DEFAULT_MAX_SIZE,
-      maxFiles,
       minSize = 0,
+      maxFiles,
       id,
       label,
       hint,
       error,
       required = false,
       disabled = false,
+      showPanelHeader = true,
+      panelTitle,
+      showClearAll = true,
+      onClearAll,
       dropzoneLabel = DEFAULT_DROPZONE_LABEL,
       browseLabel = DEFAULT_BROWSE_LABEL,
       dropzoneActiveLabel = DEFAULT_ACTIVE_LABEL,
@@ -160,28 +181,14 @@ export const FilePicker = React.forwardRef<HTMLDivElement, FilePickerProps>(
     },
     ref
   ) => {
-    // FileItem API note: FileItem already supported status, progress, onRemove, name, size,
-    // and downloadUrl. This component required one compatibility addition there: `error` as an
-    // alias for the existing `errorMessage` prop so FilePicker can pass per-file errors directly.
     const generatedId = React.useId();
     const inputId = id ?? generatedId;
     const inputRef = React.useRef<HTMLInputElement>(null);
-    const browseButtonRef = React.useRef<HTMLButtonElement>(null);
+    const triggerButtonRef = React.useRef<HTMLButtonElement>(null);
     const dragCounter = React.useRef(0);
     const validationTimeoutRef = React.useRef<number | null>(null);
     const [isDraggingOver, setIsDraggingOver] = React.useState(false);
     const [validationErrors, setValidationErrors] = React.useState<RejectedFile[]>([]);
-
-    const describedBy =
-      [error ? `${inputId}-error` : undefined, hint ? `${inputId}-hint` : undefined]
-        .filter(Boolean)
-        .join(' ') || undefined;
-
-    const formatsHint =
-      acceptedFormatsLabel ??
-      getFormatsHint(getFormatsHintProps({ accept, maxSize, maxFiles, multiple }));
-
-    const displayedFiles = multiple ? files : files.slice(0, 1);
 
     React.useEffect(() => {
       return () => {
@@ -190,6 +197,20 @@ export const FilePicker = React.forwardRef<HTMLDivElement, FilePickerProps>(
         }
       };
     }, []);
+
+    const describedBy =
+      [error ? `${inputId}-error` : undefined, hint ? `${inputId}-hint` : undefined]
+        .filter(Boolean)
+        .join(' ') || undefined;
+
+    const autoFormatsHint = getFormatsHint({
+      ...(accept !== undefined ? { accept } : {}),
+      ...(maxSize !== undefined ? { maxSize } : {}),
+      ...(maxFiles !== undefined ? { maxFiles } : {}),
+      ...(multiple !== undefined ? { multiple } : {}),
+    });
+    const triggerHint = triggerVariant === 'button' ? (hint ?? autoFormatsHint) : hint;
+    const dropzoneHint = acceptedFormatsLabel ?? autoFormatsHint;
 
     const clearValidationErrorsAfterDelay = React.useCallback(() => {
       if (validationTimeoutRef.current !== null) {
@@ -207,7 +228,7 @@ export const FilePicker = React.forwardRef<HTMLDivElement, FilePickerProps>(
         const accepted: File[] = [];
         const rejected: RejectedFile[] = [];
         const currentCount = multiple
-          ? displayedFiles.filter((pickerFile) => pickerFile.status !== 'error').length
+          ? files.filter((pickerFile) => pickerFile.status !== 'error').length
           : 0;
         const configuredLimit = multiple ? (maxFiles ?? Number.POSITIVE_INFINITY) : 1;
         const allowedCount = Math.max(configuredLimit - currentCount, 0);
@@ -222,7 +243,7 @@ export const FilePicker = React.forwardRef<HTMLDivElement, FilePickerProps>(
           }
 
           if (
-            displayedFiles.some(
+            files.some(
               (pickerFile) =>
                 pickerFile.file.name === file.name && pickerFile.file.size === file.size
             )
@@ -257,7 +278,7 @@ export const FilePicker = React.forwardRef<HTMLDivElement, FilePickerProps>(
 
         return { accepted, rejected };
       },
-      [accept, displayedFiles, maxFiles, maxSize, minSize, multiple]
+      [accept, files, maxFiles, maxSize, minSize, multiple]
     );
 
     const processFiles = React.useCallback(
@@ -357,11 +378,24 @@ export const FilePicker = React.forwardRef<HTMLDivElement, FilePickerProps>(
     };
 
     const handleRemove = (pickerFileId: string) => {
+      if (!onFilesChange) {
+        return;
+      }
+
       const next = files.filter((pickerFile) => pickerFile.id !== pickerFileId);
-      onFilesChange?.(next);
-      browseButtonRef.current?.focus();
+      onFilesChange(next);
+      triggerButtonRef.current?.focus();
     };
 
+    const completeCount = files.filter((file) => file.status === 'complete').length;
+    const totalCount = files.length;
+    const activeCount = files.filter(
+      (file) => file.status === 'uploading' || file.status === 'waiting' || file.status === 'paused'
+    ).length;
+    const autoTitle =
+      activeCount > 0
+        ? `Uploading ${totalCount} file${totalCount === 1 ? '' : 's'}`
+        : `${totalCount} file${totalCount === 1 ? '' : 's'} selected`;
     const regionLabel = isDraggingOver
       ? dropzoneActiveLabel
       : dropzoneLabel === DEFAULT_DROPZONE_LABEL
@@ -371,70 +405,165 @@ export const FilePicker = React.forwardRef<HTMLDivElement, FilePickerProps>(
 
     return (
       <div ref={ref} className={clsx(styles.root, className)}>
-        {label ? (
-          <label className={styles.label} htmlFor={inputId}>
-            {label}
-            {required ? (
-              <span className={styles.required} aria-hidden="true">
-                {' '}
-                *
-              </span>
+        {triggerVariant === 'button' ? (
+          <div className={styles.buttonTriggerWrapper}>
+            {label ? (
+              <Label
+                className={styles.buttonTriggerLabel}
+                htmlFor={inputId}
+                required={required}
+                disabled={disabled}
+              >
+                {label}
+              </Label>
             ) : null}
-          </label>
-        ) : null}
-
-        <div
-          className={clsx(
-            styles.dropzone,
-            isDraggingOver && styles.dropzoneActive,
-            disabled && styles.dropzoneDisabled,
-            error && styles.dropzoneError,
-            compact && styles.dropzoneCompact
-          )}
-          onDragEnter={handleDragEnter}
-          onDragLeave={handleDragLeave}
-          onDragOver={handleDragOver}
-          onDrop={handleDrop}
-          role="region"
-          aria-label={regionLabel}
-        >
-          <DropzoneIcon className={styles.dropzoneIcon} aria-hidden="true" />
-          <div className={styles.dropzoneText}>
-            <p className={styles.dropzoneLabel}>
-              {isDraggingOver ? dropzoneActiveLabel : dropzoneLabel}
-            </p>
+            {triggerHint ? (
+              <p className={styles.buttonTriggerHint} id={`${inputId}-hint`}>
+                {triggerHint}
+              </p>
+            ) : null}
             <Button
-              ref={browseButtonRef}
-              type="button"
-              variant="secondary"
+              ref={triggerButtonRef}
+              variant={buttonVariant}
+              icon={buttonIcon}
               onClick={() => inputRef.current?.click()}
               disabled={disabled}
+              aria-describedby={
+                [
+                  triggerHint ? `${inputId}-hint` : undefined,
+                  error ? `${inputId}-error` : undefined,
+                ]
+                  .filter(Boolean)
+                  .join(' ') || undefined
+              }
             >
-              {browseLabel}
+              {buttonLabel}
             </Button>
           </div>
-          {formatsHint ? <p className={styles.dropzoneFormatsHint}>{formatsHint}</p> : null}
-          <input
-            ref={inputRef}
-            id={inputId}
-            type="file"
-            accept={accept}
-            multiple={multiple}
-            disabled={disabled}
-            onChange={handleInputChange}
-            className={styles.hiddenInput}
-            aria-label={label ?? browseLabel}
-            aria-describedby={describedBy}
-            aria-required={required || undefined}
-            aria-invalid={error ? true : undefined}
-          />
-        </div>
+        ) : null}
+
+        {triggerVariant === 'menu' ? (
+          <div className={styles.menuTriggerWrapper}>
+            {label ? (
+              <Label
+                className={styles.buttonTriggerLabel}
+                htmlFor={inputId}
+                required={required}
+                disabled={disabled}
+              >
+                {label}
+              </Label>
+            ) : null}
+            {hint ? (
+              <p className={styles.buttonTriggerHint} id={`${inputId}-hint`}>
+                {hint}
+              </p>
+            ) : null}
+            <Dropdown modal={false}>
+              <DropdownTrigger asChild>
+                <Button
+                  ref={triggerButtonRef}
+                  variant="secondary"
+                  icon={ChevronDown}
+                  iconPosition="end"
+                  disabled={disabled}
+                  aria-haspopup="menu"
+                  aria-describedby={describedBy}
+                >
+                  {menuLabel}
+                </Button>
+              </DropdownTrigger>
+              <DropdownContent align="start">
+                <DropdownItem
+                  startIcon={<UploadCloud aria-hidden="true" />}
+                  onSelect={() => inputRef.current?.click()}
+                >
+                  Upload File
+                </DropdownItem>
+                {menuActions?.map((action) => {
+                  const ActionIcon = action.icon;
+
+                  return (
+                    <DropdownItem
+                      key={action.label}
+                      startIcon={ActionIcon ? <ActionIcon aria-hidden="true" /> : undefined}
+                      onSelect={() => action.onClick?.()}
+                    >
+                      {action.label}
+                    </DropdownItem>
+                  );
+                })}
+              </DropdownContent>
+            </Dropdown>
+          </div>
+        ) : null}
+
+        {triggerVariant === 'dropzone' ? (
+          <>
+            {label ? (
+              <Label
+                className={styles.dropzoneFieldLabel}
+                htmlFor={inputId}
+                required={required}
+                disabled={disabled}
+              >
+                {label}
+              </Label>
+            ) : null}
+            <div
+              className={clsx(
+                styles.dropzone,
+                isDraggingOver && styles.dropzoneActive,
+                disabled && styles.dropzoneDisabled,
+                error && styles.dropzoneError,
+                compact && styles.dropzoneCompact
+              )}
+              onDragEnter={handleDragEnter}
+              onDragLeave={handleDragLeave}
+              onDragOver={handleDragOver}
+              onDrop={handleDrop}
+              role="region"
+              aria-label={regionLabel}
+            >
+              <DropzoneIcon className={styles.dropzoneIcon} aria-hidden="true" />
+              <div className={styles.dropzoneText}>
+                <p className={styles.dropzoneLabel}>
+                  {isDraggingOver ? dropzoneActiveLabel : dropzoneLabel}
+                </p>
+                <Button
+                  ref={triggerButtonRef}
+                  variant={buttonVariant}
+                  onClick={() => inputRef.current?.click()}
+                  disabled={disabled}
+                >
+                  {browseLabel}
+                </Button>
+              </div>
+              {dropzoneHint ? <p className={styles.dropzoneFormatsHint}>{dropzoneHint}</p> : null}
+            </div>
+          </>
+        ) : null}
+
+        <input
+          ref={inputRef}
+          id={inputId}
+          type="file"
+          accept={accept}
+          multiple={multiple}
+          disabled={disabled}
+          onChange={handleInputChange}
+          className={styles.hiddenInput}
+          aria-label={label ?? buttonLabel ?? menuLabel ?? browseLabel}
+          aria-describedby={describedBy}
+          aria-required={required || undefined}
+          aria-invalid={error ? true : undefined}
+        />
 
         {validationErrors.length > 0 ? (
           <div role="alert" className={styles.validationErrors} aria-atomic="true">
             {validationErrors.map(({ file, reason }) => (
               <p key={`${file.name}-${file.size}-${reason}`} className={styles.validationError}>
-                <AlertCircle aria-hidden="true" />
+                <AlertCircle className={styles.validationErrorIcon} aria-hidden="true" />
                 <span>
                   <strong>{file.name}</strong>: {reason}
                 </span>
@@ -443,34 +572,60 @@ export const FilePicker = React.forwardRef<HTMLDivElement, FilePickerProps>(
           </div>
         ) : null}
 
-        {displayedFiles.length > 0 ? (
-          <ul className={styles.fileList} aria-label="Selected files" aria-live="polite">
-            {displayedFiles.map((pickerFile) => (
-              <li key={pickerFile.id} className={styles.fileListItem}>
-                <FileItem
-                  name={pickerFile.file.name}
-                  size={pickerFile.file.size}
-                  status={pickerFile.status}
-                  {...(pickerFile.progress !== undefined ? { progress: pickerFile.progress } : {})}
-                  {...(pickerFile.error ? { error: pickerFile.error } : {})}
-                  {...(pickerFile.downloadUrl ? { downloadUrl: pickerFile.downloadUrl } : {})}
-                  removable
-                  onRemove={() => handleRemove(pickerFile.id)}
-                />
-              </li>
-            ))}
-          </ul>
+        {files.length > 0 ? (
+          <div className={styles.panel}>
+            {showPanelHeader ? (
+              <div className={styles.panelHeader}>
+                <div className={styles.panelHeaderText}>
+                  <h2 className={styles.panelTitle} aria-live="polite" aria-atomic="true">
+                    {panelTitle ?? autoTitle}
+                  </h2>
+                  {activeCount > 0 ? (
+                    <p className={styles.panelSubtitle} aria-live="polite" aria-atomic="true">
+                      {completeCount} of {totalCount} file{totalCount === 1 ? '' : 's'} uploaded
+                    </p>
+                  ) : null}
+                </div>
+                {showClearAll && onClearAll ? (
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={onClearAll}
+                    aria-label="Clear all files"
+                  >
+                    Clear all
+                  </Button>
+                ) : null}
+              </div>
+            ) : null}
+
+            <ul
+              className={styles.fileList}
+              aria-label={`${files.length} file${files.length === 1 ? '' : 's'} selected`}
+              aria-live="polite"
+            >
+              {files.map((file) => (
+                <li key={file.id} className={styles.fileListItem}>
+                  <FileItem
+                    name={file.file.name}
+                    size={file.file.size}
+                    status={file.status}
+                    {...(file.progress !== undefined ? { progress: file.progress } : {})}
+                    {...(file.error !== undefined ? { error: file.error } : {})}
+                    {...(file.downloadUrl !== undefined ? { downloadUrl: file.downloadUrl } : {})}
+                    {...(onFilesChange && !disabled
+                      ? { onRemove: () => handleRemove(file.id) }
+                      : {})}
+                  />
+                </li>
+              ))}
+            </ul>
+          </div>
         ) : null}
 
         {error ? (
           <p id={`${inputId}-error`} className={styles.fieldError} role="alert">
             {error}
-          </p>
-        ) : null}
-
-        {hint ? (
-          <p id={`${inputId}-hint`} className={styles.fieldHint}>
-            {hint}
           </p>
         ) : null}
       </div>

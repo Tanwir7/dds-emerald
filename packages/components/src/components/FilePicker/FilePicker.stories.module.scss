@@ -1,6 +1,14 @@
 .storyA11yScope {
   display: flex;
+}
+
+.storyWidth {
+  width: 680px;
+}
+
+.storyStack {
+  display: flex;
+  width: 680px;
   flex-direction: column;
   gap: var(--dds-space-4);
-  max-width: 40rem;
 }
