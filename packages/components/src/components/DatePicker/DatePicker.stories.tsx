@@ -4,6 +4,8 @@ import { DatePicker } from './DatePicker';
 import storyStyles from './DatePicker.stories.module.scss';
 import { storySource, storySourceParameters } from '../../utils/storySource';
 
+const currentYear = new Date().getFullYear();
+
 const meta: Meta<typeof DatePicker> = {
   title: 'Core Components/DatePicker',
   component: DatePicker,
@@ -76,5 +78,52 @@ export const TwoMonths: Story = {
   },
   parameters: storySourceParameters(
     storySource('<DatePicker id="invoice-date" label="Invoice date" numberOfMonths={2} />')
+  ),
+};
+
+export const DateOfBirthDropdown: Story = {
+  args: {
+    id: 'storybook-date-picker-dob',
+    label: 'Date of birth',
+    hint: 'You must be at least 13 years old.',
+    captionLayout: 'dropdown',
+    fromYear: currentYear - 120,
+    toYear: currentYear - 13,
+    maxDate: new Date(currentYear, 11, 31),
+  },
+  parameters: storySourceParameters(
+    storySource(
+      '<DatePicker',
+      '  id="date-of-birth"',
+      '  label="Date of birth"',
+      '  hint="You must be at least 13 years old."',
+      '  captionLayout="dropdown"',
+      '  fromYear={currentYear - 120}',
+      '  toYear={currentYear - 13}',
+      '/>'
+    )
+  ),
+};
+
+export const ConstrainedYearRange: Story = {
+  args: {
+    id: 'storybook-date-picker-range',
+    label: 'Project kickoff',
+    captionLayout: 'dropdown',
+    fromYear: 2020,
+    toYear: 2028,
+    defaultMonth: new Date(2024, 4, 1),
+  },
+  parameters: storySourceParameters(
+    storySource(
+      '<DatePicker',
+      '  id="project-kickoff"',
+      '  label="Project kickoff"',
+      '  captionLayout="dropdown"',
+      '  fromYear={2020}',
+      '  toYear={2028}',
+      '  defaultMonth={new Date(2024, 4, 1)}',
+      '/>'
+    )
   ),
 };

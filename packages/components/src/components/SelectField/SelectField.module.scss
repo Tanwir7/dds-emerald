@@ -1,0 +1,39 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+}
+
+.label {
+  --dds-select-field-required-color: var(--dds-color-text-danger);
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dds-space-1);
+  margin-bottom: var(--dds-space-1-5);
+  color: var(--dds-color-text-default);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-sm);
+  font-weight: var(--dds-font-weight-medium);
+  line-height: var(--dds-line-height-none);
+}
+
+.control {
+  width: 100%;
+}
+
+.labelDisabled {
+  --dds-select-field-required-color: var(--dds-color-text-muted);
+
+  color: var(--dds-color-text-muted);
+}
+
+.requiredMark {
+  color: var(--dds-select-field-required-color);
+  font-weight: var(--dds-font-weight-bold);
+}
+
+.helper {
+  margin-top: var(--dds-space-1);
+}

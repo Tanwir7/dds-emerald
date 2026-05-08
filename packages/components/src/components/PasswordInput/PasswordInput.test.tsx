@@ -5,6 +5,7 @@ import { axe, toHaveNoViolations } from 'jest-axe';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { PasswordInput } from './PasswordInput';
+import styles from './PasswordInput.module.scss';
 
 expect.extend(toHaveNoViolations);
 
@@ -42,6 +43,9 @@ const getToggleButton = (container: HTMLElement = document.body) => {
   expect(button).toBeInstanceOf(HTMLButtonElement);
   return button as HTMLButtonElement;
 };
+
+const getStrengthBars = (container: HTMLElement = document.body) =>
+  Array.from(container.querySelectorAll('[data-password-strength-bar="true"]'));
 
 afterEach(() => {
   document.body.innerHTML = '';
@@ -220,6 +224,96 @@ describe('PasswordInput', () => {
     expect(getInput(container)).toHaveAttribute('type', 'password');
   });
 
+  it('does not render strength UI by default', () => {
+    const { container } = render(<PasswordInput aria-label="Password" defaultValue="Password1!" />);
+
+    expect(container).not.toHaveTextContent('Password strength:');
+    expect(getStrengthBars(container)).toHaveLength(0);
+  });
+
+  it('keeps strength UI hidden when enabled and value is empty', () => {
+    const { container } = render(<PasswordInput aria-label="Password" showPasswordStrength />);
+
+    expect(container).not.toHaveTextContent('Password strength:');
+    expect(getInput(container)).not.toHaveAttribute('aria-describedby');
+  });
+
+  it('shows strength UI after typing when enabled', async () => {
+    const user = userEvent.setup();
+    const { container } = render(<PasswordInput aria-label="Password" showPasswordStrength />);
+
+    await act(async () => {
+      await user.type(getInput(container), 'a');
+    });
+
+    expect(container).toHaveTextContent('Password strength: Weak');
+    expect(getStrengthBars(container)).toHaveLength(4);
+  });
+
+  it('renders correct strength labels for each score bucket', () => {
+    const cases = [
+      { value: 'abcdefgh', label: 'Weak' },
+      { value: 'Abcdefgh', label: 'Fair' },
+      { value: 'Abcdefgh1', label: 'Good' },
+      { value: 'Abcdefgh1!', label: 'Strong' },
+    ] as const;
+
+    for (const testCase of cases) {
+      const { container, unmount } = render(
+        <PasswordInput aria-label="Password" defaultValue={testCase.value} showPasswordStrength />
+      );
+
+      expect(container).toHaveTextContent(`Password strength: ${testCase.label}`);
+      unmount();
+    }
+  });
+
+  it('activates the expected number of strength bars and tone classes', () => {
+    const cases = [
+      { value: 'abcdefgh', activeCount: 1, activeClass: styles.strengthBarActiveDanger },
+      { value: 'Abcdefgh', activeCount: 2, activeClass: styles.strengthBarActiveWarning },
+      { value: 'Abcdefgh1', activeCount: 3, activeClass: styles.strengthBarActiveInfo },
+      { value: 'Abcdefgh1!', activeCount: 4, activeClass: styles.strengthBarActiveSuccess },
+    ] as const;
+
+    for (const testCase of cases) {
+      const { container, unmount } = render(
+        <PasswordInput aria-label="Password" defaultValue={testCase.value} showPasswordStrength />
+      );
+      const bars = getStrengthBars(container);
+      const activeBars = bars.filter((bar) => bar.getAttribute('data-active') === 'true');
+      const activeClassName = testCase.activeClass ?? '';
+
+      expect(activeBars).toHaveLength(testCase.activeCount);
+      expect(activeBars.every((bar) => bar.classList.contains(activeClassName))).toBe(true);
+      unmount();
+    }
+  });
+
+  it('merges the generated strength description id with consumer aria-describedby ids', () => {
+    const { container } = render(
+      <PasswordInput
+        aria-describedby="password-helper password-error"
+        aria-label="Password"
+        defaultValue="Abcdefgh1!"
+        showPasswordStrength
+      />
+    );
+    const describedBy = getInput(container).getAttribute('aria-describedby');
+
+    expect(describedBy).toContain('password-helper');
+    expect(describedBy).toContain('password-error');
+    expect(describedBy).toMatch(/\S+/);
+
+    const ids = describedBy?.split(/\s+/) ?? [];
+    const generatedId = ids.find((id) => id !== 'password-helper' && id !== 'password-error');
+
+    expect(generatedId).toBeTruthy();
+    expect(container.querySelector(`#${generatedId ?? ''}`)).toHaveTextContent(
+      'Password strength: Strong'
+    );
+  });
+
   it('does not render label text when showToggleLabel={false}', () => {
     const { container } = render(<PasswordInput aria-label="Password" />);
 
@@ -344,6 +438,30 @@ describe('PasswordInput', () => {
 
   it('axe a11y passes with showToggleLabel={true}', async () => {
     const { container } = render(<PasswordInput showToggleLabel aria-label="Password" />);
+
+    expect(await axe(container)).toHaveNoViolations();
+  });
+
+  it('axe a11y passes with strength enabled', async () => {
+    const { container } = render(
+      <PasswordInput
+        aria-describedby="password-helper"
+        aria-label="Password"
+        defaultValue="Abcdefgh1!"
+        showPasswordStrength
+      />
+    );
+
+    expect(await axe(container)).toHaveNoViolations();
+  });
+
+  it('axe a11y passes with strength enabled after toggling visibility', async () => {
+    const user = userEvent.setup();
+    const { container } = render(
+      <PasswordInput aria-label="Password" defaultValue="Abcdefgh1!" showPasswordStrength />
+    );
+
+    await user.click(getToggleButton(container));
 
     expect(await axe(container)).toHaveNoViolations();
   });

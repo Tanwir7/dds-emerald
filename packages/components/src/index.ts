@@ -209,6 +209,8 @@ export { Slider } from './components/Slider';
 export type { SliderOrientation, SliderProps, SliderSize } from './components/Slider';
 export { Field } from './components/Field';
 export type { FieldLayout, FieldProps } from './components/Field';
+export { Fieldset } from './components/Fieldset';
+export type { FieldsetProps } from './components/Fieldset';
 export {
   Dialog,
   DialogTrigger,
@@ -300,6 +302,8 @@ export { SwitchField } from './components/SwitchField';
 export type { SwitchFieldLabelPosition, SwitchFieldProps } from './components/SwitchField';
 export { RadioGroupField } from './components/RadioGroupField';
 export type { RadioGroupFieldProps } from './components/RadioGroupField';
+export { SelectField } from './components/SelectField';
+export type { SelectFieldProps } from './components/SelectField';
 export { Alert } from './components/Alert';
 export type { AlertProps } from './components/Alert';
 export { InlineAlert } from './components/InlineAlert';

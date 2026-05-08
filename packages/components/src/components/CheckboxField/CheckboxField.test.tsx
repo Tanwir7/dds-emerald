@@ -81,6 +81,21 @@ describe('CheckboxField', () => {
     expect(getLabel(container)).toHaveTextContent('Accept terms');
   });
 
+  it('renders rich label content', () => {
+    const { container } = render(
+      <CheckboxField
+        label={
+          <>
+            I agree to the <a href="/terms">Terms of Service</a>
+          </>
+        }
+      />
+    );
+
+    expect(getLabel(container)).toHaveTextContent('I agree to the Terms of Service');
+    expect(getLabel(container).querySelector('a')).toHaveAttribute('href', '/terms');
+  });
+
   it('label htmlFor matches checkbox id', () => {
     const { container } = render(<CheckboxField id="terms" label="Accept terms" />);
 

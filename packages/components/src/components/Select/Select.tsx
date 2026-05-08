@@ -3,6 +3,23 @@ import * as SelectPrimitive from '@radix-ui/react-select';
 import clsx from 'clsx';
 import styles from './Select.module.scss';
 
+const mergeRefs =
+  <T,>(...refs: Array<React.Ref<T> | undefined>) =>
+  (node: T | null) => {
+    refs.forEach((currentRef) => {
+      if (!currentRef) {
+        return;
+      }
+
+      if (typeof currentRef === 'function') {
+        currentRef(node);
+        return;
+      }
+
+      currentRef.current = node;
+    });
+  };
+
 export interface SelectProps {
   value?: string;
   defaultValue?: string;
@@ -141,9 +158,52 @@ interface SelectTriggerProps extends Omit<
 
 export const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
   ({ className, size = 'md', invalid = false, placeholder, children, ...props }, ref) => {
+    const triggerRef = React.useRef<HTMLButtonElement | null>(null);
+
+    React.useEffect(() => {
+      const node = triggerRef.current;
+
+      if (!node) {
+        return;
+      }
+
+      const syncAriaControls = () => {
+        const controlsId =
+          node.getAttribute('aria-controls') ?? node.dataset.ddsAriaControls ?? undefined;
+
+        if (controlsId) {
+          node.dataset.ddsAriaControls = controlsId;
+        }
+
+        if (node.getAttribute('aria-expanded') === 'true') {
+          if (!node.getAttribute('aria-controls') && node.dataset.ddsAriaControls) {
+            node.setAttribute('aria-controls', node.dataset.ddsAriaControls);
+          }
+
+          return;
+        }
+
+        if (node.hasAttribute('aria-controls')) {
+          node.removeAttribute('aria-controls');
+        }
+      };
+
+      syncAriaControls();
+
+      const observer = new MutationObserver(syncAriaControls);
+      observer.observe(node, {
+        attributeFilter: ['aria-controls', 'aria-expanded'],
+        attributes: true,
+      });
+
+      return () => {
+        observer.disconnect();
+      };
+    }, []);
+
     return (
       <SelectPrimitive.Trigger
-        ref={ref}
+        ref={mergeRefs(ref, triggerRef)}
         aria-haspopup="listbox"
         className={clsx(styles.trigger, styles[size], invalid && styles.invalid, className)}
         {...props}

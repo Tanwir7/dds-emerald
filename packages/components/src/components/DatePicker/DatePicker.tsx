@@ -4,7 +4,7 @@ import { format, isValid } from 'date-fns';
 import type { Locale } from 'date-fns';
 import { enUS } from 'date-fns/locale';
 import { Calendar, X } from 'lucide-react';
-import type { Matcher } from 'react-day-picker';
+import type { CaptionLayout, Matcher } from 'react-day-picker';
 import { Label } from '../Label';
 import { Text } from '../Text';
 import { Icon } from '../Icon';
@@ -30,6 +30,9 @@ export interface DatePickerProps {
   defaultMonth?: Date;
   month?: Date;
   onMonthChange?: (month: Date) => void;
+  captionLayout?: CaptionLayout;
+  fromYear?: number;
+  toYear?: number;
   id?: string;
   name?: string;
   label?: string;
@@ -173,6 +176,9 @@ export const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
       defaultMonth,
       month,
       onMonthChange,
+      captionLayout = 'buttons',
+      fromYear,
+      toYear,
       id,
       name,
       label,
@@ -271,7 +277,10 @@ export const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
       ...(initialMonth ? { defaultMonth: initialMonth } : {}),
       ...(month ? { month } : {}),
       ...(onMonthChange ? { onMonthChange } : {}),
+      captionLayout,
+      ...(fromYear !== undefined ? { fromYear } : {}),
       ...(selectedDate ? { selected: selectedDate } : {}),
+      ...(toYear !== undefined ? { toYear } : {}),
       ...(weekStartsOn !== undefined ? { weekStartsOn } : {}),
     };
 

@@ -1,7 +1,13 @@
 import { format } from 'date-fns';
 import type { Locale } from 'date-fns';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { DayPicker, type CaptionProps, useDayPicker, useNavigation } from 'react-day-picker';
+import {
+  DayPicker,
+  type CaptionLayout,
+  type CaptionProps,
+  useDayPicker,
+  useNavigation,
+} from 'react-day-picker';
 import clsx from 'clsx';
 import { Button } from '../Button';
 import { getRequiredClassName } from '../../utils/getRequiredClassName';
@@ -11,6 +17,7 @@ type CalendarPanelProps = React.ComponentProps<typeof DayPicker> & {
   locale?: Locale;
   weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
   numberOfMonths?: 1 | 2;
+  captionLayout?: CaptionLayout;
   className?: string;
 };
 
@@ -21,6 +28,12 @@ const classNames = {
   rdpMonth: getRequiredClassName(styles, 'rdpMonth'),
   rdpCaption: getRequiredClassName(styles, 'rdpCaption'),
   rdpCaptionLabel: getRequiredClassName(styles, 'rdpCaptionLabel'),
+  rdpCaptionDropdowns: getRequiredClassName(styles, 'rdpCaptionDropdowns'),
+  rdpDropdown: getRequiredClassName(styles, 'rdpDropdown'),
+  rdpDropdownMonth: getRequiredClassName(styles, 'rdpDropdownMonth'),
+  rdpDropdownYear: getRequiredClassName(styles, 'rdpDropdownYear'),
+  rdpDropdownIcon: getRequiredClassName(styles, 'rdpDropdownIcon'),
+  rdpVisuallyHidden: getRequiredClassName(styles, 'rdpVisuallyHidden'),
   rdpNav: getRequiredClassName(styles, 'rdpNav'),
   rdpNavButton: getRequiredClassName(styles, 'rdpNavButton'),
   rdpNavButtonPrev: getRequiredClassName(styles, 'rdpNavButtonPrev'),
@@ -90,16 +103,23 @@ export const CalendarPanel = ({
   locale,
   weekStartsOn,
   numberOfMonths = 1,
+  captionLayout = 'buttons',
   ...props
 }: CalendarPanelProps) => {
   const dayPickerProps = {
-    captionLayout: 'buttons' as const,
+    captionLayout,
     classNames: {
       root: classNames.rdpRoot,
+      vhidden: classNames.rdpVisuallyHidden,
       months: classNames.rdpMonths,
       month: classNames.rdpMonth,
       caption: classNames.rdpCaption,
       caption_label: classNames.rdpCaptionLabel,
+      caption_dropdowns: classNames.rdpCaptionDropdowns,
+      dropdown: classNames.rdpDropdown,
+      dropdown_month: classNames.rdpDropdownMonth,
+      dropdown_year: classNames.rdpDropdownYear,
+      dropdown_icon: classNames.rdpDropdownIcon,
       nav: classNames.rdpNav,
       nav_button: classNames.rdpNavButton,
       nav_button_previous: classNames.rdpNavButtonPrev,
@@ -119,9 +139,13 @@ export const CalendarPanel = ({
       day_range_middle: classNames.rdpDayRangeMiddle,
       day_hidden: classNames.rdpDayHidden,
     },
-    components: {
-      Caption: CalendarCaption,
-    },
+    ...(captionLayout === 'buttons'
+      ? {
+          components: {
+            Caption: CalendarCaption,
+          },
+        }
+      : {}),
     fixedWeeks: true,
     numberOfMonths,
     showOutsideDays: true,

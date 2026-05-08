@@ -12,7 +12,7 @@ export interface CheckboxFieldProps extends Omit<
   CheckboxProps,
   'aria-describedby' | 'aria-invalid' | 'aria-required' | 'children' | 'className' | 'id'
 > {
-  label: string;
+  label: React.ReactNode;
   required?: boolean;
   disabled?: boolean;
   helper?: string;
