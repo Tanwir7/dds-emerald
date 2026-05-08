@@ -271,16 +271,78 @@ describe('DatePicker', () => {
     expect(within(calendar).getByRole('gridcell', { name: '21' })).toBeDisabled();
   });
 
-  it('wires error message via aria-describedby and aria-invalid', () => {
+  it('renders a danger inline alert with aria-describedby and aria-invalid', () => {
     render(
-      <DatePicker error="Choose a valid invoice date." id="invoice-date" label="Invoice date" />
+      <DatePicker
+        id="invoice-date"
+        inlineAlert={{ intent: 'danger', children: 'Choose a valid invoice date.' }}
+        label="Invoice date"
+      />
+    );
+
+    const trigger = screen.getByRole('combobox', { name: /invoice date, select date/i });
+    const inlineAlert = screen.getByRole('alert');
+
+    expect(trigger).toHaveAttribute('aria-invalid', 'true');
+    expect(trigger).toHaveAttribute('aria-describedby', 'invoice-date-inline-alert');
+    expect(inlineAlert).toHaveAttribute('id', 'invoice-date-inline-alert');
+    expect(inlineAlert).toHaveTextContent('Choose a valid invoice date.');
+  });
+
+  it('does not set aria-invalid for a non-danger inline alert', () => {
+    render(
+      <DatePicker
+        id="invoice-date"
+        inlineAlert={{ intent: 'success', children: 'Invoice date saved.' }}
+        label="Invoice date"
+      />
     );
 
     const trigger = screen.getByRole('combobox', { name: /invoice date, select date/i });
 
-    expect(trigger).toHaveAttribute('aria-invalid', 'true');
-    expect(trigger).toHaveAttribute('aria-describedby', 'invoice-date-error');
-    expect(screen.getByText('Choose a valid invoice date.')).toHaveAttribute('role', 'alert');
+    expect(trigger).not.toHaveAttribute('aria-invalid');
+    expect(trigger).toHaveAttribute('aria-describedby', 'invoice-date-inline-alert');
+  });
+
+  it('passes showIcon through to the inline alert', () => {
+    render(
+      <DatePicker
+        id="invoice-date"
+        inlineAlert={{
+          intent: 'danger',
+          children: 'Choose a valid invoice date.',
+          showIcon: false,
+        }}
+        label="Invoice date"
+      />
+    );
+
+    expect(screen.getByRole('alert').querySelector('svg')).not.toBeInTheDocument();
+  });
+
+  it('renders hint only when inlineAlert is absent', () => {
+    const { rerender } = render(
+      <DatePicker
+        hint="Use the calendar to select an invoice date."
+        id="invoice-date"
+        label="Invoice date"
+      />
+    );
+
+    expect(screen.getByText('Use the calendar to select an invoice date.')).toBeInTheDocument();
+
+    rerender(
+      <DatePicker
+        hint="Use the calendar to select an invoice date."
+        id="invoice-date"
+        inlineAlert={{ intent: 'danger', children: 'Choose a valid invoice date.' }}
+        label="Invoice date"
+      />
+    );
+
+    expect(
+      screen.queryByText('Use the calendar to select an invoice date.')
+    ).not.toBeInTheDocument();
   });
 
   it('has no accessibility violations in the default state', async () => {

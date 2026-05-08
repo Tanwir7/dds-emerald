@@ -248,17 +248,78 @@ describe('DateRangePicker', () => {
     expect(screen.queryByRole('dialog', { name: 'Date picker calendar' })).not.toBeInTheDocument();
   });
 
-  it('wires the group error state and alert text', () => {
+  it('renders a danger inline alert and wires aria-describedby on the trigger group', () => {
     render(
       <DateRangePicker
-        error="Choose a valid travel range."
+        id="travel-dates"
+        inlineAlert={{ intent: 'danger', children: 'Choose a valid travel range.' }}
+        label="Travel dates"
+      />
+    );
+
+    const group = screen.getByRole('group', { name: 'Travel dates' });
+    const inlineAlert = screen.getByRole('alert');
+
+    expect(group).toHaveAttribute('aria-describedby', 'travel-dates-inline-alert');
+    expect(inlineAlert).toHaveAttribute('id', 'travel-dates-inline-alert');
+    expect(inlineAlert).toHaveTextContent('Choose a valid travel range.');
+  });
+
+  it('does not apply the error state class for a non-danger inline alert', () => {
+    render(
+      <DateRangePicker
+        id="travel-dates"
+        inlineAlert={{ intent: 'success', children: 'Travel dates look good.' }}
+        label="Travel dates"
+      />
+    );
+
+    expect(screen.getByRole('group', { name: 'Travel dates' })).toHaveAttribute(
+      'aria-describedby',
+      'travel-dates-inline-alert'
+    );
+    expect(screen.getByText('Travel dates look good.')).toBeInTheDocument();
+  });
+
+  it('passes showIcon through to the inline alert', () => {
+    render(
+      <DateRangePicker
+        id="travel-dates"
+        inlineAlert={{
+          intent: 'danger',
+          children: 'Choose a valid travel range.',
+          showIcon: false,
+        }}
+        label="Travel dates"
+      />
+    );
+
+    expect(screen.getByRole('alert').querySelector('svg')).not.toBeInTheDocument();
+  });
+
+  it('renders hint only when inlineAlert is absent', () => {
+    const { rerender } = render(
+      <DateRangePicker
+        hint="Select a departure date and then a return date."
         id="travel-dates"
         label="Travel dates"
       />
     );
 
-    expect(screen.getByRole('group', { name: 'Travel dates' })).toBeInTheDocument();
-    expect(screen.getByText('Choose a valid travel range.')).toHaveAttribute('role', 'alert');
+    expect(screen.getByText('Select a departure date and then a return date.')).toBeInTheDocument();
+
+    rerender(
+      <DateRangePicker
+        hint="Select a departure date and then a return date."
+        id="travel-dates"
+        inlineAlert={{ intent: 'danger', children: 'Choose a valid travel range.' }}
+        label="Travel dates"
+      />
+    );
+
+    expect(
+      screen.queryByText('Select a departure date and then a return date.')
+    ).not.toBeInTheDocument();
   });
 
   it('has no accessibility violations in the default state', async () => {

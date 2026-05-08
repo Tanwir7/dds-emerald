@@ -1,6 +1,8 @@
 import React from 'react';
 import clsx from 'clsx';
 import { getRequiredClassName } from '../../utils/getRequiredClassName';
+import type { FieldInlineAlert } from '../../types/fieldInlineAlert';
+import { InlineAlert } from '../InlineAlert';
 import { Label } from '../Label';
 import { Text } from '../Text';
 import styles from './TimePicker.module.scss';
@@ -32,7 +34,7 @@ export interface TimePickerProps {
   required?: boolean;
   disabled?: boolean;
   readOnly?: boolean;
-  error?: string;
+  inlineAlert?: FieldInlineAlert;
   hint?: string;
   minTime?: TimeValue;
   maxTime?: TimeValue;
@@ -194,7 +196,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
       required = false,
       disabled = false,
       readOnly = false,
-      error,
+      inlineAlert,
       hint,
       minTime,
       maxTime,
@@ -219,14 +221,12 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
     const minuteOptions = React.useMemo(() => buildStepOptions(minuteStep), [minuteStep]);
     const secondOptions = React.useMemo(() => buildStepOptions(secondStep), [secondStep]);
     const labelId = label ? `${baseId}-label` : undefined;
-    const errorId = `${baseId}-error`;
-    const hintId = `${baseId}-hint`;
-    const describedBy =
-      [error ? errorId : undefined, hint && !error ? hintId : undefined]
-        .filter(Boolean)
-        .join(' ') || undefined;
+    const inlineAlertId = inlineAlert ? `${baseId}-inline-alert` : undefined;
+    const hintId = hint && !inlineAlert ? `${baseId}-hint` : undefined;
+    const describedBy = [inlineAlertId, hintId].filter(Boolean).join(' ') || undefined;
     const hourSelectId = `${baseId}-hour`;
     const messageClassName = getRequiredClassName(styles, 'message');
+    const isInvalid = inlineAlert?.intent === 'danger';
 
     React.useEffect(() => {
       const nextSerializedValue = getSerializedValue(value, precision);
@@ -434,7 +434,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
           className={clsx(
             styles.segmentGroup,
             (disabled || readOnly) && styles.segmentGroupDisabled,
-            error && styles.segmentGroupError
+            isInvalid && styles.segmentGroupError
           )}
           data-placeholder-visible={draft.hour === '' && draft.minute === '' ? 'true' : undefined}
           role="group"
@@ -442,7 +442,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
           <select
             aria-label={hourLabel}
             aria-describedby={describedBy}
-            aria-invalid={error ? true : undefined}
+            aria-invalid={isInvalid ? true : undefined}
             className={clsx(styles.segment, styles.segmentHour)}
             disabled={disabled || readOnly}
             id={hourSelectId}
@@ -469,7 +469,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
           <select
             aria-label={minuteLabel}
             aria-describedby={describedBy}
-            aria-invalid={error ? true : undefined}
+            aria-invalid={isInvalid ? true : undefined}
             className={clsx(styles.segment, styles.segmentMinute)}
             disabled={disabled || readOnly}
             id={`${baseId}-minute`}
@@ -498,7 +498,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
               <select
                 aria-label={secondLabel}
                 aria-describedby={describedBy}
-                aria-invalid={error ? true : undefined}
+                aria-invalid={isInvalid ? true : undefined}
                 className={clsx(styles.segment, styles.segmentSecond)}
                 disabled={disabled || readOnly}
                 id={`${baseId}-second`}
@@ -527,7 +527,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
               <select
                 aria-label={amPmLabel}
                 aria-describedby={describedBy}
-                aria-invalid={error ? true : undefined}
+                aria-invalid={isInvalid ? true : undefined}
                 className={clsx(styles.segment, styles.segmentAmPm)}
                 disabled={disabled || readOnly}
                 id={`${baseId}-ampm`}
@@ -545,20 +545,18 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
           <input name={name} type="hidden" value={formatTimeValue(currentValue, precision)} />
         ) : null}
 
-        {error ? (
-          <Text
-            as="p"
+        {inlineAlert ? (
+          <InlineAlert
             className={messageClassName}
-            color="danger"
-            id={errorId}
-            role="alert"
-            size="xs"
+            id={inlineAlertId}
+            intent={inlineAlert.intent}
+            {...(inlineAlert.showIcon !== undefined ? { showIcon: inlineAlert.showIcon } : {})}
           >
-            {error}
-          </Text>
+            {inlineAlert.children}
+          </InlineAlert>
         ) : null}
 
-        {hint && !error ? (
+        {hintId ? (
           <Text as="p" className={messageClassName} color="muted" id={hintId} size="xs">
             {hint}
           </Text>

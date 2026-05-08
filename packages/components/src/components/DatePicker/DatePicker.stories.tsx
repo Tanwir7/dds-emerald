@@ -53,10 +53,13 @@ export const WithValue: Story = {
   ),
 };
 
-export const WithError: Story = {
+export const WithInlineAlert: Story = {
   args: {
-    id: 'storybook-date-picker-error',
-    error: 'Choose a date on or after May 3, 2026.',
+    id: 'storybook-date-picker-inline-alert',
+    inlineAlert: {
+      intent: 'danger',
+      children: 'Choose a date on or after May 3, 2026.',
+    },
     hint: 'Use the calendar to select an invoice date.',
   },
   parameters: storySourceParameters(
@@ -64,7 +67,7 @@ export const WithError: Story = {
       '<DatePicker',
       '  id="invoice-date"',
       '  label="Invoice date"',
-      '  error="Choose a date on or after May 3, 2026."',
+      '  inlineAlert={{ intent: "danger", children: "Choose a date on or after May 3, 2026." }}',
       '  hint="Use the calendar to select an invoice date."',
       '/>'
     )

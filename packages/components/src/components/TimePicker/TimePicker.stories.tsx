@@ -122,13 +122,16 @@ export const MinuteStep30: Story = {
   ),
 };
 
-export const WithError: Story = {
+export const WithInlineAlert: Story = {
   args: {
-    error: 'Please select a valid time',
+    inlineAlert: {
+      intent: 'danger',
+      children: 'Please select a valid time',
+    },
   },
   parameters: storySourceParameters(
     storySource(
-      '<TimePicker id="appointment-time" label="Appointment time" error="Please select a valid time" />'
+      '<TimePicker id="appointment-time" label="Appointment time" inlineAlert={{ intent: "danger", children: "Please select a valid time" }} />'
     )
   ),
 };

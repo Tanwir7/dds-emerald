@@ -54,18 +54,21 @@ export const WithValue: Story = {
   ),
 };
 
-export const WithError: Story = {
+export const WithInlineAlert: Story = {
   args: {
-    error: 'Choose a valid travel range.',
+    inlineAlert: {
+      intent: 'danger',
+      children: 'Choose a valid travel range.',
+    },
     hint: 'Select a departure date and then a return date.',
-    id: 'storybook-date-range-picker-error',
+    id: 'storybook-date-range-picker-inline-alert',
   },
   parameters: storySourceParameters(
     storySource(
       '<DateRangePicker',
       '  id="travel-dates"',
       '  label="Travel dates"',
-      '  error="Choose a valid travel range."',
+      '  inlineAlert={{ intent: "danger", children: "Choose a valid travel range." }}',
       '  hint="Select a departure date and then a return date."',
       '/>'
     )

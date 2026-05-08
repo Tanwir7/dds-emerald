@@ -167,7 +167,7 @@ const signupFormSource = storySource(
   '      value={values.dateOfBirth}',
   '      onChange={(date) => handleChange("dateOfBirth", date)}',
   '      hint="You must be at least 13 years old."',
-  '      error={errors.dateOfBirth}',
+  '      inlineAlert={{ intent: "danger", children: errors.dateOfBirth }}',
   '      captionLayout="dropdown"',
   '      fromYear={currentYear - 120}',
   '      toYear={currentYear - 13}',
@@ -498,7 +498,12 @@ const SignupFormPattern = ({
                       toYear={dateOfBirthToYear}
                       value={values.dateOfBirth}
                       {...(touched.dateOfBirth && errors.dateOfBirth
-                        ? { error: errors.dateOfBirth }
+                        ? {
+                            inlineAlert: {
+                              intent: 'danger' as const,
+                              children: errors.dateOfBirth,
+                            },
+                          }
                         : {})}
                     />
                   </div>

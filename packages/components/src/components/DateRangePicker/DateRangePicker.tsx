@@ -8,9 +8,11 @@ import type { DateRange as DayPickerDateRange, Matcher } from 'react-day-picker'
 import { Label } from '../Label';
 import { Text } from '../Text';
 import { Icon } from '../Icon';
+import { InlineAlert } from '../InlineAlert';
 import { Popover, PopoverAnchor, PopoverContent } from '../Popover';
 import { VisuallyHidden } from '../VisuallyHidden';
 import { getRequiredClassName } from '../../utils/getRequiredClassName';
+import type { FieldInlineAlert } from '../../types/fieldInlineAlert';
 import { CalendarPanel } from '../DatePicker/CalendarPanel';
 import styles from './DateRangePicker.module.scss';
 
@@ -45,7 +47,7 @@ export interface DateRangePickerProps {
   required?: boolean;
   disabled?: boolean;
   readOnly?: boolean;
-  error?: string;
+  inlineAlert?: FieldInlineAlert;
   hint?: string;
   clearable?: boolean;
   className?: string;
@@ -151,7 +153,7 @@ export const DateRangePicker = React.forwardRef<HTMLDivElement, DateRangePickerP
       required = false,
       disabled = false,
       readOnly = false,
-      error,
+      inlineAlert,
       hint,
       clearable = true,
       className,
@@ -181,14 +183,15 @@ export const DateRangePicker = React.forwardRef<HTMLDivElement, DateRangePickerP
     const endId = `${baseId}-end`;
     const groupId = `${baseId}-group`;
     const labelId = label ? `${baseId}-label` : undefined;
-    const errorId = error ? `${baseId}-error` : undefined;
-    const hintId = hint && !error ? `${baseId}-hint` : undefined;
-    const describedBy = [errorId, hintId].filter(Boolean).join(' ') || undefined;
+    const inlineAlertId = inlineAlert ? `${baseId}-inline-alert` : undefined;
+    const hintId = hint && !inlineAlert ? `${baseId}-hint` : undefined;
+    const describedBy = [inlineAlertId, hintId].filter(Boolean).join(' ') || undefined;
     const calendarId = `${baseId}-calendar`;
     const selectionHintId = `${baseId}-selection-hint`;
     const startTriggerRef = React.useRef<HTMLButtonElement>(null);
     const endTriggerRef = React.useRef<HTMLButtonElement>(null);
     const lastFocusedTriggerRef = React.useRef<HTMLButtonElement | null>(null);
+    const isInvalid = inlineAlert?.intent === 'danger';
 
     const setRangeValue = (nextRange: DateRange) => {
       if (!isControlled) {
@@ -361,7 +364,7 @@ export const DateRangePicker = React.forwardRef<HTMLDivElement, DateRangePickerP
               aria-labelledby={labelId}
               className={clsx(
                 classNames.triggerGroup,
-                error && classNames.triggerGroupError,
+                isInvalid && classNames.triggerGroupError,
                 disabled && classNames.triggerGroupDisabled,
                 readOnly && classNames.triggerGroupReadOnly
               )}
@@ -491,17 +494,15 @@ export const DateRangePicker = React.forwardRef<HTMLDivElement, DateRangePickerP
           </>
         ) : null}
 
-        {error ? (
-          <Text
-            as="p"
+        {inlineAlert ? (
+          <InlineAlert
             className={classNames.message}
-            color="danger"
-            id={errorId}
-            role="alert"
-            size="xs"
+            id={inlineAlertId}
+            intent={inlineAlert.intent}
+            {...(inlineAlert.showIcon !== undefined ? { showIcon: inlineAlert.showIcon } : {})}
           >
-            {error}
-          </Text>
+            {inlineAlert.children}
+          </InlineAlert>
         ) : null}
 
         {hintId ? (
