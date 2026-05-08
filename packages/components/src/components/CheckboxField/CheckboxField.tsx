@@ -70,7 +70,7 @@ export const CheckboxField = React.forwardRef<HTMLDivElement, CheckboxFieldProps
             aria-invalid={isInvalid ? true : undefined}
             {...checkboxProps}
           />
-          <Label htmlFor={checkboxId} required={required} disabled={disabled}>
+          <Label htmlFor={checkboxId} required={required} disabled={disabled} layout="wrap">
             {label}
           </Label>
         </div>

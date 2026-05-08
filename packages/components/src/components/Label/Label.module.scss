@@ -4,15 +4,22 @@
 .root {
   --dds-label-required-color: var(--dds-color-text-danger);
 
-  display: inline-flex;
-  align-items: center;
-  gap: var(--dds-space-1);
   color: var(--dds-color-text-default);
   font-family: var(--dds-font-sans);
   font-size: var(--dds-font-size-sm);
   font-weight: var(--dds-font-weight-medium);
-  line-height: var(--dds-line-height-none);
   cursor: default;
+}
+
+.inline {
+  display: inline-flex;
+  align-items: center;
+  line-height: var(--dds-line-height-none);
+}
+
+.wrap {
+  display: block;
+  line-height: var(--dds-line-height-normal);
 }
 
 .sm {
@@ -24,6 +31,7 @@
 }
 
 .required {
+  margin-inline-start: var(--dds-space-1);
   color: var(--dds-label-required-color);
   font-weight: var(--dds-font-weight-bold);
 }

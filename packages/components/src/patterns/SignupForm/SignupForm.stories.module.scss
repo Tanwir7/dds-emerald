@@ -36,23 +36,6 @@
   min-width: 0;
 }
 
-.selectField {
-  display: grid;
-  gap: var(--dds-space-2);
-}
-
-.selectHelper {
-  margin: 0;
-}
-
-.selectControl {
-  min-width: 0;
-}
-
-.submitButton {
-  width: 100%;
-}
-
 .successState {
   display: grid;
   gap: var(--dds-space-3);

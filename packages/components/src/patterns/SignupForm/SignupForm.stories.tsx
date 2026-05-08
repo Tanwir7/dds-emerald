@@ -134,7 +134,6 @@ const classNames = {
   formSubtitle: getRequiredClassName(styles, 'formSubtitle'),
   sectionStack: getRequiredClassName(styles, 'sectionStack'),
   selectField: getRequiredClassName(styles, 'selectField'),
-  submitButton: getRequiredClassName(styles, 'submitButton'),
   successCard: getRequiredClassName(styles, 'successCard'),
   successMessage: getRequiredClassName(styles, 'successMessage'),
   successState: getRequiredClassName(styles, 'successState'),
@@ -621,8 +620,8 @@ const SignupFormPattern = ({
 
           <div className={styles.submitArea}>
             <Button
-              className={classNames.submitButton}
               disabled={isSubmitting}
+              fullWidth
               loading={isSubmitting}
               size="lg"
               type="submit"
