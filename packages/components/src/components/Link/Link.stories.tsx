@@ -1,6 +1,7 @@
 import type { ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, userEvent, within } from 'storybook/test';
+import { ArrowRight } from 'lucide-react';
 import { Link } from './Link';
 import storyStyles from './Link.stories.module.scss';
 import { storySource, storySourceFragment, storySourceParameters } from '../../utils/storySource';
@@ -44,7 +45,7 @@ const meta: Meta<typeof Link> = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['default', 'muted', 'destructive'],
+      options: ['default', 'muted', 'destructive', 'primary', 'secondary', 'ghost', 'outline'],
     },
     size: {
       control: 'select',
@@ -186,6 +187,60 @@ export const External: Story = {
   },
   parameters: storySourceParameters(
     '<Link href="https://digitaldev.studio" external>DDS website</Link>'
+  ),
+};
+
+export const CtaVariants: Story = {
+  render: () => (
+    <div className={storyStyles.storyA11yScope}>
+      <div className={storyStyles.storyStack}>
+        <div className={storyStyles.storyRow}>
+          <Link href="#" variant="primary" icon={ArrowRight}>
+            Start trial
+          </Link>
+          <Link href="#" variant="secondary">
+            View pricing
+          </Link>
+          <Link href="#" variant="ghost">
+            Read docs
+          </Link>
+          <Link href="#" variant="outline" icon={ArrowRight} iconPosition="end">
+            Book demo
+          </Link>
+        </div>
+        <p className={storyStyles.storyParagraph}>
+          Inline comparison: <Link href="#">Standard link</Link> next to CTA-style links above.
+        </p>
+      </div>
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const ctaLinks = [
+      canvas.getByRole('link', { name: 'Start trial' }),
+      canvas.getByRole('link', { name: 'View pricing' }),
+      canvas.getByRole('link', { name: 'Read docs' }),
+      canvas.getByRole('link', { name: 'Book demo' }),
+    ];
+
+    const heights = ctaLinks.map((link) => link.getBoundingClientRect().height);
+
+    for (const height of heights) {
+      expect(height).toBeGreaterThanOrEqual(36);
+      expect(height).toBeLessThanOrEqual(37);
+    }
+
+    expect(Math.max(...heights) - Math.min(...heights)).toBeLessThanOrEqual(1);
+  },
+  parameters: storySourceParameters(
+    storySource(
+      '<>',
+      '  <Link href="#" variant="primary" icon={ArrowRight}>Start trial</Link>',
+      '  <Link href="#" variant="secondary">View pricing</Link>',
+      '  <Link href="#" variant="ghost">Read docs</Link>',
+      '  <Link href="#" variant="outline" icon={ArrowRight} iconPosition="end">Book demo</Link>',
+      '</>'
+    )
   ),
 };
 

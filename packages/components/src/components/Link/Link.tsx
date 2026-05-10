@@ -1,11 +1,20 @@
 import React from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import clsx from 'clsx';
+import type { LucideIcon } from 'lucide-react';
 import styles from './Link.module.scss';
+import { Icon } from '../Icon';
 import { VisuallyHidden } from '../VisuallyHidden';
 import { getRequiredClassName } from '../../utils/getRequiredClassName';
 
-export type LinkVariant = 'default' | 'muted' | 'destructive';
+export type LinkVariant =
+  | 'default'
+  | 'muted'
+  | 'destructive'
+  | 'primary'
+  | 'secondary'
+  | 'ghost'
+  | 'outline';
 export type LinkSize = 'sm' | 'base' | 'lg';
 export type LinkUnderline = 'always' | 'hover' | 'none';
 
@@ -16,6 +25,8 @@ export interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement>
   external?: boolean;
   asChild?: boolean;
   className?: string;
+  icon?: LucideIcon;
+  iconPosition?: 'start' | 'end';
   children: React.ReactNode;
 }
 
@@ -23,6 +34,10 @@ const variantClassName: Record<LinkVariant, string> = {
   default: getRequiredClassName(styles, 'default'),
   muted: getRequiredClassName(styles, 'muted'),
   destructive: getRequiredClassName(styles, 'destructive'),
+  primary: getRequiredClassName(styles, 'primary'),
+  secondary: getRequiredClassName(styles, 'secondary'),
+  ghost: getRequiredClassName(styles, 'ghost'),
+  outline: getRequiredClassName(styles, 'outline'),
 };
 
 const underlineClassName: Record<LinkUnderline, string> = {
@@ -36,6 +51,10 @@ const sizeClassName: Record<LinkSize, string> = {
   base: getRequiredClassName(styles, 'base'),
   lg: getRequiredClassName(styles, 'lg'),
 };
+
+const iconClassName = getRequiredClassName(styles, 'icon');
+const ctaClassName = getRequiredClassName(styles, 'cta');
+const ctaVariants = new Set<LinkVariant>(['primary', 'secondary', 'ghost', 'outline']);
 
 const getNodeEnv = () => {
   const globalWithProcess = globalThis as typeof globalThis & {
@@ -64,10 +83,12 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
     {
       variant = 'default',
       size,
-      underline = 'hover',
+      underline,
       external = false,
       asChild = false,
       className,
+      icon: IconComponent,
+      iconPosition = 'start',
       children,
       href,
       target,
@@ -82,10 +103,14 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
       console.warn('Link expects an href prop unless asChild is true.');
     }
 
+    const resolvedUnderline = underline ?? (ctaVariants.has(variant) ? 'always' : 'hover');
+    const isCtaVariant = ctaVariants.has(variant);
+
     const rootClassName = clsx(
       styles.root,
+      isCtaVariant && ctaClassName,
       variantClassName[variant],
-      underlineClassName[underline],
+      underlineClassName[resolvedUnderline],
       size && sizeClassName[size],
       className
     );
@@ -103,7 +128,29 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
       }
     };
 
+    const content = (
+      <>
+        {IconComponent && iconPosition === 'start' ? (
+          <Icon icon={IconComponent} className={iconClassName} aria-hidden="true" />
+        ) : null}
+        {children}
+        {IconComponent && iconPosition === 'end' ? (
+          <Icon icon={IconComponent} className={iconClassName} aria-hidden="true" />
+        ) : null}
+        {external ? (
+          <>
+            <VisuallyHidden> (opens in new tab)</VisuallyHidden>
+            <ExternalIcon />
+          </>
+        ) : null}
+      </>
+    );
+
     if (asChild) {
+      const child = React.Children.only(children) as React.ReactElement<{
+        children?: React.ReactNode;
+      }>;
+
       return (
         <Slot
           ref={ref as React.ForwardedRef<HTMLElement>}
@@ -111,7 +158,27 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
           onKeyDown={handleKeyDown}
           {...props}
         >
-          {children}
+          {React.isValidElement(child) && (IconComponent || external)
+            ? React.cloneElement(
+                child,
+                undefined,
+                <>
+                  {IconComponent && iconPosition === 'start' ? (
+                    <Icon icon={IconComponent} className={iconClassName} aria-hidden="true" />
+                  ) : null}
+                  {child.props.children}
+                  {IconComponent && iconPosition === 'end' ? (
+                    <Icon icon={IconComponent} className={iconClassName} aria-hidden="true" />
+                  ) : null}
+                  {external ? (
+                    <>
+                      <VisuallyHidden> (opens in new tab)</VisuallyHidden>
+                      <ExternalIcon />
+                    </>
+                  ) : null}
+                </>
+              )
+            : child}
         </Slot>
       );
     }
@@ -129,13 +196,7 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
         onKeyDown={handleKeyDown}
         {...props}
       >
-        {children}
-        {external ? (
-          <>
-            <VisuallyHidden> (opens in new tab)</VisuallyHidden>
-            <ExternalIcon />
-          </>
-        ) : null}
+        {content}
       </a>
     );
   }
