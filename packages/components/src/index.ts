@@ -454,6 +454,28 @@ export {
 } from './components/HoverCard';
 export type { HoverCardProps, HoverCardContentProps } from './components/HoverCard';
 export {
+  FlyoutMenu,
+  FlyoutMenuTrigger,
+  FlyoutMenuContent,
+  FlyoutMenuGroup,
+  FlyoutMenuGroupLabel,
+  FlyoutMenuLink,
+  FlyoutMenuFeaturedCard,
+  FlyoutMenuFeaturedHighlight,
+  FlyoutMenuCTABar,
+  FlyoutMenuFooter,
+} from './components/FlyoutMenu';
+export type {
+  FlyoutMenuProps,
+  FlyoutMenuContentProps,
+  FlyoutMenuLinkProps,
+  FlyoutMenuFeaturedCardProps,
+  FlyoutMenuFeaturedHighlightProps,
+  FlyoutMenuCTABarProps,
+  FlyoutMenuFooterProps,
+  FlyoutMenuLayout,
+} from './components/FlyoutMenu';
+export {
   ContextMenu,
   ContextMenuTrigger,
   ContextMenuContent,
@@ -492,6 +514,28 @@ export type {
 } from './components/FacetedFilter';
 export { NavItem } from './components/NavItem';
 export type { NavItemProps } from './components/NavItem';
+export {
+  SiteHeader,
+  SiteHeaderActions,
+  SiteHeaderBrand,
+  SiteHeaderMobileMenu,
+  SiteHeaderMobileTrigger,
+  SiteHeaderNav,
+  SiteHeaderNavFlyoutItem,
+  SiteHeaderNavItem,
+  SiteHeaderSearch,
+  SiteHeaderSubNav,
+  SiteHeaderUserMenu,
+} from './components/SiteHeader';
+export type {
+  SiteHeaderNavFlyoutItemProps,
+  SiteHeaderNavItemProps,
+  SiteHeaderProps,
+  SiteHeaderSearchProps,
+  SiteHeaderTheme,
+  SiteHeaderUserMenuProps,
+  SiteHeaderVariant,
+} from './components/SiteHeader';
 export { Pagination } from './components/Pagination';
 export type { PaginationProps } from './components/Pagination';
 export { StatusIndicator } from './components/StatusIndicator';

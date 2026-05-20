@@ -1,0 +1,18 @@
+.storyA11yScope {
+  padding: var(--dds-space-12);
+}
+
+.storyPanel {
+  position: static !important;
+  transform: none !important;
+  width: 100%;
+  max-width: 100%;
+}
+
+.triggerLink {
+  color: var(--dds-color-text-default);
+  font-family: var(--dds-font-sans);
+  font-size: var(--dds-font-size-sm);
+  font-weight: var(--dds-font-weight-medium);
+  text-decoration: none;
+}

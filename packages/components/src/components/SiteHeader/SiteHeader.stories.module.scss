@@ -1,0 +1,9 @@
+.storyA11yScope {
+  width: 100%;
+  min-height: 200px;
+  background: linear-gradient(
+    180deg,
+    oklch(from var(--dds-color-bg-default) l c h / 0.5),
+    var(--dds-color-bg-default)
+  );
+}

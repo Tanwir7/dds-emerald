@@ -108,6 +108,7 @@ const sections = [
             ['card-hover', 'card-hover'],
             ['popover', 'popover'],
             ['input', 'input'],
+            ['inverse', 'inverse'],
           ],
           'Light Surface',
           'Cards, popovers, and inputs in light mode',
@@ -133,6 +134,7 @@ const sections = [
             ['card-hover', 'card-hover'],
             ['popover', 'popover'],
             ['input', 'input'],
+            ['inverse', 'inverse'],
           ],
           'Dark Surface',
           'Cards, popovers, and inputs in dark mode',
@@ -145,6 +147,7 @@ const sections = [
           [
             ['default', 'default'],
             ['muted', 'muted'],
+            ['inverse', 'inverse'],
             ['on-primary', 'on-primary'],
             ['success', 'success'],
             ['warning', 'warning'],
@@ -172,6 +175,7 @@ const sections = [
           [
             ['default', 'default'],
             ['muted', 'muted'],
+            ['inverse', 'inverse'],
             ['on-primary', 'on-primary'],
             ['success', 'success'],
             ['warning', 'warning'],
