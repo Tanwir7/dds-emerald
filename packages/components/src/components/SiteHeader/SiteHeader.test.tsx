@@ -23,8 +23,14 @@ import {
   SiteHeaderUserMenu,
 } from './SiteHeader';
 import styles from './SiteHeader.module.scss';
+import { getRequiredClassName } from '../../utils/getRequiredClassName';
 
 expect.extend(toHaveNoViolations);
+
+const compactClassName = getRequiredClassName(styles, 'compact');
+const navLinkClassName = getRequiredClassName(styles, 'navLink');
+const userMenuTriggerAnchorClassName = getRequiredClassName(styles, 'userMenuTriggerAnchor');
+const userMenuTriggerClassName = getRequiredClassName(styles, 'userMenuTrigger');
 
 const axeOptions = {
   rules: {
@@ -202,9 +208,9 @@ describe('SiteHeader', () => {
     const navLink = screen.getByRole('link', { name: 'Product' });
     const userMenuTrigger = screen.getByRole('button', { name: 'Account menu for Ada Lovelace' });
 
-    expect(header).toHaveClass(styles.compact);
-    expect(navLink).toHaveClass(styles.navLink);
-    expect(userMenuTrigger).toHaveClass(styles.userMenuTriggerAnchor);
+    expect(header).toHaveClass(compactClassName);
+    expect(navLink).toHaveClass(navLinkClassName);
+    expect(userMenuTrigger).toHaveClass(userMenuTriggerAnchorClassName);
   });
 
   it('uses the default theme styling path without a theme class', () => {
@@ -321,8 +327,8 @@ describe('SiteHeader', () => {
 
     const trigger = screen.getByRole('button', { name: 'Account menu for Ada Lovelace' });
 
-    expect(trigger).toHaveClass(styles.userMenuTriggerAnchor);
-    expect(trigger.firstElementChild).toHaveClass(styles.userMenuTrigger);
+    expect(trigger).toHaveClass(userMenuTriggerAnchorClassName);
+    expect(trigger.firstElementChild).toHaveClass(userMenuTriggerClassName);
   });
 
   it('shows the mobile trigger and opens the mobile menu on mobile', async () => {

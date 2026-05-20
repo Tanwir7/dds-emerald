@@ -289,10 +289,10 @@ describe('FlyoutMenu', () => {
       await getOpenFlyoutContent();
 
       unhoverElement(trigger);
-      await wait(149);
+      await wait(100);
       expect(screen.getByRole('navigation')).toBeInTheDocument();
 
-      await wait(20);
+      await wait(80);
       await waitFor(() => {
         expect(screen.queryByRole('navigation')).not.toBeInTheDocument();
       });

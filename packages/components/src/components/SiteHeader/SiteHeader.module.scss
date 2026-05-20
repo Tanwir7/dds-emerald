@@ -44,6 +44,15 @@
   color: var(--dds-color-action-primary-foreground);
 }
 
+.themeBrand .actions button {
+  color: inherit;
+
+  &:hover {
+    color: inherit;
+    background-color: oklch(from var(--dds-color-action-primary-foreground) l c h / 0.12);
+  }
+}
+
 .variantTransparent {
   background-color: transparent;
   border-bottom-color: transparent;
@@ -131,6 +140,10 @@
 
 .navLinkActive {
   color: var(--dds-color-action-primary);
+}
+
+:global([data-theme='dark']) .navLinkActive {
+  color: var(--dds-color-accent-foreground);
 }
 
 .themeBrand .navLinkActive {

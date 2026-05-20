@@ -173,6 +173,12 @@ const colorFamilyTable = formatTable(colorFamilyRows, [
 ]);
 
 const spacingTokens = byPattern(/^--dds-space-/);
+const layoutTokens = byName([
+  '--dds-sidebar-width',
+  '--dds-sidebar-width-collapsed',
+  '--dds-site-header-height',
+  '--dds-site-header-height-sm',
+]);
 const radiusTokens = byPattern(/^--dds-radius-/);
 const fontFamilyTokens = byName(['--dds-font-display', '--dds-font-sans', '--dds-font-mono']);
 const fontSizeTokens = byPattern(/^--dds-font-size-/);
@@ -217,6 +223,12 @@ ${colorFamilyTable}
 ## Spacing
 
 ${tokenValueTable(spacingTokens)}
+
+## Layout
+
+Shared layout dimensions used by navigation and shell patterns.
+
+${tokenValueTable(layoutTokens)}
 
 ## Radius
 

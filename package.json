@@ -24,7 +24,7 @@
     "@commitlint/cli": "^19.x.x",
     "@commitlint/config-conventional": "^19.x.x",
     "eslint": "^9.39.4",
-    "eslint-plugin-storybook": "^10.3.6",
+    "eslint-plugin-storybook": "^10.4.0",
     "husky": "^9.x.x",
     "lint-staged": "^15.x.x",
     "prettier": "^3.x.x",
