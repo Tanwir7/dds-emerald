@@ -3,6 +3,19 @@
   "version": "0.1.0",
   "description": "Emerald component library by Digital Dev Studio",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tanwir7/dds-emerald.git",
+    "directory": "packages/components"
+  },
+  "homepage": "https://github.com/Tanwir7/dds-emerald#readme",
+  "bugs": {
+    "url": "https://github.com/Tanwir7/dds-emerald/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "type": "module",
   "exports": {
     ".": {
@@ -13,7 +26,8 @@
     "./styles": "./dist/styles.css"
   },
   "files": [
-    "dist"
+    "dist",
+    "LICENSE"
   ],
   "sideEffects": [
     "**/*.css"

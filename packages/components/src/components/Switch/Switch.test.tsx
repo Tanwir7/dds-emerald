@@ -334,7 +334,7 @@ describe('Switch', () => {
     expect(stylesheet).toContain('outline: 3px solid transparent;');
     expect(stylesheet).toContain('outline-offset: 2px;');
     expect(stylesheet).toContain('oklch(from var(--dds-color-focus-ring) l c h / 0.5)');
-    expect(stylesheet).toContain('background-color: white;');
+    expect(stylesheet).toContain('background-color: var(--dds-color-control-knob);');
     expect(stylesheet).toContain('box-shadow: var(--dds-shadow-sm);');
     expect(stylesheet).not.toContain('outline: none;');
     expect(stylesheet).not.toContain('.storyA11yScope');

@@ -6,6 +6,7 @@ import { Dropdown, DropdownContent, DropdownSeparator, DropdownTrigger } from '.
 import { FlyoutMenu, FlyoutMenuContent, FlyoutMenuTrigger } from '../FlyoutMenu';
 import { Input } from '../Input';
 import { Sheet, SheetContent } from '../Sheet';
+import { BREAKPOINTS } from '../../styles/breakpoints';
 import styles from './SiteHeader.module.scss';
 
 export type SiteHeaderTheme = 'light' | 'brand';
@@ -124,7 +125,7 @@ export const SiteHeader = React.forwardRef<HTMLElement, SiteHeaderProps>(
       sticky = false,
       bordered = true,
       compact = false,
-      mobileBreakpoint = 1024,
+      mobileBreakpoint = BREAKPOINTS.lg,
       className,
       children,
       'aria-label': ariaLabel = 'Site navigation',

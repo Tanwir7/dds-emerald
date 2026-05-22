@@ -70,7 +70,7 @@
 .thumb {
   display: block;
   border-radius: var(--dds-radius-full);
-  background-color: white;
+  background-color: var(--dds-color-control-knob);
   box-shadow: var(--dds-shadow-sm);
   transition: transform var(--dds-duration-fast) var(--dds-ease-standard);
 }

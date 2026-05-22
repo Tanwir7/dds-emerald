@@ -137,6 +137,14 @@
   --dds-site-header-height-sm: 52px;
 
   /* ============================================================
+     TIER 1 — DIALOG PANEL WIDTHS
+     ============================================================ */
+  --dds-dialog-width-sm: 400px;
+  --dds-dialog-width-md: 560px;
+  --dds-dialog-width-lg: 720px;
+  --dds-dialog-width-xl: 960px;
+
+  /* ============================================================
      TIER 2 — SEMANTIC / LIGHT MODE
      ============================================================ */
 
@@ -153,6 +161,12 @@
   --dds-color-bg-card-hover: var(--dds-silver-50);
   --dds-color-bg-sidebar: var(--dds-emerald-800);
   --dds-color-bg-inverse: var(--dds-silver-950);
+
+  /* Switch knob — intentionally light in both themes (no dark override). */
+  --dds-color-control-knob: white;
+  /* Color-picker handles (saturation reticle ring + slider thumbs) — kept
+     light so they read against any hue (no dark override). */
+  --dds-color-picker-handle: white;
 
   /* --- Surface Foregrounds --- */
   --dds-color-text-card-foreground: var(--dds-silver-950);

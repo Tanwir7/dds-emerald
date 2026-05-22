@@ -1,5 +1,6 @@
 import type { ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, userEvent, waitFor, within } from 'storybook/test';
 import { DatePicker } from './DatePicker';
 import storyStyles from './DatePicker.stories.module.scss';
 import { storySource, storySourceParameters } from '../../utils/storySource';
@@ -39,6 +40,31 @@ export const Default: Story = {
   parameters: storySourceParameters(
     storySource('<DatePicker id="invoice-date" label="Invoice date" placeholder="Select date" />')
   ),
+  play: async ({ canvasElement }) => {
+    const trigger = within(canvasElement).getByRole('combobox');
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+
+    await userEvent.click(trigger);
+    await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+
+    const grid = await within(document.body).findByRole('grid');
+    // react-day-picker v8 renders day buttons with role="gridcell"; empty
+    // padding cells are plain <td>, so keep only the <button> day cells.
+    const selectableDays = within(grid)
+      .getAllByRole('gridcell')
+      .filter(
+        (cell) =>
+          cell.tagName === 'BUTTON' &&
+          !cell.hasAttribute('disabled') &&
+          cell.getAttribute('aria-disabled') !== 'true'
+      );
+    const day = selectableDays.at(Math.min(10, selectableDays.length - 1));
+    if (!day) throw new Error('No selectable day found in calendar');
+    await userEvent.click(day);
+
+    await waitFor(() => expect(trigger).toHaveAttribute('aria-expanded', 'false'));
+    await expect(trigger).toHaveTextContent(/\d{2}\/\d{2}\/\d{4}/);
+  },
 };
 
 export const WithValue: Story = {

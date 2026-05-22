@@ -9,4 +9,7 @@ storybook-static
 .env
 .DS_Store
 
+# api-extractor working dir (the committed reports live in packages/*/etc/)
+temp/
+
 *storybook.log

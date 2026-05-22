@@ -114,6 +114,16 @@ const sections = [
           'Cards, popovers, and inputs in light mode',
           rootTokenMap
         ),
+        getResolvedSemanticTokens(
+          '--dds-color-',
+          [
+            ['control-knob', 'knob'],
+            ['picker-handle', 'picker-handle'],
+          ],
+          'Controls',
+          'Switch knob and color-picker handles — intentionally light in both themes',
+          rootTokenMap
+        ),
       ],
       [
         getResolvedSemanticTokens(

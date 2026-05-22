@@ -120,7 +120,7 @@ describe('Dialog', () => {
       const dialog = screen.getByRole('dialog');
 
       expect(dialog.className).toMatch(/size-md/);
-      expect(dialog).toHaveStyle('--dialog-max-width: 560px');
+      expect(dialog).toHaveStyle('--dialog-max-width: var(--dds-dialog-width-md)');
     });
 
     it('applies the fullscreen size class', () => {
