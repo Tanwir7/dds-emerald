@@ -88,6 +88,7 @@ jobs:
       - uses: actions/setup-node@v6
         with: { node-version: 22.22.0, cache: pnpm }
       - run: pnpm install --frozen-lockfile
+      - run: pnpm build --filter @dds/emerald-tokens
       - run: pnpm --dir apps/docs exec playwright install --with-deps chromium
       - run: pnpm run test:storybook
 
