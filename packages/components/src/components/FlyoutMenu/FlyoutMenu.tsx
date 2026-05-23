@@ -277,6 +277,7 @@ export const FlyoutMenuTrigger = React.forwardRef<HTMLElement, InternalFlyoutMen
   ({ children, _hoverHandlers, _onFocus, ...props }, ref) => {
     const { onTriggerFocus, triggerHoverHandlers } = useFlyoutMenuContext();
     const childProps = children.props as React.HTMLAttributes<HTMLElement>;
+    const { onFocus, onMouseEnter, onMouseLeave, ...restProps } = props;
 
     return (
       <PopoverPrimitive.Trigger
@@ -284,16 +285,25 @@ export const FlyoutMenuTrigger = React.forwardRef<HTMLElement, InternalFlyoutMen
         asChild
       >
         {React.cloneElement(children as React.ReactElement<Record<string, unknown>>, {
-          ...props,
+          ...restProps,
           onMouseEnter: composeEventHandlers(
-            childProps.onMouseEnter,
-            _hoverHandlers?.onMouseEnter ?? triggerHoverHandlers?.onMouseEnter
+            onMouseEnter,
+            composeEventHandlers(
+              childProps.onMouseEnter,
+              _hoverHandlers?.onMouseEnter ?? triggerHoverHandlers?.onMouseEnter
+            )
           ),
           onMouseLeave: composeEventHandlers(
-            childProps.onMouseLeave,
-            _hoverHandlers?.onMouseLeave ?? triggerHoverHandlers?.onMouseLeave
+            onMouseLeave,
+            composeEventHandlers(
+              childProps.onMouseLeave,
+              _hoverHandlers?.onMouseLeave ?? triggerHoverHandlers?.onMouseLeave
+            )
           ),
-          onFocus: composeEventHandlers(childProps.onFocus, _onFocus ?? onTriggerFocus),
+          onFocus: composeEventHandlers(
+            onFocus,
+            composeEventHandlers(childProps.onFocus, _onFocus ?? onTriggerFocus)
+          ),
           'aria-haspopup': 'true',
         })}
       </PopoverPrimitive.Trigger>
@@ -314,7 +324,7 @@ export const FlyoutMenuContent = React.forwardRef<HTMLDivElement, InternalFlyout
       className,
       children,
       _hoverHandlers,
-      _closeOnClickOutside = true,
+      _closeOnClickOutside,
       onMouseEnter,
       onMouseLeave,
       ...props

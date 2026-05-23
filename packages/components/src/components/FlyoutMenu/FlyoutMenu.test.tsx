@@ -383,6 +383,66 @@ describe('FlyoutMenu', () => {
         expect(screen.queryByRole('navigation')).not.toBeInTheDocument();
       });
     });
+
+    it('stays open on outside pointerdown when closeOnClickOutside is false', async () => {
+      const { before } = renderFlyout({ defaultOpen: true, closeOnClickOutside: false });
+
+      await getOpenFlyoutContent();
+
+      fireEvent.pointerDown(before);
+
+      expect(screen.getByRole('navigation')).toBeInTheDocument();
+    });
+  });
+
+  describe('FlyoutMenuTrigger wrapper callbacks', () => {
+    it('calls wrapper onFocus when the trigger receives focus', async () => {
+      const onFocus = vi.fn();
+      render(
+        <main>
+          <FlyoutMenu>
+            <FlyoutMenuTrigger onFocus={onFocus}>{renderTriggerLink()}</FlyoutMenuTrigger>
+            <FlyoutMenuContent label="Primary navigation">
+              <FlyoutMenuGroup>
+                <FlyoutMenuLink href="#docs" label="Documentation" />
+              </FlyoutMenuGroup>
+            </FlyoutMenuContent>
+          </FlyoutMenu>
+        </main>
+      );
+
+      await act(async () => {
+        screen.getByRole('link', { name: 'Open flyout' }).focus();
+      });
+
+      expect(onFocus).toHaveBeenCalledTimes(1);
+    });
+
+    it('calls wrapper onMouseEnter and onMouseLeave when hovering the trigger', () => {
+      const onMouseEnter = vi.fn();
+      const onMouseLeave = vi.fn();
+      render(
+        <main>
+          <FlyoutMenu>
+            <FlyoutMenuTrigger onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+              {renderTriggerLink()}
+            </FlyoutMenuTrigger>
+            <FlyoutMenuContent label="Primary navigation">
+              <FlyoutMenuGroup>
+                <FlyoutMenuLink href="#docs" label="Documentation" />
+              </FlyoutMenuGroup>
+            </FlyoutMenuContent>
+          </FlyoutMenu>
+        </main>
+      );
+
+      const trigger = screen.getByRole('link', { name: 'Open flyout' });
+      hoverElement(trigger);
+      expect(onMouseEnter).toHaveBeenCalledTimes(1);
+
+      unhoverElement(trigger);
+      expect(onMouseLeave).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('Controlled', () => {

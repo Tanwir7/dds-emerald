@@ -295,6 +295,26 @@ describe('SiteHeader', () => {
     });
   });
 
+  it('moves focus to the search toggle button after closing with Escape', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <SiteHeader>
+        <SiteHeaderActions>
+          <SiteHeaderSearch defaultExpanded />
+        </SiteHeaderActions>
+      </SiteHeader>
+    );
+
+    const input = screen.getByRole('textbox', { name: 'Search…' });
+
+    await user.type(input, '{escape}');
+
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: 'Open search' })).toHaveFocus();
+    });
+  });
+
   it('opens the user menu and renders account details', async () => {
     const user = userEvent.setup();
 

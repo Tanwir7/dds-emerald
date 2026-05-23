@@ -16,7 +16,6 @@ export interface FieldsetProps extends Omit<
 
 const classNames = {
   root: getRequiredClassName(styles, 'root'),
-  header: getRequiredClassName(styles, 'header'),
   legend: getRequiredClassName(styles, 'legend'),
   helper: getRequiredClassName(styles, 'helper'),
 } as const;
@@ -25,26 +24,16 @@ export const Fieldset = React.forwardRef<HTMLFieldSetElement, FieldsetProps>(
   ({ legend, helper, className, children, ...props }, ref) => {
     return (
       <fieldset ref={ref} className={clsx(classNames.root, className)} {...props}>
-        {legend || helper ? (
-          <div className={classNames.header}>
-            {legend ? (
-              <Text
-                as="legend"
-                className={classNames.legend}
-                color="muted"
-                size="xs"
-                weight="semibold"
-              >
-                {legend}
-              </Text>
-            ) : null}
+        {legend ? (
+          <Text as="legend" className={classNames.legend} color="muted" size="xs" weight="semibold">
+            {legend}
+          </Text>
+        ) : null}
 
-            {helper ? (
-              <Text as="p" className={classNames.helper} color="muted" size="xs">
-                {helper}
-              </Text>
-            ) : null}
-          </div>
+        {helper ? (
+          <Text as="p" className={classNames.helper} color="muted" size="xs">
+            {helper}
+          </Text>
         ) : null}
 
         {children}

@@ -304,6 +304,7 @@ export const SiteHeaderSearch = React.forwardRef<HTMLDivElement, SiteHeaderSearc
   ({ placeholder = 'Search…', onSearch, defaultExpanded = false, className }, ref) => {
     const [expanded, setExpanded] = React.useState(defaultExpanded);
     const inputRef = React.useRef<HTMLInputElement>(null);
+    const searchToggleRef = React.useRef<HTMLButtonElement>(null);
 
     const handleExpand = React.useCallback(() => {
       setExpanded(true);
@@ -338,12 +339,14 @@ export const SiteHeaderSearch = React.forwardRef<HTMLDivElement, SiteHeaderSearc
 
                 if (event.key === 'Escape') {
                   setExpanded(false);
+                  requestAnimationFrame(() => searchToggleRef.current?.focus());
                 }
               }}
             />
           </div>
         ) : (
           <button
+            ref={searchToggleRef}
             type="button"
             className={styles.searchToggle}
             aria-label="Open search"
