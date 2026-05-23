@@ -152,6 +152,71 @@
   @extend %rdpCaptionLabel;
 }
 
+.rdpCaptionDropdowns {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: var(--dds-space-2);
+  min-width: 0;
+}
+
+.rdpDropdownMonth,
+.rdpDropdownYear {
+  position: relative;
+  min-width: 0;
+  flex: 1 1 0;
+}
+
+.rdpDropdown {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.rdpDropdownMonth .rdpCaptionLabel,
+.rdpDropdownYear .rdpCaptionLabel {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--dds-space-2);
+  width: 100%;
+  min-width: 0;
+  height: var(--dds-space-8);
+  padding: 0 var(--dds-space-3);
+  overflow: hidden;
+  background-color: var(--dds-color-bg-input);
+  border: 1px solid var(--dds-color-border-input);
+  border-radius: var(--dds-radius-none);
+}
+
+.rdpDropdown:focus-visible + .rdpCaptionLabel {
+  border-color: var(--dds-color-focus-ring);
+  @include focus-ring;
+}
+
+.rdpDropdownIcon {
+  @include icon-size(sm);
+
+  flex-shrink: 0;
+  color: var(--dds-color-text-muted);
+}
+
+.rdpVisuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .rdpNav {
   @extend %rdpNav;
 }

@@ -2,6 +2,7 @@ import '@testing-library/jest-dom/vitest';
 import { cleanup, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe, toHaveNoViolations } from 'jest-axe';
+import React from 'react';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { DateRangePicker } from './DateRangePicker';
 
@@ -248,17 +249,147 @@ describe('DateRangePicker', () => {
     expect(screen.queryByRole('dialog', { name: 'Date picker calendar' })).not.toBeInTheDocument();
   });
 
-  it('wires the group error state and alert text', () => {
+  it('renders a danger inline alert and wires aria-describedby on the trigger group', () => {
     render(
       <DateRangePicker
-        error="Choose a valid travel range."
+        id="travel-dates"
+        inlineAlert={{ intent: 'danger', children: 'Choose a valid travel range.' }}
+        label="Travel dates"
+      />
+    );
+
+    const group = screen.getByRole('group', { name: 'Travel dates' });
+    const inlineAlert = screen.getByRole('alert');
+
+    expect(group).toHaveAttribute('aria-describedby', 'travel-dates-inline-alert');
+    expect(inlineAlert).toHaveAttribute('id', 'travel-dates-inline-alert');
+    expect(inlineAlert).toHaveTextContent('Choose a valid travel range.');
+  });
+
+  it('does not apply the error state class for a non-danger inline alert', () => {
+    render(
+      <DateRangePicker
+        id="travel-dates"
+        inlineAlert={{ intent: 'success', children: 'Travel dates look good.' }}
+        label="Travel dates"
+      />
+    );
+
+    expect(screen.getByRole('group', { name: 'Travel dates' })).toHaveAttribute(
+      'aria-describedby',
+      'travel-dates-inline-alert'
+    );
+    expect(screen.getByText('Travel dates look good.')).toBeInTheDocument();
+  });
+
+  it('passes showIcon through to the inline alert', () => {
+    render(
+      <DateRangePicker
+        id="travel-dates"
+        inlineAlert={{
+          intent: 'danger',
+          children: 'Choose a valid travel range.',
+          showIcon: false,
+        }}
+        label="Travel dates"
+      />
+    );
+
+    expect(screen.getByRole('alert').querySelector('svg')).not.toBeInTheDocument();
+  });
+
+  it('renders hint only when inlineAlert is absent', () => {
+    const { rerender } = render(
+      <DateRangePicker
+        hint="Select a departure date and then a return date."
         id="travel-dates"
         label="Travel dates"
       />
     );
 
-    expect(screen.getByRole('group', { name: 'Travel dates' })).toBeInTheDocument();
-    expect(screen.getByText('Choose a valid travel range.')).toHaveAttribute('role', 'alert');
+    expect(screen.getByText('Select a departure date and then a return date.')).toBeInTheDocument();
+
+    rerender(
+      <DateRangePicker
+        hint="Select a departure date and then a return date."
+        id="travel-dates"
+        inlineAlert={{ intent: 'danger', children: 'Choose a valid travel range.' }}
+        label="Travel dates"
+      />
+    );
+
+    expect(
+      screen.queryByText('Select a departure date and then a return date.')
+    ).not.toBeInTheDocument();
+  });
+
+  it('fires onChange with partial range when the start date is clicked in controlled mode', async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    render(
+      <DateRangePicker
+        defaultMonth={new Date(2026, 4, 1)}
+        id="travel-dates"
+        label="Travel dates"
+        onChange={onChange}
+        value={{ from: undefined, to: undefined }}
+      />
+    );
+
+    await user.click(
+      screen.getByRole('combobox', { name: /travel dates, start date, start date/i })
+    );
+
+    const calendar = await screen.findByRole('dialog', { name: 'Date picker calendar' });
+    await user.click(getCalendarDay(calendar, '10'));
+
+    expect(onChange).toHaveBeenCalledWith({ from: new Date(2026, 4, 10), to: undefined });
+  });
+
+  it('fires onChange with full range after parent updates controlled value to partial range', async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+
+    const ControlledPicker = () => {
+      const [value, setValue] = React.useState<{ from: Date | undefined; to: Date | undefined }>({
+        from: undefined,
+        to: undefined,
+      });
+
+      return (
+        <DateRangePicker
+          defaultMonth={new Date(2026, 4, 1)}
+          id="travel-dates"
+          label="Travel dates"
+          onChange={(range) => {
+            setValue(range);
+            onChange(range);
+          }}
+          value={value}
+        />
+      );
+    };
+
+    render(<ControlledPicker />);
+
+    await user.click(
+      screen.getByRole('combobox', { name: /travel dates, start date, start date/i })
+    );
+
+    const calendar = await screen.findByRole('dialog', { name: 'Date picker calendar' });
+    await user.click(getCalendarDay(calendar, '10'));
+    await user.click(getCalendarDay(calendar, '16'));
+
+    await waitFor(() => {
+      expect(
+        screen.queryByRole('dialog', { name: 'Date picker calendar' })
+      ).not.toBeInTheDocument();
+    });
+
+    expect(onChange).toHaveBeenLastCalledWith({
+      from: new Date(2026, 4, 10),
+      to: new Date(2026, 4, 16),
+    });
   });
 
   it('has no accessibility violations in the default state', async () => {

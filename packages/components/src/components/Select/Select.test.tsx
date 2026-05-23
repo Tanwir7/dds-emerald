@@ -112,6 +112,11 @@ describe('Select', () => {
       expect(screen.getByRole('combobox')).toHaveAttribute('aria-expanded', 'false');
     });
 
+    it('does not keep aria-controls when the listbox is closed', () => {
+      renderSelect();
+      expect(screen.getByRole('combobox')).not.toHaveAttribute('aria-controls');
+    });
+
     it('forwards className to trigger', () => {
       renderSelect({}, { className: 'test-class' });
       expect(screen.getByRole('combobox')).toHaveClass('test-class');
@@ -157,6 +162,7 @@ describe('Select', () => {
       const trigger = screen.getByRole('combobox');
       await user.click(trigger);
       expect(trigger).toHaveAttribute('aria-expanded', 'true');
+      expect(trigger).toHaveAttribute('aria-controls');
       expect(screen.getByRole('listbox')).toBeInTheDocument();
     });
 

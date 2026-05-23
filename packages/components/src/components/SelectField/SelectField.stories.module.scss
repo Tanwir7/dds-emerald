@@ -1,0 +1,17 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/breakpoints' as *;
+
+.storyA11yScope {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dds-space-6);
+  padding: var(--dds-space-4);
+}
+
+.storyField {
+  width: 280px;
+}
+
+.storyValue {
+  margin: var(--dds-space-2) 0 0;
+}

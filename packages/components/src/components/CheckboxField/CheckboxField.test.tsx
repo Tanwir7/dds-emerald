@@ -7,6 +7,7 @@ import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { CheckboxField } from './CheckboxField';
 import styles from './CheckboxField.module.scss';
+import labelStyles from '../Label/Label.module.scss';
 import { getRequiredClassName } from '../../utils/getRequiredClassName';
 
 expect.extend(toHaveNoViolations);
@@ -28,6 +29,8 @@ const classNames = {
   helperSm: getRequiredClassName(styles, 'helperSm'),
   helperMd: getRequiredClassName(styles, 'helperMd'),
 } as const;
+
+const labelWrapClassName = getRequiredClassName(labelStyles, 'wrap');
 
 const render = (ui: React.ReactNode) => {
   const container = document.createElement('div');
@@ -79,6 +82,42 @@ describe('CheckboxField', () => {
     const { container } = render(<CheckboxField label="Accept terms" />);
 
     expect(getLabel(container)).toHaveTextContent('Accept terms');
+  });
+
+  it('renders rich label content', () => {
+    const { container } = render(
+      <CheckboxField
+        label={
+          <>
+            I agree to the <a href="/terms">Terms of Service</a>
+          </>
+        }
+      />
+    );
+
+    expect(getLabel(container)).toHaveTextContent('I agree to the Terms of Service');
+    expect(getLabel(container).querySelector('a')).toHaveAttribute('href', '/terms');
+  });
+
+  it('renders wrapped rich label content with two links', () => {
+    const { container } = render(
+      <CheckboxField
+        label={
+          <>
+            I agree to the <a href="/terms">Terms of Service</a> and{' '}
+            <a href="/privacy">Privacy Policy</a>.
+          </>
+        }
+      />
+    );
+
+    const label = getLabel(container);
+    const links = label.querySelectorAll('a');
+
+    expect(label).toHaveTextContent('I agree to the Terms of Service and Privacy Policy.');
+    expect(links).toHaveLength(2);
+    expect(links[0]).toHaveAttribute('href', '/terms');
+    expect(links[1]).toHaveAttribute('href', '/privacy');
   });
 
   it('label htmlFor matches checkbox id', () => {
@@ -140,6 +179,31 @@ describe('CheckboxField', () => {
 
     expect(row?.children[0]).toBe(getCheckbox(container));
     expect(row?.children[1]).toBe(getLabel(container));
+  });
+
+  it('uses wrap layout for the internal Label', () => {
+    const { container } = render(<CheckboxField label="Accept terms" />);
+
+    expect(getLabel(container)).toHaveClass(labelWrapClassName);
+  });
+
+  it('keeps the row as the wrapped label container', () => {
+    const { container } = render(
+      <CheckboxField
+        label={
+          <>
+            I agree to the <a href="/terms">Terms of Service</a> and{' '}
+            <a href="/privacy">Privacy Policy</a>.
+          </>
+        }
+      />
+    );
+
+    const row = container.querySelector(`.${classNames.row}`);
+
+    expect(row).toContainElement(getCheckbox(container));
+    expect(row).toContainElement(getLabel(container));
+    expect(getLabel(container).parentElement).toBe(row);
   });
 
   it('checkbox has aria-describedby pointing to helper id when present', () => {
@@ -409,6 +473,7 @@ describe('CheckboxField', () => {
     );
 
     expect(stylesheet).toContain('@use');
+    expect(stylesheet).toContain('align-items: flex-start;');
     expect(stylesheet).toContain('gap: var(--dds-space-2);');
     expect(stylesheet).toContain('padding-left: calc(var(--dds-space-5) + var(--dds-space-2));');
     expect(stylesheet).toContain('padding-left: calc(var(--dds-space-4) + var(--dds-space-2));');

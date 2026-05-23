@@ -12,7 +12,7 @@ export interface CheckboxFieldProps extends Omit<
   CheckboxProps,
   'aria-describedby' | 'aria-invalid' | 'aria-required' | 'children' | 'className' | 'id'
 > {
-  label: string;
+  label: React.ReactNode;
   required?: boolean;
   disabled?: boolean;
   helper?: string;
@@ -70,7 +70,7 @@ export const CheckboxField = React.forwardRef<HTMLDivElement, CheckboxFieldProps
             aria-invalid={isInvalid ? true : undefined}
             {...checkboxProps}
           />
-          <Label htmlFor={checkboxId} required={required} disabled={disabled}>
+          <Label htmlFor={checkboxId} required={required} disabled={disabled} layout="wrap">
             {label}
           </Label>
         </div>

@@ -108,9 +108,20 @@ const sections = [
             ['card-hover', 'card-hover'],
             ['popover', 'popover'],
             ['input', 'input'],
+            ['inverse', 'inverse'],
           ],
           'Light Surface',
           'Cards, popovers, and inputs in light mode',
+          rootTokenMap
+        ),
+        getResolvedSemanticTokens(
+          '--dds-color-',
+          [
+            ['control-knob', 'knob'],
+            ['picker-handle', 'picker-handle'],
+          ],
+          'Controls',
+          'Switch knob and color-picker handles — intentionally light in both themes',
           rootTokenMap
         ),
       ],
@@ -133,6 +144,7 @@ const sections = [
             ['card-hover', 'card-hover'],
             ['popover', 'popover'],
             ['input', 'input'],
+            ['inverse', 'inverse'],
           ],
           'Dark Surface',
           'Cards, popovers, and inputs in dark mode',
@@ -145,6 +157,7 @@ const sections = [
           [
             ['default', 'default'],
             ['muted', 'muted'],
+            ['inverse', 'inverse'],
             ['on-primary', 'on-primary'],
             ['success', 'success'],
             ['warning', 'warning'],
@@ -172,6 +185,7 @@ const sections = [
           [
             ['default', 'default'],
             ['muted', 'muted'],
+            ['inverse', 'inverse'],
             ['on-primary', 'on-primary'],
             ['success', 'success'],
             ['warning', 'warning'],

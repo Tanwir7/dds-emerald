@@ -1,0 +1,25 @@
+.root {
+  display: grid;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  row-gap: var(--dds-space-2);
+}
+
+.root > * {
+  min-width: 0;
+}
+
+.legend {
+  margin: 0;
+  padding: 0;
+}
+
+.helper {
+  margin: 0;
+}
+
+.legend + .helper {
+  margin-top: calc(var(--dds-space-1) - var(--dds-space-2));
+}

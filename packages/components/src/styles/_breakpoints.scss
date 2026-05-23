@@ -1,3 +1,5 @@
+// Breakpoint values for SCSS @media queries. Mirror of `breakpoints.ts`
+// (consumed by JS via matchMedia); keep both in sync.
 $dds-bp-sm: 640px;
 $dds-bp-md: 768px;
 $dds-bp-lg: 1024px;

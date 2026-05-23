@@ -20,6 +20,16 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
 
+  stylelint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v6
+        with: { node-version: 22.22.0, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm stylelint
+
   typecheck:
     runs-on: ubuntu-latest
     steps:
@@ -40,6 +50,16 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm docs:check
 
+  generated-tokens:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v6
+        with: { node-version: 22.22.0, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm tokens:check
+
   test:
     runs-on: ubuntu-latest
     steps:
@@ -50,6 +70,16 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm test --filter @dds/emerald --filter @dds/emerald-tokens
 
+  contrast:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v6
+        with: { node-version: 22.22.0, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @dds/emerald-tokens test:contrast
+
   storybook-test:
     runs-on: ubuntu-latest
     steps:
@@ -58,6 +88,7 @@ jobs:
       - uses: actions/setup-node@v6
         with: { node-version: 22.22.0, cache: pnpm }
       - run: pnpm install --frozen-lockfile
+      - run: pnpm build --filter @dds/emerald-tokens
       - run: pnpm --dir apps/docs exec playwright install --with-deps chromium
       - run: pnpm run test:storybook
 
@@ -71,3 +102,5 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: pnpm check:dist
+      - run: pnpm api:check
+      - run: pnpm size

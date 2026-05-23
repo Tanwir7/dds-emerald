@@ -11,6 +11,8 @@ import { getRequiredClassName } from '../../utils/getRequiredClassName';
 expect.extend(toHaveNoViolations);
 
 const rootClassName = getRequiredClassName(styles, 'root');
+const inlineClassName = getRequiredClassName(styles, 'inline');
+const wrapClassName = getRequiredClassName(styles, 'wrap');
 const smClassName = getRequiredClassName(styles, 'sm');
 const baseClassName = getRequiredClassName(styles, 'base');
 const disabledClassName = getRequiredClassName(styles, 'disabled');
@@ -152,6 +154,24 @@ describe('Label', () => {
     expect(getLabelByText('content')).toHaveClass(smClassName);
   });
 
+  it('applies the inline layout class by default', () => {
+    render(<Label>content</Label>);
+
+    const label = getLabelByText('content');
+
+    expect(label).toHaveClass(inlineClassName);
+    expect(label).not.toHaveClass(wrapClassName);
+  });
+
+  it('applies the wrap layout class when layout is wrap', () => {
+    render(<Label layout="wrap">content</Label>);
+
+    const label = getLabelByText('content');
+
+    expect(label).toHaveClass(wrapClassName);
+    expect(label).not.toHaveClass(inlineClassName);
+  });
+
   it('applies the sm class when size is sm', () => {
     render(<Label size="sm">content</Label>);
 
@@ -184,6 +204,22 @@ describe('Label', () => {
     expect(results).toHaveNoViolations();
   });
 
+  it('keeps required and disabled behavior in wrap mode', () => {
+    render(
+      <Label required disabled layout="wrap">
+        content
+      </Label>
+    );
+
+    const label = getLabelByText('content');
+    const requiredIndicator = label.querySelector(`.${requiredClassName}`);
+
+    expect(label).toHaveClass(wrapClassName);
+    expect(label).toHaveClass(disabledClassName);
+    expect(requiredIndicator).toBeInstanceOf(HTMLSpanElement);
+    expect(requiredIndicator).toHaveTextContent('*');
+  });
+
   it('has no a11y violations when disabled', async () => {
     const { container } = render(<Label disabled>content</Label>);
 
@@ -197,6 +233,17 @@ describe('Label', () => {
         <Label htmlFor="email">Email</Label>
         <input id="email" aria-required="true" />
       </div>
+    );
+
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+
+  it('has no a11y violations in wrap mode', async () => {
+    const { container } = render(
+      <Label layout="wrap">
+        I agree to the <a href="/terms">Terms</a> and <a href="/privacy">Privacy Policy</a>.
+      </Label>
     );
 
     const results = await axe(container);
@@ -221,5 +268,11 @@ describe('Label', () => {
     const stylesheet = readFileSync('src/components/Label/Label.module.scss', 'utf8');
 
     expect(stylesheet).toContain('--dds-label-required-color: var(--dds-color-text-muted);');
+  });
+
+  it('uses a readable line-height token for wrap layout', () => {
+    const stylesheet = readFileSync('src/components/Label/Label.module.scss', 'utf8');
+
+    expect(stylesheet).toContain('line-height: var(--dds-line-height-normal);');
   });
 });

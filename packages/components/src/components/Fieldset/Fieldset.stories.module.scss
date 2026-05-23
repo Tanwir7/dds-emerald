@@ -1,0 +1,9 @@
+.storyA11yScope {
+  width: 100%;
+  padding: var(--dds-space-4);
+  background-color: var(--dds-color-bg-default);
+}
+
+.storyFieldset {
+  width: min(100%, 32rem);
+}

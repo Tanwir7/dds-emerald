@@ -2,6 +2,7 @@ import React, { act } from 'react';
 import '@testing-library/jest-dom/vitest';
 import userEvent from '@testing-library/user-event';
 import { axe, toHaveNoViolations } from 'jest-axe';
+import { ArrowRight } from 'lucide-react';
 import { readFileSync } from 'node:fs';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, describe, expect, it, vi } from 'vitest';
@@ -15,6 +16,10 @@ const variantClassNames = {
   default: getRequiredClassName(styles, 'default'),
   muted: getRequiredClassName(styles, 'muted'),
   destructive: getRequiredClassName(styles, 'destructive'),
+  primary: getRequiredClassName(styles, 'primary'),
+  secondary: getRequiredClassName(styles, 'secondary'),
+  ghost: getRequiredClassName(styles, 'ghost'),
+  outline: getRequiredClassName(styles, 'outline'),
 } as const;
 
 const underlineClassNames = {
@@ -30,6 +35,7 @@ const sizeClassNames = {
 } as const;
 
 const rootClassName = getRequiredClassName(styles, 'root');
+const ctaClassName = getRequiredClassName(styles, 'cta');
 
 const render = (ui: React.ReactNode) => {
   const container = document.createElement('div');
@@ -146,6 +152,45 @@ describe('Link', () => {
     );
 
     expect(getLink()).toHaveClass(variantClassNames.destructive);
+  });
+
+  it('applies the primary CTA variant class', () => {
+    render(
+      <Link href="/docs" variant="primary">
+        content
+      </Link>
+    );
+
+    expect(getLink()).toHaveClass(variantClassNames.primary);
+  });
+
+  it('applies the shared CTA sizing class to CTA variants only', () => {
+    render(
+      <>
+        <Link href="/docs" variant="primary">
+          primary
+        </Link>
+        <Link href="/docs" variant="default">
+          default
+        </Link>
+      </>
+    );
+
+    const primaryLink = getLink(/primary/i);
+    const defaultLink = getLink(/default/i);
+
+    expect(primaryLink).toHaveClass(ctaClassName);
+    expect(defaultLink).not.toHaveClass(ctaClassName);
+  });
+
+  it('defaults CTA variants to always-underlined text', () => {
+    render(
+      <Link href="/docs" variant="outline">
+        content
+      </Link>
+    );
+
+    expect(getLink()).toHaveClass(underlineClassNames.always);
   });
 
   it('applies underline-hover class by default', () => {
@@ -299,7 +344,21 @@ describe('Link', () => {
 
     expect(link).not.toHaveAttribute('target');
     expect(link).not.toHaveAttribute('rel');
-    expect(link.querySelector('svg')).toBeNull();
+    expect(link.querySelector('svg')).toBeTruthy();
+    expect(link).toHaveTextContent('content (opens in new tab)');
+  });
+
+  it('renders an optional icon without changing anchor semantics', () => {
+    render(
+      <Link href="/docs" icon={ArrowRight}>
+        content
+      </Link>
+    );
+
+    const link = getLink();
+
+    expect(link.tagName).toBe('A');
+    expect(link.querySelector('svg')).toBeTruthy();
   });
 
   it('forwards aria-label to <a>', () => {
@@ -467,6 +526,17 @@ describe('Link', () => {
     expect(results).toHaveNoViolations();
   });
 
+  it('axe passes for CTA-style links', async () => {
+    const { container } = render(
+      <Link href="/docs" variant="primary" icon={ArrowRight}>
+        content
+      </Link>
+    );
+
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+
   it('axe passes for external links', async () => {
     const { container } = render(
       <Link href="https://example.com" external>
@@ -519,12 +589,14 @@ describe('Link', () => {
     expect(stylesheet).toContain('font-family: var(--dds-font-sans);');
     expect(stylesheet).toContain('font-size: inherit;');
     expect(stylesheet).toContain('color: var(--dds-color-action-primary);');
+    expect(stylesheet).toContain('background-color: transparent;');
     expect(stylesheet).toContain('&:visited');
     expect(stylesheet).toContain('outline: 3px solid transparent;');
     expect(stylesheet).toContain(
       'outline-color: oklch(from var(--dds-color-focus-ring) l c h / 0.5);'
     );
     expect(stylesheet).toContain('width: var(--dds-icon-size-sm);');
+    expect(stylesheet).toContain('width: var(--dds-icon-size-md);');
     expect(stylesheet).not.toContain('.storyA11yScope');
     expect(readFileSync('src/components/Link/Link.stories.module.scss', 'utf8')).toContain(
       '.storyA11yScope'

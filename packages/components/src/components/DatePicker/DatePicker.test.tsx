@@ -49,6 +49,101 @@ describe('DatePicker', () => {
     expect(await screen.findByRole('dialog', { name: 'Date picker calendar' })).toBeInTheDocument();
   });
 
+  it('uses button navigation by default', async () => {
+    const user = userEvent.setup();
+    render(<DatePicker id="invoice-date" label="Invoice date" />);
+
+    await user.click(screen.getByRole('combobox', { name: /invoice date, select date/i }));
+
+    const calendar = await screen.findByRole('dialog', { name: 'Date picker calendar' });
+
+    expect(within(calendar).getByRole('button', { name: /go to previous month/i })).toBeVisible();
+    expect(within(calendar).getByRole('button', { name: /go to next month/i })).toBeVisible();
+    expect(within(calendar).queryByRole('combobox', { name: /month/i })).not.toBeInTheDocument();
+    expect(within(calendar).queryByRole('combobox', { name: /year/i })).not.toBeInTheDocument();
+  });
+
+  it('renders month and year dropdowns in dropdown mode', async () => {
+    const user = userEvent.setup();
+    render(
+      <DatePicker
+        captionLayout="dropdown"
+        defaultMonth={new Date(2024, 4, 1)}
+        fromYear={1990}
+        id="date-of-birth"
+        label="Date of birth"
+        toYear={2024}
+      />
+    );
+
+    await user.click(screen.getByRole('combobox', { name: /date of birth, select date/i }));
+
+    const calendar = await screen.findByRole('dialog', { name: 'Date picker calendar' });
+
+    expect(within(calendar).getByRole('combobox', { name: /month/i })).toBeInTheDocument();
+    expect(within(calendar).getByRole('combobox', { name: /year/i })).toBeInTheDocument();
+    expect(
+      within(calendar).queryByRole('button', { name: /go to previous month/i })
+    ).not.toBeInTheDocument();
+  });
+
+  it('constrains the year dropdown to fromYear and toYear', async () => {
+    const user = userEvent.setup();
+    render(
+      <DatePicker
+        captionLayout="dropdown"
+        defaultMonth={new Date(1991, 4, 1)}
+        fromYear={1990}
+        id="date-of-birth"
+        label="Date of birth"
+        toYear={1992}
+      />
+    );
+
+    await user.click(screen.getByRole('combobox', { name: /date of birth, select date/i }));
+
+    const calendar = await screen.findByRole('dialog', { name: 'Date picker calendar' });
+    const yearSelect = within(calendar).getByRole('combobox', { name: /year/i });
+    const yearOptions = within(yearSelect)
+      .getAllByRole('option')
+      .map((option) => option.textContent);
+
+    expect(yearOptions).toEqual(['1990', '1991', '1992']);
+  });
+
+  it('updates the visible month and selected value from dropdown navigation', async () => {
+    const user = userEvent.setup();
+    render(
+      <DatePicker
+        captionLayout="dropdown"
+        defaultMonth={new Date(2024, 4, 1)}
+        fromYear={2020}
+        id="date-of-birth"
+        label="Date of birth"
+        toYear={2024}
+      />
+    );
+
+    await user.click(screen.getByRole('combobox', { name: /date of birth, select date/i }));
+
+    const calendar = await screen.findByRole('dialog', { name: 'Date picker calendar' });
+    const monthSelect = within(calendar).getByRole('combobox', { name: /month/i });
+    const yearSelect = within(calendar).getByRole('combobox', { name: /year/i });
+    await user.selectOptions(monthSelect, '1');
+    await user.selectOptions(yearSelect, '2020');
+
+    expect(monthSelect).toHaveValue('1');
+    expect(yearSelect).toHaveValue('2020');
+
+    await user.click(within(calendar).getByRole('gridcell', { name: '14' }));
+
+    expect(
+      screen.getByRole('combobox', {
+        name: /date of birth, selected date: friday, february 14th, 2020/i,
+      })
+    ).toHaveTextContent('14/02/2020');
+  });
+
   it('selects a date, closes the popover, and updates the hidden input', async () => {
     const user = userEvent.setup();
     render(
@@ -176,20 +271,97 @@ describe('DatePicker', () => {
     expect(within(calendar).getByRole('gridcell', { name: '21' })).toBeDisabled();
   });
 
-  it('wires error message via aria-describedby and aria-invalid', () => {
+  it('renders a danger inline alert with aria-describedby and aria-invalid', () => {
     render(
-      <DatePicker error="Choose a valid invoice date." id="invoice-date" label="Invoice date" />
+      <DatePicker
+        id="invoice-date"
+        inlineAlert={{ intent: 'danger', children: 'Choose a valid invoice date.' }}
+        label="Invoice date"
+      />
+    );
+
+    const trigger = screen.getByRole('combobox', { name: /invoice date, select date/i });
+    const inlineAlert = screen.getByRole('alert');
+
+    expect(trigger).toHaveAttribute('aria-invalid', 'true');
+    expect(trigger).toHaveAttribute('aria-describedby', 'invoice-date-inline-alert');
+    expect(inlineAlert).toHaveAttribute('id', 'invoice-date-inline-alert');
+    expect(inlineAlert).toHaveTextContent('Choose a valid invoice date.');
+  });
+
+  it('does not set aria-invalid for a non-danger inline alert', () => {
+    render(
+      <DatePicker
+        id="invoice-date"
+        inlineAlert={{ intent: 'success', children: 'Invoice date saved.' }}
+        label="Invoice date"
+      />
     );
 
     const trigger = screen.getByRole('combobox', { name: /invoice date, select date/i });
 
-    expect(trigger).toHaveAttribute('aria-invalid', 'true');
-    expect(trigger).toHaveAttribute('aria-describedby', 'invoice-date-error');
-    expect(screen.getByText('Choose a valid invoice date.')).toHaveAttribute('role', 'alert');
+    expect(trigger).not.toHaveAttribute('aria-invalid');
+    expect(trigger).toHaveAttribute('aria-describedby', 'invoice-date-inline-alert');
+  });
+
+  it('passes showIcon through to the inline alert', () => {
+    render(
+      <DatePicker
+        id="invoice-date"
+        inlineAlert={{
+          intent: 'danger',
+          children: 'Choose a valid invoice date.',
+          showIcon: false,
+        }}
+        label="Invoice date"
+      />
+    );
+
+    expect(screen.getByRole('alert').querySelector('svg')).not.toBeInTheDocument();
+  });
+
+  it('renders hint only when inlineAlert is absent', () => {
+    const { rerender } = render(
+      <DatePicker
+        hint="Use the calendar to select an invoice date."
+        id="invoice-date"
+        label="Invoice date"
+      />
+    );
+
+    expect(screen.getByText('Use the calendar to select an invoice date.')).toBeInTheDocument();
+
+    rerender(
+      <DatePicker
+        hint="Use the calendar to select an invoice date."
+        id="invoice-date"
+        inlineAlert={{ intent: 'danger', children: 'Choose a valid invoice date.' }}
+        label="Invoice date"
+      />
+    );
+
+    expect(
+      screen.queryByText('Use the calendar to select an invoice date.')
+    ).not.toBeInTheDocument();
   });
 
   it('has no accessibility violations in the default state', async () => {
     const { container } = render(<DatePicker id="invoice-date" label="Invoice date" />);
+
+    expect(await axe(container)).toHaveNoViolations();
+  });
+
+  it('has no accessibility violations in dropdown navigation mode', async () => {
+    const { container } = render(
+      <DatePicker
+        captionLayout="dropdown"
+        defaultMonth={new Date(2024, 4, 1)}
+        fromYear={1990}
+        id="date-of-birth"
+        label="Date of birth"
+        toYear={2024}
+      />
+    );
 
     expect(await axe(container)).toHaveNoViolations();
   });

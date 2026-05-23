@@ -13,6 +13,12 @@ const DEFAULT_EMPTY_STATE_BODY = 'Find components by name or path.';
 const SEARCH_EMPTY_STATE_TITLE = 'No search results';
 const SEARCH_EMPTY_STATE_BODY = 'Try a different component name or story path.';
 const SEARCH_FIELD_ID = 'storybook-explorer-searchfield';
+const SEARCH_INPUT_SELECTOR = [
+  `#${SEARCH_FIELD_ID}`,
+  'input[type="search"]',
+  '[role="searchbox"]',
+  '[data-testid="sidebar-search-input"]',
+].join(', ');
 
 const managerTheme = create({
   base: 'light',
@@ -58,9 +64,11 @@ const syncSidebarSearchUi = () => {
     return;
   }
 
-  const searchInput = document.getElementById(SEARCH_FIELD_ID);
+  const searchInput = document.querySelector<HTMLElement>(SEARCH_INPUT_SELECTOR);
   const searchRow =
     searchInput?.closest<HTMLElement>('.search-field') ??
+    searchInput?.closest<HTMLElement>('[role="search"]') ??
+    searchInput?.closest<HTMLElement>('form') ??
     searchInput?.closest<HTMLElement>('[class]');
 
   if (searchRow) {
@@ -114,17 +122,30 @@ const observeSidebarSearchUi = () => {
     return;
   }
 
-  syncSidebarSearchUi();
-
-  const observer = new MutationObserver(() => {
+  const startObserving = () => {
     syncSidebarSearchUi();
-  });
 
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true,
-    characterData: true,
-  });
+    if (!document.body) {
+      return;
+    }
+
+    const observer = new MutationObserver(() => {
+      syncSidebarSearchUi();
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+    });
+  };
+
+  if (document.body) {
+    startObserving();
+    return;
+  }
+
+  document.addEventListener('DOMContentLoaded', startObserving, { once: true });
 };
 
 syncManagerTheme();

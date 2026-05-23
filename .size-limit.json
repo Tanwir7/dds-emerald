@@ -1,0 +1,32 @@
+[
+  {
+    "name": "@dds/emerald (ESM)",
+    "path": "packages/components/dist/index.js",
+    "limit": "200 KB",
+    "gzip": true
+  },
+  {
+    "name": "@dds/emerald (CJS)",
+    "path": "packages/components/dist/index.cjs",
+    "limit": "185 KB",
+    "gzip": true
+  },
+  {
+    "name": "@dds/emerald styles",
+    "path": "packages/components/dist/styles.css",
+    "limit": "40 KB",
+    "gzip": true
+  },
+  {
+    "name": "@dds/emerald-tokens (ESM)",
+    "path": "packages/tokens/dist/index.js",
+    "limit": "3 KB",
+    "gzip": true
+  },
+  {
+    "name": "@dds/emerald-tokens styles",
+    "path": "packages/tokens/dist/tokens.css",
+    "limit": "6 KB",
+    "gzip": true
+  }
+]

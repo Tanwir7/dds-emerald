@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, userEvent, waitFor, within } from 'storybook/test';
 import { storySource, storySourceParameters } from '../../utils/storySource';
 import { Button } from '../Button';
 import { Field } from '../Field';
@@ -98,11 +99,35 @@ export const Default: Story = {
 export const OpenAndClose: Story = {
   render: () => renderDialogStory(),
   parameters: storySourceParameters('<Dialog>...</Dialog>'),
+  play: async ({ canvasElement }) => {
+    const trigger = within(canvasElement).getByRole('button', { name: 'Open Dialog' });
+    await userEvent.click(trigger);
+
+    const dialog = await within(document.body).findByRole('dialog');
+    await expect(dialog).toBeInTheDocument();
+
+    await userEvent.click(within(dialog).getByRole('button', { name: 'Close dialog' }));
+    await waitFor(() =>
+      expect(within(document.body).queryByRole('dialog')).not.toBeInTheDocument()
+    );
+  },
 };
 
 export const EscapeClose: Story = {
   render: () => renderDialogStory(),
   parameters: storySourceParameters('<Dialog>...</Dialog>'),
+  play: async ({ canvasElement }) => {
+    const trigger = within(canvasElement).getByRole('button', { name: 'Open Dialog' });
+    await userEvent.click(trigger);
+
+    const dialog = await within(document.body).findByRole('dialog');
+    await expect(dialog).toBeInTheDocument();
+
+    await userEvent.keyboard('{Escape}');
+    await waitFor(() =>
+      expect(within(document.body).queryByRole('dialog')).not.toBeInTheDocument()
+    );
+  },
 };
 
 export const Sizes: Story = {

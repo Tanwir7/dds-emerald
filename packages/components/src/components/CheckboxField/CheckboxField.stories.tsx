@@ -188,3 +188,26 @@ export const AllSlots: Story = {
     )
   ),
 };
+
+export const ConsentLinks: Story = {
+  args: {
+    label: (
+      <>
+        I agree to the <a href="/terms">Terms of Service</a> and{' '}
+        <a href="/privacy">Privacy Policy</a>.
+      </>
+    ),
+    required: true,
+  },
+  parameters: storySourceParameters(
+    storySource(
+      '<CheckboxField',
+      '  required',
+      '  label={<>',
+      '    I agree to the <a href="/terms">Terms of Service</a> and{" "}',
+      '    <a href="/privacy">Privacy Policy</a>.',
+      '  </>}',
+      '/>'
+    )
+  ),
+};

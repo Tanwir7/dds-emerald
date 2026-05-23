@@ -13,9 +13,10 @@ const componentDescription = `PasswordInput composes Input with a trailing visib
 
 - Keyboard: Tab reaches the input first and the visibility toggle second; Enter and Space activate the toggle.
 - Screen readers: the toggle announces itself as "Show password" or "Hide password" as state changes.
+- Optional strength feedback: set \`showPasswordStrength\` to render a built-in four-bar meter after the user starts typing.
 - Focus: the toggle keeps its own focus ring and remains operable for disabled and read-only prefilled fields.
 - Designers: provide an external visible label with Label and use helper and error text through normal input relationships.
-- QA: verify toggle state, form-submission prevention, disabled and read-only behavior, and visible-label variants.`;
+- QA: verify toggle state, form-submission prevention, disabled and read-only behavior, strength-state updates, and visible-label variants.`;
 
 const renderField = (
   args: ComponentProps<typeof PasswordInput>,
@@ -52,6 +53,7 @@ const meta: Meta<typeof PasswordInput> = {
     size: 'md',
     invalid: false,
     showToggleLabel: false,
+    showPasswordStrength: false,
   },
   argTypes: {
     size: {
@@ -62,6 +64,9 @@ const meta: Meta<typeof PasswordInput> = {
       control: 'boolean',
     },
     showToggleLabel: {
+      control: 'boolean',
+    },
+    showPasswordStrength: {
       control: 'boolean',
     },
   },
@@ -180,6 +185,24 @@ export const ShowToggleLabel: Story = {
     storySource(
       '<Label htmlFor="password">Password</Label>',
       '<PasswordInput id="password" placeholder="Enter password" showToggleLabel />'
+    )
+  ),
+};
+
+export const WithStrength: Story = {
+  args: {
+    defaultValue: 'Abcdefg1!',
+    showPasswordStrength: true,
+  },
+  parameters: storySourceParameters(
+    storySource(
+      '<Label htmlFor="password">Password</Label>',
+      '<PasswordInput',
+      '  id="password"',
+      '  placeholder="Enter password"',
+      '  defaultValue="Abcdefg1!"',
+      '  showPasswordStrength',
+      '/>'
     )
   ),
 };

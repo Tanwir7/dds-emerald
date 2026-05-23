@@ -24,6 +24,7 @@ const meta: Meta<typeof Label> = {
     required: false,
     disabled: false,
     size: 'sm',
+    layout: 'inline',
   },
   argTypes: {
     required: {
@@ -35,6 +36,10 @@ const meta: Meta<typeof Label> = {
     size: {
       control: 'inline-radio',
       options: ['sm', 'base'],
+    },
+    layout: {
+      control: 'inline-radio',
+      options: ['inline', 'wrap'],
     },
   },
 };
@@ -113,6 +118,29 @@ export const WithInput: Story = {
       '  aria-required="true"',
       '  placeholder="name@example.com"',
       '/>'
+    )
+  ),
+};
+
+export const WrappedRichContent: Story = {
+  render: () => (
+    <div className={storyStyles.storyA11yScope}>
+      <div className={storyStyles.storyField}>
+        <Label htmlFor="storybook-consent" layout="wrap" required>
+          I agree to the <a href="/terms">Terms of Service</a> and{' '}
+          <a href="/privacy">Privacy Policy</a>.
+        </Label>
+        <Input id="storybook-consent" aria-required="true" />
+      </div>
+    </div>
+  ),
+  parameters: storySourceParameters(
+    storySource(
+      '<Label htmlFor="consent" layout="wrap" required>',
+      '  I agree to the <a href="/terms">Terms of Service</a> and{" "}',
+      '  <a href="/privacy">Privacy Policy</a>.',
+      '</Label>',
+      '<Input id="consent" aria-required="true" />'
     )
   ),
 };

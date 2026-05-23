@@ -62,10 +62,10 @@ export interface DialogCloseProps extends React.ButtonHTMLAttributes<HTMLButtonE
 }
 
 const sizeMap: Record<DialogSize, string> = {
-  sm: '400px',
-  md: '560px',
-  lg: '720px',
-  xl: '960px',
+  sm: 'var(--dds-dialog-width-sm)',
+  md: 'var(--dds-dialog-width-md)',
+  lg: 'var(--dds-dialog-width-lg)',
+  xl: 'var(--dds-dialog-width-xl)',
   fullscreen: '100vw',
 };
 

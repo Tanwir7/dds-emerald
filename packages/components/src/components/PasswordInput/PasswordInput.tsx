@@ -16,7 +16,10 @@ export interface PasswordInputProps extends Omit<
   | 'onEndIconClick'
 > {
   showToggleLabel?: boolean;
+  showPasswordStrength?: boolean;
 }
+
+type PasswordStrength = 0 | 1 | 2 | 3 | 4;
 
 const toggleSizeClassName: Record<'sm' | 'md', string> = {
   sm: getRequiredClassName(styles, 'toggleButtonSm'),
@@ -24,6 +27,40 @@ const toggleSizeClassName: Record<'sm' | 'md', string> = {
 };
 
 const resolveToggleSize = (size: InputSize) => (size === 'lg' ? 'md' : 'sm');
+
+const strengthLabels: Record<PasswordStrength, string> = {
+  0: '',
+  1: 'Weak',
+  2: 'Fair',
+  3: 'Good',
+  4: 'Strong',
+};
+
+const getPasswordStrength = (password: string): PasswordStrength => {
+  if (password.length === 0) {
+    return 0;
+  }
+
+  let score = 0;
+
+  if (password.length >= 8) {
+    score += 1;
+  }
+
+  if (/[A-Z]/.test(password)) {
+    score += 1;
+  }
+
+  if (/[0-9]/.test(password)) {
+    score += 1;
+  }
+
+  if (/[^A-Za-z0-9]/.test(password)) {
+    score += 1;
+  }
+
+  return score as PasswordStrength;
+};
 
 const EyeIcon = () => (
   <svg
@@ -61,35 +98,112 @@ const EyeOffIcon = () => (
 );
 
 export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
-  ({ size = 'md', invalid = false, showToggleLabel = false, className, ...props }, ref) => {
+  (
+    {
+      size = 'md',
+      invalid = false,
+      showToggleLabel = false,
+      showPasswordStrength = false,
+      className,
+      value,
+      defaultValue,
+      onChange,
+      'aria-describedby': ariaDescribedBy,
+      ...props
+    },
+    ref
+  ) => {
     const [visible, setVisible] = React.useState(false);
+    const [uncontrolledValue, setUncontrolledValue] = React.useState(() =>
+      typeof defaultValue === 'string' ? defaultValue : ''
+    );
+    const strengthId = React.useId();
     const toggleSize = resolveToggleSize(size);
     const toggleLabel = visible ? 'Hide password' : 'Show password';
+    const currentValue = typeof value === 'string' ? value : uncontrolledValue;
+    const strength =
+      currentValue.length > 0
+        ? (Math.max(getPasswordStrength(currentValue), 1) as PasswordStrength)
+        : 0;
+    const showStrength = showPasswordStrength && strength > 0;
+    const strengthLabel = strengthLabels[strength];
+    const describedBy = [ariaDescribedBy, showStrength ? strengthId : undefined]
+      .filter(Boolean)
+      .join(' ');
 
     return (
-      <Input
-        {...props}
-        ref={ref}
-        type={visible ? 'text' : 'password'}
-        size={size}
-        invalid={invalid}
-        className={clsx(styles.root, className)}
-        endAdornmentInteractive
-        endAdornmentWidth={showToggleLabel ? 'wide' : 'default'}
-        endAdornment={
-          <button
-            type="button"
-            aria-label={toggleLabel}
-            className={clsx(styles.toggleButton, toggleSizeClassName[toggleSize])}
-            onClick={() => setVisible((currentVisible) => !currentVisible)}
-          >
-            <span className={styles.toggleIcon}>{visible ? <EyeOffIcon /> : <EyeIcon />}</span>
-            {showToggleLabel ? (
-              <span className={styles.toggleLabel}>{visible ? 'Hide' : 'Show'}</span>
-            ) : null}
-          </button>
-        }
-      />
+      <div className={styles.field}>
+        <Input
+          {...props}
+          ref={ref}
+          aria-describedby={describedBy || undefined}
+          type={visible ? 'text' : 'password'}
+          size={size}
+          invalid={invalid}
+          value={value}
+          defaultValue={defaultValue}
+          onChange={(event) => {
+            if (typeof value !== 'string') {
+              setUncontrolledValue(event.currentTarget.value);
+            }
+
+            onChange?.(event);
+          }}
+          className={clsx(styles.root, className)}
+          endAdornmentInteractive
+          endAdornmentWidth={showToggleLabel ? 'wide' : 'default'}
+          endAdornment={
+            <button
+              type="button"
+              aria-label={toggleLabel}
+              className={clsx(styles.toggleButton, toggleSizeClassName[toggleSize])}
+              onClick={() => setVisible((currentVisible) => !currentVisible)}
+            >
+              <span className={styles.toggleIcon}>{visible ? <EyeOffIcon /> : <EyeIcon />}</span>
+              {showToggleLabel ? (
+                <span className={styles.toggleLabel}>{visible ? 'Hide' : 'Show'}</span>
+              ) : null}
+            </button>
+          }
+        />
+        {showStrength ? (
+          <div className={styles.strengthBlock}>
+            <div className={styles.strengthMeter}>
+              <div className={styles.strengthBars}>
+                {[1, 2, 3, 4].map((level) => (
+                  <span
+                    key={level}
+                    aria-hidden="true"
+                    className={clsx(
+                      styles.strengthBar,
+                      strength >= level && strength === 4 && styles.strengthBarActiveSuccess,
+                      strength >= level && strength === 3 && styles.strengthBarActiveInfo,
+                      strength >= level && strength === 2 && styles.strengthBarActiveWarning,
+                      strength >= level && strength === 1 && styles.strengthBarActiveDanger
+                    )}
+                    data-active={strength >= level ? 'true' : 'false'}
+                    data-password-strength-bar="true"
+                  />
+                ))}
+              </div>
+              <span
+                className={clsx(
+                  styles.strengthLabel,
+                  strength === 4 && styles.strengthLabelSuccess,
+                  strength === 3 && styles.strengthLabelInfo,
+                  strength === 2 && styles.strengthLabelWarning,
+                  strength === 1 && styles.strengthLabelDanger
+                )}
+              >
+                Password strength: {strengthLabel}
+              </span>
+            </div>
+            <span aria-live="polite" className={styles.srOnly} id={strengthId}>
+              Password strength: {strengthLabel}
+            </span>
+          </div>
+        ) : null}
+      </div>
     );
   }
 );

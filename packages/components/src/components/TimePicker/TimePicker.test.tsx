@@ -167,11 +167,11 @@ describe('TimePicker', () => {
     expect(screen.getByRole('combobox', { name: 'Minute' })).toBeDisabled();
   });
 
-  it('renders error and wires group and select accessibility attributes', () => {
+  it('renders a danger inline alert and wires group and select accessibility attributes', () => {
     render(
       <TimePicker
-        error="Please select a valid time."
         id="appointment-time"
+        inlineAlert={{ intent: 'danger', children: 'Please select a valid time.' }}
         label="Appointment time"
         required
       />
@@ -179,18 +179,99 @@ describe('TimePicker', () => {
 
     const group = screen.getByRole('group', { name: 'Appointment time' });
     const hourSelect = screen.getByRole('combobox', { name: 'Hour' });
+    const inlineAlert = screen.getByRole('alert');
 
-    expect(group).toHaveAttribute('aria-describedby', 'appointment-time-error');
+    expect(group).toHaveAttribute('aria-describedby', 'appointment-time-inline-alert');
     expect(hourSelect).toHaveAttribute('aria-invalid', 'true');
-    expect(hourSelect).toHaveAttribute('aria-describedby', 'appointment-time-error');
+    expect(hourSelect).toHaveAttribute('aria-describedby', 'appointment-time-inline-alert');
     expect(hourSelect).toBeRequired();
-    expect(screen.getByText('Please select a valid time.')).toHaveAttribute('role', 'alert');
+    expect(inlineAlert).toHaveAttribute('id', 'appointment-time-inline-alert');
+    expect(inlineAlert).toHaveTextContent('Please select a valid time.');
+  });
+
+  it('does not set aria-invalid for non-danger inline alerts', () => {
+    render(
+      <TimePicker
+        id="appointment-time"
+        inlineAlert={{ intent: 'success', children: 'Time saved.' }}
+        label="Appointment time"
+      />
+    );
+
+    expect(screen.getByRole('group', { name: 'Appointment time' })).toHaveAttribute(
+      'aria-describedby',
+      'appointment-time-inline-alert'
+    );
+    expect(screen.getByRole('combobox', { name: 'Hour' })).not.toHaveAttribute('aria-invalid');
+  });
+
+  it('passes showIcon through to the inline alert', () => {
+    render(
+      <TimePicker
+        id="appointment-time"
+        inlineAlert={{ intent: 'danger', children: 'Please select a valid time.', showIcon: false }}
+        label="Appointment time"
+      />
+    );
+
+    expect(screen.getByRole('alert').querySelector('svg')).not.toBeInTheDocument();
+  });
+
+  it('renders hint only when inlineAlert is absent', () => {
+    const { rerender } = render(
+      <TimePicker
+        hint="Opening hours: 09:00-17:00"
+        id="appointment-time"
+        label="Appointment time"
+      />
+    );
+
+    expect(screen.getByText('Opening hours: 09:00-17:00')).toBeInTheDocument();
+
+    rerender(
+      <TimePicker
+        hint="Opening hours: 09:00-17:00"
+        id="appointment-time"
+        inlineAlert={{ intent: 'danger', children: 'Please select a valid time.' }}
+        label="Appointment time"
+      />
+    );
+
+    expect(screen.queryByText('Opening hours: 09:00-17:00')).not.toBeInTheDocument();
   });
 
   it('has no accessibility violations in the default state', async () => {
     const { container } = render(<TimePicker id="appointment-time" label="Appointment time" />);
 
     expect(await axe(container)).toHaveNoViolations();
+  });
+
+  it('reverts the draft to the controlled value when a parent rejects a segment change', async () => {
+    const user = userEvent.setup();
+
+    // Parent holds state but rejects all changes by resetting to the original value.
+    // Setting state with a new object reference causes a re-render, which fires the
+    // sync effect and allows TimePicker to detect that the value didn't actually change.
+    const RejectorPicker = () => {
+      const [value, setValue] = React.useState({ hours: 10, minutes: 30 });
+      return (
+        <TimePicker
+          id="appointment-time"
+          label="Appointment time"
+          onChange={() => {
+            setValue({ hours: 10, minutes: 30 });
+          }}
+          value={value}
+        />
+      );
+    };
+
+    render(<RejectorPicker />);
+
+    const hourSelect = screen.getByRole('combobox', { name: 'Hour' });
+    await user.selectOptions(hourSelect, '11');
+
+    expect(hourSelect).toHaveValue('10');
   });
 
   it('has no accessibility violations in 12-hour seconds mode', async () => {

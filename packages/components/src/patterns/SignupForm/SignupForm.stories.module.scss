@@ -1,0 +1,52 @@
+@use '../../styles/breakpoints' as *;
+
+.storyA11yScope {
+  width: 100%;
+  min-height: 100%;
+  padding: var(--dds-space-4);
+  background: var(--dds-color-bg-default);
+  color: var(--dds-color-text-default);
+  font-family: var(--dds-font-sans);
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+
+.storyShell {
+  width: min(100%, 42rem);
+  margin: 0 auto;
+}
+
+.formCard,
+.successCard {
+  width: 100%;
+}
+
+.formHeader,
+.sectionStack,
+.submitArea,
+.successState {
+  min-width: 0;
+}
+
+.formSubtitle {
+  margin: 0;
+}
+
+.dateField,
+.selectField {
+  min-width: 0;
+}
+
+.successState {
+  display: grid;
+  gap: var(--dds-space-3);
+}
+
+.successMessage {
+  margin: 0;
+}
+
+@include respond-to(md) {
+  .storyA11yScope {
+    padding: var(--dds-space-6);
+  }
+}

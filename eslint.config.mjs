@@ -9,5 +9,11 @@ const componentFiles = ['packages/components/**/*.{ts,tsx}', 'apps/docs/**/*.{ts
 const componentStoryFiles = ['packages/components/**/*.stories.tsx'];
 
 export default [{
-  ignores: ['**/dist/**', '**/coverage/**', '**/node_modules/**'],
+  ignores: [
+    '**/.next/**',
+    '**/dist/**',
+    '**/coverage/**',
+    '**/node_modules/**',
+    '**/storybook-static/**',
+  ],
 }, ...withFiles(base, ['packages/tokens/**/*.ts', 'tooling/**/*.ts']), ...withFiles(react, componentFiles), ...withFiles(storybook.configs["flat/recommended"], componentStoryFiles)];

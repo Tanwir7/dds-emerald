@@ -3,6 +3,19 @@
   "version": "0.1.0",
   "description": "Design tokens for the DDS Emerald design system",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tanwir7/dds-emerald.git",
+    "directory": "packages/tokens"
+  },
+  "homepage": "https://github.com/Tanwir7/dds-emerald#readme",
+  "bugs": {
+    "url": "https://github.com/Tanwir7/dds-emerald/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "type": "module",
   "exports": {
     ".": {
@@ -13,7 +26,8 @@
     "./fonts": "./dist/fonts.css"
   },
   "files": [
-    "dist"
+    "dist",
+    "LICENSE"
   ],
   "sideEffects": [
     "**/*.css"
@@ -21,9 +35,11 @@
   "scripts": {
     "build": "tsup && node scripts/check-dist.mjs",
     "check:dist": "node scripts/check-dist.mjs",
+    "generate": "node scripts/generate-tokens.mjs",
     "lint": "pnpm --dir ../.. exec eslint packages/tokens",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "test:contrast": "node scripts/check-contrast.mjs",
     "clean": "rm -rf dist"
   },
   "devDependencies": {

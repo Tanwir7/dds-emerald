@@ -4,12 +4,14 @@ import { format, isValid } from 'date-fns';
 import type { Locale } from 'date-fns';
 import { enUS } from 'date-fns/locale';
 import { Calendar, X } from 'lucide-react';
-import type { Matcher } from 'react-day-picker';
+import type { CaptionLayout, Matcher } from 'react-day-picker';
 import { Label } from '../Label';
 import { Text } from '../Text';
 import { Icon } from '../Icon';
+import { InlineAlert } from '../InlineAlert';
 import { Popover, PopoverContent, PopoverTrigger } from '../Popover';
 import { getRequiredClassName } from '../../utils/getRequiredClassName';
+import type { FieldInlineAlert } from '../../types/fieldInlineAlert';
 import { CalendarPanel } from './CalendarPanel';
 import styles from './DatePicker.module.scss';
 
@@ -30,13 +32,16 @@ export interface DatePickerProps {
   defaultMonth?: Date;
   month?: Date;
   onMonthChange?: (month: Date) => void;
+  captionLayout?: CaptionLayout;
+  fromYear?: number;
+  toYear?: number;
   id?: string;
   name?: string;
   label?: string;
   required?: boolean;
   disabled?: boolean;
   readOnly?: boolean;
-  error?: string;
+  inlineAlert?: FieldInlineAlert;
   hint?: string;
   clearable?: boolean;
   inputClassName?: string;
@@ -173,13 +178,16 @@ export const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
       defaultMonth,
       month,
       onMonthChange,
+      captionLayout = 'buttons',
+      fromYear,
+      toYear,
       id,
       name,
       label,
       required = false,
       disabled = false,
       readOnly = false,
-      error,
+      inlineAlert,
       hint,
       clearable = true,
       inputClassName,
@@ -196,10 +204,10 @@ export const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
     const isControlled = value !== undefined;
     const selectedDate = isControlled ? value : uncontrolledValue;
     const labelId = label ? `${triggerId}-label` : undefined;
-    const errorId = error ? `${triggerId}-error` : undefined;
-    const hintId = hint && !error ? `${triggerId}-hint` : undefined;
+    const inlineAlertId = inlineAlert ? `${triggerId}-inline-alert` : undefined;
+    const hintId = hint && !inlineAlert ? `${triggerId}-hint` : undefined;
     const valueTextId = `${triggerId}-value`;
-    const describedBy = [errorId, hintId].filter(Boolean).join(' ') || undefined;
+    const describedBy = [inlineAlertId, hintId].filter(Boolean).join(' ') || undefined;
     const calendarId = `${triggerId}-calendar`;
     const disabledMatcher = buildDisabledMatchers({
       minDate,
@@ -213,6 +221,7 @@ export const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
     const hiddenInputValue = selectedDate ? format(selectedDate, 'yyyy-MM-dd') : '';
     const canClear = clearable && Boolean(selectedDate) && !disabled && !readOnly;
     const initialMonth = defaultMonth ?? selectedDate ?? null;
+    const isInvalid = inlineAlert?.intent === 'danger';
 
     const handleOpenChange = (nextOpen: boolean) => {
       if (disabled || readOnly) {
@@ -271,7 +280,10 @@ export const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
       ...(initialMonth ? { defaultMonth: initialMonth } : {}),
       ...(month ? { month } : {}),
       ...(onMonthChange ? { onMonthChange } : {}),
+      captionLayout,
+      ...(fromYear !== undefined ? { fromYear } : {}),
       ...(selectedDate ? { selected: selectedDate } : {}),
+      ...(toYear !== undefined ? { toYear } : {}),
       ...(weekStartsOn !== undefined ? { weekStartsOn } : {}),
     };
 
@@ -292,13 +304,13 @@ export const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
                 aria-describedby={describedBy}
                 aria-expanded={open}
                 aria-haspopup="dialog"
-                aria-invalid={error ? true : undefined}
+                aria-invalid={isInvalid ? true : undefined}
                 aria-label={triggerLabel}
                 aria-readonly={readOnly ? true : undefined}
                 canClear={canClear}
                 className={inputClassName}
                 disabled={disabled}
-                hasError={Boolean(error)}
+                hasError={isInvalid}
                 id={triggerId}
                 onClick={handleTriggerClick}
                 placeholder={placeholder}
@@ -336,17 +348,15 @@ export const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
           <input disabled={disabled} name={name} type="hidden" value={hiddenInputValue} />
         ) : null}
 
-        {error ? (
-          <Text
-            as="p"
+        {inlineAlert ? (
+          <InlineAlert
             className={classNames.message}
-            color="danger"
-            id={errorId}
-            size="xs"
-            role="alert"
+            id={inlineAlertId}
+            intent={inlineAlert.intent}
+            {...(inlineAlert.showIcon !== undefined ? { showIcon: inlineAlert.showIcon } : {})}
           >
-            {error}
-          </Text>
+            {inlineAlert.children}
+          </InlineAlert>
         ) : null}
 
         {hintId ? (

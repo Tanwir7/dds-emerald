@@ -1,6 +1,11 @@
 {
   "name": "dds-emerald-monorepo",
   "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tanwir7/dds-emerald.git"
+  },
   "packageManager": "pnpm@10.33.0",
   "scripts": {
     "build": "turbo run build",
@@ -12,10 +17,15 @@
     "test:storybook:coverage": "pnpm --dir apps/docs test:coverage",
     "typecheck": "turbo run typecheck",
     "clean": "turbo run clean",
+    "stylelint": "stylelint \"packages/**/src/**/*.{css,scss}\"",
+    "api:check": "api-extractor run -c packages/components/api-extractor.json && api-extractor run -c packages/tokens/api-extractor.json",
+    "api:update": "api-extractor run --local -c packages/components/api-extractor.json && api-extractor run --local -c packages/tokens/api-extractor.json",
+    "size": "size-limit",
     "docs:generate-colors": "pnpm --dir apps/docs generate:colors",
     "docs:generate-tokens": "pnpm --dir apps/docs generate:tokens",
     "docs:generate": "pnpm --dir apps/docs generate:docs",
     "docs:check": "pnpm docs:generate && git diff --exit-code -- apps/docs/src/docs/Colors.mdx apps/docs/src/docs/Tokens.mdx",
+    "tokens:check": "pnpm --filter @dds/emerald-tokens generate && git diff --exit-code -- packages/tokens/src/tokens.ts",
     "prepare": "husky"
   },
   "devDependencies": {
@@ -23,11 +33,16 @@
     "@changesets/cli": "^2.30.0",
     "@commitlint/cli": "^19.x.x",
     "@commitlint/config-conventional": "^19.x.x",
+    "@dds/stylelint-config": "workspace:*",
+    "@microsoft/api-extractor": "^7.58.7",
+    "@size-limit/file": "^12.1.0",
     "eslint": "^9.39.4",
-    "eslint-plugin-storybook": "^10.3.6",
+    "eslint-plugin-storybook": "^10.4.0",
     "husky": "^9.x.x",
     "lint-staged": "^15.x.x",
     "prettier": "^3.x.x",
+    "size-limit": "^12.1.0",
+    "stylelint": "^17.0.0",
     "turbo": "^2.x.x",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.57.2"
@@ -50,7 +65,11 @@
       "eslint --fix",
       "prettier --write"
     ],
-    "*.{css,scss,md,json}": [
+    "*.{css,scss}": [
+      "stylelint --fix",
+      "prettier --write"
+    ],
+    "*.{md,json}": [
       "prettier --write"
     ]
   }

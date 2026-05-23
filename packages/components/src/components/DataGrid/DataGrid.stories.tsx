@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, userEvent, waitFor, within } from 'storybook/test';
 import { Eye, Pencil, Trash2 } from 'lucide-react';
 import React from 'react';
 import storyStyles from './DataGrid.stories.module.scss';
@@ -90,6 +91,14 @@ export const Default: Story = {
   parameters: storySourceParameters(
     `<DataGrid aria-label="Invoices data grid" columns={columns} data={rows} getRowId={(row) => row.id} />`
   ),
+  play: async ({ canvasElement }) => {
+    const grid = within(canvasElement).getByRole('grid', { name: 'Invoices data grid' });
+    const accountHeader = within(grid).getByRole('columnheader', { name: /Account/ });
+    await expect(accountHeader).toHaveAttribute('aria-sort', 'none');
+
+    await userEvent.click(within(grid).getByRole('button', { name: /^Sort by Account/ }));
+    await waitFor(() => expect(accountHeader).toHaveAttribute('aria-sort', 'ascending'));
+  },
 };
 
 export const SelectableRows: Story = {
@@ -110,6 +119,16 @@ export const SelectableRows: Story = {
   parameters: storySourceParameters(
     `<DataGrid aria-label="Selectable invoices data grid" columns={columns} data={rows} enableRowSelection rowActions={rowActions} />`
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const firstRow = canvas.getByRole('checkbox', { name: 'Select row 1' });
+    await expect(firstRow).not.toBeChecked();
+    await userEvent.click(firstRow);
+    await expect(firstRow).toBeChecked();
+
+    await userEvent.click(canvas.getByRole('checkbox', { name: 'Select all rows' }));
+    await expect(canvas.getByRole('checkbox', { name: 'Select row 4' })).toBeChecked();
+  },
 };
 
 export const ExpandableRows: Story = {
