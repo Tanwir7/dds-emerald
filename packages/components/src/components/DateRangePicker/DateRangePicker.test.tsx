@@ -2,6 +2,7 @@ import '@testing-library/jest-dom/vitest';
 import { cleanup, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe, toHaveNoViolations } from 'jest-axe';
+import React from 'react';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { DateRangePicker } from './DateRangePicker';
 
@@ -320,6 +321,75 @@ describe('DateRangePicker', () => {
     expect(
       screen.queryByText('Select a departure date and then a return date.')
     ).not.toBeInTheDocument();
+  });
+
+  it('fires onChange with partial range when the start date is clicked in controlled mode', async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    render(
+      <DateRangePicker
+        defaultMonth={new Date(2026, 4, 1)}
+        id="travel-dates"
+        label="Travel dates"
+        onChange={onChange}
+        value={{ from: undefined, to: undefined }}
+      />
+    );
+
+    await user.click(
+      screen.getByRole('combobox', { name: /travel dates, start date, start date/i })
+    );
+
+    const calendar = await screen.findByRole('dialog', { name: 'Date picker calendar' });
+    await user.click(getCalendarDay(calendar, '10'));
+
+    expect(onChange).toHaveBeenCalledWith({ from: new Date(2026, 4, 10), to: undefined });
+  });
+
+  it('fires onChange with full range after parent updates controlled value to partial range', async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+
+    const ControlledPicker = () => {
+      const [value, setValue] = React.useState<{ from: Date | undefined; to: Date | undefined }>({
+        from: undefined,
+        to: undefined,
+      });
+
+      return (
+        <DateRangePicker
+          defaultMonth={new Date(2026, 4, 1)}
+          id="travel-dates"
+          label="Travel dates"
+          onChange={(range) => {
+            setValue(range);
+            onChange(range);
+          }}
+          value={value}
+        />
+      );
+    };
+
+    render(<ControlledPicker />);
+
+    await user.click(
+      screen.getByRole('combobox', { name: /travel dates, start date, start date/i })
+    );
+
+    const calendar = await screen.findByRole('dialog', { name: 'Date picker calendar' });
+    await user.click(getCalendarDay(calendar, '10'));
+    await user.click(getCalendarDay(calendar, '16'));
+
+    await waitFor(() => {
+      expect(
+        screen.queryByRole('dialog', { name: 'Date picker calendar' })
+      ).not.toBeInTheDocument();
+    });
+
+    expect(onChange).toHaveBeenLastCalledWith({
+      from: new Date(2026, 4, 10),
+      to: new Date(2026, 4, 16),
+    });
   });
 
   it('has no accessibility violations in the default state', async () => {

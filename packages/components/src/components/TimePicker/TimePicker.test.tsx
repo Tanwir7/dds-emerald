@@ -246,6 +246,34 @@ describe('TimePicker', () => {
     expect(await axe(container)).toHaveNoViolations();
   });
 
+  it('reverts the draft to the controlled value when a parent rejects a segment change', async () => {
+    const user = userEvent.setup();
+
+    // Parent holds state but rejects all changes by resetting to the original value.
+    // Setting state with a new object reference causes a re-render, which fires the
+    // sync effect and allows TimePicker to detect that the value didn't actually change.
+    const RejectorPicker = () => {
+      const [value, setValue] = React.useState({ hours: 10, minutes: 30 });
+      return (
+        <TimePicker
+          id="appointment-time"
+          label="Appointment time"
+          onChange={() => {
+            setValue({ hours: 10, minutes: 30 });
+          }}
+          value={value}
+        />
+      );
+    };
+
+    render(<RejectorPicker />);
+
+    const hourSelect = screen.getByRole('combobox', { name: 'Hour' });
+    await user.selectOptions(hourSelect, '11');
+
+    expect(hourSelect).toHaveValue('10');
+  });
+
   it('has no accessibility violations in 12-hour seconds mode', async () => {
     const { container } = render(
       <TimePicker

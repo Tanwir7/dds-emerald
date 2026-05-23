@@ -283,12 +283,14 @@ export const DateRangePicker = React.forwardRef<HTMLDivElement, DateRangePickerP
     const handleDayClick = (day: Date) => {
       if (selectionPhase === 'from' || !normalizedRange.from || normalizedRange.to) {
         setRangeValue({ from: day, to: undefined });
+        onChange?.({ from: day, to: undefined });
         setSelectionPhase('to');
         return;
       }
 
       if (isBefore(day, normalizedRange.from)) {
         setRangeValue({ from: day, to: undefined });
+        onChange?.({ from: day, to: undefined });
         setSelectionPhase('to');
         return;
       }

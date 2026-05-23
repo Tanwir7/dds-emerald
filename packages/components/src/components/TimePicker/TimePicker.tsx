@@ -406,9 +406,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
 
         const nextValue = getCompleteValue(nextDraft);
 
-        if (!isControlled) {
-          lastControlledValue.current = getSerializedValue(nextValue, precision);
-        }
+        lastControlledValue.current = getSerializedValue(nextValue, precision);
 
         onChange?.(nextValue);
         return nextDraft;

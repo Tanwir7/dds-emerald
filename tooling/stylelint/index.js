@@ -3,7 +3,9 @@
  *
  * Scope is intentionally narrow: mechanically enforce the one styling rule
  * that review can't reliably catch — "no hardcoded color values; use --dds-*
- * tokens / OKLCH" (AGENTS.md). Formatting and SCSS conventions are owned by
+ * tokens" (AGENTS.md). Raw oklch() literals are blocked; the relative-color
+ * form oklch(from var(--dds-*) l c h / alpha) is allowed because it is
+ * tethered to a token. Formatting and SCSS conventions are owned by
  * Prettier and code review, so the opinionated stylistic rulesets are NOT
  * pulled in (they would flag ~400 pre-existing, non-design issues).
  *
@@ -21,7 +23,7 @@ export default {
     'color-no-hex': true,
     'color-named': 'never',
     'declaration-property-value-disallowed-list': {
-      [`/${colorProps.source}/`]: [/\brgba?\(/i, /\bhsla?\(/i],
+      [`/${colorProps.source}/`]: [/\brgba?\(/i, /\bhsla?\(/i, /\boklch\((?!\s*from\b)/i],
     },
   },
   overrides: [
